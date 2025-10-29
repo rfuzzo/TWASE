@@ -9,41 +9,56 @@ set_encodings("utf-8")
 add_rules("mode.debug", "mode.release")
 
 add_repositories("twase packages")
-add_requires("wil", "fmt", "spdlog")
+add_requires("wil", "fmt", "spdlog", "toml11", "ordered_map")
 
-target("loader")
-    set_basename("winmm") 
-    
-    set_kind("shared")
-    
-    add_files("src/loader/*.cpp")
-    add_files("src/loader/Proxies/*.cpp")
-
-    add_files("src/loader/*.rc")
-    add_files("src/loader/Main.def")
-
-    add_headerfiles("src/loader/*.hpp")
-    add_headerfiles("src/loader/Proxies/*.hpp")
-    
-    set_pcxxheader("src/loader/stdafx.hpp")
-
-    add_packages("wil", "fmt")
-    add_syslinks("User32", "shell32", "ole32")
-    
-    add_defines(
+-- global settings
+add_defines(
         "WINVER=0x0601",
         --"_WIN32_WINNT=0x0601",
         "UNICODE", 
         "_UNICODE", 
-        "WIN32_LEAN_AND_MEAN"
+        "WIN32_LEAN_AND_MEAN",
+        "NOMINMAX",
+
+        "SPDLOG_WCHAR_TO_UTF8_SUPPORT", "SPDLOG_WCHAR_FILENAMES", "SPDLOG_WCHAR_SUPPORT"
         )
+add_syslinks("User32", "shell32", "ole32", "version")
+
+target("loader")
+    set_basename("winmm") 
+    set_kind("shared")
+    
+    -- files
+    add_files("src/loader/*.cpp")    
+    add_headerfiles("src/loader/*.hpp")
+
+    add_files("src/loader/Proxies/*.cpp")
+    add_headerfiles("src/loader/Proxies/*.hpp")
+
+    add_files("src/loader/*.rc")
+    add_files("src/loader/Main.def")
+    
+    -- precompiled header
+    set_pcxxheader("src/loader/stdafx.hpp")
+
+    -- links
+    add_packages("wil", "fmt")
+    
 
 target("twase")
     set_basename("TWASE")
-
     set_kind("shared")
-    add_files("src/dll/*.cpp")
 
+    add_files("src/dll/*.cpp")
+    add_headerfiles("src/dll/*.hpp")
+
+    add_files("src/dll/*.rc")
+
+    -- precompiled header
+    set_pcxxheader("src/dll/stdafx.hpp")
+
+    -- links
+    add_packages("wil", "fmt", "spdlog", "toml11", "ordered_map")
 
 
 -- If you want to known more usage about xmake, please see https://xmake.io
