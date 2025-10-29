@@ -1,9 +1,45 @@
+set_project("twase")
+set_arch("x86")
+
+set_languages("c++23")
+set_optimize("faster")
+set_warnings("allextra")
+set_encodings("utf-8")
+
 add_rules("mode.debug", "mode.release")
 
-target("twase")
-    set_kind("binary")
-    add_files("src/*.cpp")
+add_repositories("twase packages")
+add_requires("wil", "fmt", "spdlog")
 
+target("loader")
+    set_kind("shared")
+    
+    add_files("src/loader/*.cpp")
+    add_files("src/loader/Proxies/*.cpp")
+
+    add_files("src/loader/*.rc")
+    add_files("src/loader/Main.def")
+
+    add_headerfiles("src/loader/*.hpp")
+    add_headerfiles("src/loader/Proxies/*.hpp")
+    
+    set_pcxxheader("src/loader/stdafx.hpp")
+
+    add_packages("wil", "fmt")
+    add_syslinks("User32", "shell32", "ole32")
+    
+    add_defines(
+        "WINVER=0x0601",
+        --"_WIN32_WINNT=0x0601",
+        "UNICODE", 
+        "_UNICODE", 
+        "WIN32_LEAN_AND_MEAN"
+        )
+
+target("twase")
+    set_basename("winmm") 
+    set_kind("shared")
+    add_files("src/dll/*.cpp")
 --
 -- If you want to known more usage about xmake, please see https://xmake.io
 --
@@ -72,4 +108,3 @@ target("twase")
 --
 -- @endcode
 --
-

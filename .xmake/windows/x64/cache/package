@@ -1,1 +1,38 @@
-{ }
+{
+    wil = {
+        installdir = [[C:\Users\morit\AppData\Local\.xmake\packages\w\wil\2024.08.03\b636479ca5d646d08858d262bf16a803]],
+        __enabled = true,
+        version = "2024.08.03",
+        __requirestr = "wil",
+        sysincludedirs = [[C:\Users\morit\AppData\Local\.xmake\packages\w\wil\2024.08.03\b636479ca5d646d08858d262bf16a803\include]],
+        license = "MIT"
+    },
+    spdlog = {
+        installdir = [[C:\Users\morit\AppData\Local\.xmake\packages\s\spdlog\v1.16.0\c212ece21eca49ca8622d04adbbf1c03]],
+        __enabled = true,
+        __requirestr = "spdlog",
+        version = "v1.16.0",
+        license = "MIT",
+        sysincludedirs = [[C:\Users\morit\AppData\Local\.xmake\packages\s\spdlog\v1.16.0\c212ece21eca49ca8622d04adbbf1c03\include]],
+        cxxflags = "/utf-8"
+    },
+    fmt = {
+        installdir = [[C:\Users\morit\AppData\Local\.xmake\packages\f\fmt\12.0.0\ecbf81b8146c4dd38c2e316e926066f1]],
+        static = true,
+        version = "12.0.0",
+        linkdirs = [[C:\Users\morit\AppData\Local\.xmake\packages\f\fmt\12.0.0\ecbf81b8146c4dd38c2e316e926066f1\lib]],
+        libfiles = [[C:\Users\morit\AppData\Local\.xmake\packages\f\fmt\12.0.0\ecbf81b8146c4dd38c2e316e926066f1\lib\fmt.lib]],
+        links = "fmt",
+        __enabled = true,
+        __requirestr = "fmt",
+        envs = {
+            PATH = {
+                [[C:\Users\morit\AppData\Local\.xmake\packages\n\ninja\v1.13.1\fd5a0995dca64146a4f4c4dbff879aad\bin]],
+                [[C:\Users\morit\AppData\Local\.xmake\packages\c\cmake\4.0.3\5249d11949644178abe2f58a6ffb0624\bin]]
+            }
+        },
+        license = "MIT",
+        sysincludedirs = [[C:\Users\morit\AppData\Local\.xmake\packages\f\fmt\12.0.0\ecbf81b8146c4dd38c2e316e926066f1\include]],
+        cxxflags = "/utf-8"
+    }
+}

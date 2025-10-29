@@ -1,22 +1,109 @@
 {
-    find_program_msvc_arch_x64_plat_windows_checktoolcc = {
-        ["cl.exe"] = [[C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\bin\HostX64\x64\cl.exe]]
+    find_package_windows_x86_fetch_package_xmake = {
+        ["xmake::spdlog_c212ece21eca49ca8622d04adbbf1c03_release_v1.16.0_external"] = {
+            version = "v1.16.0",
+            license = "MIT",
+            sysincludedirs = {
+                [[C:\Users\morit\AppData\Local\.xmake\packages\s\spdlog\v1.16.0\c212ece21eca49ca8622d04adbbf1c03\include]]
+            },
+            cxxflags = "/utf-8"
+        },
+        ["xmake::wil_b636479ca5d646d08858d262bf16a803_release_2024.08.03_external"] = {
+            version = "2024.08.03",
+            license = "MIT",
+            sysincludedirs = {
+                [[C:\Users\morit\AppData\Local\.xmake\packages\w\wil\2024.08.03\b636479ca5d646d08858d262bf16a803\include]]
+            }
+        },
+        ["xmake::fmt_ecbf81b8146c4dd38c2e316e926066f1_release_12.0.0_external"] = {
+            links = {
+                "fmt"
+            },
+            sysincludedirs = {
+                [[C:\Users\morit\AppData\Local\.xmake\packages\f\fmt\12.0.0\ecbf81b8146c4dd38c2e316e926066f1\include]]
+            },
+            static = true,
+            license = "MIT",
+            version = "12.0.0",
+            linkdirs = {
+                [[C:\Users\morit\AppData\Local\.xmake\packages\f\fmt\12.0.0\ecbf81b8146c4dd38c2e316e926066f1\lib]]
+            },
+            libfiles = {
+                [[C:\Users\morit\AppData\Local\.xmake\packages\f\fmt\12.0.0\ecbf81b8146c4dd38c2e316e926066f1\lib\fmt.lib]]
+            },
+            cxxflags = "/utf-8"
+        }
     },
-    find_program_msvc_arch_x64_plat_windows_checktoolcxx = {
-        ["cl.exe"] = [[C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\bin\HostX64\x64\cl.exe]]
+    ["core.tools.rc.has_flags"] = {
+        ["c:\\program files (x86)\\windows kits\\10\\bin\\10.0.26100.0\\x86\\rc.exe_"] = {
+            ["-c"] = true,
+            ["-g"] = true,
+            ["-sl"] = true,
+            ["-d"] = true,
+            ["-l"] = true,
+            ["-n"] = true,
+            ["-8"] = true,
+            ["-ln"] = true,
+            ["-w"] = true,
+            ["-v"] = true,
+            ["-u"] = true,
+            ["-g1"] = true,
+            ["-q"] = true,
+            ["-nologo"] = true,
+            ["-y"] = true,
+            ["-r"] = true,
+            ["-fo"] = true,
+            ["-fm"] = true,
+            ["-i"] = true,
+            ["-gn"] = true,
+            ["-x"] = true,
+            ["-g2"] = true
+        }
+    },
+    find_program_fetch_package_system = {
+        ninja = [[C:\Program Files\Meson\ninja.EXE]],
+        cmake = [[C:\Program Files\CMake\bin\cmake]]
     },
     ["lib.detect.has_flags"] = {
-        ["windows_x64_c:\\program files\\microsoft visual studio\\2022\\community\\vc\\tools\\msvc\\14.44.35207\\bin\\hostx64\\x64\\cl.exe__cxx_cxflags_-nologo_-DNDEBUG"] = true,
-        ["windows_x64_c:\\program files\\microsoft visual studio\\2022\\community\\vc\\tools\\msvc\\14.44.35207\\bin\\hostx64\\x64\\cl.exe__cxx__-nologo_-O2"] = true,
-        ["windows_x64_c:\\program files\\microsoft visual studio\\2022\\community\\vc\\tools\\msvc\\14.44.35207\\bin\\hostx64\\x64\\cl.exe__cxx_cxflags_-nologo_cl_sourceDependencies"] = true
+        ["windows_x86_c:\\program files\\microsoft visual studio\\2022\\community\\vc\\tools\\msvc\\14.44.35207\\bin\\hostx64\\x86\\cl.exe__cxx__-nologo_-Ox"] = true,
+        ["windows_x86_c:\\program files\\microsoft visual studio\\2022\\community\\vc\\tools\\msvc\\14.44.35207\\bin\\hostx64\\x86\\cl.exe__cxx_cxflags_-nologo_-std:c++latest"] = true,
+        ["windows_x86_c:\\program files\\microsoft visual studio\\2022\\community\\vc\\tools\\msvc\\14.44.35207\\bin\\hostx64\\x86\\cl.exe__cxx_cxflags_-nologo_-DNDEBUG"] = true,
+        ["windows_x86_c:\\program files\\microsoft visual studio\\2022\\community\\vc\\tools\\msvc\\14.44.35207\\bin\\hostx64\\x86\\cl.exe__cxx_cxxflags_-nologo_/utf-8"] = true,
+        ["windows_x86_c:\\program files\\microsoft visual studio\\2022\\community\\vc\\tools\\msvc\\14.44.35207\\bin\\hostx64\\x86\\cl.exe__cxx_cxflags_-nologo_-std:c++23"] = false,
+        ["windows_x86_c:\\program files\\microsoft visual studio\\2022\\community\\vc\\tools\\msvc\\14.44.35207\\bin\\hostx64\\x86\\cl.exe__cxx_cxflags_-nologo_cl_external_includedir"] = true,
+        ["windows_x86_c:\\program files (x86)\\windows kits\\10\\bin\\10.0.26100.0\\x86\\rc.exe__mrc_mrcflags__-nologo"] = true,
+        ["windows_x86_c:\\program files\\microsoft visual studio\\2022\\community\\vc\\tools\\msvc\\14.44.35207\\bin\\hostx64\\x86\\cl.exe__cxx_cxflags_-nologo_cl_sourceDependencies"] = true
     },
-    find_program_msvc_arch_x64_plat_windows_checktoolld = {
-        ["link.exe"] = [[C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\bin\HostX64\x64\link.exe]]
+    find_program_msvc_arch_x86_plat_windows_checktoolld = {
+        ["link.exe"] = [[C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\bin\HostX64\x86\link.exe]]
+    },
+    find_program_msvc_arch_x86_plat_windows_checktoolsh = {
+        ["link.exe"] = [[C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\bin\HostX64\x86\link.exe]]
     },
     find_program = {
-        nim = false,
+        ["C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x86\\cl.exe"] = [[c:\program files\microsoft visual studio\2022\community\vc\tools\msvc\14.44.35207\bin\hostx64\x86\cl.exe]],
         ["cl.exe"] = [[C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\bin\HostX64\x64\cl.exe]],
-        ["C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\cl.exe"] = [[c:\program files\microsoft visual studio\2022\community\vc\tools\msvc\14.44.35207\bin\hostx64\x64\cl.exe]],
-        ["vswhere.exe"] = [[C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe]]
+        gzip = false,
+        git = [[C:\Program Files\Git\cmd\git.exe]],
+        ["C:\\Program Files (x86)\\Windows Kits\\10\\bin\\10.0.26100.0\\x86\\rc.exe"] = [[c:\program files (x86)\windows kits\10\bin\10.0.26100.0\x86\rc.exe]],
+        nim = false,
+        ["7z"] = [[C:\Program Files\xmake\winenv\bin\7z]]
+    },
+    find_program_fetch_package_xmake = {
+        ninja = false,
+        cmake = false
+    },
+    find_program_msvc_arch_x86_plat_windows_checktoolmrc = {
+        ["rc.exe"] = [[C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x86\rc.exe]]
+    },
+    find_programver_fetch_package_system = {
+        ["C:\\Program Files\\Meson\\ninja.EXE"] = "1.12.1",
+        ["C:\\Program Files\\CMake\\bin\\cmake"] = "3.30.2"
+    },
+    find_program_msvc_arch_x86_plat_windows_checktoolcxx = {
+        ["cl.exe"] = [[C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\bin\HostX64\x86\cl.exe]]
+    },
+    find_program_msvc_arch_x86_plat_windows_checktoolcc = {
+        ["cl.exe"] = [[C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\bin\HostX64\x86\cl.exe]]
     }
 }
