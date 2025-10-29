@@ -1,0 +1,22 @@
+{
+    find_program_msvc_arch_x64_plat_windows_checktoolcc = {
+        ["cl.exe"] = [[C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\bin\HostX64\x64\cl.exe]]
+    },
+    find_program_msvc_arch_x64_plat_windows_checktoolcxx = {
+        ["cl.exe"] = [[C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\bin\HostX64\x64\cl.exe]]
+    },
+    ["lib.detect.has_flags"] = {
+        ["windows_x64_c:\\program files\\microsoft visual studio\\2022\\community\\vc\\tools\\msvc\\14.44.35207\\bin\\hostx64\\x64\\cl.exe__cxx_cxflags_-nologo_-DNDEBUG"] = true,
+        ["windows_x64_c:\\program files\\microsoft visual studio\\2022\\community\\vc\\tools\\msvc\\14.44.35207\\bin\\hostx64\\x64\\cl.exe__cxx__-nologo_-O2"] = true,
+        ["windows_x64_c:\\program files\\microsoft visual studio\\2022\\community\\vc\\tools\\msvc\\14.44.35207\\bin\\hostx64\\x64\\cl.exe__cxx_cxflags_-nologo_cl_sourceDependencies"] = true
+    },
+    find_program_msvc_arch_x64_plat_windows_checktoolld = {
+        ["link.exe"] = [[C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\bin\HostX64\x64\link.exe]]
+    },
+    find_program = {
+        nim = false,
+        ["cl.exe"] = [[C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\bin\HostX64\x64\cl.exe]],
+        ["C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\cl.exe"] = [[c:\program files\microsoft visual studio\2022\community\vc\tools\msvc\14.44.35207\bin\hostx64\x64\cl.exe]],
+        ["vswhere.exe"] = [[C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe]]
+    }
+}
