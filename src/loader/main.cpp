@@ -63,25 +63,25 @@ BOOL APIENTRY DllMain(HMODULE aModule, DWORD aReason, LPVOID aReserved)
 
                     auto caption = fmt::format(L"{} (error {})", msgCaption, errorCode);
                     auto message =
-                        fmt::format(L"{}\n{}\n\nRED4ext could not be loaded.", buffer.get(), dllPath.c_str());
+                        fmt::format(L"{}\n{}\n\nTWASE could not be loaded.", buffer.get(), dllPath.c_str());
                     MessageBox(nullptr, message.c_str(), caption.c_str(), MB_ICONERROR | MB_OK);
                 }
             }
             else if (fsErr)
             {
                 auto message =
-                    fmt::format(L"RED4ext could not be loaded because of a filesystem error ({}).", fsErr.value());
+                    fmt::format(L"TWASE could not be loaded because of a filesystem error ({}).", fsErr.value());
                 MessageBox(nullptr, message.c_str(), msgCaption, MB_ICONERROR | MB_OK);
             }
         }
         catch (const std::exception &e)
         {
-            auto message = fmt::format("An exception occured in RED4ext's loader.\n\n{}", e.what());
-            MessageBoxA(nullptr, message.c_str(), "RED4ext", MB_ICONERROR | MB_OK);
+            auto message = fmt::format("An exception occured in TWASE's loader.\n\n{}", e.what());
+            MessageBoxA(nullptr, message.c_str(), "TWASE", MB_ICONERROR | MB_OK);
         }
         catch (...)
         {
-            MessageBox(nullptr, L"An unknown exception occured in RED4ext's loader.", L"RED4ext", MB_ICONERROR | MB_OK);
+            MessageBox(nullptr, L"An unknown exception occured in TWASE's loader.", L"TWASE", MB_ICONERROR | MB_OK);
         }
 
         break;

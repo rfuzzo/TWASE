@@ -53,8 +53,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION RED4EXT_VERSION_MAJOR,RED4EXT_VERSION_MINOR,RED4EXT_VERSION_PATCH,0
- PRODUCTVERSION RED4EXT_VERSION_MAJOR,RED4EXT_VERSION_MINOR,RED4EXT_VERSION_PATCH,0
+ FILEVERSION TWASE_VERSION_MAJOR,TWASE_VERSION_MINOR,TWASE_VERSION_PATCH,0
+ PRODUCTVERSION TWASE_VERSION_MAJOR,TWASE_VERSION_MINOR,TWASE_VERSION_PATCH,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -70,11 +70,11 @@ BEGIN
         BLOCK "040904b0"
         BEGIN
             VALUE "ProductName", "winmm"
-            VALUE "ProductVersion", RED4EXT_VERSION_STR
-            VALUE "FileDescription", "The loader for RED4ext."
-            VALUE "FileVersion", RED4EXT_VERSION_STR
+            VALUE "ProductVersion", TWASE_VERSION_STR
+            VALUE "FileDescription", "The loader for TWASE."
+            VALUE "FileVersion", TWASE_VERSION_STR
             VALUE "InternalName", "winmm.dll"
-            VALUE "LegalCopyright", "Copyright (C) 2020 - present RED4ext project"
+            VALUE "LegalCopyright", "Copyright (C) 2020 - present TWASE project"
             VALUE "OriginalFilename", "winmm.dll"
             VALUE "CompanyName", ""
         END
