@@ -43,10 +43,7 @@ BOOL APIENTRY DllMain(HMODULE aModule, DWORD aReason, LPVOID aReserved)
 
             std::error_code fsErr;
             std::filesystem::path exePath = fileName;
-            auto rootPath = exePath
-                                .parent_path()  // Resolve to "x64" directory.
-                                .parent_path()  // Resolve to "bin" directory.
-                                .parent_path(); // Resolve to game root directory.
+            auto rootPath = exePath.parent_path(); // Resolve to game root directory.
 
             auto modPath = rootPath / dir;
             if (std::filesystem::exists(modPath, fsErr))

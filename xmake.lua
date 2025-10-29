@@ -12,6 +12,8 @@ add_repositories("twase packages")
 add_requires("wil", "fmt", "spdlog")
 
 target("loader")
+    set_basename("winmm") 
+    
     set_kind("shared")
     
     add_files("src/loader/*.cpp")
@@ -37,10 +39,13 @@ target("loader")
         )
 
 target("twase")
-    set_basename("winmm") 
+    set_basename("TWASE")
+
     set_kind("shared")
     add_files("src/dll/*.cpp")
---
+
+
+
 -- If you want to known more usage about xmake, please see https://xmake.io
 --
 -- ## FAQ
