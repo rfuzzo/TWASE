@@ -6,6 +6,12 @@ class Config;
 class DevConsole;
 class Paths;
 
+namespace MemoryUtils
+{
+    void writeBytesUnprotected(DWORD address, const BYTE* value, size_t count);
+    void readBytesUnprotected(DWORD address, const BYTE* value, size_t count);
+}
+
 namespace Utils
 {
 std::shared_ptr<spdlog::logger> CreateLogger(const std::wstring_view aLogName, const std::wstring_view aFilename,

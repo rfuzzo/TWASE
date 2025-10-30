@@ -239,3 +239,17 @@ std::wstring Utils::ToLower(const std::wstring& acText)
     std::transform(text.begin(), text.end(), text.begin(), std::towlower);
     return text;
 }
+
+void MemoryUtils::writeBytesUnprotected(DWORD address, const BYTE* value, size_t count) {
+    DWORD oldProtect;
+    VirtualProtect((DWORD*)address, count, PAGE_READWRITE, &oldProtect);
+    memmove_s((void*)address, count, value, count);
+    VirtualProtect((DWORD*)address, count, oldProtect, &oldProtect);
+}
+
+void MemoryUtils::readBytesUnprotected(DWORD address, const BYTE* value, size_t count) {
+    DWORD oldProtect;
+    VirtualProtect((DWORD*)address, count, PAGE_READWRITE, &oldProtect);
+    memmove_s((void*)value, count, (void*)address, count);
+    VirtualProtect((DWORD*)address, count, oldProtect, &oldProtect);
+}

@@ -8,6 +8,10 @@ set_encodings("utf-8")
 
 add_rules("mode.debug", "mode.release")
 
+-- Hardcoded game root for post-build deployment (can be overridden with TWASE_GAMEROOT env var)
+-- Note: forward slashes are fine on Windows; adjust to your install if needed.
+local gameroot = os.getenv("TWASE_GAMEROOT") or [[D:/SteamLibrary/steamapps/common/Total War Attila]]
+
 add_repositories("twase packages")
 add_requires("wil", "fmt", "spdlog", "toml11", "ordered_map")
 
@@ -22,6 +26,13 @@ add_defines(
 
         "SPDLOG_WCHAR_TO_UTF8_SUPPORT", "SPDLOG_WCHAR_FILENAMES", "SPDLOG_WCHAR_SUPPORT"
         )
+
+-- add _DEBUG for debug builds
+if is_mode("debug") then
+    add_defines("_DEBUG")
+end
+
+
 add_syslinks("User32", "shell32", "ole32", "version")
 
 target("loader")
@@ -43,6 +54,46 @@ target("loader")
 
     -- links
     add_packages("wil", "fmt")
+
+    -- Post-build: copy TWASE.dll and PDB to <gameroot>/TWASE
+    after_build(function (target)
+        -- Resolve destination folder
+        local destdir = path.join(gameroot, "TWASE")
+
+        -- Only proceed if gameroot exists to avoid accidental folder creation in a wrong path
+        if not os.isdir(gameroot) then
+            print(string.format("[twase] Gameroot '%s' not found; skipping deploy copy.", gameroot))
+            return
+        end
+
+        -- Ensure destination exists
+        os.mkdir(destdir)
+
+        -- Copy the built DLL
+        local dll = target:targetfile()
+        if dll and os.isfile(dll) then
+            os.cp(dll, destdir)
+            print(string.format("[twase] Copied DLL: %s -> %s", dll, destdir))
+        else
+            print("[twase] Warning: Built DLL not found; nothing to copy.")
+        end
+
+        -- Try to copy the PDB (if generated)
+        local pdb
+        if dll then
+            local dllname = path.filename(dll)                  -- e.g. TWASE.dll
+            local base = dllname and dllname:gsub("%.[^%.]+$", "") -- strip extension safely
+            if base then
+                pdb = path.join(target:targetdir(), base .. ".pdb")
+            end
+        end
+        if pdb and os.isfile(pdb) then
+            os.cp(pdb, destdir)
+            print(string.format("[twase] Copied PDB: %s -> %s", pdb, destdir))
+        else
+            -- Silently skip if no PDB (e.g. release without symbols)
+        end
+    end)
     
 
 target("twase")
@@ -59,6 +110,29 @@ target("twase")
 
     -- links
     add_packages("wil", "fmt", "spdlog", "toml11", "ordered_map")
+
+    after_build(function (target)
+        -- Resolve destination folder
+        local destdir = path.join(gameroot, "TWASE")
+
+        -- Only proceed if gameroot exists to avoid accidental folder creation in a wrong path
+        if not os.isdir(gameroot) then
+            print(string.format("[twase] Gameroot '%s' not found; skipping deploy copy.", gameroot))
+            return
+        end
+
+        -- Ensure destination exists
+        os.mkdir(destdir)
+
+        -- Copy the built DLL
+        local dll = target:targetfile()
+        if dll and os.isfile(dll) then
+            os.cp(dll, destdir)
+            print(string.format("[twase] Copied DLL: %s -> %s", dll, destdir))
+        else
+            print("[twase] Warning: Built DLL not found; nothing to copy.")
+        end
+    end)
 
 
 -- If you want to known more usage about xmake, please see https://xmake.io

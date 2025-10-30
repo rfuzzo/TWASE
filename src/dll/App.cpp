@@ -1,12 +1,39 @@
+#include "stdafx.hpp"
+
 #include "App.hpp"
 #include "Image.hpp"
 #include "Utils.hpp"
 #include "Version.hpp"
-#include "stdafx.hpp"
+#include "Patches.hpp"
 
 namespace
 {
 std::unique_ptr<App> g_app;
+}
+
+namespace {
+    DWORD WINAPI WatcherThread(LPVOID)
+    {
+        // Wait for the module to be loaded in-process (poll)
+        HMODULE hMod = nullptr;
+        while (!hMod) {
+            hMod = GetModuleHandle(L"empire.retail.dll");
+            if (!hMod) Sleep(25); // small sleep, doesn't block loader
+        }
+
+        MODULEINFO mi = { 0 };
+        if (!GetModuleInformation(GetCurrentProcess(), hMod, &mi, sizeof(mi))) {
+            // handle error
+            return 1;
+        }
+
+        const DWORD empireDllAddr = reinterpret_cast<DWORD>(mi.lpBaseOfDll);
+        spdlog::debug("empire.retail.dll lpBaseOfDll address: {}", reinterpret_cast<void*>(mi.lpBaseOfDll));
+        
+        Patches::ApplyEmpirePatches(empireDllAddr);
+
+        return 0;
+    }
 }
 
 App::App()
@@ -69,7 +96,22 @@ App::App()
     spdlog::info("Product version: {}.{}{}", productVer.major, productVer.minor, productVer.patch);
     spdlog::info("File version: {}.{}.{}.{}", fileVer.major, fileVer.minor, fileVer.build, fileVer.revision);
 
+	// TODO: Check for minimum supported version.
+   /* auto minimumVersion = RED4EXT_RUNTIME_2_31;
+    if (fileVer < RED4EXT_RUNTIME_2_31)
+    {
+        spdlog::error(L"To use this version of RED4ext, ensure your game is updated to patch 2.31 or newer");
+        return;
+    }*/
 
+    // Create a detached watcher thread; returns immediately and does not block loader
+    HANDLE h = CreateThread(nullptr, 0, WatcherThread, nullptr, 0, nullptr);
+    if (h)
+    { 
+        CloseHandle(h); 
+    }
+
+    // Finalize
     if (AttachHooks())
     {
         spdlog::info("TWASE has been successfully initialized");
@@ -110,7 +152,7 @@ void App::Startup()
 {
     spdlog::info("TWASE is starting up...");
 
-   
+    // TODO
 
     spdlog::info("TWASE has been started");
 }
@@ -119,7 +161,7 @@ void App::Shutdown()
 {
     spdlog::info("TWASE is shutting down...");
 
-
+    // TODO
 
     // Flushing the log here, since it is called in the main function, not when DLL is unloaded.
     spdlog::details::registry::instance().flush_all();
@@ -133,6 +175,8 @@ const Paths* App::GetPaths() const
 bool App::AttachHooks() const
 {
     spdlog::trace("Attaching hooks...");
+
+    // TODO
 
     return true;
 }

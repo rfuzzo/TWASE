@@ -31,3 +31,7 @@ wait_for_debugger = true
 
 - Clone the repo to some folder
 - Run `xmake`
+- Run `xmake project -k vsxmake -m "debug,release"` to create a VS solution  
+
+The xmake contains a post-build step which will copy the built DLL to the `TWASE` folder in your game directory. You can change this path in `xmake.lua`.
+The game directory can also be specified via the `TWASE_GAMEROOT` environment variable.
