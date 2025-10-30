@@ -17,7 +17,7 @@ jobs:
           xmake-version: latest
 
       - name: Build with xmake
-        run: xmake
+        run: xmake -y
 
       # package for release
       # the package should take the TWASE.dll and the winmm.dll from build/windows/x86/release/
