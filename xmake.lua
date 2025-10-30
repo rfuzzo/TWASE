@@ -34,6 +34,8 @@ end
 
 add_syslinks("User32", "shell32", "ole32", "version")
 
+option("disable_copy", {default = false, description = "Disable copy build files to game directory after build."})
+
 target("loader")
     set_basename("winmm") 
     set_kind("shared")
@@ -56,6 +58,11 @@ target("loader")
 
     -- Post-build: copy TWASE.dll and PDB to <gameroot>
     after_build(function (target)
+        if has_config("disable_copy") then
+            print("[twase] Skipping copy to game directory (disable_copy is enabled).")
+            return
+        end
+
         -- Resolve destination folder
         local destdir = path.join(gameroot)
 
@@ -111,6 +118,11 @@ target("twase")
     add_packages("wil", "fmt", "spdlog", "toml11", "ordered_map")
 
     after_build(function (target)
+        if has_config("disable_copy") then
+            print("[twase] Skipping copy to game directory (disable_copy is enabled).")
+            return
+        end
+
         -- Resolve destination folder
         local destdir = path.join(gameroot, "TWASE")
 

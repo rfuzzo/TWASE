@@ -1,5 +1,8 @@
 name: C/C++ CI
 
+permissions:
+  contents: write
+
 on:
   push:
     branches: ["main"]
@@ -16,6 +19,8 @@ jobs:
         with:
           xmake-version: latest
 
+      - name: configure xmake
+        run: xmake f --disable_copy=y
       - name: Build with xmake
         run: xmake -y
 
@@ -29,14 +34,15 @@ jobs:
           mkdir -p TWASE
           cp build/windows/x86/release/TWASE.dll TWASE/
           cp build/windows/x86/release/winmm.dll .
-          Compress-Archive -Path TWASE, winmm.dll -DestinationPath TWASE-release.zip
 
       # build artifact
       - name: Upload artifact
         uses: actions/upload-artifact@v5
         with:
           name: TWASE-release
-          path: TWASE-release.zip
+          path: |
+            TWASE/TWASE.dll
+            winmm.dll
 
       # add to 'nightly' release
       - name: Create Release
