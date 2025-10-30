@@ -20,7 +20,7 @@ jobs:
           xmake-version: latest
 
       - name: configure xmake
-        run: xmake -y f --disable_copy=y
+        run: xmake f --disable_copy=y -y
       - name: Build with xmake
         run: xmake -y
 
