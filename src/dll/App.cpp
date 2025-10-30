@@ -6,6 +6,8 @@
 #include "Version.hpp"
 #include "Patches.hpp"
 
+#include <shellapi.h>
+
 namespace
 {
 std::unique_ptr<App> g_app;
@@ -104,6 +106,27 @@ App::App()
         return;
     }*/
 
+	// Display commandline arguments
+    bool hasModsEnabled = false;
+	int argc = 0;
+	wchar_t** argv = ::CommandLineToArgvW(::GetCommandLineW(), &argc);
+	spdlog::debug("Commandline arguments ({}):", argc);
+	for (int i = 0; i < argc; ++i)
+	{
+		std::string arg = Utils::Narrow(argv[i]);
+		spdlog::debug("  [{}]: {}", i, arg);
+        if (arg == "mod_list.txt;")
+        {
+            hasModsEnabled = true;
+        }
+	}
+
+	// Display mods if the commandline argument is present "mod_list.txt"
+    if (hasModsEnabled)
+    {
+        LogMods();
+    }
+
     // Create a detached watcher thread; returns immediately and does not block loader
     HANDLE h = CreateThread(nullptr, 0, WatcherThread, nullptr, 0, nullptr);
     if (h)
@@ -179,4 +202,30 @@ bool App::AttachHooks() const
     // TODO
 
     return true;
+}
+
+void App::LogMods() const
+{
+    // Load and display mods from the file
+    const std::filesystem::path modListPath = m_paths.GetRootDir() / "mod_list.txt";
+    std::ifstream modListFile(modListPath);
+    if (modListFile.is_open())
+    {
+        spdlog::info("Mods loaded from mod_list.txt:");
+        std::string modName;
+        while (std::getline(modListFile, modName))
+        {
+            // mod "@Fireforged-Empire_1.pack";
+            // check if line starts with 'mod "'
+            if (modName.rfind("mod ", 0) == 0)
+            {
+                spdlog::info("  - {}", modName);
+            }
+        }
+        modListFile.close();
+    }
+    else
+    {
+        spdlog::warn("Could not open mod_list.txt to read mods.");
+    }
 }

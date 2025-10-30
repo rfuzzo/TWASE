@@ -22,6 +22,7 @@ private:
     App();
 
     bool AttachHooks() const;
+    void LogMods() const;
 
     Paths m_paths;
     Config m_config;
