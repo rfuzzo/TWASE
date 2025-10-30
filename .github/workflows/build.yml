@@ -2,14 +2,38 @@ name: C/C++ CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   build:
-
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v4
-    
-    
+      - uses: actions/checkout@v4
+
+      - name: Setup xmake
+        uses: xmake-io/github-action-setup-xmake@v1
+        with:
+          xmake-version: latest
+
+      - name: Build with xmake
+        run: xmake
+
+      # package for release
+      # the package should take the TWASE.dll and the winmm.dll from build/windows/x86/release/
+      # move them to the following folder structure:
+      # TWASE/TWASE.dll
+      # winmm.dll
+      - name: package for release
+        run: |
+          mkdir -p TWASE
+          cp build/windows/x86/release/TWASE.dll TWASE/
+          cp build/windows/x86/release/winmm.dll .
+          zip -r TWASE-release.zip TWASE winmm.dll
+
+      # build artifact
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: TWASE-release
+          path: TWASE-release.zip
