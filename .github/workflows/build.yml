@@ -34,7 +34,7 @@ jobs:
           mkdir -p TWASE
           cp build/windows/x86/release/TWASE.dll TWASE/
           cp build/windows/x86/release/winmm.dll .
-          Compress-Archive -Path TWASE,TWASE.dll -DestinationPath TWASE-release.zip -Force
+          Compress-Archive -Path TWASE, winmm.dll -DestinationPath TWASE-release.zip -Force
 
       # build artifact
       - name: Upload artifact
