@@ -12,7 +12,6 @@ add_rules("mode.debug", "mode.release")
 -- Note: forward slashes are fine on Windows; adjust to your install if needed.
 local gameroot = os.getenv("TWASE_GAMEROOT") or [[D:/SteamLibrary/steamapps/common/Total War Attila]]
 
-add_repositories("twase packages")
 add_requires("wil", "fmt", "spdlog", "toml11", "ordered_map")
 
 -- global settings
@@ -55,10 +54,10 @@ target("loader")
     -- links
     add_packages("wil", "fmt")
 
-    -- Post-build: copy TWASE.dll and PDB to <gameroot>/TWASE
+    -- Post-build: copy TWASE.dll and PDB to <gameroot>
     after_build(function (target)
         -- Resolve destination folder
-        local destdir = path.join(gameroot, "TWASE")
+        local destdir = path.join(gameroot)
 
         -- Only proceed if gameroot exists to avoid accidental folder creation in a wrong path
         if not os.isdir(gameroot) then

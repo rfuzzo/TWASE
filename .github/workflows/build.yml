@@ -9,7 +9,7 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Setup xmake
         uses: xmake-io/github-action-setup-xmake@v1
@@ -33,7 +33,17 @@ jobs:
 
       # build artifact
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: TWASE-release
           path: TWASE-release.zip
+
+      # add to 'nightly' release
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: nightly
+          overwrite_files: true
+          files: TWASE-release.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
