@@ -2,6 +2,15 @@
 
 A Total War: Attila Script extender similar to and heavily based on [RED4ext](https://github.com/wopss/RED4ext), [CET](https://github.com/maximegmd/CyberEngineTweaks) and [MWSE](https://github.com/MWSE/MWSE).
 
+## Features
+
+- Adds a debug console for logging
+- Patches memory in the game to fix crashes and issues
+
+### Patches
+
+-[x] UnitSizePatch: Fixes crashes when too many units are spawned (e.g. with the mod Fireforeged Empire installed)
+
 ## Usage
 
 - Extract `winmm.dll` to `<game directory>` (e.g. `SteamLibrary\steamapps\common\Total War Attila`)
