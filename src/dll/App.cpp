@@ -163,7 +163,7 @@ void App::Destruct()
     DetourTransaction transaction;
     if (transaction.IsValid())
     {
-        auto success = Hooks::SetLuaLoggerHook::Detach();
+        auto success = Hooks::LuaLogHook::Detach();
         if (success)
         {
             transaction.Commit();
@@ -210,7 +210,7 @@ bool App::AttachHooks(DWORD empireDllAddr)
 {
 	m_empireDllAddr = empireDllAddr;
 
-    spdlog::trace("Attaching hooks...");
+    spdlog::info("Attaching hooks...");
 
     DetourTransaction transaction;
     if (!transaction.IsValid())
@@ -218,7 +218,7 @@ bool App::AttachHooks(DWORD empireDllAddr)
         return false;
     }
 
-    auto success = Hooks::SetLuaLoggerHook::Attach();
+    auto success = Hooks::LuaLogHook::Attach();
     if (success)
     {
         return transaction.Commit();

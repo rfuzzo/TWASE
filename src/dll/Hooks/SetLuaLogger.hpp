@@ -1,6 +1,6 @@
 #pragma once
 
-namespace Hooks::SetLuaLoggerHook
+namespace Hooks::LuaLogHook
 {
 bool Attach();
 bool Detach();
