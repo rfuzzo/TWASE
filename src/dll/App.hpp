@@ -17,14 +17,19 @@ public:
     void Shutdown();
 
     const Paths* GetPaths() const;
+	inline const DWORD GetEmpireDllAddr() const { return m_empireDllAddr; }
+
+    bool AttachHooks(DWORD empireDllAddr);
 
 private:
     App();
 
-    bool AttachHooks() const;
     void LogMods() const;
 
     Paths m_paths;
     Config m_config;
     DevConsole m_devConsole;
+
+	// TOOD move into subsystem
+	DWORD m_empireDllAddr;
 };

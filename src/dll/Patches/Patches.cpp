@@ -1,5 +1,7 @@
 # include "Patches.hpp"
-#include "Utils.hpp"
+
+#include "../Utils.hpp"
+#include "../Hooking/Addresses.hpp"
 
 // Empire patches
 void Patches::ApplyEmpirePatches(DWORD empireDllAddr)
@@ -38,7 +40,6 @@ void Patches::ApplyUnitSizePatch(DWORD empireDllAddr)
    009150B6: 83->C9
    */
 
-    const DWORD patchBitSetCrashAddr = 0x009150A7;
     const BYTE patchBitSetCrashArgs0[] = { 
         0x81, 0xFF, 0x00, 0x01, 
 		0x00, 0x00, 0x0F, 0x83, 
@@ -48,16 +49,16 @@ void Patches::ApplyUnitSizePatch(DWORD empireDllAddr)
 #ifdef _DEBUG
 	// debug: read original bytes and print
 	BYTE originalBytes[sizeof(patchBitSetCrashArgs0)] = { 0 };
-	MemoryUtils::readBytesUnprotected(empireDllAddr + patchBitSetCrashAddr, originalBytes, sizeof(originalBytes));
-	spdlog::debug("Original bytes at empire.retail.dll + 0x{:08X}:", patchBitSetCrashAddr);
+	MemoryUtils::readBytesUnprotected(empireDllAddr + Addresses::BitSetCrashAddr, originalBytes, sizeof(originalBytes));
+	spdlog::debug("Original bytes at empire.retail.dll + 0x{:08X}:", Addresses::BitSetCrashAddr);
 	for (size_t i = 0; i < sizeof(originalBytes); i++)
 	{
 		spdlog::debug("  0x{:02X}", originalBytes[i]);
 	}
 #endif
 
-    MemoryUtils::writeBytesUnprotected(empireDllAddr + patchBitSetCrashAddr, patchBitSetCrashArgs0, sizeof(patchBitSetCrashArgs0));
+    MemoryUtils::writeBytesUnprotected(empireDllAddr + Addresses::BitSetCrashAddr, patchBitSetCrashArgs0, sizeof(patchBitSetCrashArgs0));
 
     spdlog::info("Applied unit size patch to empire.retail.dll at address {}", 
-		reinterpret_cast<void*>(empireDllAddr + patchBitSetCrashAddr));
+		reinterpret_cast<void*>(empireDllAddr + Addresses::BitSetCrashAddr));
 }

@@ -17,8 +17,10 @@
 #include <unordered_set>
 
 #include <Windows.h>
-//#include <detours.h>
+#include <winternl.h>
 #include <tlhelp32.h>
+
+#include <detours.h>
 
 #include <wil/resource.h>
 #include <wil/stl.h>
@@ -28,7 +30,7 @@
 #include <fmt/format.h>
 #include <fmt/xchar.h>
 
-//#include <simdjson.h>
+// #include <simdjson.h>
 #include <spdlog/spdlog.h>
 #include <toml.hpp>
 #include <tsl/ordered_map.h>

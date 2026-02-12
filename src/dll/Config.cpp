@@ -4,6 +4,11 @@
 
 #define DEFAULT_TOML_EXCEPTION_MSG "An exception occured while parsing the config file:\n\n{}\n\nFile: {}"
 
+namespace
+{
+    std::unique_ptr<Config> g_config;
+}
+
 Config::Config(const Paths& aPaths)
     : m_version(0)
     , m_dev()
@@ -29,6 +34,8 @@ Config::Config(const Paths& aPaths)
     {
         Save(file);
     }
+
+    g_config.reset(this);
 }
 
 const size_t Config::GetVersion() const
@@ -49,6 +56,11 @@ const Config::LoggingConfig& Config::GetLogging() const
 const Config::PluginsConfig& Config::GetPlugins() const
 {
     return m_plugins;
+}
+
+const Config::ScriptConfig& Config::GetScripting() const
+{
+    return m_scripting;
 }
 
 void Config::Load(const std::filesystem::path& aFile)
@@ -137,6 +149,12 @@ void Config::DevConfig::LoadV0(const toml::value& aConfig)
     waitForDebugger = toml::find_or(aConfig, "dev", "wait_for_debugger", waitForDebugger);
 }
 
+void Config::ScriptConfig::LoadV0(const toml::value& aConfig)
+{
+    enableLogging = toml::find_or(aConfig, "scripting", "enable_logging", enableLogging);
+    autoLoadMods = toml::find_or(aConfig, "scripting", "auto_load_mods", autoLoadMods);
+}
+
 void Config::LoggingConfig::LoadV0(const toml::value& aConfig)
 {
     auto levelName = toml::find_or(aConfig, "logging", "level", "");
@@ -192,4 +210,9 @@ void Config::PluginsConfig::LoadV0(const toml::value& aConfig)
     {
         ignored.emplace(Utils::Widen(plugin));
     }
+}
+
+Config* Config::Get()
+{
+    return g_config.get();
 }

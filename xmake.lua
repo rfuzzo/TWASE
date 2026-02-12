@@ -12,7 +12,7 @@ add_rules("mode.debug", "mode.release")
 -- Note: forward slashes are fine on Windows; adjust to your install if needed.
 local gameroot = os.getenv("TWASE_GAMEROOT") or [[D:/SteamLibrary/steamapps/common/Total War Attila]]
 
-add_requires("wil", "fmt", "spdlog", "toml11", "ordered_map")
+add_requires("wil", "fmt", "spdlog", "toml11", "ordered_map", "microsoft-detours")
 
 -- global settings
 add_defines(
@@ -32,7 +32,7 @@ if is_mode("debug") then
 end
 
 
-add_syslinks("User32", "shell32", "ole32", "version")
+add_syslinks("User32", "shell32", "ole32", "version", "ntdll")
 
 option("disable_copy", {default = false, description = "Disable copy build files to game directory after build."})
 
@@ -83,22 +83,6 @@ target("loader")
         else
             print("[twase] Warning: Built DLL not found; nothing to copy.")
         end
-
-        -- Try to copy the PDB (if generated)
-        local pdb
-        if dll then
-            local dllname = path.filename(dll)                  -- e.g. TWASE.dll
-            local base = dllname and dllname:gsub("%.[^%.]+$", "") -- strip extension safely
-            if base then
-                pdb = path.join(target:targetdir(), base .. ".pdb")
-            end
-        end
-        if pdb and os.isfile(pdb) then
-            os.cp(pdb, destdir)
-            print(string.format("[twase] Copied PDB: %s -> %s", pdb, destdir))
-        else
-            -- Silently skip if no PDB (e.g. release without symbols)
-        end
     end)
     
 
@@ -108,6 +92,13 @@ target("twase")
 
     add_files("src/dll/*.cpp")
     add_headerfiles("src/dll/*.hpp")
+    -- just iterate the whole src/dll folder
+    for _, dir in ipairs(os.dirs("src/dll/*")) do
+        if os.isdir(dir) then
+            add_files(path.join(dir, "*.cpp"))
+            add_headerfiles(path.join(dir, "*.hpp"))
+        end
+    end
 
     add_files("src/dll/*.rc")
 
@@ -115,7 +106,7 @@ target("twase")
     set_pcxxheader("src/dll/stdafx.hpp")
 
     -- links
-    add_packages("wil", "fmt", "spdlog", "toml11", "ordered_map")
+    add_packages("wil", "fmt", "spdlog", "toml11", "ordered_map", "microsoft-detours")
 
     after_build(function (target)
         if has_config("disable_copy") then
@@ -142,6 +133,22 @@ target("twase")
             print(string.format("[twase] Copied DLL: %s -> %s", dll, destdir))
         else
             print("[twase] Warning: Built DLL not found; nothing to copy.")
+        end
+
+         -- Try to copy the PDB (if generated)
+        local pdb
+        if dll then
+            local dllname = path.filename(dll)                  -- e.g. TWASE.dll
+            local base = dllname and dllname:gsub("%.[^%.]+$", "") -- strip extension safely
+            if base then
+                pdb = path.join(target:targetdir(), base .. ".pdb")
+            end
+        end
+        if pdb and os.isfile(pdb) then
+            os.cp(pdb, destdir)
+            print(string.format("[twase] Copied PDB: %s -> %s", pdb, destdir))
+        else
+            -- Silently skip if no PDB (e.g. release without symbols)
         end
     end)
 

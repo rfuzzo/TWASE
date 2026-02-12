@@ -4,7 +4,9 @@
 #include "Image.hpp"
 #include "Utils.hpp"
 #include "Version.hpp"
-#include "Patches.hpp"
+#include "Patches/Patches.hpp"
+#include "Hooking/DetourTransaction.hpp"
+#include "Hooks/SetLuaLogger.hpp"
 
 #include <shellapi.h>
 
@@ -14,7 +16,7 @@ std::unique_ptr<App> g_app;
 }
 
 namespace {
-    DWORD WINAPI WatcherThread(LPVOID)
+    DWORD WINAPI DllAttachedWatcherThread(LPVOID)
     {
         // Wait for the module to be loaded in-process (poll)
         HMODULE hMod = nullptr;
@@ -31,8 +33,17 @@ namespace {
 
         const DWORD empireDllAddr = reinterpret_cast<DWORD>(mi.lpBaseOfDll);
         spdlog::debug("empire.retail.dll lpBaseOfDll address: {}", reinterpret_cast<void*>(mi.lpBaseOfDll));
-        
+    
+		// Apply Patches and Hooks
         Patches::ApplyEmpirePatches(empireDllAddr);
+        if (App::Get()->AttachHooks(empireDllAddr))
+        {
+            spdlog::info("TWASE has been successfully initialized");
+        }
+        else
+        {
+            spdlog::error("TWASE did not initialize properly");
+        }
 
         return 0;
     }
@@ -41,6 +52,7 @@ namespace {
 App::App()
     : m_config(m_paths)
     , m_devConsole(m_config.GetDev())
+	, m_empireDllAddr(0)
 {
     if (m_config.GetDev().waitForDebugger)
     {
@@ -79,7 +91,7 @@ App::App()
     const auto& pluginsConfig = m_config.GetPlugins();
     spdlog::debug("  plugins.enabled: {}", pluginsConfig.isEnabled);
 
-   /* const auto& ignored = pluginsConfig.ignored;
+    /* const auto& ignored = pluginsConfig.ignored;
     if (ignored.empty())
     {
         spdlog::debug("  plugins.ignored: []");
@@ -99,10 +111,10 @@ App::App()
     spdlog::info("File version: {}.{}.{}.{}", fileVer.major, fileVer.minor, fileVer.build, fileVer.revision);
 
 	// TODO: Check for minimum supported version.
-   /* auto minimumVersion = RED4EXT_RUNTIME_2_31;
-    if (fileVer < RED4EXT_RUNTIME_2_31)
+    /* auto minimumVersion = TWASE_RUNTIME_2_31;
+    if (fileVer < TWASE_RUNTIME_2_31)
     {
-        spdlog::error(L"To use this version of RED4ext, ensure your game is updated to patch 2.31 or newer");
+        spdlog::error(L"To use this version of TWASE, ensure your game is updated to patch 2.31 or newer");
         return;
     }*/
 
@@ -128,20 +140,10 @@ App::App()
     }
 
     // Create a detached watcher thread; returns immediately and does not block loader
-    HANDLE h = CreateThread(nullptr, 0, WatcherThread, nullptr, 0, nullptr);
+    HANDLE h = CreateThread(nullptr, 0, DllAttachedWatcherThread, nullptr, 0, nullptr);
     if (h)
     { 
         CloseHandle(h); 
-    }
-
-    // Finalize
-    if (AttachHooks())
-    {
-        spdlog::info("TWASE has been successfully initialized");
-    }
-    else
-    {
-        spdlog::error("TWASE did not initialize properly");
     }
 }
 
@@ -158,6 +160,15 @@ void App::Destruct()
     // really care if this will be called or not when the game exist ungracefully.
 
     spdlog::trace("Detaching the hooks...");
+    DetourTransaction transaction;
+    if (transaction.IsValid())
+    {
+        auto success = Hooks::SetLuaLoggerHook::Detach();
+        if (success)
+        {
+            transaction.Commit();
+        }
+    }
 
     g_app.reset(nullptr);
     spdlog::info("TWASE has been terminated");
@@ -195,13 +206,25 @@ const Paths* App::GetPaths() const
     return &m_paths;
 }
 
-bool App::AttachHooks() const
+bool App::AttachHooks(DWORD empireDllAddr)
 {
+	m_empireDllAddr = empireDllAddr;
+
     spdlog::trace("Attaching hooks...");
 
-    // TODO
+    DetourTransaction transaction;
+    if (!transaction.IsValid())
+    {
+        return false;
+    }
 
-    return true;
+    auto success = Hooks::SetLuaLoggerHook::Attach();
+    if (success)
+    {
+        return transaction.Commit();
+    }
+
+    return false;
 }
 
 void App::LogMods() const

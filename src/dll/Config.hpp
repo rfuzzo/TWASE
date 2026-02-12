@@ -17,6 +17,14 @@ public:
         bool waitForDebugger = false;
     };
 
+    struct ScriptConfig
+    {
+        void LoadV0(const toml::value& aConfig);
+
+        bool enableLogging = true;
+        bool autoLoadMods = true;
+    };
+
     struct LoggingConfig
     {
         void LoadV0(const toml::value& aConfig);
@@ -43,6 +51,9 @@ public:
     const DevConfig& GetDev() const;
     const LoggingConfig& GetLogging() const;
     const PluginsConfig& GetPlugins() const;
+    const ScriptConfig& GetScripting() const;
+
+    static Config* Get();
 
 private:
     void Load(const std::filesystem::path& aFile);
@@ -55,4 +66,5 @@ private:
     DevConfig m_dev;
     LoggingConfig m_logging;
     PluginsConfig m_plugins;
+    ScriptConfig m_scripting;
 };
