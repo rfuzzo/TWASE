@@ -52,9 +52,6 @@ public:
     const LoggingConfig& GetLogging() const;
     const PluginsConfig& GetPlugins() const;
     const ScriptConfig& GetScripting() const;
-
-    static Config* Get();
-
 private:
     void Load(const std::filesystem::path& aFile);
     void Save(const std::filesystem::path& aFile);

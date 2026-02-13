@@ -17,6 +17,7 @@ public:
     void Shutdown();
 
     const Paths* GetPaths() const;
+	const Config* GetConfig() const;
 	inline const DWORD GetEmpireDllAddr() const { return m_empireDllAddr; }
 
     bool AttachHooks(DWORD empireDllAddr);

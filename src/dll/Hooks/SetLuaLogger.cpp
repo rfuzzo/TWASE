@@ -2,6 +2,7 @@
 
 #include "../App.hpp"
 #include "../Config.hpp"
+#include "../UI/LuaConsole.hpp"
 
 #include "../Hooking/Addresses.hpp"
 #include "../Hooking/Hook.hpp"
@@ -18,7 +19,7 @@ Hook<decltype(&_SetLuaLogger)> LuaLog_fnc(Addresses::LuaLog, &_SetLuaLogger);
 
 void* _SetLuaLogger(char* Buffer)
 {
-    if (Config::Get() && Config::Get()->GetScripting().enableLogging)
+    if (App::Get() && App::Get()->GetConfig() && App::Get()->GetConfig()->GetScripting().enableLogging)
     {
 		// don't log empty messages
 		if (Buffer == nullptr || Buffer[0] == '\0' || Buffer[0] == '\n')
@@ -27,7 +28,10 @@ void* _SetLuaLogger(char* Buffer)
 		}
 
 		// send to spdlog
-        spdlog::debug("[Lua] {}", Buffer);	
+        spdlog::debug("[Lua] {}", Buffer);
+
+        // also echo into the ImGui console
+        LuaConsole::Get().AddLog(Buffer);
     }
 
     // call the original to ensure the original logging still works
@@ -37,16 +41,16 @@ void* _SetLuaLogger(char* Buffer)
 
 bool Hooks::LuaLogHook::Attach()
 {
-    spdlog::trace("Trying to attach the hook for init scripts at {:#x}...", LuaLog_fnc.GetAddress());
+    spdlog::trace("Trying to attach the hook for the lua print hook at {:#x}...", LuaLog_fnc.GetAddress());
 
     auto result = LuaLog_fnc.Attach();
     if (result != NO_ERROR)
     {
-        spdlog::error("Could not attach the hook for init scripts. Detour error code: {}", result);
+        spdlog::error("Could not attach the hook for the lua print hook. Detour error code: {}", result);
     }
     else
     {
-        spdlog::info("The hook for init scripts was attached");
+        spdlog::info("The hook for the lua print hook was attached");
     }
 
     isAttached = result == NO_ERROR;
@@ -60,16 +64,16 @@ bool Hooks::LuaLogHook::Detach()
         return false;
     }
 
-    spdlog::trace("Trying to detach the hook for init scripts at {:#x}...", LuaLog_fnc.GetAddress());
+    spdlog::trace("Trying to detach the hook for the lua print hook at {:#x}...", LuaLog_fnc.GetAddress());
 
     auto result = LuaLog_fnc.Detach();
     if (result != NO_ERROR)
     {
-        spdlog::error("Could not detach the hook for init scripts. Detour error code: {}", result);
+        spdlog::error("Could not detach the hook for the lua print hook. Detour error code: {}", result);
     }
     else
     {
-        spdlog::trace("The hook for init scripts was detached");
+        spdlog::trace("The hook for the lua print hook was detached");
     }
 
     isAttached = result != NO_ERROR;

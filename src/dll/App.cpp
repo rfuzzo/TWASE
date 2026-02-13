@@ -6,7 +6,11 @@
 #include "Version.hpp"
 #include "Patches/Patches.hpp"
 #include "Hooking/DetourTransaction.hpp"
+#include "Lua/LuaRuntime.hpp"
+
 #include "Hooks/SetLuaLogger.hpp"
+#include "Hooks/LuaPcallHook.hpp"
+#include "Hooks/D3D11Hook.hpp"
 
 #include <shellapi.h>
 
@@ -206,25 +210,48 @@ const Paths* App::GetPaths() const
     return &m_paths;
 }
 
+const Config* App::GetConfig() const
+{
+    return &m_config;
+}
+
 bool App::AttachHooks(DWORD empireDllAddr)
 {
 	m_empireDllAddr = empireDllAddr;
 
     spdlog::info("Attaching hooks...");
 
+    // Resolve Lua function pointers (non-hooked, called directly)
+    LuaRuntime::Init(empireDllAddr);
+
+    // Attach Detour hooks in a single transaction
     DetourTransaction transaction;
     if (!transaction.IsValid())
     {
         return false;
     }
 
-    auto success = Hooks::LuaLogHook::Attach();
-    if (success)
+    auto luaLogOk   = Hooks::LuaLogHook::Attach();
+    auto luaPcallOk = Hooks::LuaPcallHook::Attach();
+
+    if (!luaLogOk /*|| !luaPcallOk*/)
     {
-        return transaction.Commit();
+        return false;
     }
 
-    return false;
+    if (!transaction.Commit())
+    {
+        return false;
+    }
+
+    // D3D11 hook is separate (creates its own detour transaction internally)
+    auto d3dOk = Hooks::D3D11Hook::Attach();
+    if (!d3dOk)
+    {
+        spdlog::warn("D3D11 hook failed – Lua console will not be available");
+    }
+
+    return true;
 }
 
 void App::LogMods() const

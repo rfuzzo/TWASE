@@ -13,6 +13,7 @@ add_rules("mode.debug", "mode.release")
 local gameroot = os.getenv("TWASE_GAMEROOT") or [[D:/SteamLibrary/steamapps/common/Total War Attila]]
 
 add_requires("wil", "fmt", "spdlog", "toml11", "ordered_map", "microsoft-detours")
+add_requires("imgui v1.91.8-docking", {configs = {dx11 = true, win32 = true}})
 
 -- global settings
 add_defines(
@@ -32,7 +33,7 @@ if is_mode("debug") then
 end
 
 
-add_syslinks("User32", "shell32", "ole32", "version", "ntdll")
+add_syslinks("User32", "shell32", "ole32", "version")
 
 option("disable_copy", {default = false, description = "Disable copy build files to game directory after build."})
 
@@ -106,7 +107,9 @@ target("twase")
     set_pcxxheader("src/dll/stdafx.hpp")
 
     -- links
-    add_packages("wil", "fmt", "spdlog", "toml11", "ordered_map", "microsoft-detours")
+    add_packages("wil", "fmt", "spdlog", "toml11", "ordered_map", "microsoft-detours", "imgui")
+
+    add_syslinks("d3d11", "dxgi", "ntdll") 
 
     after_build(function (target)
         if has_config("disable_copy") then

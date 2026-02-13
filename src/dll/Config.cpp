@@ -4,11 +4,6 @@
 
 #define DEFAULT_TOML_EXCEPTION_MSG "An exception occured while parsing the config file:\n\n{}\n\nFile: {}"
 
-namespace
-{
-    std::unique_ptr<Config> g_config;
-}
-
 Config::Config(const Paths& aPaths)
     : m_version(0)
     , m_dev()
@@ -34,8 +29,6 @@ Config::Config(const Paths& aPaths)
     {
         Save(file);
     }
-
-    g_config.reset(this);
 }
 
 const size_t Config::GetVersion() const
@@ -210,9 +203,4 @@ void Config::PluginsConfig::LoadV0(const toml::value& aConfig)
     {
         ignored.emplace(Utils::Widen(plugin));
     }
-}
-
-Config* Config::Get()
-{
-    return g_config.get();
 }

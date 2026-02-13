@@ -50,10 +50,10 @@ void Patches::ApplyUnitSizePatch(DWORD empireDllAddr)
 	// debug: read original bytes and print
 	BYTE originalBytes[sizeof(patchBitSetCrashArgs0)] = { 0 };
 	MemoryUtils::readBytesUnprotected(empireDllAddr + Addresses::BitSetCrashAddr, originalBytes, sizeof(originalBytes));
-	spdlog::debug("Original bytes at empire.retail.dll + 0x{:08X}:", Addresses::BitSetCrashAddr);
+	spdlog::trace("Original bytes at empire.retail.dll + 0x{:08X}:", Addresses::BitSetCrashAddr);
 	for (size_t i = 0; i < sizeof(originalBytes); i++)
 	{
-		spdlog::debug("  0x{:02X}", originalBytes[i]);
+		spdlog::trace("  0x{:02X}", originalBytes[i]);
 	}
 #endif
 
