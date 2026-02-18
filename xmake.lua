@@ -13,6 +13,7 @@ add_rules("mode.debug", "mode.release")
 local gameroot = os.getenv("TWASE_GAMEROOT") or [[D:/SteamLibrary/steamapps/common/Total War Attila]]
 
 add_requires("wil", "fmt", "spdlog", "toml11", "ordered_map", "microsoft-detours")
+add_requires("sol2", "lua") -- v5.1.5
 add_requires("imgui v1.91.8-docking", {configs = {dx11 = true, win32 = true}})
 
 -- global settings
@@ -85,31 +86,48 @@ target("loader")
             print("[twase] Warning: Built DLL not found; nothing to copy.")
         end
     end)
-    
 
 target("twase")
     set_basename("TWASE")
     set_kind("shared")
 
+    -- files
     add_files("src/dll/*.cpp")
     add_headerfiles("src/dll/*.hpp")
-    -- just iterate the whole src/dll folder
     for _, dir in ipairs(os.dirs("src/dll/*")) do
         if os.isdir(dir) then
             add_files(path.join(dir, "*.cpp"))
             add_headerfiles(path.join(dir, "*.hpp"))
         end
     end
-
     add_files("src/dll/*.rc")
+
+    -- sdk
+    -- add_files("src/sdk/Attila/*.cpp")
+    add_headerfiles("src/sdk/Attila/*.hpp")
+    for _, dir in ipairs(os.dirs("src/sdk/Attila/*")) do
+        if os.isdir(dir) then
+            add_files(path.join(dir, "*.cpp"))
+            add_headerfiles(path.join(dir, "*.hpp"))
+        end
+    end
 
     -- precompiled header
     set_pcxxheader("src/dll/stdafx.hpp")
 
     -- links
-    add_packages("wil", "fmt", "spdlog", "toml11", "ordered_map", "microsoft-detours", "imgui")
+    add_packages("wil", "fmt", "spdlog", "toml11", "ordered_map", "microsoft-detours", "imgui", "sol2", "lua")
 
-    add_syslinks("d3d11", "dxgi", "ntdll") 
+    add_syslinks("d3d11", "dxgi", "ntdll")
+
+    on_run(function (target)
+        local gr = os.getenv("TWASE_GAMEROOT") or [[D:/SteamLibrary/steamapps/common/Total War Attila]]
+        local exe = path.join(gr, "Attila.exe")
+        if not os.isfile(exe) then
+            raise("[twase] Attila.exe not found at '%s'. Set TWASE_GAMEROOT correctly.", exe)
+        end
+        os.execv(exe, {}, { curdir = gr })
+    end)
 
     after_build(function (target)
         if has_config("disable_copy") then

@@ -6,11 +6,12 @@
 #include "Version.hpp"
 #include "Patches/Patches.hpp"
 #include "Hooking/DetourTransaction.hpp"
-#include "Lua/LuaRuntime.hpp"
 
 #include "Hooks/SetLuaLogger.hpp"
-#include "Hooks/LuaPcallHook.hpp"
 #include "Hooks/D3D11Hook.hpp"
+
+#include "../sdk/Attila/Lua/LuaRuntime.hpp"
+#include "../sdk/Attila/Lua/LuaGameEnvironment.hpp"
 
 #include <shellapi.h>
 
@@ -223,6 +224,7 @@ bool App::AttachHooks(DWORD empireDllAddr)
 
     // Resolve Lua function pointers (non-hooked, called directly)
     LuaRuntime::Init(empireDllAddr);
+    LuaGameEnvironment::Init(empireDllAddr);
 
     // Attach Detour hooks in a single transaction
     DetourTransaction transaction;
@@ -232,9 +234,8 @@ bool App::AttachHooks(DWORD empireDllAddr)
     }
 
     auto luaLogOk   = Hooks::LuaLogHook::Attach();
-    auto luaPcallOk = Hooks::LuaPcallHook::Attach();
 
-    if (!luaLogOk /*|| !luaPcallOk*/)
+    if (!luaLogOk)
     {
         return false;
     }

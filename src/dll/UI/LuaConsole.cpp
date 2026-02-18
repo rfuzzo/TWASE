@@ -1,7 +1,11 @@
 #include "LuaConsole.hpp"
-#include "../Lua/LuaRuntime.hpp"
+#include "../../sdk/Attila/Lua/LuaRuntime.hpp"
+#include "../../sdk/Attila/Lua/LuaGameEnvironment.hpp"
+#include "../../sdk/Attila/ScriptInterface.hpp"
 
 #include <imgui.h>
+
+#include <sol/sol.hpp>
 
 LuaConsole& LuaConsole::Get()
 {
@@ -133,46 +137,37 @@ void LuaConsole::Draw()
     ImGui::End();
 }
 
+
 void LuaConsole::ExecuteCommand(const char* command)
 {
     AddLog(fmt::format("> {}", command).c_str());
 
-    if (!LuaRuntime::IsReady())
+	// get active Lua contexts
+    auto contexts = LuaGameEnvironment::GetActiveContexts();
+    if (contexts.empty())
+    {
+        AddLog("[error] no active Lua contexts found.");
+        return;
+    }
+    
+
+
+
+
+   /* if (!LuaRuntime::IsReady())
     {
         AddLog("[error] lua_State not captured yet – game Lua VM hasn't started.");
         return;
-    }
+    }*/
 
-    lua_State* L = LuaRuntime::GetState();
-    int top = LuaRuntime::gettop(L);
 
-    // Compile
-    int loadResult = LuaRuntime::loadstring(L, command);
-    if (loadResult != LUA_OK)
-    {
-        const char* err = LuaRuntime::tolstring(L, -1, nullptr);
-        AddLog(fmt::format("[error] {}", err ? err : "unknown compile error").c_str());
-        LuaRuntime::settop(L, top); // pop error
-        return;
-    }
+    //lua_State* L = LuaRuntime::GetLuaState();
+    //sol::state_view lua(L);
 
-    // Execute
-    int callResult = LuaRuntime::pcall(L, 0, LUA_MULTRET, 0);
-    if (callResult != LUA_OK)
-    {
-        const char* err = LuaRuntime::tolstring(L, -1, nullptr);
-        AddLog(fmt::format("[error] {}", err ? err : "unknown runtime error").c_str());
-        LuaRuntime::settop(L, top); // pop error
-        return;
-    }
-
-    // Print any return values left on the stack
-    int newTop = LuaRuntime::gettop(L);
-    for (int i = top + 1; i <= newTop; ++i)
-    {
-        const char* val = LuaRuntime::tolstring(L, i, nullptr);
-        if (val)
-            AddLog(val);
-    }
-    LuaRuntime::settop(L, top); // clean up
+    //auto bad_code_result = lua.script(command, [](lua_State*, sol::protected_function_result pfr) {
+    //    // pfr will contain things that went wrong, for either loading or executing the script
+    //    // Can throw your own custom error
+    //    // You can also just return it, and let the call-site handle the error if necessary.
+    //    return pfr;
+    //    });
 }

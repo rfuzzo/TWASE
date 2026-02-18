@@ -1,5 +1,6 @@
 #pragma once
 
+#include <atomic>
 #include <cstdarg>
 #include <cstdint>
 #include <ctime>
@@ -15,6 +16,7 @@
 #include <string_view>
 #include <system_error>
 #include <unordered_set>
+#include <vector>
 
 #include <Windows.h>
 #include <winternl.h>

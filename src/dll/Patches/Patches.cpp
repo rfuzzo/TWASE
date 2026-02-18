@@ -1,7 +1,7 @@
 # include "Patches.hpp"
 
 #include "../Utils.hpp"
-#include "../Hooking/Addresses.hpp"
+#include "../../sdk/Attila/Addresses.hpp"
 
 // Empire patches
 void Patches::ApplyEmpirePatches(DWORD empireDllAddr)
@@ -49,16 +49,16 @@ void Patches::ApplyUnitSizePatch(DWORD empireDllAddr)
 #ifdef _DEBUG
 	// debug: read original bytes and print
 	BYTE originalBytes[sizeof(patchBitSetCrashArgs0)] = { 0 };
-	MemoryUtils::readBytesUnprotected(empireDllAddr + Addresses::BitSetCrashAddr, originalBytes, sizeof(originalBytes));
-	spdlog::trace("Original bytes at empire.retail.dll + 0x{:08X}:", Addresses::BitSetCrashAddr);
+	MemoryUtils::readBytesUnprotected(empireDllAddr + sdk::Attila::Addresses::BitSetCrashAddr, originalBytes, sizeof(originalBytes));
+	spdlog::trace("Original bytes at empire.retail.dll + 0x{:08X}:", sdk::Attila::Addresses::BitSetCrashAddr);
 	for (size_t i = 0; i < sizeof(originalBytes); i++)
 	{
 		spdlog::trace("  0x{:02X}", originalBytes[i]);
 	}
 #endif
 
-    MemoryUtils::writeBytesUnprotected(empireDllAddr + Addresses::BitSetCrashAddr, patchBitSetCrashArgs0, sizeof(patchBitSetCrashArgs0));
+    MemoryUtils::writeBytesUnprotected(empireDllAddr + sdk::Attila::Addresses::BitSetCrashAddr, patchBitSetCrashArgs0, sizeof(patchBitSetCrashArgs0));
 
     spdlog::info("Applied unit size patch to empire.retail.dll at address {}", 
-		reinterpret_cast<void*>(empireDllAddr + Addresses::BitSetCrashAddr));
+		reinterpret_cast<void*>(empireDllAddr + sdk::Attila::Addresses::BitSetCrashAddr));
 }

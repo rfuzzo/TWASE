@@ -3,9 +3,9 @@
 #include "../App.hpp"
 #include "../Config.hpp"
 #include "../UI/LuaConsole.hpp"
-
-#include "../Hooking/Addresses.hpp"
 #include "../Hooking/Hook.hpp"
+
+#include "../../sdk/Attila/Addresses.hpp" 
 
 // empire.dll uses a custom luaBPrint function to log lua messages, it is essentially "fputs or custom sink".
 // We hook this and just add our spdlog to it, and pass the buffer back to the original.
@@ -15,7 +15,7 @@ namespace
 bool isAttached = false;
 
 void* _SetLuaLogger(char* Buffer);
-Hook<decltype(&_SetLuaLogger)> LuaLog_fnc(Addresses::LuaLog, &_SetLuaLogger);
+Hook<decltype(&_SetLuaLogger)> LuaLog_fnc(sdk::Attila::Addresses::LuaLog, &_SetLuaLogger);
 
 void* _SetLuaLogger(char* Buffer)
 {

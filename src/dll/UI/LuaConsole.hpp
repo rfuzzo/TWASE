@@ -1,5 +1,7 @@
 #pragma once
-#include "../Lua/LuaDefs.hpp"
+
+#include "../../sdk/Attila/Lua/LuaDefs.hpp"
+
 #include <string>
 #include <vector>
 #include <mutex>
