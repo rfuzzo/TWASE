@@ -18,6 +18,16 @@ void LuaConsole::Toggle()
     m_open = !m_open;
 }
 
+void LuaConsole::AddLogFmt(const char* fmt, ...)
+{
+    char buf[1024];
+    va_list args;
+    va_start(args, fmt);
+    vsnprintf(buf, sizeof(buf), fmt, args);
+    va_end(args);
+    AddLog(buf);
+}
+
 void LuaConsole::AddLog(const char* text)
 {
     if (!text || text[0] == '\0')
@@ -26,6 +36,30 @@ void LuaConsole::AddLog(const char* text)
     std::lock_guard lock(m_logMutex);
     m_log.emplace_back(text);
     m_scrollToBottom = true;
+}
+
+static void DrawContextSwitcher()
+{
+    auto contexts = LuaGameEnvironment::GetActiveContexts();
+    auto* activeL = LuaGameEnvironment::GetActiveState();
+
+    // Find current index
+    int currentIdx = -1;
+    for (size_t i = 0; i < contexts.size(); i++) {
+        if (contexts[i].L == activeL) { currentIdx = (int)i; break; }
+    }
+
+    const char* preview = (currentIdx >= 0) ? contexts[currentIdx].name.c_str() : "Select context...";
+
+    if (ImGui::BeginCombo("##Context", preview)) {
+        for (size_t i = 0; i < contexts.size(); i++) {
+            bool selected = (contexts[i].L == activeL);
+            if (ImGui::Selectable(contexts[i].name.c_str(), selected)) {
+                LuaGameEnvironment::SelectContext(i);
+            }
+        }
+        ImGui::EndCombo();
+    }
 }
 
 void LuaConsole::Draw()
@@ -111,6 +145,18 @@ void LuaConsole::Draw()
         return 0;
     };
 
+    // Layout: [Ctx combo (fixed)] [InputText (fill)] [Clear (fixed)]
+    const ImGuiStyle& style   = ImGui::GetStyle();
+    const float clearWidth    = ImGui::CalcTextSize("Clear").x + style.FramePadding.x * 2.0f;
+    const float comboWidth    = 200.0f;
+    const float spacing       = style.ItemSpacing.x;
+    const float inputWidth    = ImGui::GetContentRegionAvail().x - comboWidth - clearWidth - spacing * 2.0f;
+
+    ImGui::SetNextItemWidth(comboWidth);
+    DrawContextSwitcher();
+    ImGui::SameLine();
+
+    ImGui::SetNextItemWidth(inputWidth);
     if (ImGui::InputText("##Input", m_inputBuf, IM_ARRAYSIZE(m_inputBuf), inputFlags, historyCallback, this))
     {
         if (m_inputBuf[0] != '\0')
@@ -137,37 +183,115 @@ void LuaConsole::Draw()
     ImGui::End();
 }
 
-
-void LuaConsole::ExecuteCommand(const char* command)
+bool LuaConsole::tryHandleCommand(const std::string& input)
 {
-    AddLog(fmt::format("> {}", command).c_str());
+    if (input == ".contexts") {
+        auto contexts = LuaGameEnvironment::GetActiveContexts();
+        if (contexts.empty()) {
+            AddLog("[info] No active lua contexts");
+            return true;
+        }
+        auto* activeL = LuaGameEnvironment::GetActiveState();
+        for (size_t i = 0; i < contexts.size(); i++) {
+            AddLogFmt("  [%zu] %s%s", i, contexts[i].name.c_str(),
+                (contexts[i].L == activeL) ? " (active)" : "");
+        }
+        return true;
+    }
 
-	// get active Lua contexts
-    auto contexts = LuaGameEnvironment::GetActiveContexts();
-    if (contexts.empty())
-    {
-        AddLog("[error] no active Lua contexts found.");
+    if (input == ".active") {
+        if (LuaGameEnvironment::IsContextValid()) {
+            AddLogFmt("[info] %s", LuaGameEnvironment::GetActiveContextName().c_str());
+        }
+        else {
+            AddLog("[info] No active context");
+        }
+        return true;
+    }
+
+    if (input.rfind(".switch ", 0) == 0) {
+        std::string arg = input.substr(8);
+
+        // Try as index
+        try {
+            size_t index = std::stoul(arg);
+            if (LuaGameEnvironment::SelectContext(index)) {
+                AddLogFmt("[info] Switched to: %s", LuaGameEnvironment::GetActiveContextName().c_str());
+            }
+            else {
+                AddLogFmt("[error] Invalid context index: %zu", index);
+            }
+            return true;
+        }
+        catch (...) {}
+
+        // Try as partial name match
+        auto contexts = LuaGameEnvironment::GetActiveContexts();
+        for (size_t i = 0; i < contexts.size(); i++) {
+            if (contexts[i].name.find(arg) != std::string::npos) {
+                LuaGameEnvironment::SelectContext(i);
+                AddLogFmt("[info] Switched to: %s", LuaGameEnvironment::GetActiveContextName().c_str());
+                return true;
+            }
+        }
+
+        AddLogFmt("[error] No context matching '%s'", arg.c_str());
+        return true;
+    }
+
+    if (input == ".help") {
+        AddLog("Commands:");
+        AddLog("  .contexts  - List active lua contexts");
+        AddLog("  .active    - Show current context");
+        AddLog("  .switch N  - Switch by index or name");
+        AddLog("  .help      - Show this help");
+        return true;
+    }
+
+    return false;
+}
+
+
+void LuaConsole::ExecuteCommand(const char* input)
+{
+    std::string cmd(input);
+
+    if (cmd[0] == '.') {
+        if (tryHandleCommand(cmd)) return;
+        AddLogFmt("[error] Unknown command: %s", input);
         return;
     }
-    
 
-
-
-
-   /* if (!LuaRuntime::IsReady())
-    {
-        AddLog("[error] lua_State not captured yet – game Lua VM hasn't started.");
+    if (!LuaGameEnvironment::IsContextValid()) {
+        AddLog("[error] No active lua context");
         return;
-    }*/
+    }
 
+    lua_State* L = LuaGameEnvironment::GetActiveState();
+    AddLogFmt("> %s", input);
 
-    //lua_State* L = LuaRuntime::GetLuaState();
-    //sol::state_view lua(L);
+    int top = LuaRuntime::gettop(L);
 
-    //auto bad_code_result = lua.script(command, [](lua_State*, sol::protected_function_result pfr) {
-    //    // pfr will contain things that went wrong, for either loading or executing the script
-    //    // Can throw your own custom error
-    //    // You can also just return it, and let the call-site handle the error if necessary.
-    //    return pfr;
-    //    });
+    if (LuaRuntime::loadbuffer(L, cmd.c_str(), cmd.size(), "console") != 0) {
+        AddLogFmt("[error] %s", LuaRuntime::tolstring(L, -1, nullptr));
+        LuaRuntime::settop(L, top);
+        return;
+    }
+
+    if (LuaRuntime::pcall(L, 0, LUA_MULTRET, 0) != 0) {
+        AddLogFmt("[error] %s", LuaRuntime::tolstring(L, -1, nullptr));
+        LuaRuntime::settop(L, top);
+        return;
+    }
+
+    // Print any return values
+    int nresults = LuaRuntime::gettop(L) - top;
+    for (int i = 1; i <= nresults; i++) {
+        const char* str = LuaRuntime::tolstring(L, top + i, nullptr);
+        if (str) {
+            AddLogFmt("%s", str);
+        }
+    }
+
+    LuaRuntime::settop(L, top);
 }

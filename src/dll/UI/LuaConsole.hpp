@@ -19,11 +19,13 @@ public:
 
     /// Thread-safe: push a log line (e.g. from LuaLog hook)
     void AddLog(const char* text);
+    void AddLogFmt(const char* fmt, ...);
 
 private:
     LuaConsole() = default;
 
     void ExecuteCommand(const char* command);
+    bool tryHandleCommand(const std::string& input);
 
     bool                     m_open = false;
     char                     m_inputBuf[1024] = {};

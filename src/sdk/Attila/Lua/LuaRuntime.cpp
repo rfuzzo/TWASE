@@ -6,6 +6,7 @@ lua_tolstring_t   LuaRuntime::tolstring  = nullptr;
 lua_settop_t      LuaRuntime::settop     = nullptr;
 lua_gettop_t      LuaRuntime::gettop     = nullptr;
 lua_getfield_t    LuaRuntime::getfield   = nullptr;
+lua_pcall_t       LuaRuntime::pcall      = nullptr;
 
 std::atomic<bool> LuaRuntime::s_ready    = false;
 
@@ -16,6 +17,7 @@ void LuaRuntime::Init(uint32_t base)
     settop     = reinterpret_cast<lua_settop_t>     (base + sdk::Attila::Lua::Lua_settop);
     gettop     = reinterpret_cast<lua_gettop_t>     (base + sdk::Attila::Lua::Lua_gettop);
 	getfield   = reinterpret_cast<lua_getfield_t>   (base + sdk::Attila::Lua::Lua_getfield);
+	pcall      = reinterpret_cast<lua_pcall_t>        (base + sdk::Attila::Lua::Lua_pcall);
 
     spdlog::info("LuaRuntime resolved all function pointers");
 

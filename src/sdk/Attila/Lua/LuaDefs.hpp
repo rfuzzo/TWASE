@@ -12,6 +12,7 @@ using lua_tolstring_t   = const char*(__cdecl*)(lua_State* L, int idx, size_t* l
 using lua_settop_t      = void(__cdecl*)(lua_State* L, int idx);
 using lua_gettop_t      = int(__cdecl*)(lua_State* L);
 using lua_getfield_t	= int(__cdecl*)(lua_State* L, int idx, const char* k);
+using lua_pcall_t		= int(__cdecl*)(lua_State* L, int nargs, int nresults, int errfunc);	
 
 #define LUA_OK           0
 #define LUA_ERRRUN       2

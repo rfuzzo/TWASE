@@ -8,5 +8,6 @@ namespace sdk::Attila::Lua
 	constexpr uint32_t Lua_settop = 0x012BEF30;
 	constexpr uint32_t Lua_gettop = 0x012BE4D0;
 	constexpr uint32_t Lua_getfield = 0x012BE3F0;
+	constexpr uint32_t Lua_pcall = 0x012BE820;
 
 } // namespace sdk::Lua

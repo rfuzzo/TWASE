@@ -19,6 +19,7 @@ public:
     static lua_settop_t       settop;
     static lua_gettop_t       gettop;
 	static lua_getfield_t     getfield;
+	static lua_pcall_t        pcall;
 private:
     static std::atomic<bool>   s_ready;
 };

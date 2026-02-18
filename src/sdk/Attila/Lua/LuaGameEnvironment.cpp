@@ -27,28 +27,50 @@ std::vector<LuaContext> LuaGameEnvironment::GetActiveContexts()
 {
     std::vector<LuaContext> contexts;
 
-    RuntimeLuaNode *node = *s_listHead;
-    RuntimeLuaNode *sentinel = s_sentinel;
+    RuntimeLuaNode* node = *s_listHead;
+    RuntimeLuaNode* sentinel = s_sentinel;
 
     while (node && node != sentinel)
     {
         if (node->runtime && node->runtime->L)
         {
-            lua_State *L = node->runtime->L;
+            lua_State* L = node->runtime->L;
 
             std::string name = "unknown";
             LuaRuntime::getfield(L, LUA_GLOBALSINDEX, "decoda_name");
             size_t len = 0;
-            const char *str = LuaRuntime::tolstring(L, -1, &len);
+            const char* str = LuaRuntime::tolstring(L, -1, &len);
             if (str)
             {
                 name = std::string(str, len);
             }
             LuaRuntime::settop(L, -2);
 
-            contexts.push_back({L, name});
+            contexts.push_back({ L, name });
         }
         node = node->next;
+    }
+
+    // Validate current selection is still alive
+    if (s_activeL != nullptr)
+    {
+        bool found = false;
+        for (auto& ctx : contexts)
+        {
+            if (ctx.L == s_activeL) { found = true; break; }
+        }
+        if (!found)
+        {
+            s_activeL = nullptr;
+            s_activeContextName = "none";
+        }
+    }
+
+    // Auto-select if nothing active
+    if (s_activeL == nullptr && !contexts.empty())
+    {
+        s_activeL = contexts[0].L;
+        s_activeContextName = contexts[0].name;
     }
 
     return contexts;
