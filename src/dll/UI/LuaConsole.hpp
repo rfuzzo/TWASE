@@ -31,6 +31,7 @@ private:
     char                     m_inputBuf[1024] = {};
     std::vector<std::string> m_history;
     std::vector<std::string> m_log;
+    std::string              m_logBuffer;
     std::mutex               m_logMutex;
     bool                     m_scrollToBottom = false;
     int                      m_historyPos = -1;

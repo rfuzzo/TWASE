@@ -24,6 +24,8 @@ public:
     static const std::string&       GetActiveContextName();
     static bool                     SelectContext(size_t index);
     static bool                     IsContextValid();
+
+    static std::vector<std::string> GetTableEntries(lua_State* L, const std::string& tablePath, bool showTypes);
 private:
     static RuntimeLuaNode** s_listHead;
     static RuntimeLuaNode*  s_sentinel;

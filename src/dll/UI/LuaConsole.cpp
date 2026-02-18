@@ -4,6 +4,7 @@
 #include "../../sdk/Attila/ScriptInterface.hpp"
 
 #include <imgui.h>
+#include <imgui_internal.h>
 
 #include <sol/sol.hpp>
 
@@ -35,6 +36,8 @@ void LuaConsole::AddLog(const char* text)
 
     std::lock_guard lock(m_logMutex);
     m_log.emplace_back(text);
+    m_logBuffer += text;
+    m_logBuffer += '\n';
     m_scrollToBottom = true;
 }
 
@@ -74,34 +77,40 @@ void LuaConsole::Draw()
         return;
     }
 
-    // Output region
+    // Output region — InputTextMultiline enables text selection (Ctrl+C etc.)
     const float footerHeight = ImGui::GetStyle().ItemSpacing.y + ImGui::GetFrameHeightWithSpacing();
-    if (ImGui::BeginChild("ScrollRegion", ImVec2(0, -footerHeight), ImGuiChildFlags_None,
-                          ImGuiWindowFlags_HorizontalScrollbar))
+
+    std::string logCopy;
+    bool scrollNow = false;
     {
         std::lock_guard lock(m_logMutex);
-        for (const auto& line : m_log)
-        {
-            // Color errors red
-            if (line.find("[error]") != std::string::npos || line.find("Error") == 0)
-            {
-                ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 0.4f, 0.4f, 1.0f));
-                ImGui::TextUnformatted(line.c_str());
-                ImGui::PopStyleColor();
-            }
-            else
-            {
-                ImGui::TextUnformatted(line.c_str());
-            }
-        }
+        logCopy = m_logBuffer;
+        scrollNow = m_scrollToBottom;
+        m_scrollToBottom = false;
+    }
 
-        if (m_scrollToBottom)
+    ImGui::InputTextMultiline("##log",
+        logCopy.data(), logCopy.size() + 1,
+        ImVec2(-1.0f, -footerHeight),
+        ImGuiInputTextFlags_ReadOnly);
+
+    if (scrollNow)
+    {
+        // InputTextMultiline creates an inner child window named "ParentName/##log_XXXXXXXX".
+        // FindWindowByID won't work because the child's own ID is a hash of that full title,
+        // not parentWin->GetID("##log"). Scan the window list instead.
+        ImGuiWindow* parentWin = ImGui::GetCurrentWindow();
+        ImGuiContext& g = *GImGui;
+        for (int i = 0; i < g.Windows.Size; i++)
         {
-            ImGui::SetScrollHereY(1.0f);
-            m_scrollToBottom = false;
+            ImGuiWindow* w = g.Windows[i];
+            if (w->ParentWindow == parentWin && strstr(w->Name, "/##log_") != nullptr)
+            {
+                ImGui::SetScrollY(w, w->ScrollMax.y);
+                break;
+            }
         }
     }
-    ImGui::EndChild();
 
     // Input line
     ImGui::Separator();
@@ -239,12 +248,48 @@ bool LuaConsole::tryHandleCommand(const std::string& input)
         return true;
     }
 
+    if (input == ".globals") {
+        if (!LuaGameEnvironment::IsContextValid()) {
+            AddLog("[error] No active context");
+            return true;
+        }
+        auto entries = LuaGameEnvironment::GetTableEntries(
+            LuaGameEnvironment::GetActiveState(), "", true);
+        AddLogFmt("[info] %zu globals:", entries.size());
+        for (auto& e : entries) {
+            AddLog(("  " + e).c_str());
+        }
+        return true;
+    }
+
+    if (input.rfind(".list ", 0) == 0) {
+        if (!LuaGameEnvironment::IsContextValid()) {
+            AddLog("[error] No active context");
+            return true;
+        }
+        std::string table = input.substr(6);
+        auto entries = LuaGameEnvironment::GetTableEntries(
+            LuaGameEnvironment::GetActiveState(), table, true);
+        if (entries.empty()) {
+            AddLogFmt("[info] '%s' has no fields or is not a table/userdata", table.c_str());
+        }
+        else {
+            AddLogFmt("[info] %zu fields in '%s':", entries.size(), table.c_str());
+            for (auto& e : entries) {
+                AddLog(("  " + e).c_str());
+            }
+        }
+        return true;
+    }
+
     if (input == ".help") {
         AddLog("Commands:");
-        AddLog("  .contexts  - List active lua contexts");
-        AddLog("  .active    - Show current context");
-        AddLog("  .switch N  - Switch by index or name");
-        AddLog("  .help      - Show this help");
+        AddLog("  .contexts        - List active lua contexts");
+        AddLog("  .active          - Show current context");
+        AddLog("  .switch N        - Switch by index or name");
+        AddLog("  .globals         - List all globals in current context");
+        AddLog("  .list <table>    - List fields of a table (e.g. .list CampaignUI)");
+        AddLog("  .help            - Show this help");
         return true;
     }
 

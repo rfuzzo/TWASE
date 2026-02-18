@@ -114,3 +114,97 @@ bool LuaGameEnvironment::IsReady()
 {
     return s_ready.load(std::memory_order_acquire);
 }
+
+std::vector<std::string> LuaGameEnvironment::GetTableEntries(lua_State* L, const std::string& tablePath, bool showTypes)
+{
+    std::vector<std::string> results;
+    int top = LuaRuntime::gettop(L);
+
+    // Navigate to the table: "FrontEnd.Something.Deeper"
+    if (tablePath.empty())
+    {
+        LuaRuntime::pushvalue(L, LUA_GLOBALSINDEX);
+    }
+    else
+    {
+        LuaRuntime::pushvalue(L, LUA_GLOBALSINDEX);
+
+        size_t start = 0;
+        while (start < tablePath.size())
+        {
+            size_t dot = tablePath.find('.', start);
+            if (dot == std::string::npos) dot = tablePath.size();
+
+            std::string key = tablePath.substr(start, dot - start);
+            LuaRuntime::getfield(L, -1, key.c_str());
+            LuaRuntime::remove(L, -2); // remove parent
+
+            if (LuaRuntime::type(L, -1) == LUA_TNIL)
+            {
+                LuaRuntime::settop(L, top);
+                return results;
+            }
+
+            start = dot + 1;
+        }
+    }
+
+    // If it's userdata, try its metatable.__index
+    if (LuaRuntime::type(L, -1) == LUA_TUSERDATA)
+    {
+        if (LuaRuntime::getmetatable(L, -1))
+        {
+            LuaRuntime::getfield(L, -1, "__index");
+            LuaRuntime::remove(L, -2); // remove metatable
+            LuaRuntime::remove(L, -2); // remove userdata
+        }
+        else
+        {
+            LuaRuntime::settop(L, top);
+            return results;
+        }
+    }
+
+    if (LuaRuntime::type(L, -1) != LUA_TTABLE)
+    {
+        LuaRuntime::settop(L, top);
+        return results;
+    }
+
+    // Iterate
+    LuaRuntime::pushnil(L);
+    while (LuaRuntime::next(L, -2) != 0)
+    {
+        if (LuaRuntime::type(L, -2) == LUA_TSTRING)
+        {
+            const char* key = LuaRuntime::tolstring(L, -2, nullptr);
+            if (key)
+            {
+                if (showTypes)
+                {
+                    const char* typeName = "";
+                    switch (LuaRuntime::type(L, -1))
+                    {
+                    case LUA_TFUNCTION: typeName = "function"; break;
+                    case LUA_TTABLE:    typeName = "table";    break;
+                    case LUA_TSTRING:   typeName = "string";   break;
+                    case LUA_TNUMBER:   typeName = "number";   break;
+                    case LUA_TBOOLEAN:  typeName = "boolean";  break;
+                    case LUA_TUSERDATA: typeName = "userdata"; break;
+                    default:            typeName = "other";    break;
+                    }
+                    results.push_back(std::string(key) + "  (" + typeName + ")");
+                }
+                else
+                {
+                    results.push_back(key);
+                }
+            }
+        }
+        LuaRuntime::settop(L, -2); // pop value, keep key
+    }
+
+    LuaRuntime::settop(L, top);
+    std::sort(results.begin(), results.end());
+    return results;
+}
