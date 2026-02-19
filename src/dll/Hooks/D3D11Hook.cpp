@@ -24,7 +24,7 @@ namespace
 bool                      g_attached = false;
 PFN_Present               g_OriginalPresent = nullptr;
 ID3D11Device*             g_device = nullptr;
-ID3D11DeviceContext*       g_context = nullptr;
+ID3D11DeviceContext*      g_context = nullptr;
 ID3D11RenderTargetView*   g_rtv = nullptr;
 HWND                      g_hwnd = nullptr;
 WNDPROC                   g_originalWndProc = nullptr;
