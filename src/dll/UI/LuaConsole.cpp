@@ -16,25 +16,23 @@ void LuaConsole::Toggle()
     m_open = !m_open;
 }
 
-void LuaConsole::AddLogFmt(const char* fmt, ...)
+void LuaConsole::AddLog(const char* fmt, ...)
 {
     char buf[1024];
     va_list args;
     va_start(args, fmt);
     vsnprintf(buf, sizeof(buf), fmt, args);
     va_end(args);
-    AddLog(buf);
+    AddLogInternal(buf);
 }
 
-void LuaConsole::AddLog(const char* text)
+void LuaConsole::AddLogInternal(const char* text)
 {
     if (!text || text[0] == '\0')
         return;
 
     std::lock_guard lock(m_logMutex);
     m_log.emplace_back(text);
-    m_logBuffer += text;
-    m_logBuffer += '\n';
     m_scrollToBottom = true;
 }
 
@@ -76,38 +74,32 @@ void LuaConsole::Draw()
 
     // Output region — InputTextMultiline enables text selection (Ctrl+C etc.)
     const float footerHeight = ImGui::GetStyle().ItemSpacing.y + ImGui::GetFrameHeightWithSpacing();
-
-    std::string logCopy;
-    bool scrollNow = false;
+    if (ImGui::BeginChild("ScrollRegion", ImVec2(0, -footerHeight), ImGuiChildFlags_None,
+        ImGuiWindowFlags_HorizontalScrollbar))
     {
         std::lock_guard lock(m_logMutex);
-        logCopy = m_logBuffer;
-        scrollNow = m_scrollToBottom;
-        m_scrollToBottom = false;
-    }
-
-    ImGui::InputTextMultiline("##log",
-        logCopy.data(), logCopy.size() + 1,
-        ImVec2(-1.0f, -footerHeight),
-        ImGuiInputTextFlags_ReadOnly);
-
-    if (scrollNow)
-    {
-        // InputTextMultiline creates an inner child window named "ParentName/##log_XXXXXXXX".
-        // FindWindowByID won't work because the child's own ID is a hash of that full title,
-        // not parentWin->GetID("##log"). Scan the window list instead.
-        ImGuiWindow* parentWin = ImGui::GetCurrentWindow();
-        ImGuiContext& g = *GImGui;
-        for (int i = 0; i < g.Windows.Size; i++)
+        for (const auto& line : m_log)
         {
-            ImGuiWindow* w = g.Windows[i];
-            if (w->ParentWindow == parentWin && strstr(w->Name, "/##log_") != nullptr)
+            // Color errors red
+            if (line.find("[error]") != std::string::npos || line.find("Error") == 0)
             {
-                ImGui::SetScrollY(w, w->ScrollMax.y);
-                break;
+                ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 0.4f, 0.4f, 1.0f));
+                ImGui::TextUnformatted(line.c_str());
+                ImGui::PopStyleColor();
+            }
+            else
+            {
+                ImGui::TextUnformatted(line.c_str());
             }
         }
+
+        if (m_scrollToBottom)
+        {
+            ImGui::SetScrollHereY(1.0f);
+            m_scrollToBottom = false;
+        }
     }
+    ImGui::EndChild();
 
     // Input line
     ImGui::Separator();
@@ -166,11 +158,10 @@ void LuaConsole::Draw()
     {
         if (m_inputBuf[0] != '\0')
         {
+            AddLog("> %s", m_inputBuf);
             ExecuteCommand(m_inputBuf);
             m_history.emplace_back(m_inputBuf);
             m_historyPos = -1;
-
-			AddLogFmt("> %s", m_inputBuf);
         }
         m_inputBuf[0] = '\0';
         reclaimFocus = true;

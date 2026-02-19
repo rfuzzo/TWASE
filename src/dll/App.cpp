@@ -9,6 +9,7 @@
 
 #include "Hooks/SetLuaLogger.hpp"
 #include "Hooks/D3D11Hook.hpp"
+#include "Hooks/DInput8Hook.hpp"
 
 #include "../sdk/Attila/Lua/LuaRuntime.hpp"
 #include "../sdk/Attila/Lua/LuaGameEnvironment.hpp"
@@ -250,6 +251,13 @@ bool App::AttachHooks(DWORD empireDllAddr)
     if (!d3dOk)
     {
         spdlog::warn("D3D11 hook failed – Lua console will not be available");
+    }
+
+    // DirectInput8 hook – suppresses keyboard input to the game while console is open
+    auto dinputOk = Hooks::DInput8Hook::Attach();
+    if (!dinputOk)
+    {
+        spdlog::warn("DInput8 hook failed – keyboard input will not be blocked while console is open");
     }
 
     return true;

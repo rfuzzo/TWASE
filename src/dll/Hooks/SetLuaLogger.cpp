@@ -14,10 +14,10 @@ namespace
 {
 bool isAttached = false;
 
-void* _SetLuaLogger(char* Buffer);
-Hook<decltype(&_SetLuaLogger)> LuaLog_fnc(sdk::Attila::Addresses::LuaLog, &_SetLuaLogger);
+void* ScriptLog(char* Buffer);
+Hook<decltype(&ScriptLog)> LuaLog_fnc(sdk::Attila::Addresses::LuaLog, &ScriptLog);
 
-void* _SetLuaLogger(char* Buffer)
+void* ScriptLog(char* Buffer)
 {
     if (App::Get() && App::Get()->GetConfig() && App::Get()->GetConfig()->GetScripting().enableLogging)
     {

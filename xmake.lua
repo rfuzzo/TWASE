@@ -13,7 +13,7 @@ add_rules("mode.debug", "mode.release")
 local gameroot = os.getenv("TWASE_GAMEROOT") or [[D:/SteamLibrary/steamapps/common/Total War Attila]]
 
 add_requires("wil", "fmt", "spdlog", "toml11", "ordered_map", "microsoft-detours")
-add_requires("sol2", "lua") -- v5.1.5
+-- add_requires("sol2", "lua") -- v5.1.5
 add_requires("imgui v1.91.8-docking", {configs = {dx11 = true, win32 = true}})
 
 -- global settings
@@ -116,9 +116,9 @@ target("twase")
     set_pcxxheader("src/dll/stdafx.hpp")
 
     -- links
-    add_packages("wil", "fmt", "spdlog", "toml11", "ordered_map", "microsoft-detours", "imgui", "sol2", "lua")
+    add_packages("wil", "fmt", "spdlog", "toml11", "ordered_map", "microsoft-detours", "imgui", "lua")
 
-    add_syslinks("d3d11", "dxgi", "ntdll")
+    add_syslinks("d3d11", "dxgi", "dinput8", "ntdll")
 
     on_run(function (target)
         local gr = os.getenv("TWASE_GAMEROOT") or [[D:/SteamLibrary/steamapps/common/Total War Attila]]
