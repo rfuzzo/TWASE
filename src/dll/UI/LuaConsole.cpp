@@ -34,6 +34,8 @@ void LuaConsole::AddLogInternal(const char* text)
     std::lock_guard lock(m_logMutex);
     m_log.emplace_back(text);
     m_scrollToBottom = true;
+
+	spdlog::info("[LuaConsole] {}", text);
 }
 
 static void DrawContextSwitcher()
