@@ -31,7 +31,7 @@ void* ScriptLog(char* Buffer)
         spdlog::debug("[Lua] {}", Buffer);
 
         // also echo into the ImGui console
-        LuaConsole::Get().AddLog(Buffer);
+        LuaConsole::Get().AddLog(LuaConsole::LogLevel::Info, "%s", Buffer);
     }
 
     // call the original to ensure the original logging still works

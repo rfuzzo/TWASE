@@ -16,26 +16,24 @@ void LuaConsole::Toggle()
     m_open = !m_open;
 }
 
-void LuaConsole::AddLog(const char* fmt, ...)
+void LuaConsole::AddLog(LogLevel level, const char* fmt, ...)
 {
     char buf[1024];
     va_list args;
     va_start(args, fmt);
     vsnprintf(buf, sizeof(buf), fmt, args);
     va_end(args);
-    AddLogInternal(buf);
+    AddLogInternal(buf, level);
 }
 
-void LuaConsole::AddLogInternal(const char* text)
+void LuaConsole::AddLogInternal(const char* text, LogLevel level)
 {
     if (!text || text[0] == '\0')
         return;
 
     std::lock_guard lock(m_logMutex);
-    m_log.emplace_back(text);
+    m_log.push_back({ text, level });
     m_scrollToBottom = true;
-
-	spdlog::info("[LuaConsole] {}", text);
 }
 
 static void DrawContextSwitcher()
@@ -80,19 +78,20 @@ void LuaConsole::Draw()
         ImGuiWindowFlags_HorizontalScrollbar))
     {
         std::lock_guard lock(m_logMutex);
-        for (const auto& line : m_log)
+        for (const auto& entry : m_log)
         {
-            // Color errors red
-            if (line.find("[error]") != std::string::npos || line.find("Error") == 0)
+            ImVec4 color;
+            bool hasColor = true;
+            switch (entry.level)
             {
-                ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 0.4f, 0.4f, 1.0f));
-                ImGui::TextUnformatted(line.c_str());
-                ImGui::PopStyleColor();
+                case LogLevel::Error: color = ImVec4(1.0f, 0.4f, 0.4f, 1.0f); break;
+                case LogLevel::Warn:  color = ImVec4(1.0f, 0.85f, 0.0f, 1.0f); break;
+                case LogLevel::Debug: color = ImVec4(0.6f, 0.6f, 0.6f, 1.0f); break;
+                default: hasColor = false; break;
             }
-            else
-            {
-                ImGui::TextUnformatted(line.c_str());
-            }
+            if (hasColor) ImGui::PushStyleColor(ImGuiCol_Text, color);
+            ImGui::TextUnformatted(entry.text.c_str());
+            if (hasColor) ImGui::PopStyleColor();
         }
 
         if (m_scrollToBottom)
@@ -160,7 +159,7 @@ void LuaConsole::Draw()
     {
         if (m_inputBuf[0] != '\0')
         {
-            AddLog("> %s", m_inputBuf);
+            AddLog(LogLevel::Info, "> %s", m_inputBuf);
             ExecuteCommand(m_inputBuf);
             m_history.emplace_back(m_inputBuf);
             m_historyPos = -1;
