@@ -12,9 +12,6 @@
 #include "../../sdk/Attila/Addresses.hpp" 
 #include "../../sdk/Attila/ScriptInterface.hpp" 
 
-// empire.dll uses a custom luaBPrint function to log lua messages, it is essentially "fputs or custom sink".
-// We hook this and just add our spdlog to it, and pass the buffer back to the original.
-
 namespace
 {
 bool isAttached = false;
