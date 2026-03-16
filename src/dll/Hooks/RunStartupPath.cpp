@@ -70,7 +70,11 @@ static std::vector<std::string> EnumerateModFolders(const std::string campaignFo
         }
     }
 
-    // TODO: free results.entries via game allocator if needed
+    // free
+    if (results.entries) {
+        VFS::tw_free(results.entries);
+    }
+
     std::sort(mods.begin(), mods.end());
     return mods;
 }

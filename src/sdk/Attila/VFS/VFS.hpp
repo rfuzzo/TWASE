@@ -31,6 +31,7 @@ public:
         );
     typedef void* (__cdecl* VFS_GetInstance_t)();
     typedef CName* (__thiscall* CName_ctor_t)(CName* self, const char* str);
+    typedef void (__cdecl* tw_free_t)(void*);
 
 public: 
     static void* VFSGetInstance();
@@ -42,9 +43,15 @@ public:
         int flags = 0,
         int mode = 3
 	);
-	static CName* CName_ctor(CName* self, const char* str);
+	
+    static CName* CName_ctor(CName* self, const char* str);
+
+	static void tw_free(void* ptr);
+
 private:
     static VFS_GetInstance_t s_VFSGetInstance;
     static VFS_SearchFiles_t s_VFSSearchFiles;
+
     static CName_ctor_t s_CName_ctor;
+    static tw_free_t s_tw_free;
 };

@@ -17,6 +17,9 @@ namespace sdk::Attila::Addresses
 	// Names
 	constexpr uint32_t CName_ctor = 0xDAA40;
 
+	// base
+	constexpr uint32_t tw_free = 0xE4050;
+
 
 	// LUA
 	// Direct ScriptInterface* pointers
