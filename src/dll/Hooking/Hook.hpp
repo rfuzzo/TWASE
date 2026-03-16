@@ -33,7 +33,7 @@ public:
             return 0;
         }
 
-        // TODO resolve from RVA to absolute address
+        // resolve from RVA to absolute address
         DWORD moduleBase = App::Get()->GetEmpireDllAddr();
 		DWORD rva = reinterpret_cast<DWORD>(m_address);
 

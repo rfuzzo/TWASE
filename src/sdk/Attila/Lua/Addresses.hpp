@@ -16,4 +16,4 @@ namespace sdk::Attila::Lua
 	constexpr uint32_t Lua_getmetatable = 0x012BE450;
 	constexpr uint32_t Lua_remove = 0x012BEC80;
 
-} // namespace sdk::Lua
+} // namespace sdk::Attila::Lua
