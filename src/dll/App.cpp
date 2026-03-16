@@ -8,11 +8,13 @@
 #include "Hooking/DetourTransaction.hpp"
 
 #include "Hooks/SetLuaLogger.hpp"
+#include "Hooks/RunStartupPath.hpp"
 #include "Hooks/D3D11Hook.hpp"
 #include "Hooks/DInput8Hook.hpp"
 
 #include "../sdk/Attila/Lua/LuaRuntime.hpp"
 #include "../sdk/Attila/Lua/LuaGameEnvironment.hpp"
+#include "../sdk/Attila/VFS/VFS.hpp"
 
 #include <shellapi.h>
 
@@ -169,7 +171,7 @@ void App::Destruct()
     DetourTransaction transaction;
     if (transaction.IsValid())
     {
-        auto success = Hooks::LuaLogHook::Detach();
+        auto success = Hooks::LuaLogHook::Detach() && Hooks::RunStartupPathHook::Detach();
         if (success)
         {
             transaction.Commit();
@@ -226,6 +228,7 @@ bool App::AttachHooks(DWORD empireDllAddr)
     // Resolve Lua function pointers (non-hooked, called directly)
     LuaRuntime::Init(empireDllAddr);
     LuaGameEnvironment::Init(empireDllAddr);
+	VFS::Init(empireDllAddr);
 
     // Attach Detour hooks in a single transaction
     DetourTransaction transaction;
@@ -234,7 +237,7 @@ bool App::AttachHooks(DWORD empireDllAddr)
         return false;
     }
 
-    auto luaLogOk   = Hooks::LuaLogHook::Attach();
+    auto luaLogOk   = Hooks::LuaLogHook::Attach() && Hooks::RunStartupPathHook::Attach();
 
     if (!luaLogOk)
     {

@@ -4,14 +4,21 @@ namespace sdk::Attila::Addresses
 {
 	// hooks
 	constexpr uint32_t LuaLog = 0x01A4AAD0;
+	constexpr uint32_t RunStartupPath = 0x793B10;
 
 	// patches
 	constexpr uint32_t BitSetCrashAddr = 0x009150A7;
 
 
+	// VFS
+	constexpr uint32_t VFS_GetInstance = 0x1632750;
+	constexpr uint32_t VFS_SearchFiles = 0x160F640;
+
+	// Names
+	constexpr uint32_t CName_ctor = 0xDAA40;
 
 
-
+	// LUA
 	// Direct ScriptInterface* pointers
 	constexpr uint32_t g_BattleScriptInterface  = 0x1E63058;
 	constexpr uint32_t g_FrontendScriptInterface = 0x2365458;

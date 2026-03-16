@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Lua/LuaDefs.hpp"
+#include "VFSTypes.hpp"
 
 namespace sdk::Attila
 {
@@ -33,6 +34,24 @@ namespace sdk::Attila
         lua_State*      baseL;              
         int             registry_ref;       
                    
+    };
+
+    struct ScriptingEnv {
+        // Base ScriptInterface (0x18 bytes)
+        void* vtable;
+        void* runtime;
+        lua_State** parentState;
+        bool   field_0C;
+        char   _pad[3];
+        void   (*registerBindings)(lua_State*);
+        bool   owned;
+        char   _pad2[3];
+        // Sub-object at +0x18 (0x1C bytes, has its own vtable)
+        char   subObject[0x1C];
+        // Script path at +0x34
+        TempString scriptPath;
+        // Folder path at +0x40
+        TempString folderPath;
     };
 
 } // namespace sdk::Attila

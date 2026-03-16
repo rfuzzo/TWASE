@@ -7,20 +7,31 @@
 using namespace sdk::Attila;
 
 // static member definitions
+std::atomic<bool> LuaGameEnvironment::s_ready = false;
+
 RuntimeLuaNode **LuaGameEnvironment::s_listHead = nullptr;
 RuntimeLuaNode *LuaGameEnvironment::s_sentinel = nullptr;
 lua_State *LuaGameEnvironment::s_activeL = nullptr;
 std::string LuaGameEnvironment::s_activeContextName;
-std::atomic<bool> LuaGameEnvironment::s_ready = false;
+
+LuaGameEnvironment::GetLuaState_t LuaGameEnvironment::s_GetLuaState = nullptr;
 
 void LuaGameEnvironment::Init(uint32_t base)
 {
     s_listHead = reinterpret_cast<RuntimeLuaNode **>(base + Addresses::g_RuntimeLuaListHead);
     s_sentinel = reinterpret_cast<RuntimeLuaNode *>(base + Addresses::g_RuntimeLuaListSentinel);
 
+    s_GetLuaState = reinterpret_cast<GetLuaState_t>(base + Addresses::GetLuaState);
+
     spdlog::info("LuaGameEnvironment resolved all function pointers");
 
     s_ready.store(true, std::memory_order_release);
+}
+
+lua_State* LuaGameEnvironment::GetLuaState(void* scriptInterface)
+{
+    if (!s_GetLuaState || !scriptInterface) return nullptr;
+    return s_GetLuaState(scriptInterface);
 }
 
 std::vector<LuaContext> LuaGameEnvironment::GetActiveContexts()
@@ -108,11 +119,6 @@ bool LuaGameEnvironment::IsContextValid()
             return true;
     }
     return false;
-}
-
-bool LuaGameEnvironment::IsReady()
-{
-    return s_ready.load(std::memory_order_acquire);
 }
 
 std::vector<std::string> LuaGameEnvironment::GetTableEntries(lua_State* L, const std::string& tablePath, bool showTypes)
