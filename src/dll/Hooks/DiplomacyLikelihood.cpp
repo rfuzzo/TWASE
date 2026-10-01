@@ -10,7 +10,7 @@
 
 // The diplomacy panel only shows "Likelihood of success: Low/Moderate/High". The game computes a float deal score
 // (the AI accepts deals with score >= 0, the UI buckets it at -4 / +4) but only passes the bucket to the UI.
-// We capture the score when the UI estimate is computed and append it to the dy_chance text, e.g. "Low [-6.3]".
+// We capture the score when the UI estimate is computed and append it to the dy_chance text, e.g. "Low [-6]".
 
 using namespace sdk::Attila;
 
@@ -19,6 +19,7 @@ namespace
 bool isAttached = false;
 
 float lastScore = 0.0f;
+int lastBucket = 0;
 bool hasScore = false;
 
 // game functions called directly
@@ -37,6 +38,21 @@ Hook<decltype(&GetDealLikelihoodBucket)> GetDealLikelihoodBucket_fnc(Addresses::
                                                                      &GetDealLikelihoodBucket);
 Hook<decltype(&SetLikelihood)> SetLikelihood_fnc(Addresses::DiplomacyDropdown_SetLikelihood, &SetLikelihood);
 
+// the UI maps the bucket the same way (DiplomacyUI_OnDealLikelihoodEvent), unless it forces the likelihood,
+// e.g. a deal that is just a single gift from the player is always shown as high
+int BucketToLikelihood(int bucket)
+{
+    switch (bucket)
+    {
+    case 0:
+    case 1:
+    case 2: return -1;
+    case 3: return 0;
+    case 4: return 1;
+    default: return 0;
+    }
+}
+
 float __cdecl GetDisplayedDealScore(void* deal, int ctx, void* factionA, void* factionB)
 {
     auto score = GetDisplayedDealScore_fnc(deal, ctx, factionA, factionB);
@@ -50,6 +66,7 @@ int __fastcall GetDealLikelihoodBucket(void* self, void* edx, void* deal, int a3
     // the bucket function can return early without computing a score, don't show a stale one then
     hasScore = false;
     auto bucket = GetDealLikelihoodBucket_fnc(self, edx, deal, a3);
+    lastBucket = bucket;
 
     if (hasScore)
         spdlog::debug("[Diplomacy] deal {} bucket {} score {:.2f}", deal, bucket, lastScore);
@@ -100,9 +117,11 @@ int __fastcall SetLikelihood(void* self, void* edx, int likelihood, bool show)
 {
     auto result = SetLikelihood_fnc(self, edx, likelihood, show);
 
-    spdlog::debug("[Diplomacy] ui likelihood {} show {} has score {}", likelihood, show, hasScore);
+    // only show the score if the displayed likelihood actually comes from it, not when the UI forced it
+    auto fromScore = hasScore && likelihood == BucketToLikelihood(lastBucket);
+    spdlog::debug("[Diplomacy] ui likelihood {} show {} from score {}", likelihood, show, fromScore);
 
-    if (self && hasScore && likelihood != -2)
+    if (self && fromScore && likelihood != -2)
     {
         AppendScoreToLikelihoodText(self, lastScore);
     }
