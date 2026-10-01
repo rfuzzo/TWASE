@@ -109,9 +109,9 @@ void UpdateLikelihoodTooltip(void* dropdown, const float* score)
 
     if (score)
     {
-        // floor so the displayed value is >= 0 exactly when the AI would accept (score >= 0)
+        // floor to one decimal so the displayed value is >= 0 exactly when the AI would accept (score >= 0)
         wchar_t line[64];
-        swprintf_s(line, L"%s%+d", ScoreTooltipPrefix, static_cast<int>(std::floor(*score)));
+        swprintf_s(line, L"%s%+.1f", ScoreTooltipPrefix, std::floor(*score * 10.0f) / 10.0f);
         tooltip += line;
     }
 
