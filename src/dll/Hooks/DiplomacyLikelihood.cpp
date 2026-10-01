@@ -10,7 +10,7 @@
 
 // The diplomacy panel only shows "Likelihood of success: Low/Moderate/High". The game computes a float deal score
 // (the AI accepts deals with score >= 0, the UI buckets it at -4 / +4) but only passes the bucket to the UI.
-// We capture the score when the UI estimate is computed and append it to the dy_chance text, e.g. "Low [-6]".
+// We capture the score when the UI estimate is computed and add it to the dy_chance tooltip, e.g. "Deal score: -6".
 
 using namespace sdk::Attila;
 
@@ -23,7 +23,7 @@ int lastBucket = 0;
 bool hasScore = false;
 
 // game functions called directly
-using UIComponent_SetText_t = void(__thiscall*)(void* component, const WString* text, bool allStates);
+using UIComponent_SetTooltipText_t = void(__thiscall*)(void* component, const WString* text, bool allStates);
 using WString_ctor_t = WString*(__thiscall*)(WString* self, const wchar_t* str);
 using WString_dtor_t = void(__thiscall*)(WString* self);
 
@@ -76,7 +76,15 @@ int __fastcall GetDealLikelihoodBucket(void* self, void* edx, void* deal, int a3
     return bucket;
 }
 
-void AppendScoreToLikelihoodText(void* dropdown, float score)
+constexpr const wchar_t* ScoreTooltipPrefix = L"\n\nDeal score: ";
+
+std::wstring ToStdString(const WString* str)
+{
+    return (str->data && str->length > 0) ? std::wstring(str->data, str->length) : std::wstring();
+}
+
+// adds the score to the tooltip of the current dy_chance state, or only removes the one we added before if score is null
+void UpdateLikelihoodTooltip(void* dropdown, const float* score)
 {
     auto base = static_cast<uintptr_t>(App::Get()->GetEmpireDllAddr());
 
@@ -88,29 +96,36 @@ void AppendScoreToLikelihoodText(void* dropdown, float score)
     if (!state)
         return;
 
-    // the text is stored per state, strip the suffix we added last time this state was shown
-    auto current = reinterpret_cast<const WString*>(state + UIState_TextOffset);
-    std::wstring text = (current->data && current->length > 0) ? std::wstring(current->data, current->length) : L"";
-    if (!text.empty() && text.back() == L']')
+    // the tooltip is stored per state and falls back to the component tooltip (UIComponent_GetTooltipText)
+    auto tooltip = ToStdString(reinterpret_cast<const WString*>(state + UIState_TooltipOffset));
+    if (tooltip.empty())
+        tooltip = ToStdString(reinterpret_cast<const WString*>(component + UIComponent_TooltipOffset));
+
+    // strip the line we added last time this state was shown
+    auto original = tooltip;
+    auto pos = tooltip.rfind(ScoreTooltipPrefix);
+    if (pos != std::wstring::npos)
+        tooltip.erase(pos);
+
+    if (score)
     {
-        auto pos = text.rfind(L" [");
-        if (pos != std::wstring::npos)
-            text.erase(pos);
+        // floor so the displayed value is >= 0 exactly when the AI would accept (score >= 0)
+        wchar_t line[64];
+        swprintf_s(line, L"%s%+d (accepted at 0 or higher)", ScoreTooltipPrefix, static_cast<int>(std::floor(*score)));
+        tooltip += line;
     }
 
-    // floor so the displayed value is >= 0 exactly when the AI would accept (score >= 0)
-    wchar_t suffix[32];
-    swprintf_s(suffix, L" [%+d]", static_cast<int>(std::floor(score)));
-    text += suffix;
+    if (tooltip == original)
+        return;
 
     auto wstringCtor = reinterpret_cast<WString_ctor_t>(base + Addresses::WString_ctor);
     auto wstringDtor = reinterpret_cast<WString_dtor_t>(base + Addresses::WString_dtor);
-    auto setText = reinterpret_cast<UIComponent_SetText_t>(base + Addresses::UIComponent_SetText);
+    auto setTooltip = reinterpret_cast<UIComponent_SetTooltipText_t>(base + Addresses::UIComponent_SetTooltipText);
 
-    WString newText;
-    wstringCtor(&newText, text.c_str());
-    setText(component, &newText, false);
-    wstringDtor(&newText);
+    WString newTooltip;
+    wstringCtor(&newTooltip, tooltip.c_str());
+    setTooltip(component, &newTooltip, false);
+    wstringDtor(&newTooltip);
 }
 
 int __fastcall SetLikelihood(void* self, void* edx, int likelihood, bool show)
@@ -121,9 +136,9 @@ int __fastcall SetLikelihood(void* self, void* edx, int likelihood, bool show)
     auto fromScore = hasScore && likelihood == BucketToLikelihood(lastBucket);
     spdlog::debug("[Diplomacy] ui likelihood {} show {} from score {}", likelihood, show, fromScore);
 
-    if (self && fromScore && likelihood != -2)
+    if (self && likelihood != -2)
     {
-        AppendScoreToLikelihoodText(self, lastScore);
+        UpdateLikelihoodTooltip(self, fromScore ? &lastScore : nullptr);
     }
 
     return result;

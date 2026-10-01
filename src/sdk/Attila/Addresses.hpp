@@ -60,6 +60,9 @@ namespace sdk::Attila::Addresses
 	// void (__thiscall*)(UIComponent* this, const WString* text, bool allStates)
 	constexpr uint32_t UIComponent_SetText = 0x13B8B40;
 
+	// void (__thiscall*)(UIComponent* this, const WString* text, bool allStates)
+	constexpr uint32_t UIComponent_SetTooltipText = 0x13B9A00;
+
 	// WString* (__thiscall*)(WString* this, const wchar_t* str)
 	constexpr uint32_t WString_ctor = 0xDFEF0;
 
