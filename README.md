@@ -4,7 +4,7 @@ A Total War: Attila Script extender similar to and heavily based on [RED4ext](ht
 
 ## Features
 
-- In-game debug console for logging and executing Lua code (toggle with `~`)
+- In-game debug console for logging and executing Lua code (toggle with the key below `Esc`, e.g. `~` on US or `^` on German layouts)
 - Captures the game's Lua log output and forwards it to the console and log files
 - Auto-loads mods from `<campaign_folder>/mods/*/scripting.lua`
 - Patches memory in the game to fix crashes and issues
