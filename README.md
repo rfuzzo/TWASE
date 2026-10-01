@@ -89,3 +89,14 @@ wait_for_debugger = false
 
 The xmake contains a post-build step which will copy the built DLL to the `TWASE` folder in your game directory. You can change this path in `xmake.lua`.
 The game directory can also be specified via the `TWASE_GAMEROOT` environment variable.
+
+## Releasing
+
+Every push to `main` updates the zip on the [nightly release](https://github.com/rfuzzo/TWASE/releases/tag/nightly).
+
+To publish a versioned release:
+
+1. Bump the version in `src/dll/Version.hpp` and merge it to `main`
+2. Tag the commit and push the tag, e.g. `git tag v1.1.0 && git push origin v1.1.0`
+
+The CI builds the tag and creates the release `TWASE v1.1.0` with `TWASE-v1.1.0.zip` and notes generated from the merged PRs. The build fails if the tag doesn't match `TWASE_VERSION_STR`.
