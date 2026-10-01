@@ -241,15 +241,17 @@ std::wstring Utils::ToLower(const std::wstring& acText)
 }
 
 void MemoryUtils::writeBytesUnprotected(DWORD address, const BYTE* value, size_t count) {
+    // keep the page executable, other threads may run code on the same page while we write
     DWORD oldProtect;
-    VirtualProtect((DWORD*)address, count, PAGE_READWRITE, &oldProtect);
+    VirtualProtect((DWORD*)address, count, PAGE_EXECUTE_READWRITE, &oldProtect);
     memmove_s((void*)address, count, value, count);
     VirtualProtect((DWORD*)address, count, oldProtect, &oldProtect);
+    FlushInstructionCache(GetCurrentProcess(), (void*)address, count);
 }
 
 void MemoryUtils::readBytesUnprotected(DWORD address, const BYTE* value, size_t count) {
     DWORD oldProtect;
-    VirtualProtect((DWORD*)address, count, PAGE_READWRITE, &oldProtect);
+    VirtualProtect((DWORD*)address, count, PAGE_EXECUTE_READWRITE, &oldProtect);
     memmove_s((void*)value, count, (void*)address, count);
     VirtualProtect((DWORD*)address, count, oldProtect, &oldProtect);
 }

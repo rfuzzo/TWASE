@@ -16,7 +16,9 @@ namespace
 {
 bool isAttached = false;
 
-void RunStartupPath(sdk::Attila::ScriptingEnv* self);
+// __thiscall in the game (this in ecx, no stack args), hooked as __fastcall with an unused edx
+int __fastcall RunStartupPath(sdk::Attila::ScriptingEnv* self, void* edx);
+void LoadMods(sdk::Attila::ScriptingEnv* self);
 Hook<decltype(&RunStartupPath)> RunStartupPathHook_fnc(sdk::Attila::Addresses::RunStartupPath, &RunStartupPath);
 
 static std::vector<std::string> EnumerateModFolders(const std::string campaignFolder)
@@ -76,10 +78,15 @@ static std::vector<std::string> EnumerateModFolders(const std::string campaignFo
     return mods;
 }
 
-void RunStartupPath(sdk::Attila::ScriptingEnv* self)
+int __fastcall RunStartupPath(sdk::Attila::ScriptingEnv* self, void* edx)
 {
-    RunStartupPathHook_fnc(self);
+    auto result = RunStartupPathHook_fnc(self, edx);
+    LoadMods(self);
+    return result;
+}
 
+void LoadMods(sdk::Attila::ScriptingEnv* self)
+{
     if (App::Get() && App::Get()->GetConfig() && App::Get()->GetConfig()->GetScripting().autoLoadMods)
     {
         lua_State* L = LuaGameEnvironment::GetLuaState(self);
