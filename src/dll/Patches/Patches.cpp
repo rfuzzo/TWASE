@@ -3,6 +3,39 @@
 #include "../Utils.hpp"
 #include "../../sdk/Attila/Addresses.hpp"
 
+namespace
+{
+// Writes aPatch at aAddress only if the bytes there match aExpected, so a game update can't make us corrupt code.
+bool PatchBytes(const char* aName, DWORD aAddress, const BYTE* aExpected, const BYTE* aPatch, size_t aCount)
+{
+    std::vector<BYTE> current(aCount);
+    MemoryUtils::readBytesUnprotected(aAddress, current.data(), aCount);
+
+    if (std::memcmp(current.data(), aPatch, aCount) == 0)
+    {
+        spdlog::info("{} is already applied at {}", aName, reinterpret_cast<void*>(aAddress));
+        return true;
+    }
+
+    if (std::memcmp(current.data(), aExpected, aCount) != 0)
+    {
+        std::string bytes;
+        for (auto b : current)
+        {
+            bytes += fmt::format("{:02X} ", b);
+        }
+
+        spdlog::warn("{} skipped: unexpected bytes at {} ({}), the game version is probably not supported", aName,
+                     reinterpret_cast<void*>(aAddress), bytes);
+        return false;
+    }
+
+    MemoryUtils::writeBytesUnprotected(aAddress, aPatch, aCount);
+    spdlog::info("Applied {} at {}", aName, reinterpret_cast<void*>(aAddress));
+    return true;
+}
+} // namespace
+
 // Empire patches
 void Patches::ApplyEmpirePatches(DWORD empireDllAddr)
 {
@@ -14,51 +47,26 @@ void Patches::ApplyEmpirePatches(DWORD empireDllAddr)
 /// <summary>
 /// Patches a crash in empire.retail.dll when too many units are spawned.
 /// </summary>
-/// <param name="empireDllAddr"></param>
+/// <remarks>
+/// sub_1091C900 builds a std::bitset&lt;64&gt; mask (all bits set, a callback clears the entries to exclude) and
+/// iterates a list of entries, calling bitset::test(index) for each one. With more than 64 entries test() throws
+/// "invalid bitset&lt;N&gt; position", which crashes the game.
+///
+///   0091CB57  cmp  edi, 40h
+///   0091CB5A  jnb  loc_1091CD10    ; index >= 64 -> throw
+///   ...                            ; test the bit, set -> include (0091CB95), clear -> exclude (0091CB8B)
+///
+/// We only retarget the jnb to the include branch, so entries 0-63 behave as before and entries 64+ use the
+/// default of the mask (included) instead of throwing. Nothing else is moved, unlike the previous patch which
+/// widened the cmp and overwrote the bit index computation.
+/// </remarks>
 void Patches::ApplyUnitSizePatch(DWORD empireDllAddr)
 {
-   /* 
-   >empire.retail.dll
-   009150A7: 83->81
-   009150A8: FF->FF
-   009150A9: 40->00
-   009150AA: 0F->01
+    // cmp edi, 40h ; jnb loc_1091CD10
+    const BYTE expected[] = { 0x83, 0xFF, 0x40, 0x0F, 0x83, 0xB0, 0x01, 0x00, 0x00 };
+    // cmp edi, 40h ; jnb loc_1091CB95 (0x91CB95 - 0x91CB60 = 0x35)
+    const BYTE patch[]    = { 0x83, 0xFF, 0x40, 0x0F, 0x83, 0x35, 0x00, 0x00, 0x00 };
 
-   009150AB: 83->00
-   009150AC: B0->00
-   009150AD: 01->0F
-   009150AE: 00->83
-   
-   009150AF: 00->B0
-   009150B0: 33->01
-   009150B1: D2->00
-   009150B2: 33->00
-   
-   009150B3: C9->33
-   009150B4: 8B->D2
-   009150B5: C7->33
-   009150B6: 83->C9
-   */
-
-    const BYTE patchBitSetCrashArgs0[] = { 
-        0x81, 0xFF, 0x00, 0x01, 
-		0x00, 0x00, 0x0F, 0x83, 
-		0xB0, 0x01, 0x00, 0x00, 
-		0x33, 0xD2, 0x33, 0xC9 };
-
-#ifdef _DEBUG
-	// debug: read original bytes and print
-	BYTE originalBytes[sizeof(patchBitSetCrashArgs0)] = { 0 };
-	MemoryUtils::readBytesUnprotected(empireDllAddr + sdk::Attila::Addresses::BitSetCrashAddr, originalBytes, sizeof(originalBytes));
-	spdlog::trace("Original bytes at empire.retail.dll + 0x{:08X}:", sdk::Attila::Addresses::BitSetCrashAddr);
-	for (size_t i = 0; i < sizeof(originalBytes); i++)
-	{
-		spdlog::trace("  0x{:02X}", originalBytes[i]);
-	}
-#endif
-
-    MemoryUtils::writeBytesUnprotected(empireDllAddr + sdk::Attila::Addresses::BitSetCrashAddr, patchBitSetCrashArgs0, sizeof(patchBitSetCrashArgs0));
-
-    spdlog::info("Applied unit size patch to empire.retail.dll at address {}", 
-		reinterpret_cast<void*>(empireDllAddr + sdk::Attila::Addresses::BitSetCrashAddr));
+    PatchBytes("unit size patch", empireDllAddr + sdk::Attila::Addresses::BitSetCrashAddr, expected, patch,
+               sizeof(patch));
 }
