@@ -9,6 +9,7 @@
 
 #include "Hooks/SetLuaLogger.hpp"
 #include "Hooks/RunStartupPath.hpp"
+#include "Hooks/DiplomacyLikelihood.hpp"
 #include "Hooks/D3D11Hook.hpp"
 #include "Hooks/DInput8Hook.hpp"
 
@@ -171,7 +172,8 @@ void App::Destruct()
     DetourTransaction transaction;
     if (transaction.IsValid())
     {
-        auto success = Hooks::LuaLogHook::Detach() && Hooks::RunStartupPathHook::Detach();
+        auto success = Hooks::LuaLogHook::Detach() && Hooks::RunStartupPathHook::Detach() &&
+                       Hooks::DiplomacyLikelihoodHook::Detach();
         if (success)
         {
             transaction.Commit();
@@ -237,7 +239,8 @@ bool App::AttachHooks(DWORD empireDllAddr)
         return false;
     }
 
-    auto luaLogOk   = Hooks::LuaLogHook::Attach() && Hooks::RunStartupPathHook::Attach();
+    auto luaLogOk   = Hooks::LuaLogHook::Attach() && Hooks::RunStartupPathHook::Attach() &&
+                      Hooks::DiplomacyLikelihoodHook::Attach();
 
     if (!luaLogOk)
     {

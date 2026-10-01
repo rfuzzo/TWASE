@@ -42,4 +42,28 @@ namespace sdk::Attila::Addresses
 	// lua_State* (__thiscall*)(void* thisPtr)
 	constexpr uint32_t GetLuaState = 0x1626AA0;
 
+
+	// DIPLOMACY
+	// float (__cdecl*)(void* deal, int ctx, void* factionA, void* factionB)
+	// UI-only wrapper around the deal evaluator, AI accepts deals with score >= 0
+	constexpr uint32_t Diplo_GetDisplayedDealScore = 0xA6E980;
+
+	// int (__thiscall*)(void* caiModule, void* deal, int)
+	// buckets the score: <= LOW tweaker (-4) low, >= HIGH tweaker (4) high, else moderate
+	constexpr uint32_t CAI_GetDealLikelihoodBucket = 0xD2A7A0;
+
+	// int (__thiscall*)(DiplomacyDropdown* this, int likelihood (-1/0/1, -2 hidden), bool show)
+	constexpr uint32_t DiplomacyDropdown_SetLikelihood = 0x14F95A0;
+
+
+	// UI
+	// void (__thiscall*)(UIComponent* this, const WString* text, bool allStates)
+	constexpr uint32_t UIComponent_SetText = 0x13B8B40;
+
+	// WString* (__thiscall*)(WString* this, const wchar_t* str)
+	constexpr uint32_t WString_ctor = 0xDFEF0;
+
+	// void (__thiscall*)(WString* this)
+	constexpr uint32_t WString_dtor = 0xE0720;
+
 } // namespace sdk::Attila::Addresses
