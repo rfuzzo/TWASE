@@ -60,12 +60,18 @@ public:
     const PluginsConfig& GetPlugins() const;
     const ScriptConfig& GetScripting() const;
     const TweaksConfig& GetTweaks() const;
+    TweaksConfig& GetTweaks();
+
+    // Writes the current values to the config file, keeping the user's comments and layout. Returns false on error.
+    bool Save();
+
 private:
     void Load(const std::filesystem::path& aFile);
-    void Save(const std::filesystem::path& aFile);
+    bool Save(const std::filesystem::path& aFile, std::string& aError);
 
     void LoadV0(const toml::value& aConfig);
 
+    std::filesystem::path m_file;
     size_t m_version;
 
     DevConfig m_dev;

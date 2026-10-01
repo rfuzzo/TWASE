@@ -100,7 +100,11 @@ App::App()
     const auto& pluginsConfig = m_config.GetPlugins();
     spdlog::debug("  plugins.enabled: {}", pluginsConfig.isEnabled);
 
-    const auto& tweaksConfig = m_config.GetTweaks();
+    const auto& scriptingConfig = m_config.GetScripting();
+    spdlog::debug("  scripting.enable_logging: {}", scriptingConfig.enableLogging);
+    spdlog::debug("  scripting.auto_load_mods: {}", scriptingConfig.autoLoadMods);
+
+    const auto& tweaksConfig = std::as_const(m_config).GetTweaks();
     spdlog::debug("  tweaks.diplomacy_deal_score: {}", tweaksConfig.diplomacyDealScore);
 
     /* const auto& ignored = pluginsConfig.ignored;
@@ -220,6 +224,11 @@ const Paths* App::GetPaths() const
 }
 
 const Config* App::GetConfig() const
+{
+    return &m_config;
+}
+
+Config* App::GetConfig()
 {
     return &m_config;
 }

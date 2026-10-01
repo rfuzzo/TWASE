@@ -5,12 +5,13 @@
 #define DEFAULT_TOML_EXCEPTION_MSG "An exception occured while parsing the config file:\n\n{}\n\nFile: {}"
 
 Config::Config(const Paths& aPaths)
-    : m_version(0)
+    : m_file(aPaths.GetConfigFile())
+    , m_version(0)
     , m_dev()
     , m_logging()
     , m_plugins()
 {
-    const auto file = aPaths.GetConfigFile();
+    const auto& file = m_file;
 
     std::error_code err;
     if (std::filesystem::exists(file, err))
@@ -27,7 +28,13 @@ Config::Config(const Paths& aPaths)
     }
     else
     {
-        Save(file);
+        std::string error;
+        if (!Save(file, error))
+        {
+            SHOW_MESSAGE_BOX_FILE_LINE(MB_ICONWARNING | MB_OK,
+                                       "An exception occured while saving the config file:\n\n{}\n\nFile: {}",
+                                       Utils::Widen(error), file.c_str());
+        }
     }
 }
 
@@ -57,6 +64,11 @@ const Config::ScriptConfig& Config::GetScripting() const
 }
 
 const Config::TweaksConfig& Config::GetTweaks() const
+{
+    return m_tweaks;
+}
+
+Config::TweaksConfig& Config::GetTweaks()
 {
     return m_tweaks;
 }
@@ -96,40 +108,118 @@ void Config::Load(const std::filesystem::path& aFile)
     }
 }
 
-void Config::Save(const std::filesystem::path& aFile)
+namespace
 {
-    // TOOD MB
-    /*try
+toml::ordered_value& GetSection(toml::ordered_value& aConfig, const std::string& aName)
+{
+    auto& section = aConfig[aName];
+    if (!section.is_table())
     {
-        using ordered_value = toml::basic_value<toml::preserve_comments, tsl::ordered_map>;
+        section = toml::ordered_table{};
+    }
 
-        auto logLevel = spdlog::level::to_string_view(m_logging.level).data();
-        auto flushOn = spdlog::level::to_string_view(m_logging.flushOn).data();
+    return section;
+}
 
-        ordered_value config{
-            {"version", LatestVersion},
-            {"logging", ordered_value{{"level", logLevel},
-                                      {"flush_on", flushOn},
-                                      {"max_files", m_logging.maxFiles},
-                                      {"max_file_size", m_logging.maxFileSize}}},
+// sets the value in place so existing comments and formatting are kept, new keys get the comment
+template<typename T>
+void SetValue(toml::ordered_value& aTable, const std::string& aKey, const T& aValue, const char* aComment = nullptr)
+{
+    const auto isNew = !aTable.contains(aKey);
 
-            {"plugins", ordered_value{{"enabled", m_plugins.isEnabled}, {"ignored", std::vector<std::string>{}}}},
-            {"dev", ordered_value{{"console", m_dev.hasConsole}, {"wait_for_debugger", m_dev.waitForDebugger}}}};
+    auto& value = aTable[aKey];
+    value = aValue;
 
-        config.comments().push_back(
-            " See https://docs.red4ext.com/getting-started/configuration for more options or information.");
+    if (isNew && aComment)
+    {
+        value.comments().push_back(std::string(" ") + aComment);
+    }
+}
 
-        std::ofstream file(aFile, std::ios::out);
-        file.exceptions(std::ostream::badbit | std::ostream::failbit);
+std::string LevelToString(spdlog::level::level_enum aLevel)
+{
+    auto name = spdlog::level::to_string_view(aLevel);
+    return std::string(name.data(), name.size());
+}
+} // namespace
 
-        file << config;
+bool Config::Save()
+{
+    std::string error;
+    if (!Save(m_file, error))
+    {
+        spdlog::error("Could not save the config file '{}': {}", m_file.string(), error);
+        return false;
+    }
+
+    spdlog::info("Saved the config file '{}'", m_file.string());
+    return true;
+}
+
+bool Config::Save(const std::filesystem::path& aFile, std::string& aError)
+{
+    try
+    {
+        // update the existing file so the user's comments and layout are kept
+        toml::ordered_value config(toml::ordered_table{});
+
+        std::error_code err;
+        if (std::filesystem::exists(aFile, err))
+        {
+            config = toml::parse<toml::ordered_type_config>(aFile);
+        }
+        else
+        {
+            config.comments().push_back(" TWASE configuration, see the README for all options.");
+        }
+
+        SetValue(config, "version", static_cast<std::int64_t>(LatestVersion));
+
+        auto& logging = GetSection(config, "logging");
+        SetValue(logging, "level", LevelToString(m_logging.level), "trace, debug, info, warn, err, critical, off");
+        SetValue(logging, "flush_on", LevelToString(m_logging.flushOn));
+        SetValue(logging, "max_files", static_cast<std::int64_t>(m_logging.maxFiles));
+        SetValue(logging, "max_file_size", static_cast<std::int64_t>(m_logging.maxFileSize), "MB");
+
+        auto& scripting = GetSection(config, "scripting");
+        SetValue(scripting, "enable_logging", m_scripting.enableLogging,
+                 "Forward game Lua log output to the console and log files");
+        SetValue(scripting, "auto_load_mods", m_scripting.autoLoadMods,
+                 "Auto-load mods from <campaign_folder>/mods/*/scripting.lua");
+
+        auto& tweaks = GetSection(config, "tweaks");
+        SetValue(tweaks, "diplomacy_deal_score", m_tweaks.diplomacyDealScore,
+                 "Show the AI deal score in the diplomacy likelihood tooltip");
+
+        auto& plugins = GetSection(config, "plugins");
+        SetValue(plugins, "enabled", m_plugins.isEnabled);
+        if (!plugins.contains("ignored"))
+        {
+            // the ignored list is never changed at runtime, keep whatever the file has
+            plugins["ignored"] = toml::ordered_array{};
+        }
+
+        auto& dev = GetSection(config, "dev");
+        SetValue(dev, "console", m_dev.hasConsole);
+        SetValue(dev, "wait_for_debugger", m_dev.waitForDebugger);
+
+        // write to a temporary file first so a failed write doesn't destroy the config
+        auto tempFile = aFile;
+        tempFile += L".tmp";
+        {
+            std::ofstream file(tempFile, std::ios::out | std::ios::trunc);
+            file.exceptions(std::ostream::badbit | std::ostream::failbit);
+            file << toml::format(config);
+        }
+
+        std::filesystem::rename(tempFile, aFile);
+        return true;
     }
     catch (const std::exception& e)
     {
-        SHOW_MESSAGE_BOX_FILE_LINE(MB_ICONWARNING | MB_OK,
-                                   "An exception occured while saving the config file:\n\n{}\n\nFile: {}",
-                                   Utils::Widen(e.what()), aFile);
-    }*/
+        aError = e.what();
+        return false;
+    }
 }
 
 void Config::LoadV0(const toml::value& aConfig)
@@ -139,6 +229,7 @@ void Config::LoadV0(const toml::value& aConfig)
     m_dev.LoadV0(aConfig);
     m_logging.LoadV0(aConfig);
     m_plugins.LoadV0(aConfig);
+    m_scripting.LoadV0(aConfig);
     m_tweaks.LoadV0(aConfig);
 }
 
