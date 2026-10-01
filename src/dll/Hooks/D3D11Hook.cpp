@@ -39,11 +39,20 @@ extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam
 // ============================================================================
 static LRESULT WINAPI HookedWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-    // Toggle console with the tilde/grave key
-    if (msg == WM_KEYDOWN && wParam == VK_OEM_3) // ~ key
+    // Toggle console with the key below Esc (~ on US, ^ on DE, ...).
+    // Match the scan code instead of VK_OEM_3, which maps to a different key on non-US layouts.
+    constexpr UINT kConsoleScanCode = 0x29;
+    const UINT scanCode = (static_cast<UINT>(lParam) >> 16) & 0xFF;
+    if (scanCode == kConsoleScanCode)
     {
-        LuaConsole::Get().Toggle();
-        return 0;
+        if (msg == WM_KEYDOWN && !(lParam & (1 << 30))) // ignore auto-repeat
+        {
+            LuaConsole::Get().Toggle();
+            return 0;
+        }
+        // swallow the matching key up / char / dead-char so it doesn't reach the game or the input box
+        if (msg == WM_KEYDOWN || msg == WM_KEYUP || msg == WM_CHAR || msg == WM_DEADCHAR)
+            return 0;
     }
 
     // When console is open, let ImGui consume input
