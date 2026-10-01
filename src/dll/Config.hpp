@@ -25,6 +25,13 @@ public:
         bool autoLoadMods = true;
     };
 
+    struct TweaksConfig
+    {
+        void LoadV0(const toml::value& aConfig);
+
+        bool diplomacyDealScore = true;
+    };
+
     struct LoggingConfig
     {
         void LoadV0(const toml::value& aConfig);
@@ -52,6 +59,7 @@ public:
     const LoggingConfig& GetLogging() const;
     const PluginsConfig& GetPlugins() const;
     const ScriptConfig& GetScripting() const;
+    const TweaksConfig& GetTweaks() const;
 private:
     void Load(const std::filesystem::path& aFile);
     void Save(const std::filesystem::path& aFile);
@@ -64,4 +72,5 @@ private:
     LoggingConfig m_logging;
     PluginsConfig m_plugins;
     ScriptConfig m_scripting;
+    TweaksConfig m_tweaks;
 };

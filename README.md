@@ -8,6 +8,11 @@ A Total War: Attila Script extender similar to and heavily based on [RED4ext](ht
 - Captures the game's Lua log output and forwards it to the console and log files
 - Auto-loads mods from `<campaign_folder>/mods/*/scripting.lua`
 - Patches memory in the game to fix crashes and issues
+- Optional tweaks, toggleable in the console window's *Tweaks* tab (defaults in `[tweaks]` in the config)
+
+### Tweaks
+
+- [x] Diplomacy deal score: adds the AI's deal score to the "Likelihood of success" tooltip in the diplomacy panel. The AI accepts deals with a score of 0 or higher.
 
 ### Console Commands
 
@@ -63,6 +68,9 @@ max_file_size = 10    # MB
 [scripting]
 enable_logging = true   # Forward game Lua log output to the console and log files
 auto_load_mods = true   # Auto-load mods from <campaign_folder>/mods/*/scripting.lua
+
+[tweaks]
+diplomacy_deal_score = true   # Show the AI deal score in the diplomacy likelihood tooltip
 
 [plugins]
 enabled = true

@@ -3,6 +3,7 @@
 #include <cmath>
 
 #include "../App.hpp"
+#include "../Config.hpp"
 #include "../Hooking/Hook.hpp"
 
 #include "../../sdk/Attila/Addresses.hpp"
@@ -17,6 +18,7 @@ using namespace sdk::Attila;
 namespace
 {
 bool isAttached = false;
+std::atomic<bool> isEnabled = true;
 
 float lastScore = 0.0f;
 int lastBucket = 0;
@@ -138,16 +140,30 @@ int __fastcall SetLikelihood(void* self, void* edx, int likelihood, bool show)
 
     if (self && likelihood != -2)
     {
-        UpdateLikelihoodTooltip(self, fromScore ? &lastScore : nullptr);
+        // when disabled this still strips a score we added before
+        UpdateLikelihoodTooltip(self, isEnabled && fromScore ? &lastScore : nullptr);
     }
 
     return result;
 }
 } // namespace
 
+bool Hooks::DiplomacyLikelihoodHook::IsEnabled()
+{
+    return isEnabled;
+}
+
+void Hooks::DiplomacyLikelihoodHook::SetEnabled(bool aEnabled)
+{
+    isEnabled = aEnabled;
+    spdlog::info("Diplomacy deal score tooltip {}", aEnabled ? "enabled" : "disabled");
+}
+
 bool Hooks::DiplomacyLikelihoodHook::Attach()
 {
     spdlog::trace("Trying to attach the diplomacy likelihood hooks...");
+
+    isEnabled = App::Get()->GetConfig()->GetTweaks().diplomacyDealScore;
 
     auto result = GetDisplayedDealScore_fnc.Attach();
     if (result == NO_ERROR)

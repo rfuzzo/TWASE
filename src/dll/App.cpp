@@ -100,6 +100,9 @@ App::App()
     const auto& pluginsConfig = m_config.GetPlugins();
     spdlog::debug("  plugins.enabled: {}", pluginsConfig.isEnabled);
 
+    const auto& tweaksConfig = m_config.GetTweaks();
+    spdlog::debug("  tweaks.diplomacy_deal_score: {}", tweaksConfig.diplomacyDealScore);
+
     /* const auto& ignored = pluginsConfig.ignored;
     if (ignored.empty())
     {

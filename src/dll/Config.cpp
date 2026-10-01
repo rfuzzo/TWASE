@@ -56,6 +56,11 @@ const Config::ScriptConfig& Config::GetScripting() const
     return m_scripting;
 }
 
+const Config::TweaksConfig& Config::GetTweaks() const
+{
+    return m_tweaks;
+}
+
 void Config::Load(const std::filesystem::path& aFile)
 {
     try
@@ -134,6 +139,7 @@ void Config::LoadV0(const toml::value& aConfig)
     m_dev.LoadV0(aConfig);
     m_logging.LoadV0(aConfig);
     m_plugins.LoadV0(aConfig);
+    m_tweaks.LoadV0(aConfig);
 }
 
 void Config::DevConfig::LoadV0(const toml::value& aConfig)
@@ -146,6 +152,11 @@ void Config::ScriptConfig::LoadV0(const toml::value& aConfig)
 {
     enableLogging = toml::find_or(aConfig, "scripting", "enable_logging", enableLogging);
     autoLoadMods = toml::find_or(aConfig, "scripting", "auto_load_mods", autoLoadMods);
+}
+
+void Config::TweaksConfig::LoadV0(const toml::value& aConfig)
+{
+    diplomacyDealScore = toml::find_or(aConfig, "tweaks", "diplomacy_deal_score", diplomacyDealScore);
 }
 
 void Config::LoggingConfig::LoadV0(const toml::value& aConfig)
