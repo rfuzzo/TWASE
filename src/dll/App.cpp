@@ -9,6 +9,7 @@
 
 #include "Hooks/SetLuaLogger.hpp"
 #include "Hooks/RunStartupPath.hpp"
+#include "Hooks/DiplomacyLikelihood.hpp"
 #include "Hooks/D3D11Hook.hpp"
 #include "Hooks/DInput8Hook.hpp"
 
@@ -99,6 +100,13 @@ App::App()
     const auto& pluginsConfig = m_config.GetPlugins();
     spdlog::debug("  plugins.enabled: {}", pluginsConfig.isEnabled);
 
+    const auto& scriptingConfig = m_config.GetScripting();
+    spdlog::debug("  scripting.enable_logging: {}", scriptingConfig.enableLogging);
+    spdlog::debug("  scripting.auto_load_mods: {}", scriptingConfig.autoLoadMods);
+
+    const auto& tweaksConfig = std::as_const(m_config).GetTweaks();
+    spdlog::debug("  tweaks.diplomacy_deal_score: {}", tweaksConfig.diplomacyDealScore);
+
     /* const auto& ignored = pluginsConfig.ignored;
     if (ignored.empty())
     {
@@ -171,7 +179,8 @@ void App::Destruct()
     DetourTransaction transaction;
     if (transaction.IsValid())
     {
-        auto success = Hooks::LuaLogHook::Detach() && Hooks::RunStartupPathHook::Detach();
+        auto success = Hooks::LuaLogHook::Detach() && Hooks::RunStartupPathHook::Detach() &&
+                       Hooks::DiplomacyLikelihoodHook::Detach();
         if (success)
         {
             transaction.Commit();
@@ -219,6 +228,11 @@ const Config* App::GetConfig() const
     return &m_config;
 }
 
+Config* App::GetConfig()
+{
+    return &m_config;
+}
+
 bool App::AttachHooks(DWORD empireDllAddr)
 {
 	m_empireDllAddr = empireDllAddr;
@@ -237,7 +251,8 @@ bool App::AttachHooks(DWORD empireDllAddr)
         return false;
     }
 
-    auto luaLogOk   = Hooks::LuaLogHook::Attach() && Hooks::RunStartupPathHook::Attach();
+    auto luaLogOk   = Hooks::LuaLogHook::Attach() && Hooks::RunStartupPathHook::Attach() &&
+                      Hooks::DiplomacyLikelihoodHook::Attach();
 
     if (!luaLogOk)
     {

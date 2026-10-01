@@ -66,12 +66,34 @@ void LuaConsole::Draw()
         return;
 
     ImGui::SetNextWindowSize(ImVec2(620, 400), ImGuiCond_FirstUseEver);
-    if (!ImGui::Begin("TWASE Lua Console", &m_open))
+    if (!ImGui::Begin("TWASE", &m_open))
     {
         ImGui::End();
         return;
     }
 
+    if (ImGui::BeginTabBar("##Tabs"))
+    {
+        if (ImGui::BeginTabItem("Console"))
+        {
+            DrawConsoleTab();
+            ImGui::EndTabItem();
+        }
+
+        if (ImGui::BeginTabItem("Tweaks"))
+        {
+            DrawTweaksTab();
+            ImGui::EndTabItem();
+        }
+
+        ImGui::EndTabBar();
+    }
+
+    ImGui::End();
+}
+
+void LuaConsole::DrawConsoleTab()
+{
     // Output region — InputTextMultiline enables text selection (Ctrl+C etc.)
     const float footerHeight = ImGui::GetStyle().ItemSpacing.y + ImGui::GetFrameHeightWithSpacing();
     if (ImGui::BeginChild("ScrollRegion", ImVec2(0, -footerHeight), ImGuiChildFlags_None,
@@ -178,7 +200,5 @@ void LuaConsole::Draw()
         std::lock_guard lock(m_logMutex);
         m_log.clear();
     }
-
-    ImGui::End();
 }
 

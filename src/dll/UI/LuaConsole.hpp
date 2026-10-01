@@ -25,6 +25,9 @@ public:
 private:
     LuaConsole() = default;
 
+    void DrawConsoleTab();
+    void DrawTweaksTab();
+
     void AddLogInternal(const char* text, LogLevel level);
     void ExecuteCommand(const char* command);
     bool tryHandleCommand(const std::string& input);
