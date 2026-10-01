@@ -123,7 +123,7 @@ App::App()
     const auto& fileVer = image->GetFileVersion();
 
     const auto& productVer = image->GetProductVersion();
-    spdlog::info("Product version: {}.{}{}", productVer.major, productVer.minor, productVer.patch);
+    spdlog::info("Product version: {}.{}.{}", productVer.major, productVer.minor, productVer.patch);
     spdlog::info("File version: {}.{}.{}.{}", fileVer.major, fileVer.minor, fileVer.build, fileVer.revision);
 
 	// TODO: Check for minimum supported version.
