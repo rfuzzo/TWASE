@@ -1,5 +1,7 @@
 #include "DiplomacyLikelihood.hpp"
 
+#include <cmath>
+
 #include "../App.hpp"
 #include "../Hooking/Hook.hpp"
 
@@ -47,7 +49,14 @@ int __fastcall GetDealLikelihoodBucket(void* self, void* edx, void* deal, int a3
 {
     // the bucket function can return early without computing a score, don't show a stale one then
     hasScore = false;
-    return GetDealLikelihoodBucket_fnc(self, edx, deal, a3);
+    auto bucket = GetDealLikelihoodBucket_fnc(self, edx, deal, a3);
+
+    if (hasScore)
+        spdlog::debug("[Diplomacy] deal {} bucket {} score {:.2f}", deal, bucket, lastScore);
+    else
+        spdlog::debug("[Diplomacy] deal {} bucket {} (no score)", deal, bucket);
+
+    return bucket;
 }
 
 void AppendScoreToLikelihoodText(void* dropdown, float score)
@@ -72,8 +81,9 @@ void AppendScoreToLikelihoodText(void* dropdown, float score)
             text.erase(pos);
     }
 
+    // floor so the displayed value is >= 0 exactly when the AI would accept (score >= 0)
     wchar_t suffix[32];
-    swprintf_s(suffix, L" [%+.1f]", score);
+    swprintf_s(suffix, L" [%+d]", static_cast<int>(std::floor(score)));
     text += suffix;
 
     auto wstringCtor = reinterpret_cast<WString_ctor_t>(base + Addresses::WString_ctor);
@@ -90,9 +100,10 @@ int __fastcall SetLikelihood(void* self, void* edx, int likelihood, bool show)
 {
     auto result = SetLikelihood_fnc(self, edx, likelihood, show);
 
+    spdlog::debug("[Diplomacy] ui likelihood {} show {} has score {}", likelihood, show, hasScore);
+
     if (self && hasScore && likelihood != -2)
     {
-        spdlog::debug("[Diplomacy] likelihood {} score {:.2f}", likelihood, lastScore);
         AppendScoreToLikelihoodText(self, lastScore);
     }
 
