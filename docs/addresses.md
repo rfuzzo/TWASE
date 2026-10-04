@@ -156,6 +156,8 @@ The game's `require` names chunks `q:\feral\users\default\appdata\roaming\the cr
 
 `CA::UniString` = `{u32 length, u32 capacity, char16_t* data}`, the data has an allocation header in front.
 
+Tested 2026-10-04 (`twase.*`): `faction_attitude` matches the diplomacy screen (a's attitude towards b), `region_wealth` matches the province panel and its wealth breakdown tooltip (e.g. Olisipo 373 = farming 33 + fertility_agriculture 164 + sea_trade 176; the UI calls them Agriculture, Agriculture [Fertility], Maritime Commerce).
+
 Tested 2026-10-04: the "Likelihood of success" tooltip shows the deal score (e.g. -12.35 → low, 0.71 → moderate); forced likelihoods (gifts) get no score.
 
 ## Lua API for mods (`twase.*`, `src/dylib/Scripting/LuaApi.cpp`)
