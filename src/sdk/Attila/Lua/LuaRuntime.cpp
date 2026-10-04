@@ -17,6 +17,15 @@ lua_pushvalue_t LuaRuntime::pushvalue = nullptr;
 lua_type_t LuaRuntime::type = nullptr;
 lua_getmetatable_t LuaRuntime::getmetatable = nullptr;
 lua_remove_t LuaRuntime::remove = nullptr;
+lua_pushnumber_t LuaRuntime::pushnumber = nullptr;
+lua_tonumber_t LuaRuntime::tonumber = nullptr;
+lua_pushstring_t LuaRuntime::pushstring = nullptr;
+lua_pushboolean_t LuaRuntime::pushboolean = nullptr;
+lua_pushcclosure_t LuaRuntime::pushcclosure = nullptr;
+lua_createtable_t LuaRuntime::createtable = nullptr;
+lua_setfield_t LuaRuntime::setfield = nullptr;
+lua_touserdata_t LuaRuntime::touserdata = nullptr;
+luaL_error_t LuaRuntime::error = nullptr;
 
 std::atomic<bool> LuaRuntime::s_ready = false;
 
@@ -45,6 +54,15 @@ void LuaRuntime::Init(uintptr_t aSlide)
     type = Resolve<lua_type_t>(aSlide, Lua::Lua_type);
     getmetatable = Resolve<lua_getmetatable_t>(aSlide, Lua::Lua_getmetatable);
     remove = Resolve<lua_remove_t>(aSlide, Lua::Lua_remove);
+    pushnumber = Resolve<lua_pushnumber_t>(aSlide, Lua::Lua_pushnumber);
+    tonumber = Resolve<lua_tonumber_t>(aSlide, Lua::Lua_tonumber);
+    pushstring = Resolve<lua_pushstring_t>(aSlide, Lua::Lua_pushstring);
+    pushboolean = Resolve<lua_pushboolean_t>(aSlide, Lua::Lua_pushboolean);
+    pushcclosure = Resolve<lua_pushcclosure_t>(aSlide, Lua::Lua_pushcclosure);
+    createtable = Resolve<lua_createtable_t>(aSlide, Lua::Lua_createtable);
+    setfield = Resolve<lua_setfield_t>(aSlide, Lua::Lua_setfield);
+    touserdata = Resolve<lua_touserdata_t>(aSlide, Lua::Lua_touserdata);
+    error = Resolve<luaL_error_t>(aSlide, Lua::LuaL_error);
 
     spdlog::info("LuaRuntime resolved all function pointers");
 

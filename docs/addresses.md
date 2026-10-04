@@ -157,3 +157,35 @@ The game's `require` names chunks `q:\feral\users\default\appdata\roaming\the cr
 `CA::UniString` = `{u32 length, u32 capacity, char16_t* data}`, the data has an allocation header in front.
 
 Tested 2026-10-04: the "Likelihood of success" tooltip shows the deal score (e.g. -12.35 → low, 0.71 → moderate); forced likelihoods (gifts) get no score.
+
+## Lua API for mods (`twase.*`, `src/dylib/Scripting/LuaApi.cpp`)
+
+More of the game's Lua 5.1 API, for registering C functions. **The game's `lua_Number` is `float`** (`lua_pushnumber` stores `s0`), not `double`.
+
+| Name | Mac VA | Found via |
+|---|---|---|
+| lua_pushnumber | `0x103f28c94` | `luaB_tonumber` |
+| lua_tonumber / lua_isnumber | `0x103f280a0` / `0x103f27850` | `luaB_tonumber` |
+| lua_pushcclosure | `0x103f28e80` | `luaopen_base` (`0x103f08c44`, the only code referencing the base `luaL_Reg` table) |
+| lua_createtable / lua_setmetatable | `0x103f2954c` / `0x103f29d64` | `luaopen_base` |
+| lua_pushlstring / luaL_register | `0x103f28cd8` / `0x103f12950` | `luaopen_base` |
+| lua_touserdata | `0x103f28874` | the game's faction argument check below |
+| lua_rawequal / luaL_typerror | `0x103f27b7c` / `0x103f11f6c` | same |
+| lua_topointer | `0x103f28a60` | `luaB_tostring` |
+
+## Campaign script interfaces (Lunar bindings)
+
+The campaign model is bound to Lua with the **Lunar** template (`Lunar<T, LIST_POOL_ALLOCATOR<T>>::thunk` etc. are named). A Lua object is a userdata holding `T*`; the metatable is in the registry under the class name (`"FACTION_SCRIPT_INTERFACE"`). Each class has a static method table of 24-byte entries `{const char* name, method, this_adjust}`, found through the method name strings (e.g. `"allied_with"` → entry `0x104f83318`); `FACTION_SCRIPT_INTERFACE`'s table runs from `0x104f831b0` (`region_list`) to `0x104f83570` (`is_trading_with`). Methods take `(T* this, lua_State* L)`. Data pointers in `__DATA` are chained fixups (`DYLD_CHAINED_PTR_64_OFFSET`: target = `0x100000000 + (raw & 0xFFFFFFFFF)`).
+
+| Name | Mac VA | Notes |
+|---|---|---|
+| FactionScriptInterface_GetArg | `0x101d5c640` | `bool (L, idx, FACTION_SCRIPT_INTERFACE** out)`: 0 if not a userdata, `luaL_typerror` for other userdata types |
+| FACTION_SCRIPT_INTERFACE::allied_with | `0x101d2b344` | reads the relationship from `FACTION + 0x930` (hash map keyed by the other faction's id at `FACTION + 8`) |
+| FACTION::is_dead | `0x101b65694` | `*(FACTION + 0x8f8) == 0` |
+| CAI_INTERFACE::get_faction_attitude | `0x10229d814` | `int (CAI_INTERFACE*, const FACTION& a, const FACTION& b)`, sums the attitude components through a lambda (`std::function` vtable `0x104c12268`, RTTI `…CAI_INTERFACE20get_faction_attitude…$_0`) and rounds. Callers `0x101cf4148` / `0x101cf4368` (the latter buckets it into 5 attitude levels) |
+
+| Offset | Mac | Notes |
+|---|---|---|
+| FACTION_SCRIPT_INTERFACE → FACTION* | `0x10` | |
+| FACTION → model handle | `0x18` | `*(handle) + 0x48` = campaign world (`0x101e777bc`) |
+| world → CAI_INTERFACE* | `0x2d60` | |

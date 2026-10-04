@@ -5,6 +5,7 @@
 #include "../App.hpp"
 #include "../Config.hpp"
 #include "../Hooking/Hook.hpp"
+#include "../Scripting/LuaApi.hpp"
 
 #include "../../sdk/Attila/Addresses.hpp"
 #include "../../sdk/Attila/ScriptInterface.hpp"
@@ -12,7 +13,7 @@
 #include "../../sdk/Attila/Lua/LuaRuntime.hpp"
 #include "../../sdk/Attila/VFS/VFS.hpp"
 
-// After the campaign's scripting.lua ran, load every <campaign folder>/mods/<name>/scripting.lua the game's VFS can see
+// After the campaign's scripting.lua ran, register the twase Lua table, then load every <campaign folder>/mods/<name>/scripting.lua the game's VFS can see
 // (inside packs or as loose files in TotalWarAttilaData/data), sorted by name.
 
 namespace
@@ -87,6 +88,13 @@ std::vector<std::string> EnumerateModFolders(const std::string& campaignFolder)
 void* RunStartupPath(sdk::Attila::ScriptingEnv* self)
 {
     auto result = RunStartupPathHook_fnc(self);
+
+    // the twase table, before the mods so they can use it while loading
+    if (lua_State* L = LuaGameEnvironment::GetLuaState(self))
+    {
+        Scripting::LuaApi::Register(L);
+    }
+
     LoadMods(self);
     return result;
 }

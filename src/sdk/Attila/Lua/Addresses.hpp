@@ -19,4 +19,15 @@ constexpr uint64_t Lua_type = 0x103F27654;
 constexpr uint64_t Lua_getmetatable = 0x103F295BC;
 constexpr uint64_t Lua_remove = 0x103F271A0;
 
+// for C functions registered by TWASE (found via luaB_tonumber, luaopen_base and the game's argument checks)
+constexpr uint64_t Lua_pushnumber = 0x103F28C94;  // lua_Number is float in the game's Lua, not double
+constexpr uint64_t Lua_tonumber = 0x103F280A0;
+constexpr uint64_t Lua_pushstring = 0x103F28D48;
+constexpr uint64_t Lua_pushboolean = 0x103F2903C;
+constexpr uint64_t Lua_pushcclosure = 0x103F28E80;
+constexpr uint64_t Lua_createtable = 0x103F2954C;
+constexpr uint64_t Lua_setfield = 0x103F29964;
+constexpr uint64_t Lua_touserdata = 0x103F28874;
+constexpr uint64_t LuaL_error = 0x103F11E80;
+
 } // namespace sdk::Attila::Lua

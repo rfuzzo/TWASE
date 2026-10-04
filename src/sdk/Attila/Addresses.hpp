@@ -79,6 +79,22 @@ constexpr uint64_t String_ToUniString = 0x101049BB0;
 // void (*)(WString* self)
 constexpr uint64_t UniString_dtor = 0x101049D20;
 
+// CAMPAIGN MODEL (for the twase.* Lua API)
+// bool (*)(lua_State* L, int idx, FACTION_SCRIPT_INTERFACE** out), the game's own faction argument check:
+// 0 if the value isn't a userdata, a Lua type error if it's another userdata type
+constexpr uint64_t FactionScriptInterface_GetArg = 0x101D5C640;
+
+// int (*)(CAI_INTERFACE* self, const FACTION& a, const FACTION& b), EMPIRECAMPAIGNAI::CAI_INTERFACE::get_faction_attitude:
+// sums the attitude components, rounded. Found via the RTTI of its lambda (vtable 0x104c12268)
+constexpr uint64_t CAI_GetFactionAttitude = 0x10229D814;
+
+// Offsets
+constexpr uint64_t FactionScriptInterface_Faction = 0x10;  // FACTION*
+constexpr uint64_t Faction_ModelHandle = 0x18;             // -> +0x48 the campaign world
+constexpr uint64_t ModelHandle_World = 0x48;
+constexpr uint64_t World_CAIInterface = 0x2D60;            // CAI_INTERFACE*
+constexpr uint64_t Faction_AliveMarker = 0x8F8;            // null once the faction is destroyed (FACTION::is_dead 0x101b65694)
+
 // PATCHES
 constexpr uint64_t BitSetCrashAddr = 0x101A51C58;
 

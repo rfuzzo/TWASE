@@ -20,6 +20,20 @@ using lua_type_t = int (*)(lua_State* L, int idx);
 using lua_getmetatable_t = int (*)(lua_State* L, int idx);
 using lua_remove_t = void (*)(lua_State* L, int idx);
 
+// The game's Lua is built with LUA_NUMBER = float (lua_pushnumber stores s0)
+using lua_Number = float;
+using lua_CFunction = int (*)(lua_State* L);
+
+using lua_pushnumber_t = void (*)(lua_State* L, lua_Number n);
+using lua_tonumber_t = lua_Number (*)(lua_State* L, int idx);
+using lua_pushstring_t = void (*)(lua_State* L, const char* s);
+using lua_pushboolean_t = void (*)(lua_State* L, int b);
+using lua_pushcclosure_t = void (*)(lua_State* L, lua_CFunction fn, int n);
+using lua_createtable_t = void (*)(lua_State* L, int narr, int nrec);
+using lua_setfield_t = void (*)(lua_State* L, int idx, const char* k);
+using lua_touserdata_t = void* (*)(lua_State* L, int idx);
+using luaL_error_t = int (*)(lua_State* L, const char* fmt, ...);
+
 #define LUA_OK 0
 #define LUA_ERRRUN 2
 #define LUA_ERRSYNTAX 3
