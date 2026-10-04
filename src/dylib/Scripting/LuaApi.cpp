@@ -2,6 +2,9 @@
 
 #include "LuaApi.hpp"
 
+#include <mach/mach.h>
+#include <mach/mach_vm.h>
+
 #include "../Image.hpp"
 #include "../Version.hpp"
 
@@ -400,6 +403,74 @@ int Localise(lua_State* L)
     return 1;
 }
 
+// Reads that fail cleanly on bad addresses, for the dev probes
+template<typename T>
+bool SafeRead(uintptr_t aAddress, T& aOut)
+{
+    mach_vm_size_t read = 0;
+    return mach_vm_read_overwrite(mach_task_self(), aAddress, sizeof(T), reinterpret_cast<mach_vm_address_t>(&aOut), &read) == KERN_SUCCESS &&
+           read == sizeof(T);
+}
+
+constexpr uint64_t kDiplomacyDropdownVtable = 0x104CC6A38; // UIDLL::DiplomacyDropdown (RTTI typeinfo 0x104cc6d38)
+constexpr uint64_t kComponentController = 0x258;           // UIComponent -> its controller object (a base subobject)
+
+// The DiplomacyDropdown controlling `aComponent`, 0 if it has none
+uintptr_t FindDiplomacyDropdown(uintptr_t aComponent)
+{
+    const uintptr_t vtable = kDiplomacyDropdownVtable + Image::Get()->GetSlide();
+    uintptr_t controller = 0, vt = 0;
+    int64_t offsetToTop = 0;
+    if (SafeRead(aComponent + kComponentController, controller) && controller && SafeRead(controller, vt) &&
+        SafeRead(vt - 16, offsetToTop))
+    {
+        uintptr_t complete = controller + offsetToTop, completeVt = 0;
+        if (SafeRead(complete, completeVt) && completeVt == vtable)
+        {
+            return complete;
+        }
+    }
+    return 0;
+}
+
+// twase.dev_diplomacy_actions(uicomponent_address) -> "type:side:available:blocked ..." or an error text
+// Development helper: the negotiation's diplomatic actions while the diplomacy screen is open.
+// DiplomacyDropdown + 0x200 -> + 0xd0 = negotiation, + 0x700 = action list (count + 0xc, DIPLOMATIC_ACTION** + 0x10);
+// action: + 0x10 side (1 offer), + 0x14 type, + 0x18 available, + 0x19 blocked.
+int DevDiplomacyActions(lua_State* L)
+{
+    const auto component = reinterpret_cast<uintptr_t>(LuaRuntime::touserdata(L, 1));
+    const uintptr_t dropdown = component ? FindDiplomacyDropdown(component) : 0;
+    uintptr_t context = 0, negotiation = 0, actions = 0;
+    uint32_t count = 0;
+    if (!dropdown)
+    {
+        LuaRuntime::pushstring(L, "no DiplomacyDropdown controller on this component");
+        return 1;
+    }
+    if (!SafeRead(dropdown + 0x200, context) || !SafeRead(context + 0xd0, negotiation) || !negotiation ||
+        !SafeRead(negotiation + 0x700 + 0xc, count) || !SafeRead(negotiation + 0x700 + 0x10, actions))
+    {
+        LuaRuntime::pushstring(L, "bad pointer chain from DiplomacyDropdown");
+        return 1;
+    }
+
+    static char out[0x2000];
+    size_t n = std::snprintf(out, sizeof(out), "%u actions: ", count);
+    for (uint32_t i = 0; i < count && i < 256 && n + 32 < sizeof(out); i++)
+    {
+        uintptr_t a = 0;
+        int32_t type = -1, side = -1;
+        uint8_t flags[2] = {};
+        if (SafeRead(actions + i * 8, a) && SafeRead(a + 0x14, type) && SafeRead(a + 0x10, side) && SafeRead(a + 0x18, flags))
+        {
+            n += std::snprintf(out + n, sizeof(out) - n, "%d:%d:%d:%d ", type, side, flags[0], flags[1]);
+        }
+    }
+    LuaRuntime::pushstring(L, out);
+    return 1;
+}
+
 // twase.dev_db_record(table, key_or_index, bytes) -> hex string, record count
 // Development helper for finding record layouts: the first `bytes` bytes of the record as hex.
 int DevDbRecord(lua_State* L)
@@ -458,6 +529,7 @@ void Scripting::LuaApi::Register(lua_State* L)
     SetFunction(L, "region_province", &RegionProvince);
     SetFunction(L, "localise", &Localise);
     SetFunction(L, "dev_db_record", &DevDbRecord);
+    SetFunction(L, "dev_diplomacy_actions", &DevDiplomacyActions);
 
     LuaRuntime::setfield(L, LUA_GLOBALSINDEX, "twase");
     spdlog::info("[LuaApi] Registered the twase table");
