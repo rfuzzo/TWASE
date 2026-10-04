@@ -138,6 +138,19 @@ constexpr uint64_t MainUnit_UpkeepCost = 0x88;             // int32
 constexpr uint64_t RegionToProvince_Province = 0x00;       // TempString, records are 0x20 apart
 constexpr uint64_t RegionToProvince_Region = 0x10;         // TempString
 
+// NATIVE REGION TRADING (Rome II leftover, see Hooks/NativeRegionTrading.cpp)
+// void* (*)(void* context, ActionList* offers, ActionList* demands), builds the diplomacy "Add Offer/Demand" list
+// from the negotiation's available actions (called by the DiplomacyDropdown refresh 0x1035f4198)
+constexpr uint64_t Diplomacy_BuildPossibleActions = 0x1036CCA88;
+constexpr uint64_t DiplomacyContext_Negotiation = 0xD0;    // DiplomacyDropdown + 0x200 = context
+constexpr uint64_t Negotiation_ActionCount = 0x70C;        // uint32
+constexpr uint64_t Negotiation_Actions = 0x710;            // DIPLOMATIC_ACTION**, only the campaign's types (not indexed by type)
+constexpr int DiplomaticAction_TradeRegions = 6;           // permission 4 "regions" (type -> permission table 0x10466c5a0)
+constexpr uint64_t DiplomaticAction_Side = 0x10;           // int32, 1 = offer
+constexpr uint64_t DiplomaticAction_Type = 0x14;           // int32
+constexpr uint64_t DiplomaticAction_Available = 0x18;      // bool (setter 0x1024c87cc, getter 0x1024c87f0)
+constexpr uint64_t DiplomaticAction_Blocked = 0x19;        // bool
+
 // PATCHES
 constexpr uint64_t BitSetCrashAddr = 0x101A51C58;
 

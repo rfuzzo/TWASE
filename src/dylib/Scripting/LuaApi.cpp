@@ -6,6 +6,8 @@
 #include <mach/mach_vm.h>
 
 #include "../Image.hpp"
+#include "../Hooks/DiplomacyLikelihood.hpp"
+#include "../Hooks/NativeRegionTrading.hpp"
 #include "../Version.hpp"
 
 #include "../../sdk/Attila/Addresses.hpp"
@@ -413,34 +415,21 @@ bool SafeRead(uintptr_t aAddress, T& aOut)
 }
 
 constexpr uint64_t kDiplomacyDropdownVtable = 0x104CC6A38; // UIDLL::DiplomacyDropdown (RTTI typeinfo 0x104cc6d38)
-constexpr uint64_t kComponentController = 0x258;           // UIComponent -> its controller object (a base subobject)
 
-// The DiplomacyDropdown controlling `aComponent`, 0 if it has none
-uintptr_t FindDiplomacyDropdown(uintptr_t aComponent)
-{
-    const uintptr_t vtable = kDiplomacyDropdownVtable + Image::Get()->GetSlide();
-    uintptr_t controller = 0, vt = 0;
-    int64_t offsetToTop = 0;
-    if (SafeRead(aComponent + kComponentController, controller) && controller && SafeRead(controller, vt) &&
-        SafeRead(vt - 16, offsetToTop))
-    {
-        uintptr_t complete = controller + offsetToTop, completeVt = 0;
-        if (SafeRead(complete, completeVt) && completeVt == vtable)
-        {
-            return complete;
-        }
-    }
-    return 0;
-}
-
-// twase.dev_diplomacy_actions(uicomponent_address) -> "type:side:available:blocked ..." or an error text
-// Development helper: the negotiation's diplomatic actions while the diplomacy screen is open.
+// twase.dev_diplomacy_actions() -> "type:side:available:blocked ..." or an error text
+// Development helper: the negotiation's diplomatic actions of the open diplomacy screen (the DiplomacyDropdown
+// the likelihood hook saw last, checked by its vtable).
 // DiplomacyDropdown + 0x200 -> + 0xd0 = negotiation, + 0x700 = action list (count + 0xc, DIPLOMATIC_ACTION** + 0x10);
 // action: + 0x10 side (1 offer), + 0x14 type, + 0x18 available, + 0x19 blocked.
 int DevDiplomacyActions(lua_State* L)
 {
-    const auto component = reinterpret_cast<uintptr_t>(LuaRuntime::touserdata(L, 1));
-    const uintptr_t dropdown = component ? FindDiplomacyDropdown(component) : 0;
+    const auto dropdown = reinterpret_cast<uintptr_t>(Hooks::DiplomacyLikelihoodHook::LastDropdown());
+    uintptr_t vt = 0;
+    if (!dropdown || !SafeRead(dropdown, vt) || vt != kDiplomacyDropdownVtable + Image::Get()->GetSlide())
+    {
+        LuaRuntime::pushstring(L, "no open diplomacy screen");
+        return 1;
+    }
     uintptr_t context = 0, negotiation = 0, actions = 0;
     uint32_t count = 0;
     if (!dropdown)
@@ -468,6 +457,46 @@ int DevDiplomacyActions(lua_State* L)
         }
     }
     LuaRuntime::pushstring(L, out);
+    return 1;
+}
+
+// twase.dev_set_action_available(type, available) -> number of actions changed
+// Development helper: force the "available" flag of the open negotiation's actions of a type (6 = trade regions).
+int DevSetActionAvailable(lua_State* L)
+{
+    const int wanted = static_cast<int>(LuaRuntime::tonumber(L, 1));
+    const uint8_t value = LuaRuntime::tonumber(L, 2) != 0 ? 1 : 0;
+    const auto dropdown = reinterpret_cast<uintptr_t>(Hooks::DiplomacyLikelihoodHook::LastDropdown());
+    uintptr_t vt = 0, context = 0, negotiation = 0, actions = 0;
+    uint32_t count = 0, changed = 0;
+    if (dropdown && SafeRead(dropdown, vt) && vt == kDiplomacyDropdownVtable + Image::Get()->GetSlide() &&
+        SafeRead(dropdown + 0x200, context) && SafeRead(context + 0xd0, negotiation) && negotiation &&
+        SafeRead(negotiation + 0x700 + 0xc, count) && SafeRead(negotiation + 0x700 + 0x10, actions))
+    {
+        for (uint32_t i = 0; i < count && i < 256; i++)
+        {
+            uintptr_t a = 0;
+            int32_t type = -1;
+            if (SafeRead(actions + i * 8, a) && a && SafeRead(a + 0x14, type) && type == wanted)
+            {
+                *reinterpret_cast<uint8_t*>(a + 0x18) = value;
+                changed++;
+            }
+        }
+    }
+    LuaRuntime::pushnumber(L, static_cast<lua_Number>(changed));
+    return 1;
+}
+
+// twase.dev_native_region_trading(enabled) -> enabled
+// Development switch for the engine's own region trading in the diplomacy offers (Hooks/NativeRegionTrading.cpp).
+int DevNativeRegionTrading(lua_State* L)
+{
+    if (LuaRuntime::type(L, 1) != LUA_TNONE && LuaRuntime::type(L, 1) != LUA_TNIL)
+    {
+        Hooks::NativeRegionTradingHook::SetEnabled(LuaRuntime::toboolean(L, 1) != 0);
+    }
+    LuaRuntime::pushboolean(L, Hooks::NativeRegionTradingHook::IsEnabled());
     return 1;
 }
 
@@ -530,6 +559,8 @@ void Scripting::LuaApi::Register(lua_State* L)
     SetFunction(L, "localise", &Localise);
     SetFunction(L, "dev_db_record", &DevDbRecord);
     SetFunction(L, "dev_diplomacy_actions", &DevDiplomacyActions);
+    SetFunction(L, "dev_set_action_available", &DevSetActionAvailable);
+    SetFunction(L, "dev_native_region_trading", &DevNativeRegionTrading);
 
     LuaRuntime::setfield(L, LUA_GLOBALSINDEX, "twase");
     spdlog::info("[LuaApi] Registered the twase table");

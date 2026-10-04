@@ -145,8 +145,11 @@ void UpdateLikelihoodTooltip(void* dropdown, const float* score)
     SetTooltip(component, tooltip);
 }
 
+void* lastDropdown = nullptr;
+
 void* SetLikelihood(void* self, int likelihood, bool show)
 {
+    lastDropdown = self;
     auto result = SetLikelihood_fnc(self, likelihood, show);
 
     // only show the score if the displayed likelihood actually comes from it, not when the UI forced it
@@ -225,4 +228,9 @@ bool Hooks::DiplomacyLikelihoodHook::Detach()
 
     isAttached = result != 0;
     return !isAttached;
+}
+
+void* Hooks::DiplomacyLikelihoodHook::LastDropdown()
+{
+    return lastDropdown;
 }

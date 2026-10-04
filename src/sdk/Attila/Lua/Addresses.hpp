@@ -30,5 +30,6 @@ constexpr uint64_t Lua_setfield = 0x103F29964;
 constexpr uint64_t Lua_touserdata = 0x103F28874;
 constexpr uint64_t LuaL_error = 0x103F11E80;
 constexpr uint64_t Lua_rawequal = 0x103F27B7C;
+constexpr uint64_t Lua_toboolean = 0x103F282BC;     // luaB_tostring
 
 } // namespace sdk::Attila::Lua

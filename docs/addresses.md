@@ -215,3 +215,11 @@ Tested 2026-10-04 (unattended runs with Fireforged): `twase.building_level`, `tw
 ## Localisation
 
 The loc manager is at `DB container + 0x2200` (`sub_1030f0534`). Its virtual `+0x30` is the lookup: `const WString* (loc, const TempString* key, int)` (callers pass 1), returning the UTF-16 text (`CA::UniString`) or an empty / null string for a missing key. Used e.g. by `0x10298a390` (`provinces_onscreen_<key>`) and `0x101cb17c0` (the GDP category names). Tested 2026-10-04: `twase.localise` returns region, province, faction and UI strings; missing keys give nil.
+
+## Native region trading (Rome II leftover)
+
+Attila keeps the whole region trading feature: the diplomatic action type 6 (`EMPIRECAMPAIGNAI::DIPLOMATIC_ACTION_TRADE_REGIONS`, vtable `0x104c1e520`, its slot 13 `0x1025c8188` executes the deal and transfers the regions), the permission "regions" (`force_diplomacy` id 4; action type → permission table at `0x10466c5a0`, 2-bit permissions at `relationship + 0x90`, setter `0x101cf7a40`, getter `0x101cf79e4`), the game command `CCQ_DIPLOMACY_PROPOSE_TRADE_REGIONS` and the UI (`diplomacy_hud`: `offer_button_trade_regions` / `DiplomacyListTradeRegionsButton`, `trade_regions` / `DiplomacyTradeRegionsPanel`, loc "Gift Region").
+
+The negotiation creates the action but never marks it available (`+0x18`), so the "Add Offer/Demand" list (built by `0x1036cca88(context, offers, demands)` from the available offer-side actions, context = `DiplomacyDropdown + 0x200`, negotiation = context `+ 0xd0`) never shows it. The actions are at negotiation `+0x710` (count `+0x70c`), only the campaign's types, not indexed by type. Action layout: `+0x8` negotiation, `+0x10` side (1 offer), `+0x14` type, `+0x18` available, `+0x19` blocked; the region action keeps its offered / demanded regions at `+0x20/+0x24/+0x28` and `+0x30/+0x34/+0x38`.
+
+`Hooks/NativeRegionTrading.cpp` marks the region action available (unless blocked) right before the list is built. Tested 2026-10-04: "Gift Region" appears first in the list and opens the native Gift Region panel; its region list was empty (WRE → ERE), to investigate.

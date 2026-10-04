@@ -34,6 +34,7 @@ using lua_setfield_t = void (*)(lua_State* L, int idx, const char* k);
 using lua_touserdata_t = void* (*)(lua_State* L, int idx);
 using luaL_error_t = int (*)(lua_State* L, const char* fmt, ...);
 using lua_rawequal_t = int (*)(lua_State* L, int idx1, int idx2);
+using lua_toboolean_t = int (*)(lua_State* L, int idx);
 
 #define LUA_OK 0
 #define LUA_ERRRUN 2
