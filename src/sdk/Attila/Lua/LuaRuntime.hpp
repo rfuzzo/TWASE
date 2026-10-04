@@ -37,6 +37,7 @@ public:
     static lua_setfield_t setfield;
     static lua_touserdata_t touserdata;
     static luaL_error_t error;
+    static lua_rawequal_t rawequal;
 
     static bool istable(lua_State* L, int idx) { return type(L, idx) == LUA_TTABLE; }
     static bool isstring(lua_State* L, int idx) { return type(L, idx) == LUA_TSTRING; }

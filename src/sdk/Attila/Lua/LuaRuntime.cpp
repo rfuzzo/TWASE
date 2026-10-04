@@ -26,6 +26,7 @@ lua_createtable_t LuaRuntime::createtable = nullptr;
 lua_setfield_t LuaRuntime::setfield = nullptr;
 lua_touserdata_t LuaRuntime::touserdata = nullptr;
 luaL_error_t LuaRuntime::error = nullptr;
+lua_rawequal_t LuaRuntime::rawequal = nullptr;
 
 std::atomic<bool> LuaRuntime::s_ready = false;
 
@@ -63,6 +64,7 @@ void LuaRuntime::Init(uintptr_t aSlide)
     setfield = Resolve<lua_setfield_t>(aSlide, Lua::Lua_setfield);
     touserdata = Resolve<lua_touserdata_t>(aSlide, Lua::Lua_touserdata);
     error = Resolve<luaL_error_t>(aSlide, Lua::LuaL_error);
+    rawequal = Resolve<lua_rawequal_t>(aSlide, Lua::Lua_rawequal);
 
     spdlog::info("LuaRuntime resolved all function pointers");
 

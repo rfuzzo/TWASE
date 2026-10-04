@@ -94,6 +94,10 @@ constexpr uint64_t Faction_ModelHandle = 0x18;             // -> +0x48 the campa
 constexpr uint64_t ModelHandle_World = 0x48;
 constexpr uint64_t World_CAIInterface = 0x2D60;            // CAI_INTERFACE*
 constexpr uint64_t Faction_AliveMarker = 0x8F8;            // null once the faction is destroyed (FACTION::is_dead 0x101b65694)
+constexpr uint64_t RegionScriptInterface_Region = 0x10;    // REGION*
+constexpr uint64_t Region_Wealth = 0x16C;                  // int, the region's wealth (GDP) as the province panel shows it
+constexpr uint64_t Region_WealthBreakdown = 0x7A0;         // RegionWealthCategory[15], the wealth breakdown tooltip's data
+constexpr int RegionWealthCategoryCount = 15;
 
 // PATCHES
 constexpr uint64_t BitSetCrashAddr = 0x101A51C58;

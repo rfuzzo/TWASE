@@ -189,3 +189,8 @@ The campaign model is bound to Lua with the **Lunar** template (`Lunar<T, LIST_P
 | FACTION_SCRIPT_INTERFACE → FACTION* | `0x10` | |
 | FACTION → model handle | `0x18` | `*(handle) + 0x48` = campaign world (`0x101e777bc`) |
 | world → CAI_INTERFACE* | `0x2d60` | |
+| REGION_SCRIPT_INTERFACE → REGION* | `0x10` | `owning_faction` reads `**(REGION + 0x1a0)` |
+| REGION → wealth | `0x16c` | int, the region's wealth (GDP before tax) in the province panel (`0x1034cd5bc`) |
+| REGION → wealth breakdown | `0x7a0` | 15 × `{int base, int total, float bonus_percent}`, passed as the data of the `wealth_breakdown_tooltip` (type 4, `0x1034d2444`). Category order = the loc key table `campaign_localised_strings_string_gdp_*` at `0x104bc7590`: subsistence, animal_husbandry, farming, local_trade, land_trade, sea_trade, entertainment, learning, mining, manufacture, other, fertility, fertility_agriculture, fertility_livestock, poor_fertility_bonus |
+
+`REGION_SCRIPT_INTERFACE`'s method table: `0x104f83f60` (`model`) … `0x104f84158` (`sanitation`); `town_wealth_growth` reads `REGION + 0x184`, `region_wealth_change_percent` `REGION + 0x174`. There's no region argument check like the faction one, TWASE does its own (type, registry metatable `"REGION_SCRIPT_INTERFACE"`, `lua_rawequal` `0x103f27b7c`).
