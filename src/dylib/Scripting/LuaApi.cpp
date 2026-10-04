@@ -7,6 +7,7 @@
 
 #include "../../sdk/Attila/Addresses.hpp"
 #include "../../sdk/Attila/Lua/LuaRuntime.hpp"
+#include "../../sdk/Attila/UITypes.hpp"
 #include "../../sdk/Attila/VFSTypes.hpp"
 
 // The C functions below can raise Lua errors, which longjmp out of them: keep them free of objects with destructors.
@@ -323,6 +324,82 @@ int RegionProvince(lua_State* L)
     return 1;
 }
 
+using Localisation_Lookup_t = const sdk::Attila::WString* (*)(void* loc, const sdk::Attila::TempString* key, int flag);
+
+// UTF-16 -> UTF-8 into aOut (NUL terminated, truncated to aSize)
+void ToUtf8(const char16_t* aData, uint32_t aLength, char* aOut, size_t aSize)
+{
+    size_t n = 0;
+    auto put = [&](char c) { if (n + 1 < aSize) aOut[n++] = c; };
+    for (uint32_t i = 0; i < aLength; i++)
+    {
+        uint32_t cp = aData[i];
+        if (cp >= 0xD800 && cp < 0xDC00 && i + 1 < aLength && aData[i + 1] >= 0xDC00 && aData[i + 1] < 0xE000)
+        {
+            cp = 0x10000 + ((cp - 0xD800) << 10) + (aData[++i] - 0xDC00);
+        }
+        if (cp < 0x80)
+        {
+            put(static_cast<char>(cp));
+        }
+        else if (cp < 0x800)
+        {
+            put(static_cast<char>(0xC0 | (cp >> 6)));
+            put(static_cast<char>(0x80 | (cp & 0x3F)));
+        }
+        else if (cp < 0x10000)
+        {
+            put(static_cast<char>(0xE0 | (cp >> 12)));
+            put(static_cast<char>(0x80 | ((cp >> 6) & 0x3F)));
+            put(static_cast<char>(0x80 | (cp & 0x3F)));
+        }
+        else
+        {
+            put(static_cast<char>(0xF0 | (cp >> 18)));
+            put(static_cast<char>(0x80 | ((cp >> 12) & 0x3F)));
+            put(static_cast<char>(0x80 | ((cp >> 6) & 0x3F)));
+            put(static_cast<char>(0x80 | (cp & 0x3F)));
+        }
+    }
+    aOut[n] = '\0';
+}
+
+// twase.localise(key) -> string or nil
+// The localised text of a loc key in the player's language, e.g. "regions_onscreen_att_reg_lusitania_olisipo".
+int Localise(lua_State* L)
+{
+    static const auto stringCtor = Resolve<String_ctor_t>(Addr::String_ctor);
+    static const auto stringDtor = Resolve<String_dtor_t>(Addr::String_dtor);
+    static char utf8[0x2000];
+
+    const char* key = LuaRuntime::type(L, 1) == LUA_TSTRING ? LuaRuntime::tolstring(L, 1, nullptr) : nullptr;
+    if (!key)
+    {
+        return LuaRuntime::error(L, "twase.localise(key): expects a key string");
+    }
+    void* db = Database();
+    void* loc = db ? ReadPtr<void*>(db, Addr::Database_Localisation) : nullptr;
+    if (!loc)
+    {
+        return LuaRuntime::error(L, "twase.localise: the localisation isn't available outside a campaign");
+    }
+    const auto lookup = ReadPtr<Localisation_Lookup_t>(ReadPtr<const void*>(loc, 0), Addr::Localisation_LookupVtableOffset);
+
+    sdk::Attila::TempString keyString;
+    stringCtor(&keyString, key);
+    const sdk::Attila::WString* text = lookup(loc, &keyString, 1);
+    stringDtor(&keyString);
+
+    if (!text || text->length == 0 || !text->data)
+    {
+        LuaRuntime::pushnil(L);
+        return 1;
+    }
+    ToUtf8(text->data, text->length, utf8, sizeof(utf8));
+    LuaRuntime::pushstring(L, utf8);
+    return 1;
+}
+
 // twase.dev_db_record(table, key_or_index, bytes) -> hex string, record count
 // Development helper for finding record layouts: the first `bytes` bytes of the record as hex.
 int DevDbRecord(lua_State* L)
@@ -379,6 +456,7 @@ void Scripting::LuaApi::Register(lua_State* L)
     SetFunction(L, "building_level", &BuildingLevel);
     SetFunction(L, "unit", &Unit);
     SetFunction(L, "region_province", &RegionProvince);
+    SetFunction(L, "localise", &Localise);
     SetFunction(L, "dev_db_record", &DevDbRecord);
 
     LuaRuntime::setfield(L, LUA_GLOBALSINDEX, "twase");

@@ -114,6 +114,11 @@ constexpr uint64_t DB_MainUnits = 0x102C90940;             // container + 0x14d8
 // int* (*)(StringHashMap* map, const TempString* key), the record index or null
 constexpr uint64_t StringHashMap_Find = 0x1010E5040;
 
+// LOCALISATION
+constexpr uint64_t Database_Localisation = 0x2200;         // container + 0x2200 (sub_1030f0534)
+// virtual +0x30: const WString* (*)(void* loc, const TempString* key, int), the game's loc lookup
+constexpr uint64_t Localisation_LookupVtableOffset = 0x30;
+
 // DATABASE_TABLE
 constexpr uint64_t DBTable_Count = 0x0C;                   // uint32
 constexpr uint64_t DBTable_Records = 0x10;                 // RECORD**

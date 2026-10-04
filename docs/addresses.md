@@ -211,3 +211,7 @@ Reached from the campaign global the UI uses: world = `*(*(*0x105608ea0 + 0x30) 
 `REGION + 0x78` = its `regions` record (the Lua `name()`), `REGION + 0x4b0` → the campaign province object (`**`), whose per-faction parts are at `+0x94` (count) / `+0x98` (`sub_102410864`).
 
 Tested 2026-10-04 (unattended runs with Fireforged): `twase.building_level`, `twase.unit` and `twase.region_province` return the TSV / UI values (e.g. Olisipo → `att_prov_lusitania`).
+
+## Localisation
+
+The loc manager is at `DB container + 0x2200` (`sub_1030f0534`). Its virtual `+0x30` is the lookup: `const WString* (loc, const TempString* key, int)` (callers pass 1), returning the UTF-16 text (`CA::UniString`) or an empty / null string for a missing key. Used e.g. by `0x10298a390` (`provinces_onscreen_<key>`) and `0x101cb17c0` (the GDP category names). Tested 2026-10-04: `twase.localise` returns region, province, faction and UI strings; missing keys give nil.
