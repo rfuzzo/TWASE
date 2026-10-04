@@ -2,14 +2,17 @@
 
 #include "NativeRegionTrading.hpp"
 
+#include "../Image.hpp"
 #include "../Hooking/Hook.hpp"
 
 #include "../../sdk/Attila/Addresses.hpp"
 
-// Attila still contains Rome II's region trading: the diplomatic action type 6 (DIPLOMATIC_ACTION_TRADE_REGIONS,
-// permission "regions" in force_diplomacy), its execution (transfers the regions) and the UI (DiplomacyTradeRegionsPanel,
-// offer_button_trade_regions). The negotiation creates the action but never marks it available, so it's missing from the
-// "Add Offer/Demand" list. We mark it available right before that list is built, unless diplomacy permissions block it.
+// Attila's diplomacy has a "Gift Region" option (diplomatic action type 6, permission "regions"), but only to settle a
+// horde: the action is available when one side is a horde, and only regions where the horde's army stands can be given.
+// With region trading enabled we widen both rules for two settled factions:
+// - available: also between a human and a non-horde AI faction, if the human has a region to give
+// - offers: a human giving to a non-horde can choose any region but the capital and garrisoned settlements
+// Demands keep the engine's rule: only regions where your own army stands.
 
 using namespace sdk::Attila;
 
@@ -18,35 +21,72 @@ namespace
 bool isAttached = false;
 std::atomic<bool> isEnabled = false;
 
-void* BuildPossibleActions(void* context, void* offers, void* demands);
-Hook<decltype(&BuildPossibleActions)> BuildPossibleActions_fnc(Addresses::Diplomacy_BuildPossibleActions, &BuildPossibleActions);
-
-void* BuildPossibleActions(void* context, void* offers, void* demands)
+// the engine's region list, returned by value through x8 (the destructor keeps clang on that convention)
+struct RegionList
 {
-    if (isEnabled && context)
+    uint32_t capacity;
+    uint32_t count;
+    void* data;
+    ~RegionList() {}
+};
+
+using IsHorde_t = void* (*)(const void* faction);
+
+RegionList GiftableRegions(void* from, void* to);
+bool RegionTradePossible(void* a, void* b);
+
+Hook<decltype(&GiftableRegions)> GiftableRegions_fnc(Addresses::Faction_GiftableRegions, &GiftableRegions);
+Hook<decltype(&RegionTradePossible)> RegionTradePossible_fnc(Addresses::DiplomaticAction_RegionTradePossible, &RegionTradePossible);
+
+bool IsHuman(const void* faction)
+{
+    return faction && static_cast<const uint8_t*>(faction)[Addresses::Faction_IsHuman] == 1;
+}
+
+bool IsHorde(const void* faction)
+{
+    static const auto isHorde = reinterpret_cast<IsHorde_t>(Addresses::Faction_IsHorde + Image::Get()->GetSlide());
+    return faction && isHorde(faction) != nullptr;
+}
+
+// a human and a settled AI faction (no hordes, those keep the engine's rules)
+bool IsSettledPair(const void* human, const void* other)
+{
+    return IsHuman(human) && other && !IsHuman(other) && !IsHorde(human) && !IsHorde(other);
+}
+
+RegionList GiftableRegions(void* from, void* to)
+{
+    if (isEnabled && to && IsSettledPair(from, to))
     {
-        auto* negotiation = *reinterpret_cast<uint8_t**>(static_cast<uint8_t*>(context) + Addresses::DiplomacyContext_Negotiation);
-        if (negotiation)
-        {
-            const auto count = *reinterpret_cast<uint32_t*>(negotiation + Addresses::Negotiation_ActionCount);
-            auto** actions = *reinterpret_cast<uint8_t***>(negotiation + Addresses::Negotiation_Actions);
-            // the array holds only the types this campaign uses, so search it by type
-            for (uint32_t i = 0; actions && i < count; i++)
-            {
-                auto* action = actions[i];
-                if (!action || *reinterpret_cast<int32_t*>(action + Addresses::DiplomaticAction_Type) != Addresses::DiplomaticAction_TradeRegions)
-                {
-                    continue;
-                }
-                if (!action[Addresses::DiplomaticAction_Blocked])
-                {
-                    action[Addresses::DiplomaticAction_Available] = 1;
-                }
-                break;
-            }
-        }
+        return GiftableRegions_fnc(from, nullptr);
     }
-    return BuildPossibleActions_fnc(context, offers, demands);
+    return GiftableRegions_fnc(from, to);
+}
+
+bool RegionTradePossible(void* a, void* b)
+{
+    if (RegionTradePossible_fnc(a, b))
+    {
+        return true;
+    }
+    if (!isEnabled)
+    {
+        return false;
+    }
+    void* human = IsHuman(a) ? a : (IsHuman(b) ? b : nullptr);
+    void* other = human == a ? b : a;
+    if (!human || !IsSettledPair(human, other))
+    {
+        return false;
+    }
+    RegionList regions = GiftableRegions_fnc(human, nullptr);
+    const bool possible = regions.count > 0;
+    if (regions.data)
+    {
+        reinterpret_cast<void (*)(void*)>(Addresses::tw_free + Image::Get()->GetSlide())(regions.data);
+    }
+    return possible;
 }
 } // namespace
 
@@ -63,14 +103,16 @@ void Hooks::NativeRegionTradingHook::SetEnabled(bool aEnabled)
 
 bool Hooks::NativeRegionTradingHook::Attach()
 {
-    auto result = BuildPossibleActions_fnc.Attach();
+    auto result = GiftableRegions_fnc.Attach();
+    if (result == 0)
+        result = RegionTradePossible_fnc.Attach();
     if (result != 0)
     {
-        spdlog::error("Could not attach the native region trading hook. Dobby error code: {}", result);
+        spdlog::error("Could not attach the native region trading hooks. Dobby error code: {}", result);
     }
     else
     {
-        spdlog::info("The native region trading hook was attached");
+        spdlog::info("The native region trading hooks were attached");
     }
     isAttached = result == 0;
     return isAttached;
@@ -82,7 +124,9 @@ bool Hooks::NativeRegionTradingHook::Detach()
     {
         return false;
     }
-    auto result = BuildPossibleActions_fnc.Detach();
+    auto result = RegionTradePossible_fnc.Detach();
+    if (result == 0)
+        result = GiftableRegions_fnc.Detach();
     isAttached = result != 0;
     return !isAttached;
 }
