@@ -149,6 +149,24 @@ constexpr uint64_t DiplomaticAction_RegionTradePossible = 0x1025C7A6C;
 constexpr uint64_t Faction_IsHuman = 0x970;                // bool (the Lua is_human)
 constexpr uint64_t Faction_IsHorde = 0x101B521EC;          // void* (*)(FACTION*), non-null for hordes (the Lua is_horde)
 
+// Region value in the AI's deal evaluation
+// float (*)(NEGOTIATION* deal, void* aiContext, FACTION* a, FACTION* b, int32_t* out, bool* out)
+constexpr uint64_t Diplo_EvaluateDeal = 0x101D7B25C;
+// float (*)(ComponentList* components, void* aiContext, FACTION* a, ...): scores the deal's CAI_DEAL_COMPONENT_* list
+// (entries {component*, int32 index}, 16 bytes); called once at the end of Diplo_EvaluateDeal
+constexpr uint64_t Diplo_ScoreComponents = 0x101D7E26C;
+// void (*)(CAI_DEAL_COMPONENT_GIFT* self, void* aiContext, FACTION* a, FACTION* b, int32_t gold), 0x30 bytes;
+// the evaluator builds it for Payments with gold = -(payment amount)
+constexpr uint64_t DealComponentGift_ctor = 0x1024F485C;
+constexpr uint64_t DealComponentGift_Size = 0x30;
+constexpr uint64_t DiplomaticAction_InDealVtableOffset = 0x50; // bool (*)(action): part of the deal
+// trade regions action: regions in list 1 go to negotiation + 0x20, in list 2 to negotiation + 0x28 (its execute 0x1025c8188)
+constexpr uint64_t TradeRegions_List1Count = 0x24;         // REGION** at + 0x28
+constexpr uint64_t TradeRegions_List2Count = 0x34;         // REGION** at + 0x38
+constexpr uint64_t Negotiation_FactionA = 0x20;            // FACTION*
+constexpr uint64_t Negotiation_FactionB = 0x28;            // FACTION*
+constexpr uint64_t Faction_Record = 0x8F8;                 // factions record (key TempString at + 0), null once destroyed
+
 // Diplomacy internals used by the dev probes
 constexpr uint64_t DiplomacyContext_Negotiation = 0xD0;    // DiplomacyDropdown + 0x200 = context
 constexpr uint64_t Negotiation_ActionCount = 0x70C;        // uint32

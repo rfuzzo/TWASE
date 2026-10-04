@@ -234,3 +234,8 @@ void* Hooks::DiplomacyLikelihoodHook::LastDropdown()
 {
     return lastDropdown;
 }
+
+float Hooks::DiplomacyLikelihoodHook::LastScore()
+{
+    return lastScore;
+}

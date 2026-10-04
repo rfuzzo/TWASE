@@ -500,6 +500,33 @@ int DevNativeRegionTrading(lua_State* L)
     return 1;
 }
 
+// twase.set_region_value_handler(function(region_key, faction_key) return gold end)
+// The region trading mod's valuation: the gold value of a region for a faction (negative = a burden). Used when the AI
+// evaluates a deal with regions (Hooks/NativeRegionTrading.cpp).
+int SetRegionValueHandler(lua_State* L)
+{
+    if (LuaRuntime::type(L, 1) != LUA_TFUNCTION && LuaRuntime::type(L, 1) != LUA_TNIL)
+    {
+        return LuaRuntime::error(L, "twase.set_region_value_handler(fn): expects a function or nil");
+    }
+    LuaRuntime::pushvalue(L, 1);
+    LuaRuntime::setfield(L, LUA_REGISTRYINDEX, "twase_region_value_handler");
+    return 0;
+}
+
+// twase.dev_region_value_sign(sign), twase.dev_last_deal_score() -> number
+int DevRegionValueSign(lua_State* L)
+{
+    Hooks::NativeRegionTradingHook::SetValueSign(static_cast<int>(LuaRuntime::tonumber(L, 1)));
+    return 0;
+}
+
+int DevLastDealScore(lua_State* L)
+{
+    LuaRuntime::pushnumber(L, Hooks::DiplomacyLikelihoodHook::LastScore());
+    return 1;
+}
+
 // twase.dev_db_record(table, key_or_index, bytes) -> hex string, record count
 // Development helper for finding record layouts: the first `bytes` bytes of the record as hex.
 int DevDbRecord(lua_State* L)
@@ -561,7 +588,11 @@ void Scripting::LuaApi::Register(lua_State* L)
     SetFunction(L, "dev_diplomacy_actions", &DevDiplomacyActions);
     SetFunction(L, "dev_set_action_available", &DevSetActionAvailable);
     SetFunction(L, "dev_native_region_trading", &DevNativeRegionTrading);
+    SetFunction(L, "set_region_value_handler", &SetRegionValueHandler);
+    SetFunction(L, "dev_region_value_sign", &DevRegionValueSign);
+    SetFunction(L, "dev_last_deal_score", &DevLastDealScore);
 
     LuaRuntime::setfield(L, LUA_GLOBALSINDEX, "twase");
+    Hooks::NativeRegionTradingHook::SetLuaState(L);
     spdlog::info("[LuaApi] Registered the twase table");
 }
