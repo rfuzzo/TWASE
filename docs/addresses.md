@@ -196,3 +196,18 @@ The campaign model is bound to Lua with the **Lunar** template (`Lunar<T, LIST_P
 | REGION → wealth breakdown | `0x7a0` | 15 × `{int base, int total, float bonus_percent}`, passed as the data of the `wealth_breakdown_tooltip` (type 4, `0x1034d2444`). Category order = the loc key table `campaign_localised_strings_string_gdp_*` at `0x104bc7590`: subsistence, animal_husbandry, farming, local_trade, land_trade, sea_trade, entertainment, learning, mining, manufacture, other, fertility, fertility_agriculture, fertility_livestock, poor_fertility_bonus |
 
 `REGION_SCRIPT_INTERFACE`'s method table: `0x104f83f60` (`model`) … `0x104f84158` (`sanitation`); `town_wealth_growth` reads `REGION + 0x184`, `region_wealth_change_percent` `REGION + 0x174`. There's no region argument check like the faction one, TWASE does its own (type, registry metatable `"REGION_SCRIPT_INTERFACE"`, `lua_rawequal` `0x103f27b7c`).
+
+## Database (loaded DB tables, game + mods merged)
+
+Reached from the campaign global the UI uses: world = `*(*(*0x105608ea0 + 0x30) + 0x48)`, DB container = `DB_GetContainer(world + 0x21e0)` (`0x101e76780`: `*(*(*field + 0x58) + 0x20)`). Each table has a lazy accessor `DATABASE_TABLE* (container)` that loads it on first use (`"Loading database: %s"`, the name string `<table>_table` is referenced only by its accessor) and caches it at a fixed container offset. Lookup by key: `StringHashMap_Find(table + 0x18, const TempString* key)` (`0x1010e5040`) → `int* index`, records at `table + 0x10` (`RECORD**`), count at `table + 0x0c`. Records start with their key (`TempString` at `+0`) and follow the schema's column order; references to other tables are record pointers. Junction tables have composite keys, so they're scanned. Layouts found by dumping records in game (`twase.dev_db_record`) and matching the extracted TSVs.
+
+| Table | Accessor | Container offset | Fields |
+|---|---|---|---|
+| building_levels | `0x102c86dfc` | `0x1fb0` | `+0x10` chain record*, `+0x18` level, `+0x1c` create_time, `+0x20` create_cost, `+0x24` upkeep_cost (int32) |
+| main_units | `0x102c90940` | `0x14d8` | `+0x30` create_time, `+0x40` num_men, `+0x48` multiplayer_cost, `+0x68` recruitment_cost, `+0x88` upkeep_cost, `+0xb8` unique_index |
+| region_to_province_junctions | `0x102cc5c08` | `0x1630` | 0x20-byte records: `+0x00` province key, `+0x10` region key (TempStrings) |
+| provinces | `0x102c8ea88` | `0x1638` | key at `+0`, record built by `0x10298a390` (key + loc entry at `+0x10`) |
+
+`REGION + 0x78` = its `regions` record (the Lua `name()`), `REGION + 0x4b0` → the campaign province object (`**`), whose per-faction parts are at `+0x94` (count) / `+0x98` (`sub_102410864`).
+
+Tested 2026-10-04 (unattended runs with Fireforged): `twase.building_level`, `twase.unit` and `twase.region_province` return the TSV / UI values (e.g. Olisipo → `att_prov_lusitania`).

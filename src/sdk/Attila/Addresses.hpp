@@ -99,6 +99,40 @@ constexpr uint64_t Region_Wealth = 0x16C;                  // int, the region's 
 constexpr uint64_t Region_WealthBreakdown = 0x7A0;         // RegionWealthCategory[15], the wealth breakdown tooltip's data
 constexpr int RegionWealthCategoryCount = 15;
 
+// DATABASE (the loaded DB tables, game + mods merged)
+// The campaign global the UI uses to reach the world: *(*(*g_Campaign + 0x30) + 0x48)
+constexpr uint64_t g_Campaign = 0x105608EA0;
+constexpr uint64_t Campaign_Handle = 0x30;
+constexpr uint64_t World_Database = 0x21E0;                // DB_GetContainer(world + 0x21e0)
+// void* (*)(void** worldDatabaseField) = *(*(*field + 0x58) + 0x20), the DB container
+constexpr uint64_t DB_GetContainer = 0x101E76780;
+// DB table accessors: DATABASE_TABLE* (*)(void* container), load the table on first use ("Loading database: %s")
+constexpr uint64_t DB_BuildingLevels = 0x102C86DFC;        // container + 0x1fb0
+constexpr uint64_t DB_RegionToProvinceJunctions = 0x102CC5C08; // container + 0x1630
+constexpr uint64_t DB_Provinces = 0x102C8EA88;             // container + 0x1638
+constexpr uint64_t DB_MainUnits = 0x102C90940;             // container + 0x14d8
+// int* (*)(StringHashMap* map, const TempString* key), the record index or null
+constexpr uint64_t StringHashMap_Find = 0x1010E5040;
+
+// DATABASE_TABLE
+constexpr uint64_t DBTable_Count = 0x0C;                   // uint32
+constexpr uint64_t DBTable_Records = 0x10;                 // RECORD**
+constexpr uint64_t DBTable_Index = 0x18;                   // StringHashMap key -> record index
+
+// Records start with their key (TempString at +0). Offsets found by dumping records and matching the TSVs (Fireforged data)
+constexpr uint64_t Region_Record = 0x78;                   // REGION -> regions record (the Lua name() reads its key)
+constexpr uint64_t BuildingLevel_Chain = 0x10;             // building_chains record*
+constexpr uint64_t BuildingLevel_Level = 0x18;             // int32
+constexpr uint64_t BuildingLevel_CreateTime = 0x1C;        // int32
+constexpr uint64_t BuildingLevel_CreateCost = 0x20;        // int32
+constexpr uint64_t BuildingLevel_UpkeepCost = 0x24;        // int32
+constexpr uint64_t MainUnit_CreateTime = 0x30;             // int32
+constexpr uint64_t MainUnit_NumMen = 0x40;                 // int32
+constexpr uint64_t MainUnit_RecruitmentCost = 0x68;        // int32 (multiplayer_cost at 0x48)
+constexpr uint64_t MainUnit_UpkeepCost = 0x88;             // int32
+constexpr uint64_t RegionToProvince_Province = 0x00;       // TempString, records are 0x20 apart
+constexpr uint64_t RegionToProvince_Region = 0x10;         // TempString
+
 // PATCHES
 constexpr uint64_t BitSetCrashAddr = 0x101A51C58;
 
