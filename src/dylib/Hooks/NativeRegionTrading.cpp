@@ -14,8 +14,8 @@
 // horde: the action is available when one side is a horde, and only regions where the horde's army stands can be given.
 // With region trading enabled we widen both rules for two settled factions:
 // - available: also between a human and a non-horde AI faction, if the human has a region to give
-// - offers: a human giving to a non-horde can choose any region but the capital and garrisoned settlements
-// Demands keep the engine's rule: only regions where your own army stands.
+// - regions: between a human and a non-horde, either side can give any region but its capital and garrisoned
+//   settlements (offers and demands; the engine only lists regions where the receiver's army stands)
 //
 // The AI's deal evaluation has no region component (a region scores +0.0). For deals with regions we add the score the
 // region is worth: the mirror image of the AI paying the region's value in gold (the native gift component Payments use),
@@ -104,7 +104,7 @@ bool IsSettledPair(const void* human, const void* other)
 
 RegionList GiftableRegions(void* from, void* to)
 {
-    if (isEnabled && to && IsSettledPair(from, to))
+    if (isEnabled && to && (IsSettledPair(from, to) || IsSettledPair(to, from)))
     {
         return GiftableRegions_fnc(from, nullptr);
     }
@@ -337,14 +337,14 @@ void MoveTo(void* component, float x, float y)
     moveTo(component, position);
 }
 
-// The panel only shows the offers ("Gift Region"); show the demands list too (the AI's regions where your army stands)
+// The panel only shows the offers ("Gift Region"); show the demands list too, side by side
 void* PopulatePanel(void* panel, void* action)
 {
-    void* result = PopulatePanel_fnc(panel, action);
-    if (isEnabled && panel)
+    void* root = panel ? *reinterpret_cast<void**>(static_cast<uint8_t*>(panel) + Addresses::TradeRegionsPanel_Component) : nullptr;
+    if (isEnabled && root)
     {
+        // before populating: the engine only fills visible lists, and the layout hides the demands
         static const auto setVisible = reinterpret_cast<SetVisible_t>(Addresses::UIComponent_SetVisible + Image::Get()->GetSlide());
-        void* root = *reinterpret_cast<void**>(static_cast<uint8_t*>(panel) + Addresses::TradeRegionsPanel_Component);
         for (const char* name : {"list_demands", "demands_title"})
         {
             if (void* component = FindChild(root, name))
@@ -352,7 +352,10 @@ void* PopulatePanel(void* panel, void* action)
                 setVisible(component, true);
             }
         }
-
+    }
+    void* result = PopulatePanel_fnc(panel, action);
+    if (isEnabled && root)
+    {
         // both lists are centred: put the offers in the left half of the panel and the demands in the right half
         void* offers = FindChild(root, "list_offers");
         void* demands = FindChild(root, "list_demands");
