@@ -17,9 +17,9 @@
 // - offers: a human giving to a non-horde can choose any region but the capital and garrisoned settlements
 // Demands keep the engine's rule: only regions where your own army stands.
 //
-// The AI's deal evaluation has no region component (a region scores +0.0). For deals with regions we add a native gift
-// component (CAI_DEAL_COMPONENT_GIFT, the one Payments use) worth the region's value in gold, as returned by the Lua
-// handler of the region trading mod, so the AI weighs a region like that much money.
+// The AI's deal evaluation has no region component (a region scores +0.0). For deals with regions we add the score the
+// region is worth: the mirror image of the AI paying the region's value in gold (the native gift component Payments use),
+// with the value from the Lua handler of the region trading mod.
 
 using namespace sdk::Attila;
 
@@ -166,6 +166,47 @@ float HandlerValue(const char* region, const char* faction)
     return value;
 }
 
+// The evaluator's faction arguments are the AI's wrappers (CAI_FACTION), not FACTION objects. The wrapper points to its
+// FACTION; we find that field once by matching it against the negotiation's two factions, then cache the offset.
+std::atomic<int64_t> caiFactionOffset = -1;
+
+void* EvaluatingFaction(const EvalContext& eval)
+{
+    auto* negotiation = static_cast<uint8_t*>(eval.negotiation);
+    void* factionA = *reinterpret_cast<void**>(negotiation + Addresses::Negotiation_FactionA);
+    void* factionB = *reinterpret_cast<void**>(negotiation + Addresses::Negotiation_FactionB);
+    auto* cai = static_cast<uint8_t*>(eval.factionA);
+    if (!cai)
+    {
+        return nullptr;
+    }
+    if (cai == factionA || cai == factionB)
+    {
+        return cai;
+    }
+    int64_t offset = caiFactionOffset;
+    if (offset < 0)
+    {
+        for (int64_t o = 0; o < 0x200; o += 8)
+        {
+            void* p = *reinterpret_cast<void**>(cai + o);
+            if (p && (p == factionA || p == factionB))
+            {
+                offset = o;
+                break;
+            }
+        }
+        if (offset < 0)
+        {
+            spdlog::warn("[RegionTrading] can't find the FACTION of the evaluating AI");
+            return nullptr;
+        }
+        caiFactionOffset = offset;
+        spdlog::info("[RegionTrading] the evaluating AI's FACTION is at +{:#x}", offset);
+    }
+    return *reinterpret_cast<void**>(cai + offset);
+}
+
 // Gold value of the deal's regions for the evaluating faction: + for regions it receives, - for regions it gives
 float RegionDealValue(const EvalContext& eval)
 {
@@ -191,7 +232,11 @@ float RegionDealValue(const EvalContext& eval)
         return 0.0f;
     }
 
-    void* evaluator = eval.factionA;
+    void* evaluator = EvaluatingFaction(eval);
+    if (!evaluator)
+    {
+        return 0.0f;
+    }
     const char* evaluatorKey = KeyOf(evaluator, Addresses::Faction_Record);
     float total = 0.0f;
     const struct { uint64_t countOffset; uint64_t receiverOffset; } lists[] = {
@@ -233,22 +278,24 @@ float ScoreComponents(ComponentList* list, void* aiContext, void* a, int64_t* a4
         return ScoreComponents_fnc(list, aiContext, a, a4, a5, a6, a7);
     }
 
+    const float score = ScoreComponents_fnc(list, aiContext, a, a4, a5, a6, a7);
+
+    // The evaluator only gives a gift a deal value when the AI pays it (a table lookup on the amount, relative to its
+    // treasury); gold the AI receives only counts as goodwill. So a region worth V to the AI counts like the AI not having
+    // to pay V: the mirror image of the score of "the AI pays V", computed by the same scorer. A burden (V < 0) counts
+    // like paying |V|.
     static const auto giftCtor = reinterpret_cast<GiftCtor_t>(Addresses::DealComponentGift_ctor + Image::Get()->GetSlide());
     alignas(16) uint8_t gift[Addresses::DealComponentGift_Size] = {};
-    giftCtor(gift, eval->aiContext, eval->factionA, eval->factionB, static_cast<int32_t>(gold * valueSign));
+    giftCtor(gift, eval->aiContext, eval->factionA, eval->factionB, -static_cast<int32_t>(std::fabs(gold)));
+    ComponentEntry entry{gift, Addresses::DiplomaticAction_TradeRegions, 0};
+    ComponentList single{1, 1, &entry};
+    int32_t dummy5 = 0;
+    char dummy6 = 0;
+    const float paying = ScoreComponents_fnc(&single, aiContext, a, a4, &dummy5, &dummy6, a7);
+    const float delta = (gold > 0 ? -paying : paying) * static_cast<float>(valueSign.load());
 
-    // the list with our gift appended, restored before the evaluator frees the components
-    std::vector<ComponentEntry> entries(list->data, list->data + list->count);
-    entries.push_back({gift, Addresses::DiplomaticAction_TradeRegions, 0});
-    const ComponentList original = *list;
-    list->data = entries.data();
-    list->count = static_cast<uint32_t>(entries.size());
-    list->capacity = list->count;
-    const float score = ScoreComponents_fnc(list, aiContext, a, a4, a5, a6, a7);
-    *list = original;
-
-    spdlog::debug("[RegionTrading] regions worth {} gold (sign {}) -> deal score {}", gold, valueSign.load(), score);
-    return score;
+    spdlog::debug("[RegionTrading] regions worth {} gold: deal score {} {:+} = {}", gold, score, delta, score + delta);
+    return score + delta;
 }
 } // namespace
 
