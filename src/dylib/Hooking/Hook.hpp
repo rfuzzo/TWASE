@@ -6,11 +6,13 @@
 
 // Inline hook on a game function, aAddress is unslid (as shown in Binary Ninja).
 // Calling the hook object calls the original function.
+// The constructor is constexpr so global hooks are constant-initialized: the hooks are attached from a dylib constructor,
+// which can run before a file's dynamic initializers.
 template<typename T>
 class Hook
 {
 public:
-    Hook(uint64_t aAddress, T aDetour)
+    constexpr Hook(uint64_t aAddress, T aDetour)
         : m_isAttached(false)
         , m_address(aAddress)
         , m_detour(aDetour)
