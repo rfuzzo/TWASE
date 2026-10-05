@@ -16,6 +16,8 @@
 // - available: also between a human and a non-horde AI faction, if the human has a region to give
 // - regions: between a human and a non-horde, either side can give any region but its capital and garrisoned
 //   settlements (offers and demands; the engine only lists regions where the receiver's army stands)
+// The panel only lets you tick one region (in either list); we let you tick any number in both, so one deal can give
+// and demand regions (a swap), and OK puts them all into the deal.
 //
 // The AI's deal evaluation has no region component (a region scores +0.0). For deals with regions we add the score the
 // region is worth: the mirror image of the AI paying the region's value in gold (the native gift component Payments use),
@@ -81,6 +83,10 @@ float ScoreComponents(ComponentList* list, void* aiContext, void* a, int64_t* a4
 Hook<decltype(&EvaluateDeal)> EvaluateDeal_fnc(Addresses::Diplo_EvaluateDeal, &EvaluateDeal);
 Hook<decltype(&ScoreComponents)> ScoreComponents_fnc(Addresses::Diplo_ScoreComponents, &ScoreComponents);
 bool RegionTradePossible(void* a, void* b);
+void* SelectRow(void* panel, void* row);
+Hook<decltype(&SelectRow)> SelectRow_fnc(Addresses::TradeRegionsPanel_SelectRow, &SelectRow);
+void SetRegion(void* context, int32_t regionId, void* demandedFrom, void* deal);
+Hook<decltype(&SetRegion)> SetRegion_fnc(Addresses::DiplomacyContext_SetRegion, &SetRegion);
 
 Hook<decltype(&GiftableRegions)> GiftableRegions_fnc(Addresses::Faction_GiftableRegions, &GiftableRegions);
 Hook<decltype(&RegionTradePossible)> RegionTradePossible_fnc(Addresses::DiplomaticAction_RegionTradePossible, &RegionTradePossible);
@@ -337,14 +343,214 @@ void MoveTo(void* component, float x, float y)
     moveTo(component, position);
 }
 
-// The panel only shows the offers ("Gift Region"); show the demands list too, side by side
+float Height(void* component)
+{
+    auto* state = *reinterpret_cast<uint8_t**>(static_cast<uint8_t*>(component) + 0x140);
+    return state ? *reinterpret_cast<float*>(state + 0x44) : 0.0f;
+}
+
+// virtual + 0xa8 (the Lua Resize); a component only changes the width / height it may resize (flags + 0x190 / + 0x191),
+// so we allow both first
+void Resize(void* component, float width, float height)
+{
+    static_cast<uint8_t*>(component)[0x190] = 1;
+    static_cast<uint8_t*>(component)[0x191] = 1;
+    auto resize = *reinterpret_cast<void (**)(void*, bool, bool, float, float)>(*reinterpret_cast<uint8_t**>(component) + 0xa8);
+    resize(component, true, true, width, height);
+}
+
+// MULTIPLE SELECTION
+
+bool populating = false;
+std::vector<void*> selectedRows; // ticked rows of both lists, the last one is the engine's selection
+
+void* Slid(uint64_t address)
+{
+    return reinterpret_cast<void*>(address + Image::Get()->GetSlide());
+}
+
+void* LocalFaction()
+{
+    void* campaign = *static_cast<void**>(Slid(Addresses::g_Campaign));
+    return campaign ? reinterpret_cast<void* (*)(void*)>(Slid(Addresses::Campaign_LocalFaction))(campaign) : nullptr;
+}
+
+void* OtherFaction(void* panel)
+{
+    return *reinterpret_cast<void**>(static_cast<uint8_t*>(panel) + Addresses::TradeRegionsPanel_OtherFaction);
+}
+
+void* Root(void* panel)
+{
+    return panel ? *reinterpret_cast<void**>(static_cast<uint8_t*>(panel) + Addresses::TradeRegionsPanel_Component) : nullptr;
+}
+
+bool IsWidenedPanel(void* panel)
+{
+    return isEnabled && panel && IsSettledPair(LocalFaction(), OtherFaction(panel));
+}
+
+// before Populate has set the panel's faction
+bool IsWidenedAction(void* action)
+{
+    if (!isEnabled || !action)
+    {
+        return false;
+    }
+    using Faction_t = void* (*)(void*);
+    void* local = LocalFaction();
+    void* other = reinterpret_cast<Faction_t>(Slid(Addresses::DiplomaticAction_FactionA))(action);
+    if (other == local)
+    {
+        other = reinterpret_cast<Faction_t>(Slid(Addresses::DiplomaticAction_FactionB))(action);
+    }
+    return IsSettledPair(local, other);
+}
+
+std::span<void*> Children(void* component)
+{
+    if (!component)
+    {
+        return {};
+    }
+    auto* c = static_cast<uint8_t*>(component);
+    return {*reinterpret_cast<void***>(c + Addresses::UIComponent_Children), *reinterpret_cast<uint32_t*>(c + Addresses::UIComponent_ChildCount)};
+}
+
+// the rows of list_offers / list_demands
+std::span<void*> Rows(void* root, const char* list)
+{
+    return Children(FindChild(FindChild(root, list), "list_box"));
+}
+
+int32_t RowRegionId(void* row)
+{
+    int32_t id = 0;
+    reinterpret_cast<bool (*)(void*, int32_t*)>(Slid(Addresses::TempString_ToInt))(static_cast<uint8_t*>(row) + Addresses::UIComponent_Id, &id);
+    return id;
+}
+
+void SetChecked(void* row, bool checked)
+{
+    void* checkbox = FindChild(row, "checkbox");
+    void* state = checkbox ? *reinterpret_cast<void**>(static_cast<uint8_t*>(checkbox) + Addresses::UIComponent_Checkbox) : nullptr;
+    if (state)
+    {
+        reinterpret_cast<void (*)(void*, bool, bool, bool)>(Slid(Addresses::Checkbox_SetChecked))(state, checked, false, false);
+    }
+}
+
+// A click on a row toggles it; the others stay ticked. The engine keeps the last ticked row as its selection (for the
+// OK button's state and the camera).
+void* SelectRow(void* panel, void* row)
+{
+    if (populating || !IsWidenedPanel(panel))
+    {
+        return SelectRow_fnc(panel, row);
+    }
+    if (!row)
+    {
+        selectedRows.clear();
+        return SelectRow_fnc(panel, nullptr);
+    }
+    void* focus = row;
+    if (auto it = std::find(selectedRows.begin(), selectedRows.end(), row); it != selectedRows.end())
+    {
+        selectedRows.erase(it);
+        focus = selectedRows.empty() ? nullptr : selectedRows.back();
+    }
+    else
+    {
+        selectedRows.push_back(row);
+    }
+    void* result = SelectRow_fnc(panel, focus);
+    for (void* selected : selectedRows)
+    {
+        SetChecked(selected, true);
+    }
+    return result;
+}
+
+struct PointerList
+{
+    uint32_t capacity;
+    uint32_t count;
+    void** data;
+};
+
+// regions of `faction` by id, from the same list the panel shows
+std::vector<void*> RegionsById(void* faction, const std::vector<int32_t>& ids)
+{
+    std::vector<void*> regions;
+    if (ids.empty())
+    {
+        return regions;
+    }
+    RegionList list = GiftableRegions_fnc(faction, nullptr);
+    for (int32_t id : ids)
+    {
+        for (uint32_t i = 0; i < list.count; i++)
+        {
+            auto* region = static_cast<uint8_t**>(list.data)[i];
+            if (*reinterpret_cast<int32_t*>(region + Addresses::Region_Id) == id)
+            {
+                regions.push_back(region);
+                break;
+            }
+        }
+    }
+    if (list.data)
+    {
+        reinterpret_cast<void (*)(void*)>(Slid(Addresses::tw_free))(list.data);
+    }
+    return regions;
+}
+
+void* openPanel = nullptr;
+
+// OK: all ticked regions go into the deal, offered and demanded
+void SetRegion(void* context, int32_t regionId, void* demandedFrom, void* deal)
+{
+    void* panel = openPanel;
+    if (selectedRows.empty() || !deal || !IsWidenedPanel(panel))
+    {
+        SetRegion_fnc(context, regionId, demandedFrom, deal);
+        return;
+    }
+    const auto demandRows = Rows(Root(panel), "list_demands");
+    std::vector<int32_t> offeredIds, demandedIds;
+    for (void* row : selectedRows)
+    {
+        const bool demanded = std::find(demandRows.begin(), demandRows.end(), row) != demandRows.end();
+        (demanded ? demandedIds : offeredIds).push_back(RowRegionId(row));
+    }
+    selectedRows.clear();
+    std::vector<void*> offered = RegionsById(LocalFaction(), offeredIds);
+    std::vector<void*> demanded = RegionsById(OtherFaction(panel), demandedIds);
+    spdlog::debug("[RegionTrading] deal regions: {} offered, {} demanded", offered.size(), demanded.size());
+
+    auto* c = static_cast<uint8_t*>(context);
+    void* x = *reinterpret_cast<void**>(*reinterpret_cast<uint8_t**>(*reinterpret_cast<uint8_t**>(c + 0xc0) + 0x30) + 0x50);
+    alignas(16) uint8_t terms[0x200];
+    reinterpret_cast<void (*)(void*)>(Slid(Addresses::DealTerms_ctor))(terms);
+    PointerList offeredList{static_cast<uint32_t>(offered.size()), static_cast<uint32_t>(offered.size()), offered.data()};
+    PointerList demandedList{static_cast<uint32_t>(demanded.size()), static_cast<uint32_t>(demanded.size()), demanded.data()};
+    reinterpret_cast<void (*)(void*, const PointerList*)>(Slid(Addresses::DealTerms_SetOfferedRegions))(terms, &offeredList);
+    reinterpret_cast<void (*)(void*, const PointerList*)>(Slid(Addresses::DealTerms_SetDemandedRegions))(terms, &demandedList);
+    reinterpret_cast<void (*)(void*, void*, void*)>(Slid(Addresses::Deal_ApplyTerms))(deal, x, terms);
+    reinterpret_cast<void (*)(void*)>(Slid(Addresses::DealTerms_dtor))(terms);
+}
+
+// The panel only shows the offers ("Gift Region"); show the demands list too, side by side, and tick every region
+// already in the deal
 void* PopulatePanel(void* panel, void* action)
 {
-    void* root = panel ? *reinterpret_cast<void**>(static_cast<uint8_t*>(panel) + Addresses::TradeRegionsPanel_Component) : nullptr;
-    if (isEnabled && root)
+    void* root = Root(panel);
+    const bool widened = IsWidenedAction(action);
+    if (widened && root)
     {
         // before populating: the engine only fills visible lists, and the layout hides the demands
-        static const auto setVisible = reinterpret_cast<SetVisible_t>(Addresses::UIComponent_SetVisible + Image::Get()->GetSlide());
+        static const auto setVisible = reinterpret_cast<SetVisible_t>(Slid(Addresses::UIComponent_SetVisible));
         for (const char* name : {"list_demands", "demands_title"})
         {
             if (void* component = FindChild(root, name))
@@ -353,19 +559,70 @@ void* PopulatePanel(void* panel, void* action)
             }
         }
     }
+    selectedRows.clear();
+    openPanel = panel;
+    populating = true;
     void* result = PopulatePanel_fnc(panel, action);
-    if (isEnabled && root)
+    populating = false;
+    if (!widened || !root)
     {
-        // both lists are centred: put the offers in the left half of the panel and the demands in the right half
-        void* offers = FindChild(root, "list_offers");
-        void* demands = FindChild(root, "list_demands");
-        if (root && offers && demands)
+        return result;
+    }
+
+    // the panel fits one list: narrow both lists to fit side by side
+    void* offers = FindChild(root, "list_offers");
+    void* demands = FindChild(root, "list_demands");
+    if (offers && demands)
+    {
+        constexpr float gap = 16.0f;
+        const auto [rootX, rootY] = Position(root);
+        const float rootWidth = Width(root);
+        const float listWidth = (rootWidth - 3 * gap) / 2;
+        const float y = Position(offers).second;
+        for (void* list : {offers, demands})
         {
-            const float rootX = Position(root).first, rootWidth = Width(root);
-            const float listWidth = Width(offers);
-            MoveTo(offers, rootX + rootWidth / 4 - listWidth / 2, Position(offers).second);
-            MoveTo(demands, rootX + 3 * rootWidth / 4 - Width(demands) / 2, Position(demands).second);
-            spdlog::debug("[RegionTrading] region panel: root x {} width {}, lists width {}", rootX, rootWidth, listWidth);
+            // the list's clip and box follow its width, the rows (and their checkboxes on the right) don't
+            Resize(list, listWidth, Height(list));
+            void* box = FindChild(list, "list_box");
+            const float rowWidth = box ? Width(box) : 0.0f;
+            for (void* row : Children(box))
+            {
+                Resize(row, rowWidth, Height(row));
+                if (void* checkbox = FindChild(row, "checkbox"))
+                {
+                    MoveTo(checkbox, Position(row).first + rowWidth - Width(checkbox) - 8, Position(checkbox).second);
+                }
+            }
+        }
+        MoveTo(offers, rootX + gap, y);
+        MoveTo(demands, rootX + 2 * gap + listWidth, y);
+        spdlog::debug("[RegionTrading] region panel: x {} width {}, lists width {}", rootX, rootWidth, Width(offers));
+    }
+
+    // tick every region already in the deal (the engine ticks only the first one)
+    auto* a = static_cast<uint8_t*>(action);
+    const auto inDeal = a ? *reinterpret_cast<InDeal_t*>(*reinterpret_cast<uint8_t**>(a) + Addresses::DiplomaticAction_InDealVtableOffset) : nullptr;
+    if (inDeal && inDeal(action))
+    {
+        for (uint64_t countOffset : {Addresses::TradeRegions_List1Count, Addresses::TradeRegions_List2Count})
+        {
+            const auto count = *reinterpret_cast<uint32_t*>(a + countOffset);
+            auto** regions = *reinterpret_cast<uint8_t***>(a + countOffset + 4);
+            for (uint32_t i = 0; regions && i < count; i++)
+            {
+                const int32_t id = *reinterpret_cast<int32_t*>(regions[i] + Addresses::Region_Id);
+                for (const char* list : {"list_offers", "list_demands"})
+                {
+                    for (void* row : Rows(root, list))
+                    {
+                        if (RowRegionId(row) == id && std::find(selectedRows.begin(), selectedRows.end(), row) == selectedRows.end())
+                        {
+                            selectedRows.push_back(row);
+                            SetChecked(row, true);
+                        }
+                    }
+                }
+            }
         }
     }
     return result;
@@ -401,6 +658,10 @@ bool Hooks::NativeRegionTradingHook::Attach()
     if (result == 0)
         result = PopulatePanel_fnc.Attach();
     if (result == 0)
+        result = SelectRow_fnc.Attach();
+    if (result == 0)
+        result = SetRegion_fnc.Attach();
+    if (result == 0)
         result = EvaluateDeal_fnc.Attach();
     if (result == 0)
         result = ScoreComponents_fnc.Attach();
@@ -425,6 +686,10 @@ bool Hooks::NativeRegionTradingHook::Detach()
     auto result = ScoreComponents_fnc.Detach();
     if (result == 0)
         result = EvaluateDeal_fnc.Detach();
+    if (result == 0)
+        result = SetRegion_fnc.Detach();
+    if (result == 0)
+        result = SelectRow_fnc.Detach();
     if (result == 0)
         result = PopulatePanel_fnc.Detach();
     if (result == 0)

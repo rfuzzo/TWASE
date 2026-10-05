@@ -157,6 +157,32 @@ constexpr uint64_t TradeRegionsPanel_Component = 0x8;      // UIComponent*
 constexpr uint64_t UIComponent_FindChild = 0x1032D4F88;
 // void (*)(UIComponent*, bool), the engine side of the Lua SetVisible
 constexpr uint64_t UIComponent_SetVisible = 0x1032C6B00;
+// void (*)(PANEL* self, UIComponent* row): unticks every row of both lists, ticks `row` (may be null) and keeps it as
+// the one selection, sets ok_trade_regions active / inactive and pans the camera to the row's region
+constexpr uint64_t TradeRegionsPanel_SelectRow = 0x1035ADFF8;
+constexpr uint64_t TradeRegionsPanel_Selected = 0x78;      // UIComponent* row
+constexpr uint64_t TradeRegionsPanel_OtherFaction = 0x80;  // FACTION* of the AI, set by Populate
+// FACTION* (*)(DIPLOMATIC_ACTION*): the action's two factions (Populate takes the one that isn't the local faction)
+constexpr uint64_t DiplomaticAction_FactionA = 0x1024C829C;
+constexpr uint64_t DiplomaticAction_FactionB = 0x1025D2180;
+// void (*)(DIPLOMACY_CONTEXT*, int32_t regionId, FACTION* demandedFrom (null: offered), DEAL* deal): the OK button;
+// fills deal terms with the one region and applies them to the deal (replacing the region term)
+constexpr uint64_t DiplomacyContext_SetRegion = 0x1036CB868;
+constexpr uint64_t DealTerms_ctor = 0x1024C8130;           // void (*)(TERMS*), about 0x1b0 bytes
+constexpr uint64_t DealTerms_dtor = 0x101A82704;           // void (*)(TERMS*)
+constexpr uint64_t DealTerms_SetDemandedRegions = 0x1025C7DF4; // void (*)(TERMS*, const List*), copied to + 0x10
+constexpr uint64_t DealTerms_SetOfferedRegions = 0x1025C7F00;  // void (*)(TERMS*, const List*), copied to + 0x20
+// void (*)(DEAL*, void* x, TERMS*), a thunk to the deal's virtual + 0x78; x = *(*(*(context + 0xc0) + 0x30) + 0x50)
+constexpr uint64_t Deal_ApplyTerms = 0x1025D2124;
+constexpr uint64_t Campaign_LocalFaction = 0x1036C2C94;    // FACTION* (*)(CAMPAIGN* = *g_Campaign)
+constexpr uint64_t TempString_ToInt = 0x10109896C;         // bool (*)(const TempString*, int32_t* out)
+constexpr uint64_t Region_Id = 0x8;                        // int32, the panel's row ids ("%d")
+// UIComponent: id TempString at + 0xf8, children count + 0x114 / UIComponent** + 0x118, checkbox state at + 0x258
+constexpr uint64_t UIComponent_Id = 0xF8;
+constexpr uint64_t UIComponent_ChildCount = 0x114;
+constexpr uint64_t UIComponent_Children = 0x118;
+constexpr uint64_t UIComponent_Checkbox = 0x258;
+constexpr uint64_t Checkbox_SetChecked = 0x1033090C0;      // void (*)(CHECKBOX*, bool, bool, bool)
 
 // Region value in the AI's deal evaluation
 // float (*)(NEGOTIATION* deal, void* aiContext, FACTION* a, FACTION* b, int32_t* out, bool* out)
