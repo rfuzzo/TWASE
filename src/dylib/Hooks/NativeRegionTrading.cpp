@@ -67,10 +67,16 @@ struct ComponentList
 };
 
 using GiftCtor_t = void (*)(void* self, void* aiContext, void* a, void* b, int32_t gold);
+using FindChild_t = void* (*)(void* parent, const TempString* name, bool recursive);
+using SetVisible_t = void (*)(void* component, bool visible);
+using StringCtor_t = TempString* (*)(TempString* self, const char* utf8);
+using StringDtor_t = void (*)(TempString* self);
 using InDeal_t = bool (*)(void* action);
 
 RegionList GiftableRegions(void* from, void* to);
 float EvaluateDeal(void* negotiation, void* aiContext, void* a, void* b, int32_t* out5, char* out6);
+void* PopulatePanel(void* panel, void* action);
+Hook<decltype(&PopulatePanel)> PopulatePanel_fnc(Addresses::TradeRegionsPanel_Populate, &PopulatePanel);
 float ScoreComponents(ComponentList* list, void* aiContext, void* a, int64_t* a4, int32_t* a5, char* a6, uint64_t a7);
 Hook<decltype(&EvaluateDeal)> EvaluateDeal_fnc(Addresses::Diplo_EvaluateDeal, &EvaluateDeal);
 Hook<decltype(&ScoreComponents)> ScoreComponents_fnc(Addresses::Diplo_ScoreComponents, &ScoreComponents);
@@ -297,6 +303,70 @@ float ScoreComponents(ComponentList* list, void* aiContext, void* a, int64_t* a4
     spdlog::debug("[RegionTrading] regions worth {} gold: deal score {} {:+} = {}", gold, score, delta, score + delta);
     return score + delta;
 }
+void* FindChild(void* parent, const char* name)
+{
+    const auto slide = Image::Get()->GetSlide();
+    static const auto findChild = reinterpret_cast<FindChild_t>(Addresses::UIComponent_FindChild + slide);
+    static const auto stringCtor = reinterpret_cast<StringCtor_t>(Addresses::String_ctor + slide);
+    static const auto stringDtor = reinterpret_cast<StringDtor_t>(Addresses::String_dtor + slide);
+    TempString key;
+    stringCtor(&key, name);
+    void* child = parent ? findChild(parent, &key, true) : nullptr;
+    stringDtor(&key);
+    return child;
+}
+
+// UIComponent geometry: position at + 0x128 / + 0x12c, size in the current state (+ 0x140) at + 0x40 / + 0x44,
+// MoveTo is virtual + 0xc8 with {x, y}, all floats (the Lua bindings Position, Dimensions and MoveTo)
+std::pair<float, float> Position(void* component)
+{
+    auto* c = static_cast<uint8_t*>(component);
+    return {*reinterpret_cast<float*>(c + 0x128), *reinterpret_cast<float*>(c + 0x12c)};
+}
+
+float Width(void* component)
+{
+    auto* state = *reinterpret_cast<uint8_t**>(static_cast<uint8_t*>(component) + 0x140);
+    return state ? *reinterpret_cast<float*>(state + 0x40) : 0.0f;
+}
+
+void MoveTo(void* component, float x, float y)
+{
+    float position[2] = {x, y};
+    auto moveTo = *reinterpret_cast<void (**)(void*, float*)>(*reinterpret_cast<uint8_t**>(component) + 0xc8);
+    moveTo(component, position);
+}
+
+// The panel only shows the offers ("Gift Region"); show the demands list too (the AI's regions where your army stands)
+void* PopulatePanel(void* panel, void* action)
+{
+    void* result = PopulatePanel_fnc(panel, action);
+    if (isEnabled && panel)
+    {
+        static const auto setVisible = reinterpret_cast<SetVisible_t>(Addresses::UIComponent_SetVisible + Image::Get()->GetSlide());
+        void* root = *reinterpret_cast<void**>(static_cast<uint8_t*>(panel) + Addresses::TradeRegionsPanel_Component);
+        for (const char* name : {"list_demands", "demands_title"})
+        {
+            if (void* component = FindChild(root, name))
+            {
+                setVisible(component, true);
+            }
+        }
+
+        // both lists are centred: put the offers in the left half of the panel and the demands in the right half
+        void* offers = FindChild(root, "list_offers");
+        void* demands = FindChild(root, "list_demands");
+        if (root && offers && demands)
+        {
+            const float rootX = Position(root).first, rootWidth = Width(root);
+            const float listWidth = Width(offers);
+            MoveTo(offers, rootX + rootWidth / 4 - listWidth / 2, Position(offers).second);
+            MoveTo(demands, rootX + 3 * rootWidth / 4 - Width(demands) / 2, Position(demands).second);
+            spdlog::debug("[RegionTrading] region panel: root x {} width {}, lists width {}", rootX, rootWidth, listWidth);
+        }
+    }
+    return result;
+}
 } // namespace
 
 void Hooks::NativeRegionTradingHook::SetLuaState(lua_State* L)
@@ -326,6 +396,8 @@ bool Hooks::NativeRegionTradingHook::Attach()
     if (result == 0)
         result = RegionTradePossible_fnc.Attach();
     if (result == 0)
+        result = PopulatePanel_fnc.Attach();
+    if (result == 0)
         result = EvaluateDeal_fnc.Attach();
     if (result == 0)
         result = ScoreComponents_fnc.Attach();
@@ -350,6 +422,8 @@ bool Hooks::NativeRegionTradingHook::Detach()
     auto result = ScoreComponents_fnc.Detach();
     if (result == 0)
         result = EvaluateDeal_fnc.Detach();
+    if (result == 0)
+        result = PopulatePanel_fnc.Detach();
     if (result == 0)
         result = RegionTradePossible_fnc.Detach();
     if (result == 0)

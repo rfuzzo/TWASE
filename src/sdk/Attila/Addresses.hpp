@@ -149,6 +149,15 @@ constexpr uint64_t DiplomaticAction_RegionTradePossible = 0x1025C7A6C;
 constexpr uint64_t Faction_IsHuman = 0x970;                // bool (the Lua is_human)
 constexpr uint64_t Faction_IsHorde = 0x101B521EC;          // void* (*)(FACTION*), non-null for hordes (the Lua is_horde)
 
+// The native region panel (UIDLL::DiplomacyTradeRegionsPanel, layout diplomacy_hud "trade_regions")
+// void (*)(PANEL* self, DIPLOMATIC_ACTION* action): fills list_offers (player -> AI) and list_demands (AI -> player)
+constexpr uint64_t TradeRegionsPanel_Populate = 0x1035AD948;
+constexpr uint64_t TradeRegionsPanel_Component = 0x8;      // UIComponent*
+// UIComponent* (*)(UIComponent* parent, const TempString* name, bool recursive)
+constexpr uint64_t UIComponent_FindChild = 0x1032D4F88;
+// void (*)(UIComponent*, bool), the engine side of the Lua SetVisible
+constexpr uint64_t UIComponent_SetVisible = 0x1032C6B00;
+
 // Region value in the AI's deal evaluation
 // float (*)(NEGOTIATION* deal, void* aiContext, FACTION* a, FACTION* b, int32_t* out, bool* out)
 constexpr uint64_t Diplo_EvaluateDeal = 0x101D7B25C;
