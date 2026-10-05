@@ -174,6 +174,22 @@ constexpr uint64_t DealTerms_SetDemandedRegions = 0x1025C7DF4; // void (*)(TERMS
 constexpr uint64_t DealTerms_SetOfferedRegions = 0x1025C7F00;  // void (*)(TERMS*, const List*), copied to + 0x20
 // void (*)(DEAL*, void* x, TERMS*), a thunk to the deal's virtual + 0x78; x = *(*(*(context + 0xc0) + 0x30) + 0x50)
 constexpr uint64_t Deal_ApplyTerms = 0x1025D2124;
+// void (*)(DIPLOMATIC_ACTION_TRADE_REGIONS*): executes the deal, list 1 to negotiation faction A, list 2 to faction B
+// (vtable 0x104c1e520 slot 13)
+constexpr uint64_t TradeRegions_Execute = 0x1025C8188;
+constexpr uint64_t DiplomaticAction_Negotiation = 0x8;
+// The deal list row of a trade regions action (UIDLL::DiplomacyListTradeRegionsButton, vtable slot + 0x1e0):
+// void (*)(BUTTON* self, UIComponent* dropdownRoot, ENTRY* entry, void* context); entry + 0x18 = the action.
+// It shows the demanded regions if there are any, else the offered ones, in "region_names".
+constexpr uint64_t DiplomacyListTradeRegionsButton_Setup = 0x1035A6EEC;
+constexpr uint64_t Region_Owner = 0x1A0;                   // **(region + 0x1a0) = owning FACTION* (the Lua owning_faction)
+constexpr uint64_t Region_LocalisedName = 0x101C57700;     // const UniString* (*)(REGION*)
+// UniString (UTF-16, 0x10 bytes): ctor from a u"" literal, append, append literal, non-empty, set component text
+constexpr uint64_t UniString_ctor = 0x101049D84;
+constexpr uint64_t UniString_Append = 0x1010537FC;
+constexpr uint64_t UniString_AppendLiteral = 0x1010535FC;
+constexpr uint64_t UniString_NotEmpty = 0x1010493B4;
+constexpr uint64_t UIComponent_SetText = 0x1032C918C;      // void (*)(UIComponent*, const UniString*, bool)
 constexpr uint64_t Campaign_LocalFaction = 0x1036C2C94;    // FACTION* (*)(CAMPAIGN* = *g_Campaign)
 constexpr uint64_t TempString_ToInt = 0x10109896C;         // bool (*)(const TempString*, int32_t* out)
 constexpr uint64_t Region_Id = 0x8;                        // int32, the panel's row ids ("%d")

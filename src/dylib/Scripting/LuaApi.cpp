@@ -514,6 +514,20 @@ int SetRegionValueHandler(lua_State* L)
     return 0;
 }
 
+// twase.set_region_transfer_handler(function(phase, region_key, to_faction_key) end)
+// Called around a native region deal's transfer: "before" for each region, then "after" for each region. The region
+// trading mod keeps the governor of a transferred province capital alive with it.
+int SetRegionTransferHandler(lua_State* L)
+{
+    if (LuaRuntime::type(L, 1) != LUA_TFUNCTION && LuaRuntime::type(L, 1) != LUA_TNIL)
+    {
+        return LuaRuntime::error(L, "twase.set_region_transfer_handler(fn): expects a function or nil");
+    }
+    LuaRuntime::pushvalue(L, 1);
+    LuaRuntime::setfield(L, LUA_REGISTRYINDEX, "twase_region_transfer_handler");
+    return 0;
+}
+
 // twase.dev_region_value_sign(sign), twase.dev_last_deal_score() -> number
 int DevRegionValueSign(lua_State* L)
 {
@@ -589,6 +603,7 @@ void Scripting::LuaApi::Register(lua_State* L)
     SetFunction(L, "dev_set_action_available", &DevSetActionAvailable);
     SetFunction(L, "dev_native_region_trading", &DevNativeRegionTrading);
     SetFunction(L, "set_region_value_handler", &SetRegionValueHandler);
+    SetFunction(L, "set_region_transfer_handler", &SetRegionTransferHandler);
     SetFunction(L, "dev_region_value_sign", &DevRegionValueSign);
     SetFunction(L, "dev_last_deal_score", &DevLastDealScore);
 

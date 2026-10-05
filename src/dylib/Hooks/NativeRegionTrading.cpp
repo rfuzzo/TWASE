@@ -87,6 +87,10 @@ void* SelectRow(void* panel, void* row);
 Hook<decltype(&SelectRow)> SelectRow_fnc(Addresses::TradeRegionsPanel_SelectRow, &SelectRow);
 void SetRegion(void* context, int32_t regionId, void* demandedFrom, void* deal);
 Hook<decltype(&SetRegion)> SetRegion_fnc(Addresses::DiplomacyContext_SetRegion, &SetRegion);
+void Execute(void* action);
+Hook<decltype(&Execute)> Execute_fnc(Addresses::TradeRegions_Execute, &Execute);
+void ListButtonSetup(void* button, void* root, void* entry, void* context);
+Hook<decltype(&ListButtonSetup)> ListButtonSetup_fnc(Addresses::DiplomacyListTradeRegionsButton_Setup, &ListButtonSetup);
 
 Hook<decltype(&GiftableRegions)> GiftableRegions_fnc(Addresses::Faction_GiftableRegions, &GiftableRegions);
 Hook<decltype(&RegionTradePossible)> RegionTradePossible_fnc(Addresses::DiplomaticAction_RegionTradePossible, &RegionTradePossible);
@@ -217,6 +221,70 @@ void* EvaluatingFaction(const EvalContext& eval)
         spdlog::info("[RegionTrading] the evaluating AI's FACTION is at +{:#x}", offset);
     }
     return *reinterpret_cast<void**>(cai + offset);
+}
+
+// TRANSFER: the Lua handler around the engine's transfer (the mod protects governors)
+
+void CallTransferHandler(const char* phase, const char* region, const char* faction)
+{
+    lua_State* L = luaState;
+    if (!L || !region || !faction)
+    {
+        return;
+    }
+    const int top = LuaRuntime::gettop(L);
+    LuaRuntime::getfield(L, LUA_REGISTRYINDEX, "twase_region_transfer_handler");
+    if (LuaRuntime::type(L, -1) == LUA_TFUNCTION)
+    {
+        LuaRuntime::pushstring(L, phase);
+        LuaRuntime::pushstring(L, region);
+        LuaRuntime::pushstring(L, faction);
+        if (LuaRuntime::pcall(L, 3, 0, 0) != 0)
+        {
+            spdlog::error("[RegionTrading] transfer handler failed: {}", LuaRuntime::tolstring(L, -1, nullptr));
+        }
+    }
+    LuaRuntime::settop(L, top);
+}
+
+void Execute(void* action)
+{
+    auto* a = static_cast<uint8_t*>(action);
+    auto* negotiation = a ? *reinterpret_cast<uint8_t**>(a + Addresses::DiplomaticAction_Negotiation) : nullptr;
+    if (!isEnabled || !negotiation)
+    {
+        Execute_fnc(action);
+        return;
+    }
+    // region and new owner keys, copied before the transfer
+    std::vector<std::pair<std::string, std::string>> transfers;
+    const struct { uint64_t countOffset; uint64_t receiverOffset; } lists[] = {
+        {Addresses::TradeRegions_List1Count, Addresses::Negotiation_FactionA},
+        {Addresses::TradeRegions_List2Count, Addresses::Negotiation_FactionB},
+    };
+    for (const auto& list : lists)
+    {
+        const auto count = *reinterpret_cast<uint32_t*>(a + list.countOffset);
+        auto** regions = *reinterpret_cast<void***>(a + list.countOffset + 4);
+        const char* receiver = KeyOf(*reinterpret_cast<void**>(negotiation + list.receiverOffset), Addresses::Faction_Record);
+        for (uint32_t i = 0; regions && receiver && i < count; i++)
+        {
+            if (const char* region = KeyOf(regions[i], Addresses::Region_Record))
+            {
+                transfers.emplace_back(region, receiver);
+            }
+        }
+    }
+    for (const auto& [region, to] : transfers)
+    {
+        spdlog::debug("[RegionTrading] transfer {} to {}", region, to);
+        CallTransferHandler("before", region.c_str(), to.c_str());
+    }
+    Execute_fnc(action);
+    for (const auto& [region, to] : transfers)
+    {
+        CallTransferHandler("after", region.c_str(), to.c_str());
+    }
 }
 
 // Gold value of the deal's regions for the evaluating faction: + for regions it receives, - for regions it gives
@@ -541,6 +609,59 @@ void SetRegion(void* context, int32_t regionId, void* demandedFrom, void* deal)
     reinterpret_cast<void (*)(void*)>(Slid(Addresses::DealTerms_dtor))(terms);
 }
 
+// DEAL LIST: a trade regions row shows the demanded regions if there are any, else the offered ones, in both columns.
+// With both (a swap) we show each column its own: in "your_offers" the regions you own, in the other the AI's.
+void ListButtonSetup(void* button, void* root, void* entry, void* context)
+{
+    ListButtonSetup_fnc(button, root, entry, context);
+    auto* action = entry ? *reinterpret_cast<uint8_t**>(static_cast<uint8_t*>(entry) + 0x18) : nullptr;
+    if (!isEnabled || !action || !button || !root)
+    {
+        return;
+    }
+    const auto count1 = *reinterpret_cast<uint32_t*>(action + Addresses::TradeRegions_List1Count);
+    const auto count2 = *reinterpret_cast<uint32_t*>(action + Addresses::TradeRegions_List2Count);
+    void* row = *reinterpret_cast<void**>(static_cast<uint8_t*>(button) + 8);
+    void* names = row ? FindChild(row, "region_names") : nullptr;
+    if (count1 == 0 || count2 == 0 || !names)
+    {
+        return;
+    }
+    const auto yourRows = Rows(root, "your_offers");
+    const bool yours = std::find(yourRows.begin(), yourRows.end(), row) != yourRows.end();
+    void* local = LocalFaction();
+
+    using UniCtor_t = void (*)(void*, const char16_t*);
+    using UniAppend_t = void (*)(void*, const void*);
+    using UniAppendLiteral_t = void (*)(void*, const char16_t*);
+    using UniNotEmpty_t = bool (*)(const void*);
+    using UniDtor_t = void (*)(void*);
+    alignas(16) uint8_t text[16];
+    reinterpret_cast<UniCtor_t>(Slid(Addresses::UniString_ctor))(text, u"");
+    for (uint64_t countOffset : {Addresses::TradeRegions_List1Count, Addresses::TradeRegions_List2Count})
+    {
+        const auto count = *reinterpret_cast<uint32_t*>(action + countOffset);
+        auto** regions = *reinterpret_cast<uint8_t***>(action + countOffset + 4);
+        for (uint32_t i = 0; regions && i < count; i++)
+        {
+            auto** ownerSlot = *reinterpret_cast<void***>(regions[i] + Addresses::Region_Owner);
+            const bool owned = ownerSlot && *ownerSlot == local;
+            if (owned != yours)
+            {
+                continue;
+            }
+            if (reinterpret_cast<UniNotEmpty_t>(Slid(Addresses::UniString_NotEmpty))(text))
+            {
+                reinterpret_cast<UniAppendLiteral_t>(Slid(Addresses::UniString_AppendLiteral))(text, u", ");
+            }
+            const void* name = reinterpret_cast<const void* (*)(void*)>(Slid(Addresses::Region_LocalisedName))(regions[i]);
+            reinterpret_cast<UniAppend_t>(Slid(Addresses::UniString_Append))(text, name);
+        }
+    }
+    reinterpret_cast<void (*)(void*, const void*, bool)>(Slid(Addresses::UIComponent_SetText))(names, text, false);
+    reinterpret_cast<UniDtor_t>(Slid(Addresses::UniString_dtor))(text);
+}
+
 // The panel only shows the offers ("Gift Region"); show the demands list too, side by side, and tick every region
 // already in the deal
 void* PopulatePanel(void* panel, void* action)
@@ -662,6 +783,10 @@ bool Hooks::NativeRegionTradingHook::Attach()
     if (result == 0)
         result = SetRegion_fnc.Attach();
     if (result == 0)
+        result = Execute_fnc.Attach();
+    if (result == 0)
+        result = ListButtonSetup_fnc.Attach();
+    if (result == 0)
         result = EvaluateDeal_fnc.Attach();
     if (result == 0)
         result = ScoreComponents_fnc.Attach();
@@ -686,6 +811,10 @@ bool Hooks::NativeRegionTradingHook::Detach()
     auto result = ScoreComponents_fnc.Detach();
     if (result == 0)
         result = EvaluateDeal_fnc.Detach();
+    if (result == 0)
+        result = ListButtonSetup_fnc.Detach();
+    if (result == 0)
+        result = Execute_fnc.Detach();
     if (result == 0)
         result = SetRegion_fnc.Detach();
     if (result == 0)
