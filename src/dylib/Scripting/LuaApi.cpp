@@ -539,12 +539,15 @@ int DevDiplomacyActions(lua_State* L)
     return 1;
 }
 
-// twase.enable_region_trading({ value = function(region_key, faction_key) return gold end,
-//                                transfer = function(phase, region_key, to_faction_key) end })
+// twase.enable_region_trading({ value = function(region_key, faction_key, other_key) return gold end,
+//                                transfer = function(phase, region_key, to_faction_key) end,
+//                                federates = function(ai_key, player_key, region_key...) return count, cost, reason, units end })
 // Switches on the engine's region deals between a human and a settled AI faction (Hooks/NativeRegionTrading.cpp).
 // `value`: the gold value of a region for a faction (negative = a burden), used when the AI evaluates a deal with
 // regions; required, without it regions would be free. `transfer` (optional): called "before" for each region of an
-// accepted deal, then "after" for each. twase.enable_region_trading(nil) switches it off again.
+// accepted deal, then "after" for each. `federates` (optional): for "Region for Troops", the units the AI gives for the
+// regions: number, recruitment cost, the reason when none, their names one per line. twase.enable_region_trading(nil)
+// switches it off again.
 int EnableRegionTrading(lua_State* L)
 {
     if (LuaRuntime::type(L, 1) == LUA_TNIL || LuaRuntime::type(L, 1) == LUA_TNONE)
@@ -568,6 +571,12 @@ int EnableRegionTrading(lua_State* L)
         return LuaRuntime::error(L, "twase.enable_region_trading(handlers): handlers.transfer must be a function or nil");
     }
     LuaRuntime::setfield(L, LUA_REGISTRYINDEX, "twase_region_transfer_handler");
+    LuaRuntime::getfield(L, 1, "federates");
+    if (LuaRuntime::type(L, -1) != LUA_TFUNCTION && LuaRuntime::type(L, -1) != LUA_TNIL)
+    {
+        return LuaRuntime::error(L, "twase.enable_region_trading(handlers): handlers.federates must be a function or nil");
+    }
+    LuaRuntime::setfield(L, LUA_REGISTRYINDEX, "twase_region_federates_handler");
     Hooks::NativeRegionTradingHook::SetEnabled(true);
     return 0;
 }
@@ -699,6 +708,30 @@ void SetFunction(lua_State* L, const char* aName, lua_CFunction aFunction)
     LuaRuntime::setfield(L, -2, aName);
 }
 } // namespace
+
+std::string Scripting::LuaApi::LocalisedText(const char* aKey)
+{
+    static const auto stringCtor = Resolve<String_ctor_t>(Addr::String_ctor);
+    static const auto stringDtor = Resolve<String_dtor_t>(Addr::String_dtor);
+    void* db = Database();
+    void* loc = db ? ReadPtr<void*>(db, Addr::Database_Localisation) : nullptr;
+    if (!loc || !aKey)
+    {
+        return {};
+    }
+    const auto lookup = ReadPtr<Localisation_Lookup_t>(ReadPtr<const void*>(loc, 0), Addr::Localisation_LookupVtableOffset);
+    sdk::Attila::TempString keyString;
+    stringCtor(&keyString, aKey);
+    const sdk::Attila::WString* text = lookup(loc, &keyString, 1);
+    stringDtor(&keyString);
+    if (!text || text->length == 0 || !text->data)
+    {
+        return {};
+    }
+    char utf8[0x1000];
+    ToUtf8(text->data, text->length, utf8, sizeof(utf8));
+    return utf8;
+}
 
 void Scripting::LuaApi::Register(lua_State* L)
 {

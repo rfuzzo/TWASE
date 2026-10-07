@@ -9,6 +9,7 @@
 #include "../../sdk/Attila/VFSTypes.hpp"
 
 #include "../../sdk/Attila/Addresses.hpp"
+#include "../Scripting/LuaApi.hpp"
 
 // Attila's diplomacy has a "Gift Region" option (diplomatic action type 6, permission "regions"), but only to settle a
 // horde: the action is available when one side is a horde, and only regions where the horde's army stands can be given.
@@ -18,6 +19,8 @@
 //   settlements (offers and demands; the engine only lists regions where the receiver's army stands)
 // The panel only lets you tick one region (in either list); we let you tick any number in both, so one deal can give
 // and demand regions (a swap), and OK puts them all into the deal.
+// "Region for troops" (federates): a second button for the region action in the "Add Offer/Demand" list opens the same
+// panel in troops mode: your regions on the left, the mod's offer of their warriors on the right.
 //
 // The AI's deal evaluation has no region component (a region scores +0.0). For deals with regions we add the score the
 // region is worth: the mirror image of the AI paying the region's value in gold (the native gift component Payments use),
@@ -91,6 +94,12 @@ void Execute(void* action);
 Hook<decltype(&Execute)> Execute_fnc(Addresses::TradeRegions_Execute, &Execute);
 void ListButtonSetup(void* button, void* root, void* entry, void* context);
 Hook<decltype(&ListButtonSetup)> ListButtonSetup_fnc(Addresses::DiplomacyListTradeRegionsButton_Setup, &ListButtonSetup);
+int64_t MakeActionButtons(void* dropdown);
+Hook<decltype(&MakeActionButtons)> MakeActionButtons_fnc(Addresses::DiplomacyDropdown_MakeActionButtons, &MakeActionButtons);
+void OnActionButton(void* dropdown, void* event);
+Hook<decltype(&OnActionButton)> OnActionButton_fnc(Addresses::DiplomacyDropdown_OnActionButton, &OnActionButton);
+void OnActionButtonThunk(void* dropdown, void* event);
+Hook<decltype(&OnActionButtonThunk)> OnActionButtonThunk_fnc(Addresses::DiplomacyDropdown_OnActionButtonThunk, &OnActionButtonThunk);
 
 Hook<decltype(&GiftableRegions)> GiftableRegions_fnc(Addresses::Faction_GiftableRegions, &GiftableRegions);
 Hook<decltype(&RegionTradePossible)> RegionTradePossible_fnc(Addresses::DiplomaticAction_RegionTradePossible, &RegionTradePossible);
@@ -588,6 +597,12 @@ bool HasId(void* component, const char* id)
     return key->length > 0 && std::strcmp(key->data, id) == 0;
 }
 
+// REGION FOR TROOPS state: the open panel's mode, the negotiation whose region term is "for troops"
+bool troopsMode = false;
+void* troopsNegotiation = nullptr;
+int pendingMode = -1; // set by a click on an action button: 1 troops, 0 gift; -1 none (the panel was opened otherwise)
+void UpdateTroopsList(void* panel);
+
 // A click on a list row: the engine selects the row when its checkbox was ticked and nothing when it was unticked (one
 // selection). We keep every ticked row of both lists; the last one stays the engine's selection (for the OK button's
 // state and the camera).
@@ -627,6 +642,10 @@ uint64_t OnClick(void* panel, void** event)
     for (void* selected : selectedRows)
     {
         SetChecked(selected, true);
+    }
+    if (troopsMode)
+    {
+        UpdateTroopsList(panel);
     }
     return 0;
 }
@@ -685,9 +704,20 @@ void SetRegion(void* context, int32_t regionId, void* demandedFrom, void* deal)
         (demanded ? demandedIds : offeredIds).push_back(RowRegionId(row));
     }
     selectedRows.clear();
+    // for troops you only give land; the deal remembers it (its region term is "for troops")
+    void* negotiation = *reinterpret_cast<void**>(static_cast<uint8_t*>(context) + Addresses::DiplomacyContext_Negotiation);
+    if (troopsMode)
+    {
+        demandedIds.clear();
+        troopsNegotiation = negotiation;
+    }
+    else if (troopsNegotiation == negotiation)
+    {
+        troopsNegotiation = nullptr;
+    }
     std::vector<void*> offered = RegionsById(LocalFaction(), offeredIds);
     std::vector<void*> demanded = RegionsById(OtherFaction(panel), demandedIds);
-    spdlog::debug("[RegionTrading] deal regions: {} offered, {} demanded", offered.size(), demanded.size());
+    spdlog::debug("[RegionTrading] deal regions: {} offered, {} demanded{}", offered.size(), demanded.size(), troopsMode ? ", for troops" : "");
 
     auto* c = static_cast<uint8_t*>(context);
     void* x = *reinterpret_cast<void**>(*reinterpret_cast<uint8_t**>(*reinterpret_cast<uint8_t**>(c + 0xc0) + 0x30) + 0x50);
@@ -699,6 +729,294 @@ void SetRegion(void* context, int32_t regionId, void* demandedFrom, void* deal)
     reinterpret_cast<void (*)(void*, const PointerList*)>(Slid(Addresses::DealTerms_SetDemandedRegions))(terms, &demandedList);
     reinterpret_cast<void (*)(void*, void*, void*)>(Slid(Addresses::Deal_ApplyTerms))(deal, x, terms);
     reinterpret_cast<void (*)(void*)>(Slid(Addresses::DealTerms_dtor))(terms);
+}
+
+// REGION FOR TROOPS
+
+std::u16string Utf16(const std::string& aUtf8)
+{
+    std::u16string out;
+    for (size_t i = 0; i < aUtf8.size();)
+    {
+        const auto c = static_cast<uint8_t>(aUtf8[i]);
+        const int length = c < 0x80 ? 1 : (c >> 5) == 0x6 ? 2 : (c >> 4) == 0xe ? 3 : 4;
+        uint32_t code = length == 1 ? c : length == 2 ? c & 0x1f : length == 3 ? c & 0x0f : c & 0x07;
+        for (int j = 1; j < length && i + j < aUtf8.size(); j++)
+        {
+            code = (code << 6) | (static_cast<uint8_t>(aUtf8[i + j]) & 0x3f);
+        }
+        if (code >= 0x10000)
+        {
+            code -= 0x10000;
+            out += static_cast<char16_t>(0xd800 + (code >> 10));
+            out += static_cast<char16_t>(0xdc00 + (code & 0x3ff));
+        }
+        else
+        {
+            out += static_cast<char16_t>(code);
+        }
+        i += length;
+    }
+    return out;
+}
+
+// a component's text or tooltip (the engine's UniString)
+void SetText(void* component, const std::string& aText, bool aTooltip)
+{
+    const std::u16string text = Utf16(aText);
+    alignas(16) uint8_t uni[16];
+    reinterpret_cast<void (*)(void*, const char16_t*)>(Slid(Addresses::UniString_ctor))(uni, text.c_str());
+    reinterpret_cast<void (*)(void*, const void*, bool)>(
+        Slid(aTooltip ? Addresses::UIComponent_SetTooltipText : Addresses::UIComponent_SetText))(component, uni, aTooltip);
+    reinterpret_cast<void (*)(void*)>(Slid(Addresses::UniString_dtor))(uni);
+}
+
+void* troopsButton = nullptr; // the "Region for Troops" button in the open "Add Offer/Demand" list
+
+// an "Add Offer/Demand" list entry (DiplomacyDropdown + 0x1c0)
+struct ActionEntry
+{
+    uint8_t text[16]; // UniString
+    uint8_t flags[8];
+    uint8_t* action;
+};
+static_assert(sizeof(ActionEntry) == 0x20);
+
+// The list gets a second button for the region action, "Region for Troops": we add a copy of the region action's
+// entry before the engine makes the buttons, then take the second button it made for it and remove the copy again.
+int64_t MakeActionButtons(void* dropdown)
+{
+    troopsButton = nullptr;
+    auto* vector = static_cast<uint8_t*>(dropdown) + Addresses::DiplomacyDropdown_ActionEntries;
+    const auto count = [&] { return reinterpret_cast<uint32_t*>(vector + 4); };
+    const auto entries = [&] { return *reinterpret_cast<ActionEntry**>(vector + 8); };
+
+    int regionEntry = -1;
+    for (uint32_t i = 0; isEnabled && i < *count(); i++)
+    {
+        uint8_t* action = entries()[i].action;
+        if (action && *reinterpret_cast<int32_t*>(action + Addresses::DiplomaticAction_Type) == Addresses::DiplomaticAction_TradeRegions &&
+            IsWidenedAction(action))
+        {
+            regionEntry = static_cast<int>(i);
+        }
+    }
+    if (regionEntry < 0)
+    {
+        return MakeActionButtons_fnc(dropdown);
+    }
+
+    ActionEntry copy{};
+    reinterpret_cast<void (*)(void*, const void*)>(Slid(Addresses::UniString_Copy))(copy.text, entries()[regionEntry].text);
+    std::memcpy(copy.flags, entries()[regionEntry].flags, sizeof(copy.flags));
+    copy.action = entries()[regionEntry].action;
+    reinterpret_cast<void (*)(void*, const ActionEntry*)>(Slid(Addresses::Vector_PushActionEntry))(vector, &copy);
+    reinterpret_cast<void (*)(void*)>(Slid(Addresses::UniString_dtor))(copy.text);
+
+    const int64_t result = MakeActionButtons_fnc(dropdown);
+
+    void* parent = *reinterpret_cast<void**>(static_cast<uint8_t*>(dropdown) + Addresses::DiplomacyDropdown_ActionButtonParent);
+    int seen = 0;
+    for (void* button : Children(parent))
+    {
+        if (HasId(button, "diplomac_action_possible_6") && ++seen == 2)
+        {
+            troopsButton = button;
+        }
+    }
+    if (troopsButton)
+    {
+        if (void* label = FindChild(troopsButton, "row_tx"))
+        {
+            SetText(label, "Region for Troops", false);
+        }
+        SetText(troopsButton, "Cede land to them for a contingent of their warriors (federates)", true);
+    }
+    spdlog::debug("[RegionTrading] action buttons: region entry {}, troops button {}", regionEntry, troopsButton);
+
+    // remove the copy (the last entry)
+    ActionEntry& last = entries()[*count() - 1];
+    reinterpret_cast<void (*)(void*)>(Slid(Addresses::UniString_dtor))(last.text);
+    *count() -= 1;
+    return result;
+}
+
+// Which button opened the region panel. Only clicks (+ 0x10 == 1, as the engine checks) count.
+void NoteActionButton(void* event)
+{
+    auto* e = static_cast<uint8_t*>(event);
+    void* button = e ? *reinterpret_cast<void**>(e + 8) : nullptr;
+    if (button && e[0x10] == 1)
+    {
+        pendingMode = troopsButton && button == troopsButton ? 1 : 0;
+    }
+}
+
+void OnActionButton(void* dropdown, void* event)
+{
+    NoteActionButton(event);
+    OnActionButton_fnc(dropdown, event);
+}
+
+void OnActionButtonThunk(void* dropdown, void* event)
+{
+    NoteActionButton(event);
+    OnActionButtonThunk_fnc(dropdown, event);
+}
+
+struct FederatesOffer
+{
+    int count = 0;
+    int cost = 0;
+    std::string reason;             // when there are none
+    std::vector<std::string> units; // their names
+};
+
+// The mod's federates handler for the regions ticked on the left:
+// function(ai_key, player_key, region_key...) -> count, cost, reason, unit names (one per line)
+FederatesOffer AskFederates(void* panel)
+{
+    FederatesOffer offer;
+    lua_State* L = luaState;
+    void* root = Root(panel);
+    const char* ai = KeyOf(OtherFaction(panel), Addresses::Faction_Record);
+    const char* player = KeyOf(LocalFaction(), Addresses::Faction_Record);
+    if (!L || !root || !ai || !player)
+    {
+        offer.reason = "Not available.";
+        return offer;
+    }
+    const auto offerRows = Rows(root, "list_offers");
+    std::vector<int32_t> ids;
+    for (void* row : selectedRows)
+    {
+        if (std::find(offerRows.begin(), offerRows.end(), row) != offerRows.end())
+        {
+            ids.push_back(RowRegionId(row));
+        }
+    }
+    const std::vector<void*> regions = RegionsById(LocalFaction(), ids);
+
+    const int top = LuaRuntime::gettop(L);
+    LuaRuntime::getfield(L, LUA_REGISTRYINDEX, "twase_region_federates_handler");
+    if (LuaRuntime::type(L, -1) != LUA_TFUNCTION)
+    {
+        LuaRuntime::settop(L, top);
+        offer.reason = "The region trading mod doesn't offer federates.";
+        return offer;
+    }
+    LuaRuntime::pushstring(L, ai);
+    LuaRuntime::pushstring(L, player);
+    int arguments = 2;
+    for (void* region : regions)
+    {
+        if (const char* key = KeyOf(region, Addresses::Region_Record))
+        {
+            LuaRuntime::pushstring(L, key);
+            arguments++;
+        }
+    }
+    if (LuaRuntime::pcall(L, arguments, 4, 0) != 0)
+    {
+        spdlog::error("[RegionTrading] federates handler failed: {}", LuaRuntime::tolstring(L, -1, nullptr));
+        offer.reason = "Error, see the log.";
+    }
+    else
+    {
+        offer.count = LuaRuntime::type(L, -4) == LUA_TNUMBER ? static_cast<int>(LuaRuntime::tonumber(L, -4)) : 0;
+        offer.cost = LuaRuntime::type(L, -3) == LUA_TNUMBER ? static_cast<int>(LuaRuntime::tonumber(L, -3)) : 0;
+        if (LuaRuntime::type(L, -2) == LUA_TSTRING)
+        {
+            offer.reason = LuaRuntime::tolstring(L, -2, nullptr);
+        }
+        if (LuaRuntime::type(L, -1) == LUA_TSTRING)
+        {
+            const std::string names = LuaRuntime::tolstring(L, -1, nullptr);
+            for (size_t start = 0; start < names.size();)
+            {
+                const size_t end = std::min(names.find('\n', start), names.size());
+                offer.units.push_back(names.substr(start, end - start));
+                start = end + 1;
+            }
+        }
+    }
+    LuaRuntime::settop(L, top);
+    return offer;
+}
+
+// the text in lines of at most `width` characters
+std::vector<std::string> Wrap(const std::string& aText, size_t width)
+{
+    std::vector<std::string> lines;
+    std::string line;
+    for (size_t start = 0; start < aText.size();)
+    {
+        const size_t end = std::min(aText.find(' ', start), aText.size());
+        const std::string word = aText.substr(start, end - start);
+        if (!line.empty() && line.size() + 1 + word.size() > width)
+        {
+            lines.push_back(line);
+            line.clear();
+        }
+        line += (line.empty() ? "" : " ") + word;
+        start = end + 1;
+    }
+    if (!line.empty())
+    {
+        lines.push_back(line);
+    }
+    return lines;
+}
+
+// The right list in troops mode: the warriors the AI gives for the ticked regions (or why none), as rows without
+// checkboxes made from the panel's row template
+void UpdateTroopsList(void* panel)
+{
+    void* root = Root(panel);
+    void* box = root ? FindChild(FindChild(root, "list_demands"), "list_box") : nullptr;
+    void* rowTemplate = panel ? *reinterpret_cast<void**>(static_cast<uint8_t*>(panel) + Addresses::TradeRegionsPanel_RowTemplate) : nullptr;
+    if (!box || !rowTemplate)
+    {
+        return;
+    }
+    reinterpret_cast<void (*)(void*)>(Slid(Addresses::ListBox_Clear))(box);
+
+    const FederatesOffer offer = AskFederates(panel);
+    std::vector<std::string> lines;
+    if (offer.count > 0)
+    {
+        lines.push_back(fmt::format("{} units, {} gold", offer.count, offer.cost));
+        lines.insert(lines.end(), offer.units.begin(), offer.units.end());
+    }
+    else
+    {
+        lines = Wrap(offer.reason, 30);
+    }
+
+    using CreateRow_t = void* (*)(void*, void*, const TempString*, void*, void*, int32_t, int32_t, void*, bool, void*);
+    static const auto createRow = reinterpret_cast<CreateRow_t>(Slid(Addresses::UIComponent_CreateListRow));
+    static const auto stringCtor = reinterpret_cast<StringCtor_t>(Slid(Addresses::String_ctor));
+    static const auto stringDtor = reinterpret_cast<StringDtor_t>(Slid(Addresses::String_dtor));
+    static const auto setVisible = reinterpret_cast<SetVisible_t>(Slid(Addresses::UIComponent_SetVisible));
+    const float rowWidth = Width(box);
+    for (size_t i = 0; i < lines.size(); i++)
+    {
+        TempString id;
+        stringCtor(&id, fmt::format("troops_{}", i).c_str());
+        void* row = createRow(box, rowTemplate, &id, nullptr, nullptr, 0, 0, nullptr, true, nullptr);
+        stringDtor(&id);
+        if (!row)
+        {
+            continue;
+        }
+        SetText(row, lines[i], false);
+        Resize(row, rowWidth, Height(row));
+        if (void* checkbox = FindChild(row, "checkbox"))
+        {
+            setVisible(checkbox, false);
+        }
+    }
+    reinterpret_cast<void (*)(void*)>(Slid(Addresses::ListBox_Layout))(box);
 }
 
 // DEAL LIST: a trade regions row shows the demanded regions if there are any, else the offered ones, in both columns.
@@ -760,6 +1078,10 @@ void* PopulatePanel(void* panel, void* action)
 {
     void* root = Root(panel);
     const bool widened = IsWidenedAction(action);
+    // the mode: the button that opened the panel, else the deal's region term (reopened from the deal list)
+    void* negotiation = action ? *reinterpret_cast<void**>(static_cast<uint8_t*>(action) + Addresses::DiplomaticAction_Negotiation) : nullptr;
+    troopsMode = widened && (pendingMode >= 0 ? pendingMode == 1 : negotiation && negotiation == troopsNegotiation);
+    pendingMode = -1;
     if (widened && root)
     {
         // before populating: the engine only fills visible lists, and the layout hides the demands
@@ -836,6 +1158,28 @@ void* PopulatePanel(void* panel, void* action)
             }
         }
     }
+    // the titles: troops mode sets its own, gift mode the layout's (they stay set between openings)
+    struct Title
+    {
+        const char* name;
+        const char* troops;
+        const char* giftKey;
+    };
+    for (const Title& title : {Title{"tx_title", "Region for Troops", "uied_component_texts_localised_string_tx_title_default_Text_470063"},
+                               Title{"offers_title", "Cede Region", "uied_component_texts_localised_string_offers_title_faction_left_Text_470063"},
+                               Title{"demands_title", "Their Warriors", "uied_component_texts_localised_string_demands_title_faction_left_Text_3a0005"}})
+    {
+        void* component = FindChild(root, title.name);
+        const std::string text = troopsMode ? title.troops : Scripting::LuaApi::LocalisedText(title.giftKey);
+        if (component && !text.empty())
+        {
+            SetText(component, text, false);
+        }
+    }
+    if (troopsMode)
+    {
+        UpdateTroopsList(panel);
+    }
     return result;
 }
 } // namespace
@@ -872,6 +1216,12 @@ bool Hooks::NativeRegionTradingHook::Attach()
     if (result == 0)
         result = ListButtonSetup_fnc.Attach();
     if (result == 0)
+        result = MakeActionButtons_fnc.Attach();
+    if (result == 0)
+        result = OnActionButton_fnc.Attach();
+    if (result == 0)
+        result = OnActionButtonThunk_fnc.Attach();
+    if (result == 0)
         result = EvaluateDeal_fnc.Attach();
     if (result == 0)
         result = ScoreComponents_fnc.Attach();
@@ -896,6 +1246,12 @@ bool Hooks::NativeRegionTradingHook::Detach()
     auto result = ScoreComponents_fnc.Detach();
     if (result == 0)
         result = EvaluateDeal_fnc.Detach();
+    if (result == 0)
+        result = OnActionButtonThunk_fnc.Detach();
+    if (result == 0)
+        result = OnActionButton_fnc.Detach();
+    if (result == 0)
+        result = MakeActionButtons_fnc.Detach();
     if (result == 0)
         result = ListButtonSetup_fnc.Detach();
     if (result == 0)

@@ -48,6 +48,7 @@ constexpr uint64_t CName_ctor = 0x10109240C;
 
 // void (*)(void* ptr), the game allocator's free
 constexpr uint64_t tw_free = 0x1010ACB70;
+constexpr uint64_t tw_malloc = 0x1010ACA70;
 
 // DIPLOMACY
 // float (*)(void* deal, void* ctx, void* factionA, void* factionB)
@@ -169,6 +170,30 @@ constexpr uint64_t TradeRegionsPanel_Selected = 0x78;      // UIComponent* row
 // byte at event + 8 is 1 if the checkbox is now ticked (the rest of that word is garbage); also the OK and cancel buttons
 constexpr uint64_t TradeRegionsPanel_OnClick = 0x1035AE4C4;
 constexpr uint64_t UIComponent_ClickedRow = 0x108;
+// The panel's list rows: UIComponent* (*)(UIComponent* listBox, void* rowTemplate (= panel + 0x70), const TempString* id,
+// void*, void*, int32_t, int32_t, void*, bool (stack, true), void* (stack)), as the fill function 0x1035adce8 calls it;
+// it then sets the row's text (UIComponent_SetText). 0x1032d25b4(listBox) removes all rows, 0x1032bc860(listBox) lays
+// the list out again.
+constexpr uint64_t UIComponent_CreateListRow = 0x1032EF074;
+constexpr uint64_t TradeRegionsPanel_RowTemplate = 0x70;
+constexpr uint64_t ListBox_Clear = 0x1032D25B4;
+constexpr uint64_t ListBox_Layout = 0x1032BC860;
+
+// The diplomacy's "Add Offer/Demand" list: entries in a vector at DiplomacyDropdown + 0x1c0 ({ capacity, count,
+// ENTRY* }, 0x20-byte entries: UniString text (the tooltip), two flags at + 0x10 / + 0x11, the action at + 0x18), built by
+// 0x1036cca88; int64_t (*)(DROPDOWN*) 0x1035f4538 makes a button "diplomac_action_possible_<type>" under dropdown + 0x118
+// (template dropdown + 0x120) for each entry whose action isn't in the deal, and hands it the entry (0x1035a9880:
+// action at controller + 0x50, label "row_tx" from the action's name, tooltip from the entry).
+constexpr uint64_t DiplomacyDropdown_ActionEntries = 0x1C0;
+constexpr uint64_t DiplomacyDropdown_ActionButtonParent = 0x118;
+constexpr uint64_t DiplomacyDropdown_MakeActionButtons = 0x1035F4538;
+constexpr uint64_t Vector_PushActionEntry = 0x103200F00;   // void (*)(VECTOR*, const ENTRY*), copies the entry
+constexpr uint64_t UniString_Copy = 0x10104A138;           // void (*)(UniString* self, const UniString* other)
+// A click on an action button: void (*)(DROPDOWN*, EVENT*), event + 8 the button (its controller + 0x50 the action),
+// then 0x1035f5044(dropdown, 0, action) opens the action's panel (type 6: the region panel, 0x1035f6b88). 0x1035f5290 is
+// the same through the dropdown's other base (this = dropdown + 0x68).
+constexpr uint64_t DiplomacyDropdown_OnActionButton = 0x1035F4FE8;
+constexpr uint64_t DiplomacyDropdown_OnActionButtonThunk = 0x1035F5290;
 constexpr uint64_t TradeRegionsPanel_OtherFaction = 0x80;  // FACTION* of the AI, set by Populate
 // FACTION* (*)(DIPLOMATIC_ACTION*): the action's two factions (Populate takes the one that isn't the local faction)
 constexpr uint64_t DiplomaticAction_FactionA = 0x1024C829C;
