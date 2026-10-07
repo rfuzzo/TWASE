@@ -161,8 +161,8 @@ constexpr uint64_t UIComponent_SetVisible = 0x1032C6B00;
 // the one selection, sets ok_trade_regions active / inactive and pans the camera to the row's region
 constexpr uint64_t TradeRegionsPanel_SelectRow = 0x1035ADFF8;
 constexpr uint64_t TradeRegionsPanel_Selected = 0x78;      // UIComponent* row
-// uint64_t (*)(PANEL* self, void** event): event[0] the clicked component (a list: its row at + 0x108), event[1] 1 if
-// the row's checkbox is now ticked; also the OK and cancel buttons
+// uint64_t (*)(PANEL* self, void** event): event[0] the clicked component (a row's checkbox: its row at + 0x108), the
+// byte at event + 8 is 1 if the checkbox is now ticked (the rest of that word is garbage); also the OK and cancel buttons
 constexpr uint64_t TradeRegionsPanel_OnClick = 0x1035AE4C4;
 constexpr uint64_t UIComponent_ClickedRow = 0x108;
 constexpr uint64_t TradeRegionsPanel_OtherFaction = 0x80;  // FACTION* of the AI, set by Populate

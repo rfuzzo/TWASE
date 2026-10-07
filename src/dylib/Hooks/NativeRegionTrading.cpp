@@ -551,7 +551,8 @@ uint64_t OnClick(void* panel, void** event)
         return OnClick_fnc(panel, event);
     }
 
-    const bool ticked = reinterpret_cast<intptr_t>(event[1]) == 1;
+    // a bool in the low byte, the rest of the word is undefined
+    const bool ticked = *reinterpret_cast<const uint8_t*>(&event[1]) == 1;
     auto it = std::find(selectedRows.begin(), selectedRows.end(), row);
     if (ticked && it == selectedRows.end())
     {
