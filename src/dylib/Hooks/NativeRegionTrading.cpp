@@ -386,10 +386,11 @@ float ScoreComponents(ComponentList* list, void* aiContext, void* a, int64_t* a4
         char dummy6 = 0;
         return ScoreComponents_fnc(&single, aiContext, a, a4, &dummy5, &dummy6, a7);
     };
-    // The scorer sizes gold by the payer's economic power, clamp(GDP / 8,000 + treasury / 10,000, 0.2, 4) (campaign
-    // variables economic_power_*; the gift is small / medium / large from 500 / 2,000 / 7,500 x the power). The treasury
-    // part moves within a turn (e.g. the AI paid you in an earlier deal), so for regions only the GDP counts: we scale
-    // the amount by the power with the treasury over the power without it.
+    // Part of the score sizes the gift (small / medium / large from 500 / 2,000 / 7,500 x an economic power) against the
+    // other side of the deal (the gift's second faction, you): clamp(GDP / 8,000 + treasury / 10,000, 0.2, 4) (campaign
+    // variables economic_power_*). The treasury part moves within a turn, so for regions only the GDP counts: we scale
+    // the amount by the power with the treasury over the power without it. (The main, linear part divides the amount by
+    // the paying AI's GDP, which doesn't move within a turn.)
     float amount = std::fabs(gold);
     using EconomicPower_t = float (*)(void* caiFaction, int32_t treasuryOffset);
     using Treasury_t = int32_t (*)(void* treasury);
@@ -406,7 +407,7 @@ float ScoreComponents(ComponentList* list, void* aiContext, void* a, int64_t* a4
         {
             amount *= withTreasury / gdpOnly;
         }
-        spdlog::debug("[RegionTrading] payer {} treasury {}: economic power {} with, {} without the treasury",
+        spdlog::debug("[RegionTrading] gift size measured against {} (treasury {}): economic power {} with, {} without the treasury",
                       KeyOf(payerFaction, Addresses::Faction_Record) ? KeyOf(payerFaction, Addresses::Faction_Record) : "?",
                       treasury, withTreasury, gdpOnly);
     }
@@ -414,15 +415,40 @@ float ScoreComponents(ComponentList* list, void* aiContext, void* a, int64_t* a4
     // The table ignores amounts that are small for the payer (a swap 439 gold short scored 0 for the ERE).
     // Below its first step we interpolate linearly from the smallest doubled amount that counts.
     float paying = payingScore(amount);
+    float interpolatedFrom = 0.0f;
     for (float reference = amount * 2; paying == 0.0f && reference < amount * 4096; reference *= 2)
     {
         if (const float referenceScore = payingScore(reference); referenceScore != 0.0f)
         {
             paying = referenceScore * amount / reference;
+            interpolatedFrom = reference;
         }
     }
     const float delta = (gold > 0 ? -paying : paying);
 
+    if (spdlog::should_log(spdlog::level::debug))
+    {
+        // The parts the scorer sums for one gift (vtable + 0x10 … + 0x30, see docs/addresses.md); + 0x18 needs the
+        // scorer's context, so it's the rest. The amount part is linear: the amount over the paying AI's GDP, weighted by
+        // its personality (more beyond its budget), capped.
+        const float shown = interpolatedFrom > 0.0f ? interpolatedFrom : amount;
+        alignas(16) uint8_t gift[Addresses::DealComponentGift_Size] = {};
+        giftCtor(gift, eval->aiContext, eval->factionA, eval->factionB, -static_cast<int32_t>(shown));
+        const auto slot = [&](uint64_t offset)
+        {
+            return (*reinterpret_cast<float (**)(void*)>(*reinterpret_cast<uint8_t**>(gift) + offset))(gift);
+        };
+        const float base = slot(0x10), size = slot(0x20), amountPart = slot(0x28), other = slot(0x30);
+        const float total = payingScore(shown);
+        static const auto gdpOf = reinterpret_cast<float (*)(void*)>(Addresses::Faction_Gdp + Image::Get()->GetSlide());
+        void* evaluator = EvaluatingFaction(*eval);
+        spdlog::debug("[RegionTrading] the game's score of {} paying {:.0f} gold: amount part {:.2f} (its GDP {:.0f}) + gift size "
+                      "{:.2f} + table {:.2f} + base {:.2f} + other {:.2f} = {:.2f}{}",
+                      KeyOf(evaluator, Addresses::Faction_Record) ? KeyOf(evaluator, Addresses::Faction_Record) : "?", shown,
+                      amountPart, evaluator ? gdpOf(evaluator) : 0.0f, size, total - amountPart - size - base - other, base,
+                      other, total,
+                      interpolatedFrom > 0.0f ? fmt::format(" (below the first step: x {:.0f} / {:.0f} = {:.2f})", amount, shown, paying) : "");
+    }
     spdlog::debug("[RegionTrading] regions worth {} gold: deal score {} {:+} = {}", gold, score, delta, score + delta);
     return score + delta;
 }

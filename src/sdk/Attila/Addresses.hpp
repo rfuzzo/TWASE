@@ -213,6 +213,9 @@ constexpr uint64_t Checkbox_SetChecked = 0x1033090C0;      // void (*)(CHECKBOX*
 constexpr uint64_t CaiFaction_EconomicPower = 0x1019E1568;
 constexpr uint64_t CaiFaction_Faction = 0x150;
 constexpr uint64_t Treasury_Get = 0x101CB57F4;             // int32_t (*)(TREASURY* = FACTION + 0x250)
+// float (*)(FACTION*): the faction's GDP per turn. The gift's linear score part (vtable + 0x28, 0x101d76bb4) is the
+// amount within / beyond the AI's budget, weighted by its personality, over the paying faction's GDP, capped.
+constexpr uint64_t Faction_Gdp = 0x101B70018;
 constexpr uint64_t Faction_Treasury = 0x250;
 
 // Region value in the AI's deal evaluation
