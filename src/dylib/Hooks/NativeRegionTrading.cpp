@@ -1033,6 +1033,14 @@ void ListButtonSetup(void* button, void* root, void* entry, void* context)
     const auto count2 = *reinterpret_cast<uint32_t*>(action + Addresses::TradeRegions_List2Count);
     void* row = *reinterpret_cast<void**>(static_cast<uint8_t*>(button) + 8);
     void* names = row ? FindChild(row, "region_names") : nullptr;
+
+    // a region term for troops is labelled so (the heading is the action's name, "Gift Region")
+    void* negotiation = *reinterpret_cast<void**>(action + Addresses::DiplomaticAction_Negotiation);
+    void* heading = row ? FindChild(row, "button_tx") : nullptr;
+    if (heading && negotiation && negotiation == troopsNegotiation)
+    {
+        SetText(heading, "Region for Troops", false);
+    }
     if (count1 == 0 || count2 == 0 || !names)
     {
         return;
