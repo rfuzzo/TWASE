@@ -885,7 +885,10 @@ void SetRegion(void* context, int32_t regionId, void* demandedFrom, void* deal)
             const bool available = term && !blocked && (term[Addresses::DiplomaticAction_Available] == 1 || (type == Addresses::DiplomaticAction_MakeTributary && peace));
             if (available)
             {
-                reinterpret_cast<void (*)(void*, void*)>(Slid(Addresses::DiplomacyContext_AddTerm))(context, term);
+                // as the action's button adds it (the dispatcher 0x1035f5044)
+                const uint64_t add = type == Addresses::DiplomaticAction_MakeTributary ? Addresses::DiplomacyContext_AddTributaryTerm
+                                                                                       : Addresses::DiplomacyContext_AddTerm;
+                reinterpret_cast<void (*)(void*, void*)>(Slid(add))(context, term);
                 peace = peace || type == Addresses::DiplomaticAction_Peace;
                 spdlog::debug("[RegionTrading] deal for troops: added the native term {}", type);
             }

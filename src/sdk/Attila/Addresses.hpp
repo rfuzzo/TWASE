@@ -198,6 +198,10 @@ constexpr uint64_t DiplomacyDropdown_OnActionButtonThunk = 0x1035F5290;
 // void (*)(DIPLOMACY_CONTEXT*, DIPLOMATIC_ACTION*): puts an action into the deal with empty terms (the dispatcher's way
 // for simple terms); used for peace and tributary
 constexpr uint64_t DiplomacyContext_AddTerm = 0x1036CBADC;
+// void (*)(DIPLOMACY_CONTEXT*, DIPLOMATIC_ACTION*): the tributary term the way the "Make Tributary State" button adds it
+// (terms with 0x1024d5b54: the other side becomes your tributary; the generic add leaves the direction empty, and the
+// game then makes you the tributary)
+constexpr uint64_t DiplomacyContext_AddTributaryTerm = 0x1036CBA5C;
 constexpr int DiplomaticAction_Peace = 12;               // "Peace Treaty"
 constexpr int DiplomaticAction_MakeTributary = 25;       // "Make Tributary State" (not available at war)
 constexpr uint64_t DiplomaticAction_Available = 0x18;    // bool, + 0x19 blocked
