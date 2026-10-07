@@ -207,6 +207,14 @@ constexpr uint64_t UIComponent_Children = 0x118;
 constexpr uint64_t UIComponent_Checkbox = 0x258;
 constexpr uint64_t Checkbox_SetChecked = 0x1033090C0;      // void (*)(CHECKBOX*, bool, bool, bool)
 
+// Gift sizes: float (*)(CAI_FACTION*, int32_t treasuryOffset) = clamp(GDP / economic_power_gdp_factor + (treasury +
+// offset) / economic_power_treasury_factor, economic_power_min, economic_power_max); a gift is small / medium / large
+// from gift_base_value_* x this (0x101d7ef3c). The CAI faction wrapper's FACTION is at + 0x150.
+constexpr uint64_t CaiFaction_EconomicPower = 0x1019E1568;
+constexpr uint64_t CaiFaction_Faction = 0x150;
+constexpr uint64_t Treasury_Get = 0x101CB57F4;             // int32_t (*)(TREASURY* = FACTION + 0x250)
+constexpr uint64_t Faction_Treasury = 0x250;
+
 // Region value in the AI's deal evaluation
 // float (*)(NEGOTIATION* deal, void* aiContext, FACTION* a, FACTION* b, int32_t* out, bool* out)
 constexpr uint64_t Diplo_EvaluateDeal = 0x101D7B25C;

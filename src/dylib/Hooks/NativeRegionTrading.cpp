@@ -152,8 +152,8 @@ const char* KeyOf(const void* object, uint64_t aRecordOffset)
     return key && key->length > 0 ? key->data : nullptr;
 }
 
-// The Lua handler's gold value of `region` for `faction` (0 without a handler)
-float HandlerValue(const char* region, const char* faction)
+// The Lua handler's gold value of `region` for `faction` in a deal with `other` (0 without a handler)
+float HandlerValue(const char* region, const char* faction, const char* other)
 {
     lua_State* L = luaState;
     if (!L || !region || !faction)
@@ -169,8 +169,16 @@ float HandlerValue(const char* region, const char* faction)
     }
     LuaRuntime::pushstring(L, region);
     LuaRuntime::pushstring(L, faction);
+    if (other)
+    {
+        LuaRuntime::pushstring(L, other);
+    }
+    else
+    {
+        LuaRuntime::pushnil(L);
+    }
     float value = 0.0f;
-    if (LuaRuntime::pcall(L, 2, 1, 0) != 0)
+    if (LuaRuntime::pcall(L, 3, 1, 0) != 0)
     {
         spdlog::error("[RegionTrading] value handler failed: {}", LuaRuntime::tolstring(L, -1, nullptr));
     }
@@ -318,6 +326,9 @@ float RegionDealValue(const EvalContext& eval)
         return 0.0f;
     }
     const char* evaluatorKey = KeyOf(evaluator, Addresses::Faction_Record);
+    void* factionA = *reinterpret_cast<void**>(negotiation + Addresses::Negotiation_FactionA);
+    void* factionB = *reinterpret_cast<void**>(negotiation + Addresses::Negotiation_FactionB);
+    const char* otherKey = KeyOf(evaluator == factionA ? factionB : factionA, Addresses::Faction_Record);
     float total = 0.0f;
     const struct { uint64_t countOffset; uint64_t receiverOffset; } lists[] = {
         {Addresses::TradeRegions_List1Count, Addresses::Negotiation_FactionA},
@@ -330,7 +341,7 @@ float RegionDealValue(const EvalContext& eval)
         void* receiver = *reinterpret_cast<void**>(negotiation + list.receiverOffset);
         for (uint32_t i = 0; data && i < regions; i++)
         {
-            const float value = HandlerValue(KeyOf(data[i], Addresses::Region_Record), evaluatorKey);
+            const float value = HandlerValue(KeyOf(data[i], Addresses::Region_Record), evaluatorKey, otherKey);
             total += receiver == evaluator ? value : -value;
             spdlog::debug("[RegionTrading] deal region {} for {}: {} ({})", KeyOf(data[i], Addresses::Region_Record),
                           evaluatorKey ? evaluatorKey : "?", value, receiver == evaluator ? "receives" : "gives");
@@ -375,9 +386,33 @@ float ScoreComponents(ComponentList* list, void* aiContext, void* a, int64_t* a4
         char dummy6 = 0;
         return ScoreComponents_fnc(&single, aiContext, a, a4, &dummy5, &dummy6, a7);
     };
-    // The table ignores amounts that are small for the AI's treasury (a swap 439 gold short scored 0 for the ERE).
+    // The scorer sizes gold by the payer's economic power, clamp(GDP / 8,000 + treasury / 10,000, 0.2, 4) (campaign
+    // variables economic_power_*; the gift is small / medium / large from 500 / 2,000 / 7,500 x the power). The treasury
+    // part moves within a turn (e.g. the AI paid you in an earlier deal), so for regions only the GDP counts: we scale
+    // the amount by the power with the treasury over the power without it.
+    float amount = std::fabs(gold);
+    using EconomicPower_t = float (*)(void* caiFaction, int32_t treasuryOffset);
+    using Treasury_t = int32_t (*)(void* treasury);
+    static const auto economicPower = reinterpret_cast<EconomicPower_t>(Addresses::CaiFaction_EconomicPower + Image::Get()->GetSlide());
+    static const auto treasuryOf = reinterpret_cast<Treasury_t>(Addresses::Treasury_Get + Image::Get()->GetSlide());
+    auto* payer = static_cast<uint8_t*>(eval->factionB);
+    auto* payerFaction = payer ? *reinterpret_cast<uint8_t**>(payer + Addresses::CaiFaction_Faction) : nullptr;
+    if (payerFaction)
+    {
+        const int32_t treasury = treasuryOf(payerFaction + Addresses::Faction_Treasury);
+        const float withTreasury = economicPower(payer, 0);
+        const float gdpOnly = economicPower(payer, -treasury);
+        if (gdpOnly > 0.0f)
+        {
+            amount *= withTreasury / gdpOnly;
+        }
+        spdlog::debug("[RegionTrading] payer {} treasury {}: economic power {} with, {} without the treasury",
+                      KeyOf(payerFaction, Addresses::Faction_Record) ? KeyOf(payerFaction, Addresses::Faction_Record) : "?",
+                      treasury, withTreasury, gdpOnly);
+    }
+
+    // The table ignores amounts that are small for the payer (a swap 439 gold short scored 0 for the ERE).
     // Below its first step we interpolate linearly from the smallest doubled amount that counts.
-    const float amount = std::fabs(gold);
     float paying = payingScore(amount);
     for (float reference = amount * 2; paying == 0.0f && reference < amount * 4096; reference *= 2)
     {
