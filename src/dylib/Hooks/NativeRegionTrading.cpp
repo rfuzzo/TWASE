@@ -872,15 +872,21 @@ void SetRegion(void* context, int32_t regionId, void* demandedFrom, void* deal)
     reinterpret_cast<void (*)(void*, void*, void*)>(Slid(Addresses::Deal_ApplyTerms))(deal, x, terms);
     reinterpret_cast<void (*)(void*)>(Slid(Addresses::DealTerms_dtor))(terms);
 
-    // a foedus comes with peace (at war) and the tributary status (at peace): the native terms, where available
+    // a foedus comes with peace (at war) and the tributary status: the native terms, where available. At war the
+    // engine offers the tributary status once peace is in the deal, but updates the flag later, so after peace we
+    // only check that it isn't blocked.
     if (troopsMode && negotiation)
     {
+        bool peace = false;
         for (int type : {Addresses::DiplomaticAction_Peace, Addresses::DiplomaticAction_MakeTributary})
         {
             uint8_t* term = FindAction(negotiation, type);
-            if (term && term[Addresses::DiplomaticAction_Available] == 1 && term[Addresses::DiplomaticAction_Available + 1] == 0)
+            const bool blocked = term && term[Addresses::DiplomaticAction_Available + 1] != 0;
+            const bool available = term && !blocked && (term[Addresses::DiplomaticAction_Available] == 1 || (type == Addresses::DiplomaticAction_MakeTributary && peace));
+            if (available)
             {
                 reinterpret_cast<void (*)(void*, void*)>(Slid(Addresses::DiplomacyContext_AddTerm))(context, term);
+                peace = peace || type == Addresses::DiplomaticAction_Peace;
                 spdlog::debug("[RegionTrading] deal for troops: added the native term {}", type);
             }
         }
