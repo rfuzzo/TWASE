@@ -539,12 +539,15 @@ int DevDiplomacyActions(lua_State* L)
     return 1;
 }
 
-// twase.enable_region_trading({ value = function(region_key, faction_key) return gold end,
-//                                transfer = function(phase, region_key, to_faction_key) end })
+// twase.enable_region_trading({ value = function(region_key, faction_key, other_key) return gold end,
+//                                transfer = function(phase, region_key, to_faction_key) end,
+//                                federates = function(ai_key, player_key, ...) return count, cost, reason end })
 // Switches on the engine's region deals between a human and a settled AI faction (Hooks/NativeRegionTrading.cpp).
 // `value`: the gold value of a region for a faction (negative = a burden), used when the AI evaluates a deal with
 // regions; required, without it regions would be free. `transfer` (optional): called "before" for each region of an
-// accepted deal, then "after" for each. twase.enable_region_trading(nil) switches it off again.
+// accepted deal, then "after" for each. `federates` (optional): function(ai_key, player_key, region_key...) -> number
+// of units, their cost, reason (when none), for the panel's federates row. twase.enable_region_trading(nil) switches
+// it off again.
 int EnableRegionTrading(lua_State* L)
 {
     if (LuaRuntime::type(L, 1) == LUA_TNIL || LuaRuntime::type(L, 1) == LUA_TNONE)
@@ -568,6 +571,12 @@ int EnableRegionTrading(lua_State* L)
         return LuaRuntime::error(L, "twase.enable_region_trading(handlers): handlers.transfer must be a function or nil");
     }
     LuaRuntime::setfield(L, LUA_REGISTRYINDEX, "twase_region_transfer_handler");
+    LuaRuntime::getfield(L, 1, "federates");
+    if (LuaRuntime::type(L, -1) != LUA_TFUNCTION && LuaRuntime::type(L, -1) != LUA_TNIL)
+    {
+        return LuaRuntime::error(L, "twase.enable_region_trading(handlers): handlers.federates must be a function or nil");
+    }
+    LuaRuntime::setfield(L, LUA_REGISTRYINDEX, "twase_region_federates_handler");
     Hooks::NativeRegionTradingHook::SetEnabled(true);
     return 0;
 }

@@ -588,6 +588,11 @@ bool HasId(void* component, const char* id)
     return key->length > 0 && std::strcmp(key->data, id) == 0;
 }
 
+void* federatesRow = nullptr; // the "Federates" row at the top of the open panel's demand list
+bool federatesTicked = false;
+void OnFederatesClick(void* panel, bool ticked);
+void UpdateFederatesRow(void* panel);
+
 // A click on a list row: the engine selects the row when its checkbox was ticked and nothing when it was unticked (one
 // selection). We keep every ticked row of both lists; the last one stays the engine's selection (for the OK button's
 // state and the camera).
@@ -613,6 +618,11 @@ uint64_t OnClick(void* panel, void** event)
 
     // a bool in the low byte, the rest of the word is undefined
     const bool ticked = *reinterpret_cast<const uint8_t*>(&event[1]) == 1;
+    if (row == federatesRow)
+    {
+        OnFederatesClick(panel, ticked);
+        return 0;
+    }
     auto it = std::find(selectedRows.begin(), selectedRows.end(), row);
     if (ticked && it == selectedRows.end())
     {
@@ -627,6 +637,12 @@ uint64_t OnClick(void* panel, void** event)
     for (void* selected : selectedRows)
     {
         SetChecked(selected, true);
+    }
+    // the engine unticked every row, the federates row too; the offer depends on the regions you give
+    UpdateFederatesRow(panel);
+    if (federatesRow)
+    {
+        SetChecked(federatesRow, federatesTicked);
     }
     return 0;
 }
@@ -664,6 +680,215 @@ std::vector<void*> RegionsById(void* faction, const std::vector<int32_t>& ids)
         reinterpret_cast<void (*)(void*)>(Slid(Addresses::tw_free))(list.data);
     }
     return regions;
+}
+
+// FEDERATES ROW: "Federates: N units" at the top of the demand list, the mod's offer for the regions you give
+
+struct FederatesOffer
+{
+    int count = 0;
+    int cost = 0;
+    std::string reason;  // short, for the row when there are none
+    std::string tooltip; // the units, or the full reason
+};
+
+// The mod's federates handler for the ticked regions you give: function(ai_key, player_key, region_key...) -> count,
+// cost, short reason, tooltip
+FederatesOffer AskFederates(void* panel)
+{
+    FederatesOffer offer;
+    lua_State* L = luaState;
+    void* root = Root(panel);
+    const char* ai = KeyOf(OtherFaction(panel), Addresses::Faction_Record);
+    const char* player = KeyOf(LocalFaction(), Addresses::Faction_Record);
+    if (!L || !root || !ai || !player)
+    {
+        offer.reason = "unavailable";
+        return offer;
+    }
+    const auto offerRows = Rows(root, "list_offers");
+    std::vector<int32_t> ids;
+    for (void* row : selectedRows)
+    {
+        if (std::find(offerRows.begin(), offerRows.end(), row) != offerRows.end())
+        {
+            ids.push_back(RowRegionId(row));
+        }
+    }
+    const std::vector<void*> regions = RegionsById(LocalFaction(), ids);
+
+    const int top = LuaRuntime::gettop(L);
+    LuaRuntime::getfield(L, LUA_REGISTRYINDEX, "twase_region_federates_handler");
+    if (LuaRuntime::type(L, -1) != LUA_TFUNCTION)
+    {
+        LuaRuntime::settop(L, top);
+        offer.reason = "unavailable";
+        return offer;
+    }
+    LuaRuntime::pushstring(L, ai);
+    LuaRuntime::pushstring(L, player);
+    int arguments = 2;
+    for (void* region : regions)
+    {
+        if (const char* key = KeyOf(region, Addresses::Region_Record))
+        {
+            LuaRuntime::pushstring(L, key);
+            arguments++;
+        }
+    }
+    if (LuaRuntime::pcall(L, arguments, 4, 0) != 0)
+    {
+        spdlog::error("[RegionTrading] federates handler failed: {}", LuaRuntime::tolstring(L, -1, nullptr));
+        offer.reason = "error";
+    }
+    else
+    {
+        offer.count = LuaRuntime::type(L, -4) == LUA_TNUMBER ? static_cast<int>(LuaRuntime::tonumber(L, -4)) : 0;
+        offer.cost = LuaRuntime::type(L, -3) == LUA_TNUMBER ? static_cast<int>(LuaRuntime::tonumber(L, -3)) : 0;
+        if (LuaRuntime::type(L, -2) == LUA_TSTRING)
+        {
+            offer.reason = LuaRuntime::tolstring(L, -2, nullptr);
+        }
+        if (LuaRuntime::type(L, -1) == LUA_TSTRING)
+        {
+            offer.tooltip = LuaRuntime::tolstring(L, -1, nullptr);
+        }
+    }
+    LuaRuntime::settop(L, top);
+    return offer;
+}
+
+std::u16string Utf16(const std::string& aUtf8)
+{
+    std::u16string out;
+    for (size_t i = 0; i < aUtf8.size();)
+    {
+        const auto c = static_cast<uint8_t>(aUtf8[i]);
+        const int length = c < 0x80 ? 1 : (c >> 5) == 0x6 ? 2 : (c >> 4) == 0xe ? 3 : 4;
+        uint32_t code = length == 1 ? c : length == 2 ? c & 0x1f : length == 3 ? c & 0x0f : c & 0x07;
+        for (int j = 1; j < length && i + j < aUtf8.size(); j++)
+        {
+            code = (code << 6) | (static_cast<uint8_t>(aUtf8[i + j]) & 0x3f);
+        }
+        if (code >= 0x10000)
+        {
+            code -= 0x10000;
+            out += static_cast<char16_t>(0xd800 + (code >> 10));
+            out += static_cast<char16_t>(0xdc00 + (code & 0x3ff));
+        }
+        else
+        {
+            out += static_cast<char16_t>(code);
+        }
+        i += length;
+    }
+    return out;
+}
+
+// a component's text or tooltip (the engine's UniString)
+void SetText(void* component, const std::string& aText, bool aTooltip)
+{
+    const std::u16string text = Utf16(aText);
+    alignas(16) uint8_t uni[16];
+    reinterpret_cast<void (*)(void*, const char16_t*)>(Slid(Addresses::UniString_ctor))(uni, text.c_str());
+    if (aTooltip)
+    {
+        reinterpret_cast<void (*)(void*, const void*, bool)>(Slid(Addresses::UIComponent_SetTooltipText))(component, uni, true);
+    }
+    else
+    {
+        reinterpret_cast<void (*)(void*, const void*, bool)>(Slid(Addresses::UIComponent_SetText))(component, uni, false);
+    }
+    reinterpret_cast<void (*)(void*)>(Slid(Addresses::UniString_dtor))(uni);
+}
+
+void UpdateFederatesRow(void* panel)
+{
+    if (!federatesRow)
+    {
+        return;
+    }
+    const FederatesOffer offer = AskFederates(panel);
+    SetText(federatesRow, offer.tooltip, true);
+    if (offer.count > 0)
+    {
+        SetText(federatesRow, fmt::format("{} federates ({})", offer.count, offer.cost), false);
+        return;
+    }
+    SetText(federatesRow, "Federates: " + (offer.reason.empty() ? std::string("none") : offer.reason), false);
+    if (federatesTicked)
+    {
+        federatesTicked = false;
+        SetChecked(federatesRow, false);
+    }
+}
+
+// only while there's an offer
+void OnFederatesClick(void* panel, bool ticked)
+{
+    federatesTicked = ticked && AskFederates(panel).count > 0;
+    SetChecked(federatesRow, federatesTicked);
+    UpdateFederatesRow(panel);
+}
+
+// The row, made like the fill function makes region rows (template, checkbox listener), moved to the top of the list
+void* CreateFederatesRow(void* panel, void* root)
+{
+    auto* p = static_cast<uint8_t*>(panel);
+    void* box = FindChild(FindChild(root, "list_demands"), "list_box");
+    void* rowTemplate = *reinterpret_cast<void**>(p + Addresses::TradeRegionsPanel_RowTemplate);
+    if (!box || !rowTemplate)
+    {
+        return nullptr;
+    }
+    using CreateRow_t = void* (*)(void*, void*, const TempString*, void*, void*, int32_t, int32_t, void*, bool, void*);
+    static const auto createRow = reinterpret_cast<CreateRow_t>(Slid(Addresses::UIComponent_CreateListRow));
+    static const auto stringCtor = reinterpret_cast<StringCtor_t>(Slid(Addresses::String_ctor));
+    static const auto stringDtor = reinterpret_cast<StringDtor_t>(Slid(Addresses::String_dtor));
+    TempString id;
+    stringCtor(&id, "federates");
+    void* row = createRow(box, rowTemplate, &id, nullptr, nullptr, 0, 0, nullptr, true, nullptr);
+    stringDtor(&id);
+    if (!row)
+    {
+        return nullptr;
+    }
+
+    // the panel listens to the row's checkbox: a node at the end of the checkbox's listener list, then the listener's
+    // virtual + 0x18 (as 0x1035adce8 does)
+    void* checkbox = FindChild(row, "checkbox");
+    auto* state = checkbox ? *reinterpret_cast<uint8_t**>(static_cast<uint8_t*>(checkbox) + Addresses::UIComponent_Checkbox) : nullptr;
+    if (state)
+    {
+        auto** list = reinterpret_cast<void**>(state + 0x48);
+        void* listener = p + Addresses::TradeRegionsPanel_Listener;
+        auto** node = static_cast<void**>(reinterpret_cast<void* (*)(uint64_t)>(Slid(Addresses::tw_malloc))(0x18));
+        node[0] = list[1];
+        node[1] = &list[1];
+        node[2] = listener;
+        if (list[0] != &list[1])
+        {
+            static_cast<void**>(list[1])[1] = node;
+        }
+        else
+        {
+            list[0] = node;
+        }
+        list[1] = node;
+        (*reinterpret_cast<void (**)(void*, void*)>(*static_cast<uint8_t**>(listener) + 0x18))(listener, list);
+    }
+
+    // to the top of the list
+    auto* b = static_cast<uint8_t*>(box);
+    const auto count = *reinterpret_cast<uint32_t*>(b + Addresses::UIComponent_ChildCount);
+    auto** children = *reinterpret_cast<void***>(b + Addresses::UIComponent_Children);
+    if (count > 1 && children[count - 1] == row)
+    {
+        std::memmove(children + 1, children, (count - 1) * sizeof(void*));
+        children[0] = row;
+    }
+    reinterpret_cast<void (*)(void*)>(Slid(Addresses::ListBox_Layout))(box);
+    return row;
 }
 
 void* openPanel = nullptr;
@@ -774,11 +999,16 @@ void* PopulatePanel(void* panel, void* action)
     }
     selectedRows.clear();
     openPanel = panel;
+    federatesRow = nullptr;
+    federatesTicked = false;
     void* result = PopulatePanel_fnc(panel, action);
     if (!widened || !root)
     {
         return result;
     }
+
+    // before the lists are narrowed, so the row is narrowed with the others
+    federatesRow = CreateFederatesRow(panel, root);
 
     // the panel fits one list: narrow both lists to fit side by side
     void* offers = FindChild(root, "list_offers");
@@ -836,6 +1066,7 @@ void* PopulatePanel(void* panel, void* action)
             }
         }
     }
+    UpdateFederatesRow(panel);
     return result;
 }
 } // namespace
