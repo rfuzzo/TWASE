@@ -185,6 +185,7 @@ constexpr uint64_t ListBox_Layout = 0x1032BC860;
 // (template dropdown + 0x120) for each entry whose action isn't in the deal, and hands it the entry (0x1035a9880:
 // action at controller + 0x50, label "row_tx" from the action's name, tooltip from the entry).
 constexpr uint64_t DiplomacyDropdown_ActionEntries = 0x1C0;
+constexpr uint64_t DiplomacyDropdown_Context = 0x200;       // DIPLOMACY_CONTEXT*, its negotiation at + 0xd0
 constexpr uint64_t DiplomacyDropdown_ActionButtonParent = 0x118;
 constexpr uint64_t DiplomacyDropdown_MakeActionButtons = 0x1035F4538;
 constexpr uint64_t Vector_PushActionEntry = 0x103200F00;   // void (*)(VECTOR*, const ENTRY*), copies the entry

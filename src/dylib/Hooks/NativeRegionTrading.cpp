@@ -968,6 +968,29 @@ int64_t MakeActionButtons(void* dropdown)
         return MakeActionButtons_fnc(dropdown);
     }
 
+    // At war, land is only traded in a peace: the region entries appear once peace is in the deal (like vanilla's
+    // tributary). Peace is only available at war. The region entry is taken out of the list for the engine and put back.
+    void* context = *reinterpret_cast<void**>(static_cast<uint8_t*>(dropdown) + Addresses::DiplomacyDropdown_Context);
+    void* negotiation = context ? *reinterpret_cast<void**>(static_cast<uint8_t*>(context) + Addresses::DiplomacyContext_Negotiation) : nullptr;
+    uint8_t* peace = negotiation ? FindAction(negotiation, Addresses::DiplomaticAction_Peace) : nullptr;
+    const bool peaceInDeal = peace && (*reinterpret_cast<InDeal_t*>(*reinterpret_cast<uint8_t**>(peace) + Addresses::DiplomaticAction_InDealVtableOffset))(peace);
+    if (peace && peace[Addresses::DiplomaticAction_Available] == 1 && !peaceInDeal)
+    {
+        ActionEntry* list = entries();
+        const uint32_t n = *count();
+        ActionEntry region;
+        std::memcpy(&region, &list[regionEntry], sizeof(region));
+        std::memmove(&list[regionEntry], &list[regionEntry + 1], (n - regionEntry - 1) * sizeof(ActionEntry));
+        *count() = n - 1;
+        const int64_t result = MakeActionButtons_fnc(dropdown);
+        list = entries();
+        std::memmove(&list[regionEntry + 1], &list[regionEntry], (n - regionEntry - 1) * sizeof(ActionEntry));
+        std::memcpy(&list[regionEntry], &region, sizeof(region));
+        *count() = n;
+        spdlog::debug("[RegionTrading] action buttons: at war without peace in the deal, no region entries");
+        return result;
+    }
+
     ActionEntry copy{};
     reinterpret_cast<void (*)(void*, const void*)>(Slid(Addresses::UniString_Copy))(copy.text, entries()[regionEntry].text);
     std::memcpy(copy.flags, entries()[regionEntry].flags, sizeof(copy.flags));
