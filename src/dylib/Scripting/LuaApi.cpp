@@ -546,7 +546,10 @@ int DevDiplomacyActions(lua_State* L)
 // `value`: the gold value of a region for a faction (negative = a burden), used when the AI evaluates a deal with
 // regions; required, without it regions would be free. `transfer` (optional): called "before" for each region of an
 // accepted deal, then "after" for each. `federates` (optional): for "Region for Troops", the units the AI gives for the
-// regions: number, recruitment cost, the reason when none, their names one per line. twase.enable_region_trading(nil)
+// regions: number, recruitment cost, the reason when none, their names one per line. `willingness` (optional):
+// function(ai_key, player_key) -> the AI's willingness to become your federates, in score points, which replaces the
+// native scores of the peace / tributary terms in a deal for troops. `foedus` (optional): function(phase, ai_key,
+// player_key, region_key...) around the transfer of a deal for troops ("before", "after"). twase.enable_region_trading(nil)
 // switches it off again.
 int EnableRegionTrading(lua_State* L)
 {
@@ -577,6 +580,15 @@ int EnableRegionTrading(lua_State* L)
         return LuaRuntime::error(L, "twase.enable_region_trading(handlers): handlers.federates must be a function or nil");
     }
     LuaRuntime::setfield(L, LUA_REGISTRYINDEX, "twase_region_federates_handler");
+    for (const auto& [field, key] : {std::pair{"willingness", "twase_region_willingness_handler"}, {"foedus", "twase_region_foedus_handler"}})
+    {
+        LuaRuntime::getfield(L, 1, field);
+        if (LuaRuntime::type(L, -1) != LUA_TFUNCTION && LuaRuntime::type(L, -1) != LUA_TNIL)
+        {
+            return LuaRuntime::error(L, "twase.enable_region_trading(handlers): handlers.%s must be a function or nil", field);
+        }
+        LuaRuntime::setfield(L, LUA_REGISTRYINDEX, key);
+    }
     Hooks::NativeRegionTradingHook::SetEnabled(true);
     return 0;
 }

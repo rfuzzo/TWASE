@@ -240,6 +240,84 @@ void* EvaluatingFaction(const EvalContext& eval)
     return *reinterpret_cast<void**>(cai + offset);
 }
 
+// the negotiation's action of a type (the actions aren't indexed by type), nullptr if it has none
+uint8_t* FindAction(void* negotiation, int type, int32_t* index = nullptr)
+{
+    auto* n = static_cast<uint8_t*>(negotiation);
+    const auto count = *reinterpret_cast<uint32_t*>(n + Addresses::Negotiation_ActionCount);
+    auto** actions = *reinterpret_cast<uint8_t***>(n + Addresses::Negotiation_Actions);
+    for (uint32_t i = 0; actions && i < count; i++)
+    {
+        if (actions[i] && *reinterpret_cast<int32_t*>(actions[i] + Addresses::DiplomaticAction_Type) == type)
+        {
+            if (index)
+            {
+                *index = static_cast<int32_t>(i);
+            }
+            return actions[i];
+        }
+    }
+    return nullptr;
+}
+
+// REGION FOR TROOPS state: the negotiation whose region term is "for troops"
+void* troopsNegotiation = nullptr;
+
+// The mod's willingness of `ai` to become `player`'s federates, in the game's score points (0 without a handler)
+float HandlerWillingness(const char* ai, const char* player)
+{
+    lua_State* L = luaState;
+    if (!L || !ai || !player)
+    {
+        return 0.0f;
+    }
+    const int top = LuaRuntime::gettop(L);
+    LuaRuntime::getfield(L, LUA_REGISTRYINDEX, "twase_region_willingness_handler");
+    float value = 0.0f;
+    if (LuaRuntime::type(L, -1) == LUA_TFUNCTION)
+    {
+        LuaRuntime::pushstring(L, ai);
+        LuaRuntime::pushstring(L, player);
+        if (LuaRuntime::pcall(L, 2, 1, 0) != 0)
+        {
+            spdlog::error("[RegionTrading] willingness handler failed: {}", LuaRuntime::tolstring(L, -1, nullptr));
+        }
+        else if (LuaRuntime::type(L, -1) == LUA_TNUMBER)
+        {
+            value = LuaRuntime::tonumber(L, -1);
+        }
+    }
+    LuaRuntime::settop(L, top);
+    return value;
+}
+
+// The mod's foedus handler around the transfer of a deal for troops: function(phase, ai_key, player_key, region_key...)
+void CallFoedusHandler(const char* phase, const char* ai, const char* player, const std::vector<std::string>& regions)
+{
+    lua_State* L = luaState;
+    if (!L || !ai || !player)
+    {
+        return;
+    }
+    const int top = LuaRuntime::gettop(L);
+    LuaRuntime::getfield(L, LUA_REGISTRYINDEX, "twase_region_foedus_handler");
+    if (LuaRuntime::type(L, -1) == LUA_TFUNCTION)
+    {
+        LuaRuntime::pushstring(L, phase);
+        LuaRuntime::pushstring(L, ai);
+        LuaRuntime::pushstring(L, player);
+        for (const auto& region : regions)
+        {
+            LuaRuntime::pushstring(L, region.c_str());
+        }
+        if (LuaRuntime::pcall(L, 3 + static_cast<int>(regions.size()), 0, 0) != 0)
+        {
+            spdlog::error("[RegionTrading] foedus handler failed: {}", LuaRuntime::tolstring(L, -1, nullptr));
+        }
+    }
+    LuaRuntime::settop(L, top);
+}
+
 // TRANSFER: the Lua handler around the engine's transfer (the mod protects governors)
 
 void CallTransferHandler(const char* phase, const char* region, const char* faction)
@@ -292,15 +370,35 @@ void Execute(void* action)
             }
         }
     }
+    // a deal for troops: the regions go to the AI, the mod adds its warriors to your army around the transfer
+    const bool troops = negotiation == troopsNegotiation;
+    void* factionA = *reinterpret_cast<void**>(negotiation + Addresses::Negotiation_FactionA);
+    void* factionB = *reinterpret_cast<void**>(negotiation + Addresses::Negotiation_FactionB);
+    const char* player = KeyOf(IsHuman(factionA) ? factionA : factionB, Addresses::Faction_Record);
+    const char* ai = KeyOf(IsHuman(factionA) ? factionB : factionA, Addresses::Faction_Record);
+    std::vector<std::string> ceded;
     for (const auto& [region, to] : transfers)
     {
-        spdlog::debug("[RegionTrading] transfer {} to {}", region, to);
+        ceded.push_back(region);
+    }
+    if (troops)
+    {
+        CallFoedusHandler("before", ai, player, ceded);
+    }
+    for (const auto& [region, to] : transfers)
+    {
+        spdlog::debug("[RegionTrading] transfer {} to {}{}", region, to, troops ? " for troops" : "");
         CallTransferHandler("before", region.c_str(), to.c_str());
     }
     Execute_fnc(action);
     for (const auto& [region, to] : transfers)
     {
         CallTransferHandler("after", region.c_str(), to.c_str());
+    }
+    if (troops)
+    {
+        CallFoedusHandler("after", ai, player, ceded);
+        troopsNegotiation = nullptr;
     }
 }
 
@@ -372,13 +470,58 @@ float EvaluateDeal(void* negotiation, void* aiContext, void* a, void* b, int32_t
 float ScoreComponents(ComponentList* list, void* aiContext, void* a, int64_t* a4, int32_t* a5, char* a6, uint64_t a7)
 {
     const EvalContext* eval = currentEval;
+    bool troops = isEnabled && eval && eval->negotiation && list && eval->negotiation == troopsNegotiation;
+    if (troops)
+    {
+        // only while the region term is still in the deal (it can be removed from the deal list)
+        uint8_t* regions = FindAction(eval->negotiation, Addresses::DiplomaticAction_TradeRegions);
+        troops = regions && (*reinterpret_cast<InDeal_t*>(*reinterpret_cast<uint8_t**>(regions) + Addresses::DiplomaticAction_InDealVtableOffset))(regions);
+    }
     const float gold = isEnabled && eval && eval->negotiation && list ? RegionDealValue(*eval) : 0.0f;
-    if (gold == 0.0f)
+    if (gold == 0.0f && !troops)
     {
         return ScoreComponents_fnc(list, aiContext, a, a4, a5, a6, a7);
     }
 
-    const float score = ScoreComponents_fnc(list, aiContext, a, a4, a5, a6, a7);
+    // A deal for troops (a foedus): the native peace and tributary terms that come with it aren't scored by the game;
+    // instead the mod's willingness of the AI to become your federates counts (the components' index is their action's
+    // position in the negotiation's action array)
+    ComponentList* scored = list;
+    std::vector<ComponentEntry> kept;
+    ComponentList filtered{};
+    float willingness = 0.0f;
+    if (troops)
+    {
+        auto* n = static_cast<uint8_t*>(eval->negotiation);
+        const auto count = *reinterpret_cast<uint32_t*>(n + Addresses::Negotiation_ActionCount);
+        auto** actions = *reinterpret_cast<uint8_t***>(n + Addresses::Negotiation_Actions);
+        for (uint32_t i = 0; i < list->count; i++)
+        {
+            const int32_t index = list->data[i].index;
+            const int32_t type = index >= 0 && static_cast<uint32_t>(index) < count && actions[index]
+                                     ? *reinterpret_cast<int32_t*>(actions[index] + Addresses::DiplomaticAction_Type)
+                                     : -1;
+            if (type != Addresses::DiplomaticAction_Peace && type != Addresses::DiplomaticAction_MakeTributary)
+            {
+                kept.push_back(list->data[i]);
+            }
+        }
+        filtered = {static_cast<uint32_t>(kept.size()), static_cast<uint32_t>(kept.size()), kept.data()};
+        scored = &filtered;
+        void* evaluator = EvaluatingFaction(*eval);
+        void* factionA = *reinterpret_cast<void**>(n + Addresses::Negotiation_FactionA);
+        void* factionB = *reinterpret_cast<void**>(n + Addresses::Negotiation_FactionB);
+        willingness = HandlerWillingness(KeyOf(evaluator, Addresses::Faction_Record),
+                                         KeyOf(evaluator == factionA ? factionB : factionA, Addresses::Faction_Record));
+        spdlog::debug("[RegionTrading] deal for troops: {} of {} components scored natively, willingness {:+}", kept.size(),
+                      list->count, willingness);
+    }
+
+    const float score = ScoreComponents_fnc(scored, aiContext, a, a4, a5, a6, a7) + willingness;
+    if (gold == 0.0f)
+    {
+        return score;
+    }
 
     // The evaluator only gives a gift a deal value when the AI pays it (a table lookup on the amount, relative to its
     // treasury); gold the AI receives only counts as goodwill. So a region worth V to the AI counts like the AI not having
@@ -599,7 +742,6 @@ bool HasId(void* component, const char* id)
 
 // REGION FOR TROOPS state: the open panel's mode, the negotiation whose region term is "for troops"
 bool troopsMode = false;
-void* troopsNegotiation = nullptr;
 int pendingMode = -1; // set by a click on an action button: 1 troops, 0 gift; -1 none (the panel was opened otherwise)
 void UpdateTroopsList(void* panel);
 
@@ -729,6 +871,20 @@ void SetRegion(void* context, int32_t regionId, void* demandedFrom, void* deal)
     reinterpret_cast<void (*)(void*, const PointerList*)>(Slid(Addresses::DealTerms_SetDemandedRegions))(terms, &demandedList);
     reinterpret_cast<void (*)(void*, void*, void*)>(Slid(Addresses::Deal_ApplyTerms))(deal, x, terms);
     reinterpret_cast<void (*)(void*)>(Slid(Addresses::DealTerms_dtor))(terms);
+
+    // a foedus comes with peace (at war) and the tributary status (at peace): the native terms, where available
+    if (troopsMode && negotiation)
+    {
+        for (int type : {Addresses::DiplomaticAction_Peace, Addresses::DiplomaticAction_MakeTributary})
+        {
+            uint8_t* term = FindAction(negotiation, type);
+            if (term && term[Addresses::DiplomaticAction_Available] == 1 && term[Addresses::DiplomaticAction_Available + 1] == 0)
+            {
+                reinterpret_cast<void (*)(void*, void*)>(Slid(Addresses::DiplomacyContext_AddTerm))(context, term);
+                spdlog::debug("[RegionTrading] deal for troops: added the native term {}", type);
+            }
+        }
+    }
 }
 
 // REGION FOR TROOPS
