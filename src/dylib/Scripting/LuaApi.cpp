@@ -528,6 +528,23 @@ int SetRegionTransferHandler(lua_State* L)
     return 0;
 }
 
+// twase.dev_transfer_region(region, faction, flag): the region deal's transfer 0x101ceb290(settlement, faction, flag, 0)
+// (the deal passes flag 0, transfer_region_to_faction's path 1), for comparing what each updates
+int DevTransferRegion(lua_State* L)
+{
+    const void* scriptInterface = ScriptInterfaceArg(L, 1, "REGION_SCRIPT_INTERFACE");
+    const void* region = scriptInterface ? ReadPtr<const void*>(scriptInterface, Addr::RegionScriptInterface_Region) : nullptr;
+    const void* faction = FactionArg(L, 2);
+    if (!region || !faction)
+    {
+        return LuaRuntime::error(L, "twase.dev_transfer_region(region, faction, flag): expects a region and a faction");
+    }
+    const auto flag = static_cast<int64_t>(LuaRuntime::tonumber(L, 3));
+    using Transfer_t = void (*)(void* settlement, const void* faction, int64_t flag, int32_t arg4);
+    Resolve<Transfer_t>(0x101CEB290)(ReadPtr<void*>(region, 0x1A8), faction, flag, 0);
+    return 0;
+}
+
 // twase.dev_region_value_sign(sign), twase.dev_last_deal_score() -> number
 int DevRegionValueSign(lua_State* L)
 {
@@ -605,6 +622,7 @@ void Scripting::LuaApi::Register(lua_State* L)
     SetFunction(L, "set_region_value_handler", &SetRegionValueHandler);
     SetFunction(L, "set_region_transfer_handler", &SetRegionTransferHandler);
     SetFunction(L, "dev_region_value_sign", &DevRegionValueSign);
+    SetFunction(L, "dev_transfer_region", &DevTransferRegion);
     SetFunction(L, "dev_last_deal_score", &DevLastDealScore);
 
     LuaRuntime::setfield(L, LUA_GLOBALSINDEX, "twase");

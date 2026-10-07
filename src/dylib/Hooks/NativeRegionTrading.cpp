@@ -83,8 +83,9 @@ float ScoreComponents(ComponentList* list, void* aiContext, void* a, int64_t* a4
 Hook<decltype(&EvaluateDeal)> EvaluateDeal_fnc(Addresses::Diplo_EvaluateDeal, &EvaluateDeal);
 Hook<decltype(&ScoreComponents)> ScoreComponents_fnc(Addresses::Diplo_ScoreComponents, &ScoreComponents);
 bool RegionTradePossible(void* a, void* b);
-void* SelectRow(void* panel, void* row);
-Hook<decltype(&SelectRow)> SelectRow_fnc(Addresses::TradeRegionsPanel_SelectRow, &SelectRow);
+using SelectRow_t = void* (*)(void* panel, void* row);
+uint64_t OnClick(void* panel, void** event);
+Hook<decltype(&OnClick)> OnClick_fnc(Addresses::TradeRegionsPanel_OnClick, &OnClick);
 void SetRegion(void* context, int32_t regionId, void* demandedFrom, void* deal);
 Hook<decltype(&SetRegion)> SetRegion_fnc(Addresses::DiplomacyContext_SetRegion, &SetRegion);
 void Execute(void* action);
@@ -365,13 +366,27 @@ float ScoreComponents(ComponentList* list, void* aiContext, void* a, int64_t* a4
     // to pay V: the mirror image of the score of "the AI pays V", computed by the same scorer. A burden (V < 0) counts
     // like paying |V|.
     static const auto giftCtor = reinterpret_cast<GiftCtor_t>(Addresses::DealComponentGift_ctor + Image::Get()->GetSlide());
-    alignas(16) uint8_t gift[Addresses::DealComponentGift_Size] = {};
-    giftCtor(gift, eval->aiContext, eval->factionA, eval->factionB, -static_cast<int32_t>(std::fabs(gold)));
-    ComponentEntry entry{gift, Addresses::DiplomaticAction_TradeRegions, 0};
-    ComponentList single{1, 1, &entry};
-    int32_t dummy5 = 0;
-    char dummy6 = 0;
-    const float paying = ScoreComponents_fnc(&single, aiContext, a, a4, &dummy5, &dummy6, a7);
+    const auto payingScore = [&](float amount)
+    {
+        alignas(16) uint8_t gift[Addresses::DealComponentGift_Size] = {};
+        giftCtor(gift, eval->aiContext, eval->factionA, eval->factionB, -static_cast<int32_t>(amount));
+        ComponentEntry entry{gift, Addresses::DiplomaticAction_TradeRegions, 0};
+        ComponentList single{1, 1, &entry};
+        int32_t dummy5 = 0;
+        char dummy6 = 0;
+        return ScoreComponents_fnc(&single, aiContext, a, a4, &dummy5, &dummy6, a7);
+    };
+    // The table ignores amounts that are small for the AI's treasury (a swap 439 gold short scored 0 for the ERE).
+    // Below its first step we interpolate linearly from the smallest doubled amount that counts.
+    const float amount = std::fabs(gold);
+    float paying = payingScore(amount);
+    for (float reference = amount * 2; paying == 0.0f && reference < amount * 4096; reference *= 2)
+    {
+        if (const float referenceScore = payingScore(reference); referenceScore != 0.0f)
+        {
+            paying = referenceScore * amount / reference;
+        }
+    }
     const float delta = (gold > 0 ? -paying : paying) * static_cast<float>(valueSign.load());
 
     spdlog::debug("[RegionTrading] regions worth {} gold: deal score {} {:+} = {}", gold, score, delta, score + delta);
@@ -429,7 +444,6 @@ void Resize(void* component, float width, float height)
 
 // MULTIPLE SELECTION
 
-bool populating = false;
 std::vector<void*> selectedRows; // ticked rows of both lists, the last one is the engine's selection
 
 void* Slid(uint64_t address)
@@ -508,35 +522,52 @@ void SetChecked(void* row, bool checked)
     }
 }
 
-// A click on a row toggles it; the others stay ticked. The engine keeps the last ticked row as its selection (for the
-// OK button's state and the camera).
-void* SelectRow(void* panel, void* row)
+bool HasId(void* component, const char* id)
 {
-    if (populating || !IsWidenedPanel(panel))
+    const auto* key = reinterpret_cast<const TempString*>(static_cast<uint8_t*>(component) + Addresses::UIComponent_Id);
+    return key->length > 0 && std::strcmp(key->data, id) == 0;
+}
+
+// A click on a list row: the engine selects the row when its checkbox was ticked and nothing when it was unticked (one
+// selection). We keep every ticked row of both lists; the last one stays the engine's selection (for the OK button's
+// state and the camera).
+uint64_t OnClick(void* panel, void** event)
+{
+    void* component = event ? event[0] : nullptr;
+    if (!component || !IsWidenedPanel(panel) || HasId(component, "ok_trade_regions") || HasId(component, "cancel_trade_regions"))
     {
-        return SelectRow_fnc(panel, row);
+        return OnClick_fnc(panel, event);
     }
+    static const auto findChild = reinterpret_cast<FindChild_t>(Slid(Addresses::UIComponent_FindChild));
+    static const auto stringCtor = reinterpret_cast<StringCtor_t>(Slid(Addresses::String_ctor));
+    static const auto stringDtor = reinterpret_cast<StringDtor_t>(Slid(Addresses::String_dtor));
+    TempString key;
+    stringCtor(&key, "list_box");
+    void* box = findChild(component, &key, false);
+    stringDtor(&key);
+    void* row = box ? *reinterpret_cast<void**>(static_cast<uint8_t*>(component) + Addresses::UIComponent_ClickedRow) : nullptr;
     if (!row)
     {
-        selectedRows.clear();
-        return SelectRow_fnc(panel, nullptr);
+        return OnClick_fnc(panel, event);
     }
-    void* focus = row;
-    if (auto it = std::find(selectedRows.begin(), selectedRows.end(), row); it != selectedRows.end())
-    {
-        selectedRows.erase(it);
-        focus = selectedRows.empty() ? nullptr : selectedRows.back();
-    }
-    else
+
+    const bool ticked = reinterpret_cast<intptr_t>(event[1]) == 1;
+    auto it = std::find(selectedRows.begin(), selectedRows.end(), row);
+    if (ticked && it == selectedRows.end())
     {
         selectedRows.push_back(row);
     }
-    void* result = SelectRow_fnc(panel, focus);
+    else if (!ticked && it != selectedRows.end())
+    {
+        selectedRows.erase(it);
+    }
+    static const auto selectRow = reinterpret_cast<SelectRow_t>(Slid(Addresses::TradeRegionsPanel_SelectRow));
+    selectRow(panel, ticked ? row : (selectedRows.empty() ? nullptr : selectedRows.back()));
     for (void* selected : selectedRows)
     {
         SetChecked(selected, true);
     }
-    return result;
+    return 0;
 }
 
 struct PointerList
@@ -682,9 +713,7 @@ void* PopulatePanel(void* panel, void* action)
     }
     selectedRows.clear();
     openPanel = panel;
-    populating = true;
     void* result = PopulatePanel_fnc(panel, action);
-    populating = false;
     if (!widened || !root)
     {
         return result;
@@ -779,7 +808,7 @@ bool Hooks::NativeRegionTradingHook::Attach()
     if (result == 0)
         result = PopulatePanel_fnc.Attach();
     if (result == 0)
-        result = SelectRow_fnc.Attach();
+        result = OnClick_fnc.Attach();
     if (result == 0)
         result = SetRegion_fnc.Attach();
     if (result == 0)
@@ -818,7 +847,7 @@ bool Hooks::NativeRegionTradingHook::Detach()
     if (result == 0)
         result = SetRegion_fnc.Detach();
     if (result == 0)
-        result = SelectRow_fnc.Detach();
+        result = OnClick_fnc.Detach();
     if (result == 0)
         result = PopulatePanel_fnc.Detach();
     if (result == 0)
