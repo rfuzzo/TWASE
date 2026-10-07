@@ -207,6 +207,9 @@ Reached from the campaign global the UI uses: world = `*(*(*0x105608ea0 + 0x30) 
 | main_units | `0x102c90940` | `0x14d8` | `+0x30` create_time, `+0x40` num_men, `+0x48` multiplayer_cost, `+0x68` recruitment_cost, `+0x88` upkeep_cost, `+0xb8` unique_index |
 | region_to_province_junctions | `0x102cc5c08` | `0x1630` | 0x20-byte records: `+0x00` province key, `+0x10` region key (TempStrings) |
 | provinces | `0x102c8ea88` | `0x1638` | key at `+0`, record built by `0x10298a390` (key + loc entry at `+0x10`) |
+| faction_to_mercenary_set_junctions | `0x102cc6b40` | | 0x10-byte rows: `+0x00` faction record*, `+0x08` mercenary pool record* (a people's levy pool, 15 factions) |
+| mercenary_pool_to_groups_junctions | `0x102cc71b8` | | 0x38-byte rows: `+0x00` id, `+0x08` pool record*, `+0x10` unit group record*, `+0x18` initial_unit_count |
+| mercenary_unit_groups | `0x102cc6e98` | | 0x28-byte records: `+0x00` chance_to_replenish (float), `+0x08` key, `+0x18` max_count, `+0x1c` max_replenish_per_turn, `+0x20` main_units record* |
 
 `REGION + 0x78` = its `regions` record (the Lua `name()`), `REGION + 0x4b0` → the campaign province object (`**`), whose per-faction parts are at `+0x94` (count) / `+0x98` (`sub_102410864`).
 

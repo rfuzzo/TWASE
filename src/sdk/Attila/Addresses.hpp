@@ -111,6 +111,10 @@ constexpr uint64_t DB_BuildingLevels = 0x102C86DFC;        // container + 0x1fb0
 constexpr uint64_t DB_RegionToProvinceJunctions = 0x102CC5C08; // container + 0x1630
 constexpr uint64_t DB_Provinces = 0x102C8EA88;             // container + 0x1638
 constexpr uint64_t DB_MainUnits = 0x102C90940;             // container + 0x14d8
+// the levy pools: faction -> mercenary set, set -> unit groups, group -> unit (layouts in docs/addresses.md)
+constexpr uint64_t DB_FactionToMercenarySetJunctions = 0x102CC6B40;
+constexpr uint64_t DB_MercenaryPoolToGroupsJunctions = 0x102CC71B8;
+constexpr uint64_t DB_MercenaryUnitGroups = 0x102CC6E98;
 // int* (*)(StringHashMap* map, const TempString* key), the record index or null
 constexpr uint64_t StringHashMap_Find = 0x1010E5040;
 

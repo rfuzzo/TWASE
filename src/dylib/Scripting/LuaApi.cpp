@@ -168,6 +168,9 @@ constexpr DBTableInfo kTables[] = {
     {"region_to_province_junctions", Addr::DB_RegionToProvinceJunctions},
     {"provinces", Addr::DB_Provinces},
     {"main_units", Addr::DB_MainUnits},
+    {"faction_to_mercenary_set_junctions", Addr::DB_FactionToMercenarySetJunctions},
+    {"mercenary_pool_to_groups_junctions", Addr::DB_MercenaryPoolToGroupsJunctions},
+    {"mercenary_unit_groups", Addr::DB_MercenaryUnitGroups},
 };
 
 // The DB container through the campaign global, nullptr outside a campaign
@@ -417,6 +420,81 @@ bool SafeRead(uintptr_t aAddress, T& aOut)
 
 constexpr uint64_t kDiplomacyDropdownVtable = 0x104CC6A38; // UIDLL::DiplomacyDropdown (RTTI typeinfo 0x104cc6d38)
 
+// The key of the record a DB record field points to (references to other tables are record pointers)
+const char* RefKey(const void* aRecord, uint64_t aOffset)
+{
+    const void* target = ReadPtr<const void*>(aRecord, aOffset);
+    return target ? StringAt(target, 0) : nullptr;
+}
+
+// twase.levy_pool(faction) -> { [group key] = { unit, group, max_count, initial_count, max_replenish_per_turn,
+// chance_to_replenish } } or nil: the faction's own levy pool (the units of that people others can levy, e.g. from a friendly horde), from the
+// loaded DB (faction_to_mercenary_set_junctions -> mercenary_pool_to_groups_junctions -> mercenary_unit_groups).
+int LevyPool(lua_State* L)
+{
+    const char* faction = LuaRuntime::type(L, 1) == LUA_TSTRING ? LuaRuntime::tolstring(L, 1, nullptr) : nullptr;
+    if (!faction)
+    {
+        return LuaRuntime::error(L, "twase.levy_pool(faction_key): expects a faction key");
+    }
+    void* sets = Table("faction_to_mercenary_set_junctions");
+    void* groups = Table("mercenary_pool_to_groups_junctions");
+    if (!sets || !groups)
+    {
+        return LuaRuntime::error(L, "twase.levy_pool: the DB isn't available outside a campaign");
+    }
+
+    // faction_to_mercenary_set_junctions: + 0x00 faction*, + 0x08 pool*
+    const char* pool = nullptr;
+    for (uint32_t i = 0; i < RecordCount(sets) && !pool; i++)
+    {
+        const void* row = RecordAt(sets, i);
+        const char* key = RefKey(row, 0x00);
+        if (key && std::strcmp(key, faction) == 0)
+        {
+            pool = RefKey(row, 0x08);
+        }
+    }
+    if (!pool)
+    {
+        LuaRuntime::pushnil(L);
+        return 1;
+    }
+
+    // mercenary_pool_to_groups_junctions: + 0x08 pool*, + 0x10 group*, + 0x18 initial_unit_count
+    // mercenary_unit_groups: + 0x00 chance_to_replenish (float), + 0x08 key, + 0x18 max_count, + 0x1c max_replenish_per_turn, + 0x20 unit*
+    LuaRuntime::createtable(L, 0, 0);
+    for (uint32_t i = 0; i < RecordCount(groups); i++)
+    {
+        const void* row = RecordAt(groups, i);
+        const char* rowPool = RefKey(row, 0x08);
+        const void* group = ReadPtr<const void*>(row, 0x10);
+        if (!rowPool || !group || std::strcmp(rowPool, pool) != 0)
+        {
+            continue;
+        }
+        LuaRuntime::createtable(L, 0, 6);
+        if (const char* unit = RefKey(group, 0x20))
+        {
+            LuaRuntime::pushstring(L, unit);
+            LuaRuntime::setfield(L, -2, "unit");
+        }
+        const char* key = StringAt(group, 0x08);
+        if (key)
+        {
+            LuaRuntime::pushstring(L, key);
+            LuaRuntime::setfield(L, -2, "group");
+        }
+        SetNumber(L, "max_count", group, 0x18);
+        SetNumber(L, "max_replenish_per_turn", group, 0x1c);
+        SetNumber(L, "initial_count", row, 0x18);
+        LuaRuntime::pushnumber(L, ReadPtr<float>(group, 0x00));
+        LuaRuntime::setfield(L, -2, "chance_to_replenish");
+        LuaRuntime::setfield(L, -2, key ? key : "?");
+    }
+    return 1;
+}
+
 // twase.dev_diplomacy_actions() -> "type:side:available:blocked ..." or an error text
 // Development helper: the negotiation's diplomatic actions of the open diplomacy screen (the DiplomacyDropdown
 // the likelihood hook saw last, checked by its vtable).
@@ -555,6 +633,66 @@ int DevDbRecord(lua_State* L)
     return 2;
 }
 
+// twase.dev_db_fields(table, index[, bytes]) -> "off:value ..." for record `index`: each 8-byte slot as a string
+// ("off:'text'"), a pointer to a record with a string key ("off:->key") or the two int32s ("off:a,b")
+int DevDbFields(lua_State* L)
+{
+    const char* tableName = LuaRuntime::tolstring(L, 1, nullptr);
+    void* table = tableName ? Table(tableName) : nullptr;
+    const void* record = table ? RecordAt(table, static_cast<uint32_t>(LuaRuntime::tonumber(L, 2))) : nullptr;
+    const int bytes = LuaRuntime::type(L, 3) == LUA_TNUMBER ? static_cast<int>(LuaRuntime::tonumber(L, 3)) : 0x60;
+    if (!record)
+    {
+        return LuaRuntime::error(L, "twase.dev_db_fields: no table '%s' or no record", tableName ? tableName : "?");
+    }
+    const auto text = [](uintptr_t aString, std::string& aOut)
+    {
+        uint32_t length = 0;
+        uintptr_t data = 0;
+        char buffer[128] = {};
+        if (!SafeRead(aString, length) || length == 0 || length > 120 || !SafeRead(aString + 8, data) || !data)
+        {
+            return false;
+        }
+        for (uint32_t i = 0; i < length; i++)
+        {
+            if (!SafeRead(data + i, buffer[i]) || buffer[i] < 0x20 || buffer[i] > 0x7e)
+            {
+                return false;
+            }
+        }
+        aOut.assign(buffer, length);
+        return true;
+    };
+    std::string out;
+    const auto base = reinterpret_cast<uintptr_t>(record);
+    for (int off = 0; off < bytes; off += 8)
+    {
+        std::string value;
+        uintptr_t pointer = 0;
+        int32_t pair[2] = {};
+        if (text(base + off, value))
+        {
+            out += fmt::format("{:x}:'{}' ", off, value);
+            off += 8; // a TempString is 16 bytes
+        }
+        else if (SafeRead(base + off, pointer) && pointer && text(pointer, value))
+        {
+            out += fmt::format("{:x}:->{} ", off, value);
+        }
+        else if (SafeRead(base + off, pair[0]) && SafeRead(base + off + 4, pair[1]))
+        {
+            float f0, f1;
+            std::memcpy(&f0, &pair[0], 4);
+            std::memcpy(&f1, &pair[1], 4);
+            out += fmt::format("{:x}:{},{}({:g},{:g}) ", off, pair[0], pair[1], f0, f1);
+        }
+    }
+    LuaRuntime::pushstring(L, out.c_str());
+    LuaRuntime::pushnumber(L, static_cast<lua_Number>(RecordCount(table)));
+    return 2;
+}
+
 void SetFunction(lua_State* L, const char* aName, lua_CFunction aFunction)
 {
     LuaRuntime::pushcclosure(L, aFunction, 0);
@@ -575,12 +713,14 @@ void Scripting::LuaApi::Register(lua_State* L)
     SetFunction(L, "unit", &Unit);
     SetFunction(L, "region_province", &RegionProvince);
     SetFunction(L, "localise", &Localise);
+    SetFunction(L, "levy_pool", &LevyPool);
     SetFunction(L, "enable_region_trading", &EnableRegionTrading);
 
     // probes for reverse engineering, only with [dev] lua_dev_functions = true
     if (App::Get()->GetConfig()->GetDev().luaDevFunctions)
     {
         SetFunction(L, "dev_db_record", &DevDbRecord);
+        SetFunction(L, "dev_db_fields", &DevDbFields);
         SetFunction(L, "dev_diplomacy_actions", &DevDiplomacyActions);
         SetFunction(L, "dev_transfer_region", &DevTransferRegion);
         SetFunction(L, "dev_last_deal_score", &DevLastDealScore);
