@@ -48,7 +48,6 @@ constexpr uint64_t CName_ctor = 0x10109240C;
 
 // void (*)(void* ptr), the game allocator's free
 constexpr uint64_t tw_free = 0x1010ACB70;
-constexpr uint64_t tw_malloc = 0x1010ACA70;
 
 // DIPLOMACY
 // float (*)(void* deal, void* ctx, void* factionA, void* factionB)
@@ -170,15 +169,6 @@ constexpr uint64_t TradeRegionsPanel_Selected = 0x78;      // UIComponent* row
 // byte at event + 8 is 1 if the checkbox is now ticked (the rest of that word is garbage); also the OK and cancel buttons
 constexpr uint64_t TradeRegionsPanel_OnClick = 0x1035AE4C4;
 constexpr uint64_t UIComponent_ClickedRow = 0x108;
-// The panel's list rows: UIComponent* (*)(UIComponent* listBox, void* rowTemplate (= panel + 0x70), const TempString* id,
-// void*, void*, int32_t, int32_t, void*, bool (stack, true), void* (stack)), as the fill function 0x1035adce8 calls it;
-// it then sets the row's text (UIComponent_SetText) and adds the panel's listener (panel + 0x48) to the row checkbox's
-// listener list (checkbox state + 0x48: { first, last } of 0x18-byte nodes { prev, next, listener }, then the
-// listener's virtual + 0x18(listener, list)). 0x1032bc860(listBox) lays the list out again.
-constexpr uint64_t UIComponent_CreateListRow = 0x1032EF074;
-constexpr uint64_t TradeRegionsPanel_RowTemplate = 0x70;
-constexpr uint64_t TradeRegionsPanel_Listener = 0x48;
-constexpr uint64_t ListBox_Layout = 0x1032BC860;
 constexpr uint64_t TradeRegionsPanel_OtherFaction = 0x80;  // FACTION* of the AI, set by Populate
 // FACTION* (*)(DIPLOMATIC_ACTION*): the action's two factions (Populate takes the one that isn't the local faction)
 constexpr uint64_t DiplomaticAction_FactionA = 0x1024C829C;
