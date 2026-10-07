@@ -1029,15 +1029,21 @@ int64_t MakeActionButtons(void* dropdown)
     return result;
 }
 
-// Which button opened the region panel. Only clicks (+ 0x10 == 1, as the engine checks) count.
+// Which button opened the region panel. Only clicks (+ 0x10 == 1, as the engine checks) count, and only the region
+// buttons set a mode: any other button (e.g. Payments) clears it, so the region panel reopened from the deal list later
+// follows the deal.
 void NoteActionButton(void* event)
 {
     auto* e = static_cast<uint8_t*>(event);
-    void* button = e ? *reinterpret_cast<void**>(e + 8) : nullptr;
-    if (button && e[0x10] == 1)
+    auto* button = e ? *reinterpret_cast<uint8_t**>(e + 8) : nullptr;
+    if (!button || e[0x10] != 1)
     {
-        pendingMode = troopsButton && button == troopsButton ? 1 : 0;
+        return;
     }
+    auto* controller = *reinterpret_cast<uint8_t**>(button + Addresses::UIComponent_Checkbox);
+    auto* action = controller ? *reinterpret_cast<uint8_t**>(controller + 0x50) : nullptr;
+    const bool region = action && *reinterpret_cast<int32_t*>(action + Addresses::DiplomaticAction_Type) == Addresses::DiplomaticAction_TradeRegions;
+    pendingMode = !region ? -1 : (troopsButton && button == troopsButton ? 1 : 0);
 }
 
 void OnActionButton(void* dropdown, void* event)
