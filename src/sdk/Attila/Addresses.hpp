@@ -182,6 +182,9 @@ constexpr uint64_t Deal_ApplyTerms = 0x1025D2124;
 // (vtable 0x104c1e520 slot 13)
 constexpr uint64_t TradeRegions_Execute = 0x1025C8188;
 constexpr uint64_t DiplomaticAction_Negotiation = 0x8;
+// void (*)(SETTLEMENT*, FACTION*, int64_t, int32_t): the deal's transfer of one region (reason 5, diplomacy)
+constexpr uint64_t Settlement_DiplomaticTransfer = 0x101CEB290;
+constexpr uint64_t Region_Settlement = 0x1A8;              // SETTLEMENT*
 // The deal list row of a trade regions action (UIDLL::DiplomacyListTradeRegionsButton, vtable slot + 0x1e0):
 // void (*)(BUTTON* self, UIComponent* dropdownRoot, ENTRY* entry, void* context); entry + 0x18 = the action.
 // It shows the demanded regions if there are any, else the offered ones, in "region_names".

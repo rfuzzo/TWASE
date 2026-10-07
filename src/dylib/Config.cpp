@@ -203,6 +203,8 @@ bool Config::Save(const std::filesystem::path& aFile, std::string& aError)
         SetValue(dev, "wait_for_debugger", m_dev.waitForDebugger);
         SetValue(dev, "trace_lua_loads", m_dev.traceLuaLoads,
                  "Log every Lua chunk the game loads (needs logging.level = \"trace\")");
+        SetValue(dev, "lua_dev_functions", m_dev.luaDevFunctions,
+                 "Add the twase.dev_* probes for reverse engineering to the Lua API");
 
         // write to a temporary file first so a failed write doesn't destroy the config
         auto tempFile = aFile;
@@ -239,6 +241,7 @@ void Config::DevConfig::LoadV0(const toml::value& aConfig)
     hasConsole = toml::find_or(aConfig, "dev", "console", hasConsole);
     waitForDebugger = toml::find_or(aConfig, "dev", "wait_for_debugger", waitForDebugger);
     traceLuaLoads = toml::find_or(aConfig, "dev", "trace_lua_loads", traceLuaLoads);
+    luaDevFunctions = toml::find_or(aConfig, "dev", "lua_dev_functions", luaDevFunctions);
 }
 
 void Config::ScriptConfig::LoadV0(const toml::value& aConfig)

@@ -14,5 +14,4 @@ void SetEnabled(bool aEnabled);
 // The Lua state whose registry holds the region value handler (twase.set_region_value_handler)
 void SetLuaState(lua_State* L);
 // dev: the sign of the gold amount given to the gift component (+1 / -1), to find the engine's convention
-void SetValueSign(int aSign);
 } // namespace Hooks::NativeRegionTradingHook

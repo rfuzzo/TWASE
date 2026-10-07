@@ -5,6 +5,7 @@
 #include <mach/mach.h>
 #include <mach/mach_vm.h>
 
+#include "../App.hpp"
 #include "../Image.hpp"
 #include "../Hooks/DiplomacyLikelihood.hpp"
 #include "../Hooks/NativeRegionTrading.hpp"
@@ -460,71 +461,36 @@ int DevDiplomacyActions(lua_State* L)
     return 1;
 }
 
-// twase.dev_set_action_available(type, available) -> number of actions changed
-// Development helper: force the "available" flag of the open negotiation's actions of a type (6 = trade regions).
-int DevSetActionAvailable(lua_State* L)
+// twase.enable_region_trading({ value = function(region_key, faction_key) return gold end,
+//                                transfer = function(phase, region_key, to_faction_key) end })
+// Switches on the engine's region deals between a human and a settled AI faction (Hooks/NativeRegionTrading.cpp).
+// `value`: the gold value of a region for a faction (negative = a burden), used when the AI evaluates a deal with
+// regions; required, without it regions would be free. `transfer` (optional): called "before" for each region of an
+// accepted deal, then "after" for each. twase.enable_region_trading(nil) switches it off again.
+int EnableRegionTrading(lua_State* L)
 {
-    const int wanted = static_cast<int>(LuaRuntime::tonumber(L, 1));
-    const uint8_t value = LuaRuntime::tonumber(L, 2) != 0 ? 1 : 0;
-    const auto dropdown = reinterpret_cast<uintptr_t>(Hooks::DiplomacyLikelihoodHook::LastDropdown());
-    uintptr_t vt = 0, context = 0, negotiation = 0, actions = 0;
-    uint32_t count = 0, changed = 0;
-    if (dropdown && SafeRead(dropdown, vt) && vt == kDiplomacyDropdownVtable + Image::Get()->GetSlide() &&
-        SafeRead(dropdown + 0x200, context) && SafeRead(context + 0xd0, negotiation) && negotiation &&
-        SafeRead(negotiation + 0x700 + 0xc, count) && SafeRead(negotiation + 0x700 + 0x10, actions))
+    if (LuaRuntime::type(L, 1) == LUA_TNIL || LuaRuntime::type(L, 1) == LUA_TNONE)
     {
-        for (uint32_t i = 0; i < count && i < 256; i++)
-        {
-            uintptr_t a = 0;
-            int32_t type = -1;
-            if (SafeRead(actions + i * 8, a) && a && SafeRead(a + 0x14, type) && type == wanted)
-            {
-                *reinterpret_cast<uint8_t*>(a + 0x18) = value;
-                changed++;
-            }
-        }
+        Hooks::NativeRegionTradingHook::SetEnabled(false);
+        return 0;
     }
-    LuaRuntime::pushnumber(L, static_cast<lua_Number>(changed));
-    return 1;
-}
-
-// twase.dev_native_region_trading(enabled) -> enabled
-// Development switch for the engine's own region trading in the diplomacy offers (Hooks/NativeRegionTrading.cpp).
-int DevNativeRegionTrading(lua_State* L)
-{
-    if (LuaRuntime::type(L, 1) != LUA_TNONE && LuaRuntime::type(L, 1) != LUA_TNIL)
+    if (LuaRuntime::type(L, 1) != LUA_TTABLE)
     {
-        Hooks::NativeRegionTradingHook::SetEnabled(LuaRuntime::toboolean(L, 1) != 0);
+        return LuaRuntime::error(L, "twase.enable_region_trading(handlers): expects a table { value = fn, transfer = fn } or nil");
     }
-    LuaRuntime::pushboolean(L, Hooks::NativeRegionTradingHook::IsEnabled());
-    return 1;
-}
-
-// twase.set_region_value_handler(function(region_key, faction_key) return gold end)
-// The region trading mod's valuation: the gold value of a region for a faction (negative = a burden). Used when the AI
-// evaluates a deal with regions (Hooks/NativeRegionTrading.cpp).
-int SetRegionValueHandler(lua_State* L)
-{
-    if (LuaRuntime::type(L, 1) != LUA_TFUNCTION && LuaRuntime::type(L, 1) != LUA_TNIL)
+    LuaRuntime::getfield(L, 1, "value");
+    if (LuaRuntime::type(L, -1) != LUA_TFUNCTION)
     {
-        return LuaRuntime::error(L, "twase.set_region_value_handler(fn): expects a function or nil");
+        return LuaRuntime::error(L, "twase.enable_region_trading(handlers): handlers.value must be a function");
     }
-    LuaRuntime::pushvalue(L, 1);
     LuaRuntime::setfield(L, LUA_REGISTRYINDEX, "twase_region_value_handler");
-    return 0;
-}
-
-// twase.set_region_transfer_handler(function(phase, region_key, to_faction_key) end)
-// Called around a native region deal's transfer: "before" for each region, then "after" for each region. The region
-// trading mod keeps the governor of a transferred province capital alive with it.
-int SetRegionTransferHandler(lua_State* L)
-{
-    if (LuaRuntime::type(L, 1) != LUA_TFUNCTION && LuaRuntime::type(L, 1) != LUA_TNIL)
+    LuaRuntime::getfield(L, 1, "transfer");
+    if (LuaRuntime::type(L, -1) != LUA_TFUNCTION && LuaRuntime::type(L, -1) != LUA_TNIL)
     {
-        return LuaRuntime::error(L, "twase.set_region_transfer_handler(fn): expects a function or nil");
+        return LuaRuntime::error(L, "twase.enable_region_trading(handlers): handlers.transfer must be a function or nil");
     }
-    LuaRuntime::pushvalue(L, 1);
     LuaRuntime::setfield(L, LUA_REGISTRYINDEX, "twase_region_transfer_handler");
+    Hooks::NativeRegionTradingHook::SetEnabled(true);
     return 0;
 }
 
@@ -541,17 +507,11 @@ int DevTransferRegion(lua_State* L)
     }
     const auto flag = static_cast<int64_t>(LuaRuntime::tonumber(L, 3));
     using Transfer_t = void (*)(void* settlement, const void* faction, int64_t flag, int32_t arg4);
-    Resolve<Transfer_t>(0x101CEB290)(ReadPtr<void*>(region, 0x1A8), faction, flag, 0);
+    Resolve<Transfer_t>(Addr::Settlement_DiplomaticTransfer)(ReadPtr<void*>(region, Addr::Region_Settlement), faction, flag, 0);
     return 0;
 }
 
-// twase.dev_region_value_sign(sign), twase.dev_last_deal_score() -> number
-int DevRegionValueSign(lua_State* L)
-{
-    Hooks::NativeRegionTradingHook::SetValueSign(static_cast<int>(LuaRuntime::tonumber(L, 1)));
-    return 0;
-}
-
+// twase.dev_last_deal_score() -> number, the last deal score the likelihood tooltip showed
 int DevLastDealScore(lua_State* L)
 {
     LuaRuntime::pushnumber(L, Hooks::DiplomacyLikelihoodHook::LastScore());
@@ -615,15 +575,16 @@ void Scripting::LuaApi::Register(lua_State* L)
     SetFunction(L, "unit", &Unit);
     SetFunction(L, "region_province", &RegionProvince);
     SetFunction(L, "localise", &Localise);
-    SetFunction(L, "dev_db_record", &DevDbRecord);
-    SetFunction(L, "dev_diplomacy_actions", &DevDiplomacyActions);
-    SetFunction(L, "dev_set_action_available", &DevSetActionAvailable);
-    SetFunction(L, "dev_native_region_trading", &DevNativeRegionTrading);
-    SetFunction(L, "set_region_value_handler", &SetRegionValueHandler);
-    SetFunction(L, "set_region_transfer_handler", &SetRegionTransferHandler);
-    SetFunction(L, "dev_region_value_sign", &DevRegionValueSign);
-    SetFunction(L, "dev_transfer_region", &DevTransferRegion);
-    SetFunction(L, "dev_last_deal_score", &DevLastDealScore);
+    SetFunction(L, "enable_region_trading", &EnableRegionTrading);
+
+    // probes for reverse engineering, only with [dev] lua_dev_functions = true
+    if (App::Get()->GetConfig()->GetDev().luaDevFunctions)
+    {
+        SetFunction(L, "dev_db_record", &DevDbRecord);
+        SetFunction(L, "dev_diplomacy_actions", &DevDiplomacyActions);
+        SetFunction(L, "dev_transfer_region", &DevTransferRegion);
+        SetFunction(L, "dev_last_deal_score", &DevLastDealScore);
+    }
 
     LuaRuntime::setfield(L, LUA_GLOBALSINDEX, "twase");
     Hooks::NativeRegionTradingHook::SetLuaState(L);

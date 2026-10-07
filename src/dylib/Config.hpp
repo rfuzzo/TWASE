@@ -16,6 +16,7 @@ public:
         bool hasConsole = false;
         bool waitForDebugger = false;
         bool traceLuaLoads = false;
+        bool luaDevFunctions = false;
     };
 
     struct ScriptConfig

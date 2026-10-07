@@ -42,7 +42,6 @@ struct RegionList
 using IsHorde_t = void* (*)(const void* faction);
 
 lua_State* luaState = nullptr;
-std::atomic<int> valueSign = 1;
 
 struct EvalContext
 {
@@ -387,7 +386,7 @@ float ScoreComponents(ComponentList* list, void* aiContext, void* a, int64_t* a4
             paying = referenceScore * amount / reference;
         }
     }
-    const float delta = (gold > 0 ? -paying : paying) * static_cast<float>(valueSign.load());
+    const float delta = (gold > 0 ? -paying : paying);
 
     spdlog::debug("[RegionTrading] regions worth {} gold: deal score {} {:+} = {}", gold, score, delta, score + delta);
     return score + delta;
@@ -783,11 +782,6 @@ void* PopulatePanel(void* panel, void* action)
 void Hooks::NativeRegionTradingHook::SetLuaState(lua_State* L)
 {
     luaState = L;
-}
-
-void Hooks::NativeRegionTradingHook::SetValueSign(int aSign)
-{
-    valueSign = aSign < 0 ? -1 : 1;
 }
 
 bool Hooks::NativeRegionTradingHook::IsEnabled()

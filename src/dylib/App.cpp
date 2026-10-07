@@ -60,6 +60,7 @@ App::App()
     const auto& dev = m_config.GetDev();
     spdlog::debug("  dev.console: {}", dev.hasConsole);
     spdlog::debug("  dev.trace_lua_loads: {}", dev.traceLuaLoads);
+    spdlog::debug("  dev.lua_dev_functions: {}", dev.luaDevFunctions);
 
     const auto& loggingConfig = m_config.GetLogging();
     spdlog::debug("  logging.level: {}", spdlog::level::to_string_view(loggingConfig.level));
