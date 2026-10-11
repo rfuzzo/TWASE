@@ -123,6 +123,8 @@ The word before each vtable points to the class's `type_info`, which gives the r
 
 `VFSSearchResults` = `{u32 capacity, u32 count, VFSEntry** entries}`; `VFSEntry` has the UTF-8 path at `+0x08` (backslashes, e.g. `campaigns\main_attila\mods\x\scripting.lua`).
 
+Once a loaded pack contains `campaigns/<campaign>/mods/`, the search returns only that pack's entries, not the loose files in `TotalWarAttilaData/data` under the same folder (tested 2026-10-11 with `fireforged_fixes.pack` and a loose `region_trading`). Loading a found file still works through the VFS (`require`). The mod loader therefore also scans the loose folder on disk.
+
 Tested 2026-10-04:
 
 | Mod location | Result |

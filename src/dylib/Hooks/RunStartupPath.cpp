@@ -14,7 +14,8 @@
 #include "../../sdk/Attila/VFS/VFS.hpp"
 
 // After the campaign's scripting.lua ran, register the twase Lua table, then load every <campaign folder>/mods/<name>/scripting.lua the game's VFS can see
-// (inside packs or as loose files in TotalWarAttilaData/data), sorted by name.
+// (inside packs or as loose files in TotalWarAttilaData/data), sorted by name. Once a loaded pack has that mods folder, the VFS search only returns the
+// pack's entries, so the loose folder is also scanned on disk (require then finds the loose files through the VFS as usual).
 
 namespace
 {
@@ -79,6 +80,25 @@ std::vector<std::string> EnumerateModFolders(const std::string& campaignFolder)
     if (results.entries)
     {
         VFS::tw_free(results.entries);
+    }
+
+    // the loose mods, which the VFS search misses next to a pack with the same mods folder
+    if (App::Get())
+    {
+        const auto looseDir = App::Get()->GetPaths()->GetRootDir() / "TotalWarAttilaData" / "data" / campaignFolder / "mods";
+        std::error_code err;
+        for (const auto& entry : std::filesystem::directory_iterator(looseDir, err))
+        {
+            std::error_code fileErr;
+            const std::string modName = entry.path().filename().string();
+            if (!entry.is_directory(fileErr) || !std::filesystem::is_regular_file(entry.path() / "scripting.lua", fileErr) ||
+                std::find(mods.begin(), mods.end(), modName) != mods.end())
+            {
+                continue;
+            }
+            spdlog::info("[ModLoader] Found loose mod: {} (path: {})", modName, (entry.path() / "scripting.lua").string());
+            mods.push_back(modName);
+        }
     }
 
     std::sort(mods.begin(), mods.end());
