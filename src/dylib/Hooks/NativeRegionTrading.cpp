@@ -881,16 +881,20 @@ void SetRegion(void* context, int32_t regionId, void* demandedFrom, void* deal)
     reinterpret_cast<void (*)(void*)>(Slid(Addresses::DealTerms_dtor))(terms);
 
     // a foedus comes with peace (at war) and the tributary status: the native terms, where available. At war the
-    // engine offers the tributary status once peace is in the deal, but updates the flag later, so after peace we
-    // only check that it isn't blocked.
+    // engine offers the tributary status once peace is in the deal (the region entries need that) but updates the flag
+    // later; and it only offers it to a faction with land, which a landless people only gets with this deal. So the
+    // tributary term is added unless blocked (e.g. force_diplomacy) once peace is in, and for a landless people anyway.
     if (troopsMode && negotiation)
     {
+        const auto* ai = static_cast<const uint8_t*>(OtherFaction(panel));
+        const bool landless = ai && *reinterpret_cast<const uint32_t*>(ai + Addresses::Faction_RegionCount) == 0;
         bool peace = false;
         for (int type : {Addresses::DiplomaticAction_Peace, Addresses::DiplomaticAction_MakeTributary})
         {
             uint8_t* term = FindAction(negotiation, type);
             const bool blocked = term && term[Addresses::DiplomaticAction_Available + 1] != 0;
-            const bool available = term && !blocked && (term[Addresses::DiplomaticAction_Available] == 1 || (type == Addresses::DiplomaticAction_MakeTributary && peace));
+            const bool available = term && !blocked && (term[Addresses::DiplomaticAction_Available] == 1 ||
+                                                        (type == Addresses::DiplomaticAction_MakeTributary && (peace || landless)));
             if (available)
             {
                 // as the action's button adds it (the dispatcher 0x1035f5044)
@@ -898,7 +902,8 @@ void SetRegion(void* context, int32_t regionId, void* demandedFrom, void* deal)
                                                                                        : Addresses::DiplomacyContext_AddTerm;
                 reinterpret_cast<void (*)(void*, void*)>(Slid(add))(context, term);
                 peace = peace || type == Addresses::DiplomaticAction_Peace;
-                spdlog::debug("[RegionTrading] deal for troops: added the native term {}", type);
+                spdlog::debug("[RegionTrading] deal for troops: added the native term {}{}", type,
+                              term[Addresses::DiplomaticAction_Available] == 1 ? "" : " (not offered by the engine)");
             }
         }
     }

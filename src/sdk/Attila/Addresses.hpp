@@ -152,6 +152,8 @@ constexpr uint64_t Faction_GiftableRegions = 0x101BDAD20;
 // and giftable regions exist (called by the action's availability update 0x1025c79a0)
 constexpr uint64_t DiplomaticAction_RegionTradePossible = 0x1025C7A6C;
 constexpr uint64_t Faction_IsHuman = 0x970;                // bool (the Lua is_human)
+constexpr uint64_t Faction_RegionCount = 0xA4C;            // u32, the regions at +0xa50 (the Lua region_list 0x101d2a614)
+constexpr uint64_t Faction_CanOwnLand = 0x1751;            // bool, 0 for hordes that can't settle (0x101bec634; needed by vanilla's Gift Region to a horde and transfer_region_to_faction)
 constexpr uint64_t Faction_IsHorde = 0x101B521EC;          // void* (*)(FACTION*), non-null for hordes (the Lua is_horde)
 
 // The native region panel (UIDLL::DiplomacyTradeRegionsPanel, layout diplomacy_hud "trade_regions")
