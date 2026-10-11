@@ -549,7 +549,8 @@ int DevDiplomacyActions(lua_State* L)
 // regions: number, recruitment cost, the reason when none, their names one per line. `willingness` (optional):
 // function(ai_key, player_key) -> the AI's willingness to become your federates, in score points, which replaces the
 // native scores of the peace / tributary terms in a deal for troops. `foedus` (optional): function(phase, ai_key,
-// player_key, region_key...) around the transfer of a deal for troops ("before", "after"). twase.enable_region_trading(nil)
+// player_key, tributary, region_key...) around the transfer of a deal for troops ("before", "after"); tributary:
+// whether the deal has the native tributary term (the engine doesn't offer it to a faction without land). twase.enable_region_trading(nil)
 // switches it off again.
 int EnableRegionTrading(lua_State* L)
 {

@@ -291,8 +291,10 @@ float HandlerWillingness(const char* ai, const char* player)
     return value;
 }
 
-// The mod's foedus handler around the transfer of a deal for troops: function(phase, ai_key, player_key, region_key...)
-void CallFoedusHandler(const char* phase, const char* ai, const char* player, const std::vector<std::string>& regions)
+// The mod's foedus handler around the transfer of a deal for troops: function(phase, ai_key, player_key, tributary,
+// region_key...), tributary: whether the deal makes the AI your tributary (the engine offers that term only to a
+// faction with land, so a landless people lacks it)
+void CallFoedusHandler(const char* phase, const char* ai, const char* player, bool tributary, const std::vector<std::string>& regions)
 {
     lua_State* L = luaState;
     if (!L || !ai || !player)
@@ -306,11 +308,12 @@ void CallFoedusHandler(const char* phase, const char* ai, const char* player, co
         LuaRuntime::pushstring(L, phase);
         LuaRuntime::pushstring(L, ai);
         LuaRuntime::pushstring(L, player);
+        LuaRuntime::pushboolean(L, tributary);
         for (const auto& region : regions)
         {
             LuaRuntime::pushstring(L, region.c_str());
         }
-        if (LuaRuntime::pcall(L, 3 + static_cast<int>(regions.size()), 0, 0) != 0)
+        if (LuaRuntime::pcall(L, 4 + static_cast<int>(regions.size()), 0, 0) != 0)
         {
             spdlog::error("[RegionTrading] foedus handler failed: {}", LuaRuntime::tolstring(L, -1, nullptr));
         }
@@ -381,9 +384,14 @@ void Execute(void* action)
     {
         ceded.push_back(region);
     }
+    // the native tributary term (the AI becomes yours), if the deal has it
+    uint8_t* tributaryTerm = troops ? FindAction(negotiation, Addresses::DiplomaticAction_MakeTributary) : nullptr;
+    const bool tributary = tributaryTerm &&
+        (*reinterpret_cast<InDeal_t*>(*reinterpret_cast<uint8_t**>(tributaryTerm) + Addresses::DiplomaticAction_InDealVtableOffset))(tributaryTerm);
     if (troops)
     {
-        CallFoedusHandler("before", ai, player, ceded);
+        spdlog::debug("[RegionTrading] deal for troops with {}: tributary term {}", ai ? ai : "?", tributary ? "in the deal" : "not in the deal");
+        CallFoedusHandler("before", ai, player, tributary, ceded);
     }
     for (const auto& [region, to] : transfers)
     {
@@ -397,7 +405,7 @@ void Execute(void* action)
     }
     if (troops)
     {
-        CallFoedusHandler("after", ai, player, ceded);
+        CallFoedusHandler("after", ai, player, tributary, ceded);
         troopsNegotiation = nullptr;
     }
 }
