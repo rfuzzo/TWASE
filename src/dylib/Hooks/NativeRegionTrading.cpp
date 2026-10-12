@@ -883,7 +883,8 @@ void SetRegion(void* context, int32_t regionId, void* demandedFrom, void* deal)
     // a foedus comes with peace (at war) and the tributary status: the native terms, where available. At war the
     // engine offers the tributary status once peace is in the deal (the region entries need that) but updates the flag
     // later; and it only offers it to a faction with land, which a landless people only gets with this deal. So the
-    // tributary term is added unless blocked (e.g. force_diplomacy) once peace is in, and for a landless people anyway.
+    // tributary term is added unless blocked (e.g. force_diplomacy) once peace is in, and for a landless people anyway
+    // (the engine carries it out: tested 2026-10-12, ERE -> Blemmyes).
     if (troopsMode && negotiation)
     {
         const auto* ai = static_cast<const uint8_t*>(OtherFaction(panel));
