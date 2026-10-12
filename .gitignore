@@ -1,4 +1,0 @@
-build/
-.xmake/
-.DS_Store
-*.dylib
