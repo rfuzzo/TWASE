@@ -6,7 +6,7 @@
 #
 #   --skip-launcher   start the game directly, without Feral's pre-launcher
 #   --mods <file>     load exactly the mods in a Runcher style mod list (lines like: mod "@my_mod.pack";)
-#                     instead of the mods enabled in Feral's mod manager
+#                     instead of the mods enabled in Feral's mod manager (and TWASE/local_mods.txt)
 #   --load <save>     load a campaign save on startup, e.g. --load "Saxons 395 AD Spring.save" (implies --skip-launcher)
 #   --extra <text>    append raw statements to the game's command line
 #   <game> [args]     the game to start (the .app or its executable), for Steam's launch options:
@@ -16,6 +16,10 @@
 # (GameOptionsDialogShouldShow, DisableAllMods, ExtraCommandLine). They are set for this launch only, and the changed
 # keys are put back when the game exits. Packs from --mods that aren't in TotalWarAttilaData/data are looked up in the
 # Steam Workshop folder and linked into data for the duration of the launch.
+#
+# Local mods: Feral's mod manager only lists Steam Workshop subscriptions. The packs in TWASE/local_mods.txt (same format
+# as --mods, # starts a comment line) are loaded on top of the mods enabled there, on every launch without --mods; they
+# don't show up in its list. Empty the file (or comment its lines) to switch them off.
 #
 # Steam's own libraries (overlay) stay injected: macOS strips DYLD_* variables on the way through /bin/sh, so they are
 # taken from STEAM_DYLD_INSERT_LIBRARIES, which Steam sets for exactly that. Each launch is logged to
@@ -165,15 +169,28 @@ unlink_packs()
 }
 
 statements=""
+packs=""
+
+# a Runcher style mod list (# starts a comment line): its statements joined with spaces, and its packs
+read_mod_list()
+{
+    list=$(grep -v '^[[:space:]]*#' "$1")
+    statements=$(printf '%s\n' "$list" | tr '\r\n' '  ' | sed 's/  */ /g; s/^ //; s/ $//')
+
+    # mod "name"; or mod name;
+    packs=$(printf '%s\n' "$list" | tr ';' '\n' | sed -n 's/^[[:space:]]*mod[[:space:]][[:space:]]*"\{0,1\}\([^"]*\)"\{0,1\}[[:space:]]*$/\1/p')
+}
+
+local_mods="$root/TWASE/local_mods.txt"
 
 if [ -n "$mods_file" ]; then
     [ -f "$mods_file" ] || die "mod list not found: $mods_file"
-    # one line per statement, joined with spaces
-    statements=$(tr '\r\n' '  ' < "$mods_file" | sed 's/  */ /g; s/^ //; s/ $//')
-
-    # mod "name"; or mod name;
-    packs=$(tr ';' '\n' < "$mods_file" | sed -n 's/^[[:space:]]*mod[[:space:]][[:space:]]*"\{0,1\}\([^"]*\)"\{0,1\}[[:space:]]*$/\1/p')
+    read_mod_list "$mods_file"
     [ -n "$packs" ] || die "no 'mod' entries in $mods_file"
+elif [ -f "$local_mods" ]; then
+    # on top of the mods enabled in Feral's mod manager
+    read_mod_list "$local_mods"
+    [ -n "$packs" ] && log "local mods from TWASE/local_mods.txt: $(printf '%s' "$packs" | tr '\n' ' ')"
 fi
 
 if [ -n "$save" ]; then
@@ -189,7 +206,7 @@ if [ "$skip_launcher" -eq 1 ] || [ -n "$mods_file" ] || [ -n "$statements" ]; th
     trap 'restore; unlink_packs; exit 1' INT TERM HUP
     trap 'restore; unlink_packs' EXIT
 
-    if [ -n "$mods_file" ]; then
+    if [ -n "$packs" ]; then
         # a here-document keeps the loop in this shell, so created_links survives
         while IFS= read -r pack; do
             link_pack "$pack"
