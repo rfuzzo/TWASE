@@ -1,0 +1,4004 @@
+class	BUILDING_LIST_SCRIPT_INTERFACE	__add	C	
+class	BUILDING_LIST_SCRIPT_INTERFACE	__div	C	
+class	BUILDING_LIST_SCRIPT_INTERFACE	__eq	C	
+class	BUILDING_LIST_SCRIPT_INTERFACE	__gc	C	
+class	BUILDING_LIST_SCRIPT_INTERFACE	__mul	C	
+class	BUILDING_LIST_SCRIPT_INTERFACE	__sub	C	
+class	BUILDING_LIST_SCRIPT_INTERFACE	__tostring	C	
+class	BUILDING_LIST_SCRIPT_INTERFACE	is_empty	C	
+class	BUILDING_LIST_SCRIPT_INTERFACE	item_at	C	
+class	BUILDING_LIST_SCRIPT_INTERFACE	new	C	
+class	BUILDING_LIST_SCRIPT_INTERFACE	num_items	C	
+class	BUILDING_SCRIPT_INTERFACE	__add	C	
+class	BUILDING_SCRIPT_INTERFACE	__div	C	
+class	BUILDING_SCRIPT_INTERFACE	__eq	C	
+class	BUILDING_SCRIPT_INTERFACE	__gc	C	
+class	BUILDING_SCRIPT_INTERFACE	__mul	C	
+class	BUILDING_SCRIPT_INTERFACE	__sub	C	
+class	BUILDING_SCRIPT_INTERFACE	__tostring	C	
+class	BUILDING_SCRIPT_INTERFACE	chain	C	
+class	BUILDING_SCRIPT_INTERFACE	faction	C	
+class	BUILDING_SCRIPT_INTERFACE	is_null_interface	C	
+class	BUILDING_SCRIPT_INTERFACE	model	C	
+class	BUILDING_SCRIPT_INTERFACE	name	C	
+class	BUILDING_SCRIPT_INTERFACE	new	C	
+class	BUILDING_SCRIPT_INTERFACE	percent_health	C	
+class	BUILDING_SCRIPT_INTERFACE	region	C	
+class	BUILDING_SCRIPT_INTERFACE	slot	C	
+class	BUILDING_SCRIPT_INTERFACE	superchain	C	
+class	CAMPAIGN_AI_SCRIPT_INTERFACE	__add	C	
+class	CAMPAIGN_AI_SCRIPT_INTERFACE	__div	C	
+class	CAMPAIGN_AI_SCRIPT_INTERFACE	__eq	C	
+class	CAMPAIGN_AI_SCRIPT_INTERFACE	__gc	C	
+class	CAMPAIGN_AI_SCRIPT_INTERFACE	__mul	C	
+class	CAMPAIGN_AI_SCRIPT_INTERFACE	__sub	C	
+class	CAMPAIGN_AI_SCRIPT_INTERFACE	__tostring	C	
+class	CAMPAIGN_AI_SCRIPT_INTERFACE	is_null_interface	C	
+class	CAMPAIGN_AI_SCRIPT_INTERFACE	new	C	
+class	CAMPAIGN_AI_SCRIPT_INTERFACE	strategic_stance_between_factions	C	
+class	CAMPAIGN_AI_SCRIPT_INTERFACE	strategic_stance_between_factions_available	C	
+class	CAMPAIGN_AI_SCRIPT_INTERFACE	strategic_stance_between_factions_is_being_blocked	C	
+class	CAMPAIGN_AI_SCRIPT_INTERFACE	strategic_stance_between_factions_is_being_blocked_until	C	
+class	CAMPAIGN_AI_SCRIPT_INTERFACE	strategic_stance_between_factions_promotion_current_level	C	
+class	CAMPAIGN_AI_SCRIPT_INTERFACE	strategic_stance_between_factions_promotion_end_level	C	
+class	CAMPAIGN_AI_SCRIPT_INTERFACE	strategic_stance_between_factions_promotion_end_round	C	
+class	CAMPAIGN_AI_SCRIPT_INTERFACE	strategic_stance_between_factions_promotion_is_active	C	
+class	CAMPAIGN_AI_SCRIPT_INTERFACE	strategic_stance_between_factions_promotion_or_blocking_is_set	C	
+class	CAMPAIGN_AI_SCRIPT_INTERFACE	strategic_stance_between_factions_promotion_start_level	C	
+class	CAMPAIGN_AI_SCRIPT_INTERFACE	strategic_stance_between_factions_promotion_start_round	C	
+class	CAMPAIGN_MISSION_SCRIPT_INTERFACE	__add	C	
+class	CAMPAIGN_MISSION_SCRIPT_INTERFACE	__div	C	
+class	CAMPAIGN_MISSION_SCRIPT_INTERFACE	__eq	C	
+class	CAMPAIGN_MISSION_SCRIPT_INTERFACE	__gc	C	
+class	CAMPAIGN_MISSION_SCRIPT_INTERFACE	__mul	C	
+class	CAMPAIGN_MISSION_SCRIPT_INTERFACE	__sub	C	
+class	CAMPAIGN_MISSION_SCRIPT_INTERFACE	__tostring	C	
+class	CAMPAIGN_MISSION_SCRIPT_INTERFACE	faction	C	
+class	CAMPAIGN_MISSION_SCRIPT_INTERFACE	is_null_interface	C	
+class	CAMPAIGN_MISSION_SCRIPT_INTERFACE	mission_issuer_record_key	C	
+class	CAMPAIGN_MISSION_SCRIPT_INTERFACE	mission_record_key	C	
+class	CAMPAIGN_MISSION_SCRIPT_INTERFACE	model	C	
+class	CAMPAIGN_MISSION_SCRIPT_INTERFACE	new	C	
+class	CHARACTER_LIST_SCRIPT_INTERFACE	__add	C	
+class	CHARACTER_LIST_SCRIPT_INTERFACE	__div	C	
+class	CHARACTER_LIST_SCRIPT_INTERFACE	__eq	C	
+class	CHARACTER_LIST_SCRIPT_INTERFACE	__gc	C	
+class	CHARACTER_LIST_SCRIPT_INTERFACE	__mul	C	
+class	CHARACTER_LIST_SCRIPT_INTERFACE	__sub	C	
+class	CHARACTER_LIST_SCRIPT_INTERFACE	__tostring	C	
+class	CHARACTER_LIST_SCRIPT_INTERFACE	is_empty	C	
+class	CHARACTER_LIST_SCRIPT_INTERFACE	item_at	C	
+class	CHARACTER_LIST_SCRIPT_INTERFACE	new	C	
+class	CHARACTER_LIST_SCRIPT_INTERFACE	num_items	C	
+class	CHARACTER_SCRIPT_INTERFACE	__add	C	
+class	CHARACTER_SCRIPT_INTERFACE	__div	C	
+class	CHARACTER_SCRIPT_INTERFACE	__eq	C	
+class	CHARACTER_SCRIPT_INTERFACE	__gc	C	
+class	CHARACTER_SCRIPT_INTERFACE	__mul	C	
+class	CHARACTER_SCRIPT_INTERFACE	__sub	C	
+class	CHARACTER_SCRIPT_INTERFACE	__tostring	C	
+class	CHARACTER_SCRIPT_INTERFACE	action_points_per_turn	C	
+class	CHARACTER_SCRIPT_INTERFACE	action_points_remaining_percent	C	
+class	CHARACTER_SCRIPT_INTERFACE	age	C	
+class	CHARACTER_SCRIPT_INTERFACE	battles_fought	C	
+class	CHARACTER_SCRIPT_INTERFACE	battles_won	C	
+class	CHARACTER_SCRIPT_INTERFACE	body_guard_casulties	C	
+class	CHARACTER_SCRIPT_INTERFACE	character_type	C	
+class	CHARACTER_SCRIPT_INTERFACE	command_queue_index	C	
+class	CHARACTER_SCRIPT_INTERFACE	cqi	C	
+class	CHARACTER_SCRIPT_INTERFACE	defensive_ambush_battles_fought	C	
+class	CHARACTER_SCRIPT_INTERFACE	defensive_ambush_battles_won	C	
+class	CHARACTER_SCRIPT_INTERFACE	defensive_battles_fought	C	
+class	CHARACTER_SCRIPT_INTERFACE	defensive_battles_won	C	
+class	CHARACTER_SCRIPT_INTERFACE	defensive_naval_battles_fought	C	
+class	CHARACTER_SCRIPT_INTERFACE	defensive_naval_battles_won	C	
+class	CHARACTER_SCRIPT_INTERFACE	defensive_sieges_fought	C	
+class	CHARACTER_SCRIPT_INTERFACE	defensive_sieges_won	C	
+class	CHARACTER_SCRIPT_INTERFACE	display_position_x	C	
+class	CHARACTER_SCRIPT_INTERFACE	display_position_y	C	
+class	CHARACTER_SCRIPT_INTERFACE	faction	C	
+class	CHARACTER_SCRIPT_INTERFACE	family_member	C	
+class	CHARACTER_SCRIPT_INTERFACE	father	C	
+class	CHARACTER_SCRIPT_INTERFACE	forename	C	
+class	CHARACTER_SCRIPT_INTERFACE	fought_in_battle	C	
+class	CHARACTER_SCRIPT_INTERFACE	garrison_residence	C	
+class	CHARACTER_SCRIPT_INTERFACE	get_forename	C	
+class	CHARACTER_SCRIPT_INTERFACE	get_surname	C	
+class	CHARACTER_SCRIPT_INTERFACE	gravitas	C	
+class	CHARACTER_SCRIPT_INTERFACE	has_ancillary	C	
+class	CHARACTER_SCRIPT_INTERFACE	has_father	C	
+class	CHARACTER_SCRIPT_INTERFACE	has_garrison_residence	C	
+class	CHARACTER_SCRIPT_INTERFACE	has_military_force	C	
+class	CHARACTER_SCRIPT_INTERFACE	has_mother	C	
+class	CHARACTER_SCRIPT_INTERFACE	has_recruited_mercenaries	C	
+class	CHARACTER_SCRIPT_INTERFACE	has_region	C	
+class	CHARACTER_SCRIPT_INTERFACE	has_skill	C	
+class	CHARACTER_SCRIPT_INTERFACE	has_trait	C	
+class	CHARACTER_SCRIPT_INTERFACE	in_port	C	
+class	CHARACTER_SCRIPT_INTERFACE	in_settlement	C	
+class	CHARACTER_SCRIPT_INTERFACE	is_ambushing	C	
+class	CHARACTER_SCRIPT_INTERFACE	is_besieging	C	
+class	CHARACTER_SCRIPT_INTERFACE	is_blockading	C	
+class	CHARACTER_SCRIPT_INTERFACE	is_carrying_troops	C	
+class	CHARACTER_SCRIPT_INTERFACE	is_deployed	C	
+class	CHARACTER_SCRIPT_INTERFACE	is_embedded_in_military_force	C	
+class	CHARACTER_SCRIPT_INTERFACE	is_faction_leader	C	
+class	CHARACTER_SCRIPT_INTERFACE	is_hidden	C	
+class	CHARACTER_SCRIPT_INTERFACE	is_male	C	
+class	CHARACTER_SCRIPT_INTERFACE	is_null_interface	C	
+class	CHARACTER_SCRIPT_INTERFACE	is_politician	C	
+class	CHARACTER_SCRIPT_INTERFACE	logical_position_x	C	
+class	CHARACTER_SCRIPT_INTERFACE	logical_position_y	C	
+class	CHARACTER_SCRIPT_INTERFACE	loyalty	C	
+class	CHARACTER_SCRIPT_INTERFACE	military_force	C	
+class	CHARACTER_SCRIPT_INTERFACE	model	C	
+class	CHARACTER_SCRIPT_INTERFACE	mother	C	
+class	CHARACTER_SCRIPT_INTERFACE	new	C	
+class	CHARACTER_SCRIPT_INTERFACE	number_of_traits	C	
+class	CHARACTER_SCRIPT_INTERFACE	offensive_ambush_battles_fought	C	
+class	CHARACTER_SCRIPT_INTERFACE	offensive_ambush_battles_won	C	
+class	CHARACTER_SCRIPT_INTERFACE	offensive_battles_fought	C	
+class	CHARACTER_SCRIPT_INTERFACE	offensive_battles_won	C	
+class	CHARACTER_SCRIPT_INTERFACE	offensive_naval_battles_fought	C	
+class	CHARACTER_SCRIPT_INTERFACE	offensive_naval_battles_won	C	
+class	CHARACTER_SCRIPT_INTERFACE	offensive_sieges_fought	C	
+class	CHARACTER_SCRIPT_INTERFACE	offensive_sieges_won	C	
+class	CHARACTER_SCRIPT_INTERFACE	percentage_of_own_alliance_killed	C	
+class	CHARACTER_SCRIPT_INTERFACE	performed_action_this_turn	C	
+class	CHARACTER_SCRIPT_INTERFACE	rank	C	
+class	CHARACTER_SCRIPT_INTERFACE	region	C	
+class	CHARACTER_SCRIPT_INTERFACE	routed_in_battle	C	
+class	CHARACTER_SCRIPT_INTERFACE	surname	C	
+class	CHARACTER_SCRIPT_INTERFACE	trait_level	C	
+class	CHARACTER_SCRIPT_INTERFACE	trait_points	C	
+class	CHARACTER_SCRIPT_INTERFACE	turns_at_sea	C	
+class	CHARACTER_SCRIPT_INTERFACE	turns_in_enemy_regions	C	
+class	CHARACTER_SCRIPT_INTERFACE	turns_in_own_regions	C	
+class	CHARACTER_SCRIPT_INTERFACE	won_battle	C	
+class	CampaignCharacter	__add	C	
+class	CampaignCharacter	__div	C	
+class	CampaignCharacter	__eq	C	
+class	CampaignCharacter	__gc	C	
+class	CampaignCharacter	__mul	C	
+class	CampaignCharacter	__sub	C	
+class	CampaignCharacter	__tostring	C	
+class	CampaignCharacter	ActionPointsRatio	C	
+class	CampaignCharacter	Release	C	
+class	CampaignCharacter	new	C	
+class	CampaignSettlement	__add	C	
+class	CampaignSettlement	__div	C	
+class	CampaignSettlement	__eq	C	
+class	CampaignSettlement	__gc	C	
+class	CampaignSettlement	__mul	C	
+class	CampaignSettlement	__sub	C	
+class	CampaignSettlement	__tostring	C	
+class	CampaignSettlement	LabelDetails	C	
+class	CampaignSettlement	ListDetails	C	
+class	CampaignSettlement	Release	C	
+class	CampaignSettlement	Settlement	C	
+class	CampaignSettlement	new	C	
+class	Cursor	__add	C	
+class	Cursor	__div	C	
+class	Cursor	__eq	C	
+class	Cursor	__gc	C	
+class	Cursor	__mul	C	
+class	Cursor	__sub	C	
+class	Cursor	__tostring	C	
+class	Cursor	DistanceToBL	C	
+class	Cursor	Mode	C	
+class	Cursor	ModeString	C	
+class	Cursor	Modes	C	
+class	Cursor	SetMode	C	
+class	Cursor	new	C	
+class	FACTION_LIST_SCRIPT_INTERFACE	__add	C	
+class	FACTION_LIST_SCRIPT_INTERFACE	__div	C	
+class	FACTION_LIST_SCRIPT_INTERFACE	__eq	C	
+class	FACTION_LIST_SCRIPT_INTERFACE	__gc	C	
+class	FACTION_LIST_SCRIPT_INTERFACE	__mul	C	
+class	FACTION_LIST_SCRIPT_INTERFACE	__sub	C	
+class	FACTION_LIST_SCRIPT_INTERFACE	__tostring	C	
+class	FACTION_LIST_SCRIPT_INTERFACE	is_empty	C	
+class	FACTION_LIST_SCRIPT_INTERFACE	item_at	C	
+class	FACTION_LIST_SCRIPT_INTERFACE	new	C	
+class	FACTION_LIST_SCRIPT_INTERFACE	num_items	C	
+class	FACTION_SCRIPT_INTERFACE	__add	C	
+class	FACTION_SCRIPT_INTERFACE	__div	C	
+class	FACTION_SCRIPT_INTERFACE	__eq	C	
+class	FACTION_SCRIPT_INTERFACE	__gc	C	
+class	FACTION_SCRIPT_INTERFACE	__mul	C	
+class	FACTION_SCRIPT_INTERFACE	__sub	C	
+class	FACTION_SCRIPT_INTERFACE	__tostring	C	
+class	FACTION_SCRIPT_INTERFACE	allied_with	C	
+class	FACTION_SCRIPT_INTERFACE	ancillary_exists	C	
+class	FACTION_SCRIPT_INTERFACE	at_war	C	
+class	FACTION_SCRIPT_INTERFACE	at_war_with	C	
+class	FACTION_SCRIPT_INTERFACE	character_list	C	
+class	FACTION_SCRIPT_INTERFACE	command_queue_index	C	
+class	FACTION_SCRIPT_INTERFACE	culture	C	
+class	FACTION_SCRIPT_INTERFACE	ended_war_this_turn	C	
+class	FACTION_SCRIPT_INTERFACE	faction_leader	C	
+class	FACTION_SCRIPT_INTERFACE	has_faction_leader	C	
+class	FACTION_SCRIPT_INTERFACE	has_food_shortage	C	
+class	FACTION_SCRIPT_INTERFACE	has_home_region	C	
+class	FACTION_SCRIPT_INTERFACE	has_technology	C	
+class	FACTION_SCRIPT_INTERFACE	home_region	C	
+class	FACTION_SCRIPT_INTERFACE	imperium_level	C	
+class	FACTION_SCRIPT_INTERFACE	is_horde	C	
+class	FACTION_SCRIPT_INTERFACE	is_human	C	
+class	FACTION_SCRIPT_INTERFACE	is_null_interface	C	
+class	FACTION_SCRIPT_INTERFACE	is_trading_with	C	
+class	FACTION_SCRIPT_INTERFACE	losing_money	C	
+class	FACTION_SCRIPT_INTERFACE	military_force_list	C	
+class	FACTION_SCRIPT_INTERFACE	model	C	
+class	FACTION_SCRIPT_INTERFACE	name	C	
+class	FACTION_SCRIPT_INTERFACE	new	C	
+class	FACTION_SCRIPT_INTERFACE	num_allies	C	
+class	FACTION_SCRIPT_INTERFACE	num_generals	C	
+class	FACTION_SCRIPT_INTERFACE	region_list	C	
+class	FACTION_SCRIPT_INTERFACE	research_queue_idle	C	
+class	FACTION_SCRIPT_INTERFACE	sea_trade_route_raided	C	
+class	FACTION_SCRIPT_INTERFACE	started_war_this_turn	C	
+class	FACTION_SCRIPT_INTERFACE	state_religion	C	
+class	FACTION_SCRIPT_INTERFACE	state_religion_percentage	C	
+class	FACTION_SCRIPT_INTERFACE	subculture	C	
+class	FACTION_SCRIPT_INTERFACE	tax_level	C	
+class	FACTION_SCRIPT_INTERFACE	trade_resource_exists	C	
+class	FACTION_SCRIPT_INTERFACE	trade_route_limit_reached	C	
+class	FACTION_SCRIPT_INTERFACE	trade_ship_not_in_trade_node	C	
+class	FACTION_SCRIPT_INTERFACE	trade_value	C	
+class	FACTION_SCRIPT_INTERFACE	trade_value_percent	C	
+class	FACTION_SCRIPT_INTERFACE	treasury	C	
+class	FACTION_SCRIPT_INTERFACE	treasury_percent	C	
+class	FACTION_SCRIPT_INTERFACE	unused_international_trade_route	C	
+class	FACTION_SCRIPT_INTERFACE	upkeep_expenditure_percent	C	
+class	FAMILY_MEMBER_SCRIPT_INTERFACE	__add	C	
+class	FAMILY_MEMBER_SCRIPT_INTERFACE	__div	C	
+class	FAMILY_MEMBER_SCRIPT_INTERFACE	__eq	C	
+class	FAMILY_MEMBER_SCRIPT_INTERFACE	__gc	C	
+class	FAMILY_MEMBER_SCRIPT_INTERFACE	__mul	C	
+class	FAMILY_MEMBER_SCRIPT_INTERFACE	__sub	C	
+class	FAMILY_MEMBER_SCRIPT_INTERFACE	__tostring	C	
+class	FAMILY_MEMBER_SCRIPT_INTERFACE	come_of_age	C	
+class	FAMILY_MEMBER_SCRIPT_INTERFACE	father	C	
+class	FAMILY_MEMBER_SCRIPT_INTERFACE	has_father	C	
+class	FAMILY_MEMBER_SCRIPT_INTERFACE	has_mother	C	
+class	FAMILY_MEMBER_SCRIPT_INTERFACE	has_trait	C	
+class	FAMILY_MEMBER_SCRIPT_INTERFACE	is_null_interface	C	
+class	FAMILY_MEMBER_SCRIPT_INTERFACE	mother	C	
+class	FAMILY_MEMBER_SCRIPT_INTERFACE	new	C	
+class	FILE*	__gc	C	
+class	FILE*	__tostring	C	
+class	FILE*	close	C	
+class	FILE*	flush	C	
+class	FILE*	lines	C	
+class	FILE*	read	C	
+class	FILE*	seek	C	
+class	FILE*	setvbuf	C	
+class	FILE*	write	C	
+class	GAME	__add	C	
+class	GAME	__div	C	
+class	GAME	__eq	C	
+class	GAME	__gc	C	
+class	GAME	__mul	C	
+class	GAME	__sub	C	
+class	GAME	__tostring	C	
+class	GAME	add_agent_experience	C	
+class	GAME	add_attack_of_opportunity_overrides	C	
+class	GAME	add_building_model_override	C	
+class	GAME	add_circle_area_trigger	C	
+class	GAME	add_custom_battlefield	C	
+class	GAME	add_development_points_to_region	C	
+class	GAME	add_event_restricted_building_record	C	
+class	GAME	add_event_restricted_building_record_for_faction	C	
+class	GAME	add_event_restricted_unit_record	C	
+class	GAME	add_event_restricted_unit_record_for_faction	C	
+class	GAME	add_exclusion_zone	C	
+class	GAME	add_location_trigger	C	
+class	GAME	add_marker	C	
+class	GAME	add_outline_area_trigger	C	
+class	GAME	add_prestige	C	
+class	GAME	add_restricted_building_level_record	C	
+class	GAME	add_restricted_building_level_record_for_faction	C	
+class	GAME	add_settlement_model_override	C	
+class	GAME	add_time_trigger	C	
+class	GAME	add_unit_model_overrides	C	
+class	GAME	add_unit_to_force	C	
+class	GAME	add_visibility_trigger	C	
+class	GAME	advance_to_next_campaign	C	
+class	GAME	allow_player_to_embark_navies	C	
+class	GAME	apply_effect_bundle	C	
+class	GAME	apply_effect_bundle_to_characters_force	C	
+class	GAME	apply_effect_bundle_to_force	C	
+class	GAME	apply_effect_bundle_to_region	C	
+class	GAME	appoint_character_to_most_expensive_force	C	
+class	GAME	attack	C	
+class	GAME	autosave_at_next_opportunity	C	
+class	GAME	award_experience_level	C	
+class	GAME	cai_strategic_stance_manager_block_all_stances_but_that_specified_towards_target_faction	C	
+class	GAME	cai_strategic_stance_manager_clear_all_blocking_between_factions	C	
+class	GAME	cai_strategic_stance_manager_clear_all_promotions_between_factions	C	
+class	GAME	cai_strategic_stance_manager_force_stance_update_between_factions	C	
+class	GAME	cai_strategic_stance_manager_promote_specified_stance_towards_target_faction	C	
+class	GAME	cai_strategic_stance_manager_promote_specified_stance_towards_target_faction_by_number	C	
+class	GAME	cai_strategic_stance_manager_set_stance_blocking_between_factions_for_a_given_stance	C	
+class	GAME	cai_strategic_stance_manager_set_stance_promotion_between_factions_for_a_given_stance	C	
+class	GAME	cancel_actions_for	C	
+class	GAME	cancel_custom_mission	C	
+class	GAME	compare_localised_string	C	
+class	GAME	create_agent	C	
+class	GAME	create_force	C	
+class	GAME	disable_elections	C	
+class	GAME	disable_end_turn	C	
+class	GAME	disable_movement_for_ai_under_shroud	C	
+class	GAME	disable_movement_for_character	C	
+class	GAME	disable_movement_for_faction	C	
+class	GAME	disable_pathfinding_restriction	C	
+class	GAME	disable_rebellions_worldwide	C	
+class	GAME	disable_saving_game	C	
+class	GAME	disable_shopping_for_ai_under_shroud	C	
+class	GAME	disable_shortcut	C	
+class	GAME	dismiss_advice	C	
+class	GAME	dismiss_advice_at_end_turn	C	
+class	GAME	display_turns	C	
+class	GAME	enable_auto_generated_missions	C	
+class	GAME	enable_movement_for_character	C	
+class	GAME	enable_movement_for_faction	C	
+class	GAME	enable_ui	C	
+class	GAME	end_turn	C	
+class	GAME	exempt_region_from_tax	C	
+class	GAME	faction_offers_peace_to_other_faction	C	
+class	GAME	fade_volume	C	
+class	GAME	force_add_ancillary	C	
+class	GAME	force_add_skill	C	
+class	GAME	force_add_trait	C	
+class	GAME	force_agent_action_success_for_human	C	
+class	GAME	force_assassination_success_for_human	C	
+class	GAME	force_break_alliance	C	
+class	GAME	force_break_defensive_alliance	C	
+class	GAME	force_break_military_alliance	C	
+class	GAME	force_break_non_aggression_pact	C	
+class	GAME	force_change_cai_faction_personality	C	
+class	GAME	force_character_force_into_stance	C	
+class	GAME	force_declare_war	C	
+class	GAME	force_diplomacy	C	
+class	GAME	force_garrison_infiltration_success_for_human	C	
+class	GAME	force_make_peace	C	
+class	GAME	force_make_trade_agreement	C	
+class	GAME	force_make_vassal	C	
+class	GAME	force_rebellion_in_region	C	
+class	GAME	grant_faction_handover	C	
+class	GAME	grant_unit	C	
+class	GAME	hide_character	C	
+class	GAME	infect_force_with_plague	C	
+class	GAME	infect_region_with_plague	C	
+class	GAME	instant_set_building_health_percent	C	
+class	GAME	instantly_dismantle_building	C	
+class	GAME	instantly_repair_building	C	
+class	GAME	is_new_game	C	
+class	GAME	join_garrison	C	
+class	GAME	kill_character	C	
+class	GAME	leave_garrison	C	
+class	GAME	load_named_value	C	
+class	GAME	lock_technology	C	
+class	GAME	make_neighbouring_regions_seen_in_shroud	C	
+class	GAME	make_neighbouring_regions_visible_in_shroud	C	
+class	GAME	make_region_seen_in_shroud	C	
+class	GAME	make_region_visible_in_shroud	C	
+class	GAME	make_sea_region_seen_in_shroud	C	
+class	GAME	make_sea_region_visible_in_shroud	C	
+class	GAME	make_son_come_of_age	C	
+class	GAME	model	C	
+class	GAME	modify_next_autoresolve_battle	C	
+class	GAME	move_to	C	
+class	GAME	new	C	
+class	GAME	optional_extras_for_episodics	C	
+class	GAME	override_attacker_win_chance_prediction	C	
+class	GAME	override_mission_succeeded_status	C	
+class	GAME	override_ui	C	
+class	GAME	pending_auto_show_messages	C	
+class	GAME	play_movie_in_ui	C	
+class	GAME	play_sound	C	
+class	GAME	register_instant_movie	C	
+class	GAME	register_movies	C	
+class	GAME	register_outro_movie	C	
+class	GAME	remove_area_trigger	C	
+class	GAME	remove_attack_of_opportunity_overrides	C	
+class	GAME	remove_building_model_override	C	
+class	GAME	remove_custom_battlefield	C	
+class	GAME	remove_effect_bundle	C	
+class	GAME	remove_effect_bundle_from_characters_force	C	
+class	GAME	remove_effect_bundle_from_force	C	
+class	GAME	remove_effect_bundle_from_region	C	
+class	GAME	remove_event_restricted_building_record	C	
+class	GAME	remove_event_restricted_building_record_for_faction	C	
+class	GAME	remove_event_restricted_unit_record	C	
+class	GAME	remove_event_restricted_unit_record_for_faction	C	
+class	GAME	remove_location_trigger	C	
+class	GAME	remove_marker	C	
+class	GAME	remove_restricted_building_level_record	C	
+class	GAME	remove_restricted_building_level_record_for_faction	C	
+class	GAME	remove_settlement_model_override	C	
+class	GAME	remove_time_trigger	C	
+class	GAME	remove_visibility_trigger	C	
+class	GAME	render_campaign_to_file	C	
+class	GAME	replenish_action_points	C	
+class	GAME	restore_shroud_from_snapshot	C	
+class	GAME	save_named_value	C	
+class	GAME	scroll_camera	C	
+class	GAME	scroll_camera_with_direction	C	
+class	GAME	seek_exchange	C	
+class	GAME	set_ai_uses_human_display_speed	C	
+class	GAME	set_campaign_ai_force_all_factions_boardering_human_vassals_to_have_invasion_behaviour	C	
+class	GAME	set_campaign_ai_force_all_factions_boardering_humans_to_have_invasion_behaviour	C	
+class	GAME	set_character_experience_disabled	C	
+class	GAME	set_character_immortality	C	
+class	GAME	set_character_skill_tier_limit	C	
+class	GAME	set_event_generation_enabled	C	
+class	GAME	set_faction_name_override	C	
+class	GAME	set_faction_summary_override	C	
+class	GAME	set_general_offered_dilemma_permitted	C	
+class	GAME	set_ignore_end_of_turn_public_order	C	
+class	GAME	set_imperium_level_change_disabled	C	
+class	GAME	set_liberation_options_disabled	C	
+class	GAME	set_looting_options_disabled_for_human	C	
+class	GAME	set_non_scripted_ancillaries_disabled	C	
+class	GAME	set_non_scripted_traits_disabled	C	
+class	GAME	set_only_allow_basic_recruit_stance	C	
+class	GAME	set_public_order_disabled_for_province_for_region	C	
+class	GAME	set_public_order_of_province_for_region	C	
+class	GAME	set_region_abandoned	C	
+class	GAME	set_tax_disabled	C	
+class	GAME	set_tax_rate	C	
+class	GAME	set_technology_research_disabled	C	
+class	GAME	set_ui_notification_of_victory_disabled	C	
+class	GAME	set_volume	C	
+class	GAME	set_zoom_limit	C	
+class	GAME	show_message_event	C	
+class	GAME	show_message_event_located	C	
+class	GAME	show_shroud	C	
+class	GAME	shown_message	C	
+class	GAME	shutdown	C	
+class	GAME	spawn_character_into_family_tree	C	
+class	GAME	speedup_active	C	
+class	GAME	steal_user_input	C	
+class	GAME	stop_camera	C	
+class	GAME	stop_sound	C	
+class	GAME	stop_user_input	C	
+class	GAME	take_shroud_snapshot	C	
+class	GAME	technology_osmosis_for_playables_enable_all	C	
+class	GAME	technology_osmosis_for_playables_enable_culture	C	
+class	GAME	toggle_speedup	C	
+class	GAME	transfer_region_to_faction	C	
+class	GAME	treasury_mod	C	
+class	GAME	trigger_custom_dilemma	C	
+class	GAME	trigger_custom_mission	C	
+class	GAME	trigger_dilemma	C	
+class	GAME	trigger_incident	C	
+class	GAME	trigger_mission	C	
+class	GAME	unhide_character	C	
+class	GAME	unlock_technology	C	
+class	GAME	win_next_autoresolve_battle	C	
+class	GAME	zero_action_points	C	
+class	GARRISON_RESIDENCE_SCRIPT_INTERFACE	__add	C	
+class	GARRISON_RESIDENCE_SCRIPT_INTERFACE	__div	C	
+class	GARRISON_RESIDENCE_SCRIPT_INTERFACE	__eq	C	
+class	GARRISON_RESIDENCE_SCRIPT_INTERFACE	__gc	C	
+class	GARRISON_RESIDENCE_SCRIPT_INTERFACE	__mul	C	
+class	GARRISON_RESIDENCE_SCRIPT_INTERFACE	__sub	C	
+class	GARRISON_RESIDENCE_SCRIPT_INTERFACE	__tostring	C	
+class	GARRISON_RESIDENCE_SCRIPT_INTERFACE	army	C	
+class	GARRISON_RESIDENCE_SCRIPT_INTERFACE	buildings	C	
+class	GARRISON_RESIDENCE_SCRIPT_INTERFACE	can_assault	C	
+class	GARRISON_RESIDENCE_SCRIPT_INTERFACE	faction	C	
+class	GARRISON_RESIDENCE_SCRIPT_INTERFACE	has_army	C	
+class	GARRISON_RESIDENCE_SCRIPT_INTERFACE	has_navy	C	
+class	GARRISON_RESIDENCE_SCRIPT_INTERFACE	is_null_interface	C	
+class	GARRISON_RESIDENCE_SCRIPT_INTERFACE	is_settlement	C	
+class	GARRISON_RESIDENCE_SCRIPT_INTERFACE	is_slot	C	
+class	GARRISON_RESIDENCE_SCRIPT_INTERFACE	is_under_siege	C	
+class	GARRISON_RESIDENCE_SCRIPT_INTERFACE	model	C	
+class	GARRISON_RESIDENCE_SCRIPT_INTERFACE	navy	C	
+class	GARRISON_RESIDENCE_SCRIPT_INTERFACE	new	C	
+class	GARRISON_RESIDENCE_SCRIPT_INTERFACE	region	C	
+class	GARRISON_RESIDENCE_SCRIPT_INTERFACE	settlement_interface	C	
+class	GARRISON_RESIDENCE_SCRIPT_INTERFACE	slot_interface	C	
+class	GARRISON_RESIDENCE_SCRIPT_INTERFACE	unit_count	C	
+class	MILITARY_FORCE_LIST_SCRIPT_INTERFACE	__add	C	
+class	MILITARY_FORCE_LIST_SCRIPT_INTERFACE	__div	C	
+class	MILITARY_FORCE_LIST_SCRIPT_INTERFACE	__eq	C	
+class	MILITARY_FORCE_LIST_SCRIPT_INTERFACE	__gc	C	
+class	MILITARY_FORCE_LIST_SCRIPT_INTERFACE	__mul	C	
+class	MILITARY_FORCE_LIST_SCRIPT_INTERFACE	__sub	C	
+class	MILITARY_FORCE_LIST_SCRIPT_INTERFACE	__tostring	C	
+class	MILITARY_FORCE_LIST_SCRIPT_INTERFACE	is_empty	C	
+class	MILITARY_FORCE_LIST_SCRIPT_INTERFACE	item_at	C	
+class	MILITARY_FORCE_LIST_SCRIPT_INTERFACE	new	C	
+class	MILITARY_FORCE_LIST_SCRIPT_INTERFACE	num_items	C	
+class	MILITARY_FORCE_SCRIPT_INTERFACE	__add	C	
+class	MILITARY_FORCE_SCRIPT_INTERFACE	__div	C	
+class	MILITARY_FORCE_SCRIPT_INTERFACE	__eq	C	
+class	MILITARY_FORCE_SCRIPT_INTERFACE	__gc	C	
+class	MILITARY_FORCE_SCRIPT_INTERFACE	__mul	C	
+class	MILITARY_FORCE_SCRIPT_INTERFACE	__sub	C	
+class	MILITARY_FORCE_SCRIPT_INTERFACE	__tostring	C	
+class	MILITARY_FORCE_SCRIPT_INTERFACE	active_stance	C	
+class	MILITARY_FORCE_SCRIPT_INTERFACE	building_exists	C	
+class	MILITARY_FORCE_SCRIPT_INTERFACE	buildings	C	
+class	MILITARY_FORCE_SCRIPT_INTERFACE	can_activate_stance	C	
+class	MILITARY_FORCE_SCRIPT_INTERFACE	character_list	C	
+class	MILITARY_FORCE_SCRIPT_INTERFACE	command_queue_index	C	
+class	MILITARY_FORCE_SCRIPT_INTERFACE	contains_mercenaries	C	
+class	MILITARY_FORCE_SCRIPT_INTERFACE	faction	C	
+class	MILITARY_FORCE_SCRIPT_INTERFACE	garrison_residence	C	
+class	MILITARY_FORCE_SCRIPT_INTERFACE	general_character	C	
+class	MILITARY_FORCE_SCRIPT_INTERFACE	has_garrison_residence	C	
+class	MILITARY_FORCE_SCRIPT_INTERFACE	has_general	C	
+class	MILITARY_FORCE_SCRIPT_INTERFACE	is_army	C	
+class	MILITARY_FORCE_SCRIPT_INTERFACE	is_horde	C	
+class	MILITARY_FORCE_SCRIPT_INTERFACE	is_navy	C	
+class	MILITARY_FORCE_SCRIPT_INTERFACE	is_null_interface	C	
+class	MILITARY_FORCE_SCRIPT_INTERFACE	model	C	
+class	MILITARY_FORCE_SCRIPT_INTERFACE	new	C	
+class	MILITARY_FORCE_SCRIPT_INTERFACE	unit_list	C	
+class	MILITARY_FORCE_SCRIPT_INTERFACE	upkeep	C	
+class	MODEL_SCRIPT_INTERFACE	__add	C	
+class	MODEL_SCRIPT_INTERFACE	__div	C	
+class	MODEL_SCRIPT_INTERFACE	__eq	C	
+class	MODEL_SCRIPT_INTERFACE	__gc	C	
+class	MODEL_SCRIPT_INTERFACE	__mul	C	
+class	MODEL_SCRIPT_INTERFACE	__sub	C	
+class	MODEL_SCRIPT_INTERFACE	__tostring	C	
+class	MODEL_SCRIPT_INTERFACE	campaign_ai	C	
+class	MODEL_SCRIPT_INTERFACE	campaign_name	C	
+class	MODEL_SCRIPT_INTERFACE	campaign_type	C	
+class	MODEL_SCRIPT_INTERFACE	character_can_reach_character	C	
+class	MODEL_SCRIPT_INTERFACE	character_for_command_queue_index	C	
+class	MODEL_SCRIPT_INTERFACE	date_and_week_in_range	C	
+class	MODEL_SCRIPT_INTERFACE	date_in_range	C	
+class	MODEL_SCRIPT_INTERFACE	difficulty_level	C	
+class	MODEL_SCRIPT_INTERFACE	faction_for_command_queue_index	C	
+class	MODEL_SCRIPT_INTERFACE	faction_is_local	C	
+class	MODEL_SCRIPT_INTERFACE	has_character_command_queue_index	C	
+class	MODEL_SCRIPT_INTERFACE	has_faction_command_queue_index	C	
+class	MODEL_SCRIPT_INTERFACE	has_military_force_command_queue_index	C	
+class	MODEL_SCRIPT_INTERFACE	is_multiplayer	C	
+class	MODEL_SCRIPT_INTERFACE	is_null_interface	C	
+class	MODEL_SCRIPT_INTERFACE	is_player_turn	C	
+class	MODEL_SCRIPT_INTERFACE	military_force_for_command_queue_index	C	
+class	MODEL_SCRIPT_INTERFACE	new	C	
+class	MODEL_SCRIPT_INTERFACE	pending_battle	C	
+class	MODEL_SCRIPT_INTERFACE	player_steam_id_is_odd	C	
+class	MODEL_SCRIPT_INTERFACE	random_percent	C	
+class	MODEL_SCRIPT_INTERFACE	season	C	
+class	MODEL_SCRIPT_INTERFACE	turn_number	C	
+class	MODEL_SCRIPT_INTERFACE	world	C	
+class	MPAvatar	__add	C	
+class	MPAvatar	__div	C	
+class	MPAvatar	__eq	C	
+class	MPAvatar	__gc	C	
+class	MPAvatar	__mul	C	
+class	MPAvatar	__sub	C	
+class	MPAvatar	__tostring	C	
+class	MPAvatar	Free	C	
+class	MPAvatar	SetComponentTexture	C	
+class	MPAvatar	Valid	C	
+class	MPAvatar	new	C	
+class	NULL_SCRIPT_INTERFACE	__add	C	
+class	NULL_SCRIPT_INTERFACE	__div	C	
+class	NULL_SCRIPT_INTERFACE	__eq	C	
+class	NULL_SCRIPT_INTERFACE	__gc	C	
+class	NULL_SCRIPT_INTERFACE	__mul	C	
+class	NULL_SCRIPT_INTERFACE	__sub	C	
+class	NULL_SCRIPT_INTERFACE	__tostring	C	
+class	NULL_SCRIPT_INTERFACE	is_null_interface	C	
+class	NULL_SCRIPT_INTERFACE	new	C	
+class	PENDING_BATTLE_SCRIPT_INTERFACE	__add	C	
+class	PENDING_BATTLE_SCRIPT_INTERFACE	__div	C	
+class	PENDING_BATTLE_SCRIPT_INTERFACE	__eq	C	
+class	PENDING_BATTLE_SCRIPT_INTERFACE	__gc	C	
+class	PENDING_BATTLE_SCRIPT_INTERFACE	__mul	C	
+class	PENDING_BATTLE_SCRIPT_INTERFACE	__sub	C	
+class	PENDING_BATTLE_SCRIPT_INTERFACE	__tostring	C	
+class	PENDING_BATTLE_SCRIPT_INTERFACE	ambush_battle	C	
+class	PENDING_BATTLE_SCRIPT_INTERFACE	attacker	C	
+class	PENDING_BATTLE_SCRIPT_INTERFACE	attacker_battle_result	C	
+class	PENDING_BATTLE_SCRIPT_INTERFACE	attacker_commander_fought_in_battle	C	
+class	PENDING_BATTLE_SCRIPT_INTERFACE	attacker_commander_fought_in_melee	C	
+class	PENDING_BATTLE_SCRIPT_INTERFACE	attacker_is_stronger	C	
+class	PENDING_BATTLE_SCRIPT_INTERFACE	attacker_strength	C	
+class	PENDING_BATTLE_SCRIPT_INTERFACE	battle_type	C	
+class	PENDING_BATTLE_SCRIPT_INTERFACE	contested_garrison	C	
+class	PENDING_BATTLE_SCRIPT_INTERFACE	defender	C	
+class	PENDING_BATTLE_SCRIPT_INTERFACE	defender_battle_result	C	
+class	PENDING_BATTLE_SCRIPT_INTERFACE	defender_commander_fought_in_battle	C	
+class	PENDING_BATTLE_SCRIPT_INTERFACE	defender_commander_fought_in_melee	C	
+class	PENDING_BATTLE_SCRIPT_INTERFACE	defender_strength	C	
+class	PENDING_BATTLE_SCRIPT_INTERFACE	failed_ambush_battle	C	
+class	PENDING_BATTLE_SCRIPT_INTERFACE	has_attacker	C	
+class	PENDING_BATTLE_SCRIPT_INTERFACE	has_contested_garrison	C	
+class	PENDING_BATTLE_SCRIPT_INTERFACE	has_defender	C	
+class	PENDING_BATTLE_SCRIPT_INTERFACE	is_active	C	
+class	PENDING_BATTLE_SCRIPT_INTERFACE	is_null_interface	C	
+class	PENDING_BATTLE_SCRIPT_INTERFACE	model	C	
+class	PENDING_BATTLE_SCRIPT_INTERFACE	naval_battle	C	
+class	PENDING_BATTLE_SCRIPT_INTERFACE	new	C	
+class	PENDING_BATTLE_SCRIPT_INTERFACE	night_battle	C	
+class	PENDING_BATTLE_SCRIPT_INTERFACE	percentage_of_attacker_killed	C	
+class	PENDING_BATTLE_SCRIPT_INTERFACE	percentage_of_attacker_routed	C	
+class	PENDING_BATTLE_SCRIPT_INTERFACE	percentage_of_defender_killed	C	
+class	PENDING_BATTLE_SCRIPT_INTERFACE	percentage_of_defender_routed	C	
+class	PENDING_BATTLE_SCRIPT_INTERFACE	seige_battle	C	
+class	Pointer<CAMPAIGN_COMMAND_QUEUE>	__eq	C	
+class	Pointer<CAMPAIGN_COMMAND_QUEUE>	__tostring	C	
+class	REGION_LIST_SCRIPT_INTERFACE	__add	C	
+class	REGION_LIST_SCRIPT_INTERFACE	__div	C	
+class	REGION_LIST_SCRIPT_INTERFACE	__eq	C	
+class	REGION_LIST_SCRIPT_INTERFACE	__gc	C	
+class	REGION_LIST_SCRIPT_INTERFACE	__mul	C	
+class	REGION_LIST_SCRIPT_INTERFACE	__sub	C	
+class	REGION_LIST_SCRIPT_INTERFACE	__tostring	C	
+class	REGION_LIST_SCRIPT_INTERFACE	is_empty	C	
+class	REGION_LIST_SCRIPT_INTERFACE	item_at	C	
+class	REGION_LIST_SCRIPT_INTERFACE	new	C	
+class	REGION_LIST_SCRIPT_INTERFACE	num_items	C	
+class	REGION_MANAGER_SCRIPT_INTERFACE	__add	C	
+class	REGION_MANAGER_SCRIPT_INTERFACE	__div	C	
+class	REGION_MANAGER_SCRIPT_INTERFACE	__eq	C	
+class	REGION_MANAGER_SCRIPT_INTERFACE	__gc	C	
+class	REGION_MANAGER_SCRIPT_INTERFACE	__mul	C	
+class	REGION_MANAGER_SCRIPT_INTERFACE	__sub	C	
+class	REGION_MANAGER_SCRIPT_INTERFACE	__tostring	C	
+class	REGION_MANAGER_SCRIPT_INTERFACE	faction_region_list	C	
+class	REGION_MANAGER_SCRIPT_INTERFACE	is_null_interface	C	
+class	REGION_MANAGER_SCRIPT_INTERFACE	model	C	
+class	REGION_MANAGER_SCRIPT_INTERFACE	new	C	
+class	REGION_MANAGER_SCRIPT_INTERFACE	region_by_key	C	
+class	REGION_MANAGER_SCRIPT_INTERFACE	region_list	C	
+class	REGION_MANAGER_SCRIPT_INTERFACE	resource_exists_anywhere	C	
+class	REGION_MANAGER_SCRIPT_INTERFACE	settlement_by_key	C	
+class	REGION_MANAGER_SCRIPT_INTERFACE	slot_by_key	C	
+class	REGION_SCRIPT_INTERFACE	__add	C	
+class	REGION_SCRIPT_INTERFACE	__div	C	
+class	REGION_SCRIPT_INTERFACE	__eq	C	
+class	REGION_SCRIPT_INTERFACE	__gc	C	
+class	REGION_SCRIPT_INTERFACE	__mul	C	
+class	REGION_SCRIPT_INTERFACE	__sub	C	
+class	REGION_SCRIPT_INTERFACE	__tostring	C	
+class	REGION_SCRIPT_INTERFACE	adjacent_region_list	C	
+class	REGION_SCRIPT_INTERFACE	building_exists	C	
+class	REGION_SCRIPT_INTERFACE	building_superchain_exists	C	
+class	REGION_SCRIPT_INTERFACE	garrison_residence	C	
+class	REGION_SCRIPT_INTERFACE	governor	C	
+class	REGION_SCRIPT_INTERFACE	has_governor	C	
+class	REGION_SCRIPT_INTERFACE	is_null_interface	C	
+class	REGION_SCRIPT_INTERFACE	last_building_constructed_key	C	
+class	REGION_SCRIPT_INTERFACE	majority_religion	C	
+class	REGION_SCRIPT_INTERFACE	majority_religion_percentage	C	
+class	REGION_SCRIPT_INTERFACE	model	C	
+class	REGION_SCRIPT_INTERFACE	name	C	
+class	REGION_SCRIPT_INTERFACE	new	C	
+class	REGION_SCRIPT_INTERFACE	num_buildings	C	
+class	REGION_SCRIPT_INTERFACE	owning_faction	C	
+class	REGION_SCRIPT_INTERFACE	public_order	C	
+class	REGION_SCRIPT_INTERFACE	region_wealth_change_percent	C	
+class	REGION_SCRIPT_INTERFACE	resource_exists	C	
+class	REGION_SCRIPT_INTERFACE	sanitation	C	
+class	REGION_SCRIPT_INTERFACE	settlement	C	
+class	REGION_SCRIPT_INTERFACE	slot_list	C	
+class	REGION_SCRIPT_INTERFACE	slot_type_exists	C	
+class	REGION_SCRIPT_INTERFACE	squalor	C	
+class	REGION_SCRIPT_INTERFACE	town_wealth_growth	C	
+class	SETTLEMENT_SCRIPT_INTERFACE	__add	C	
+class	SETTLEMENT_SCRIPT_INTERFACE	__div	C	
+class	SETTLEMENT_SCRIPT_INTERFACE	__eq	C	
+class	SETTLEMENT_SCRIPT_INTERFACE	__gc	C	
+class	SETTLEMENT_SCRIPT_INTERFACE	__mul	C	
+class	SETTLEMENT_SCRIPT_INTERFACE	__sub	C	
+class	SETTLEMENT_SCRIPT_INTERFACE	__tostring	C	
+class	SETTLEMENT_SCRIPT_INTERFACE	commander	C	
+class	SETTLEMENT_SCRIPT_INTERFACE	display_position_x	C	
+class	SETTLEMENT_SCRIPT_INTERFACE	display_position_y	C	
+class	SETTLEMENT_SCRIPT_INTERFACE	faction	C	
+class	SETTLEMENT_SCRIPT_INTERFACE	has_commander	C	
+class	SETTLEMENT_SCRIPT_INTERFACE	is_null_interface	C	
+class	SETTLEMENT_SCRIPT_INTERFACE	logical_position_x	C	
+class	SETTLEMENT_SCRIPT_INTERFACE	logical_position_y	C	
+class	SETTLEMENT_SCRIPT_INTERFACE	model	C	
+class	SETTLEMENT_SCRIPT_INTERFACE	new	C	
+class	SETTLEMENT_SCRIPT_INTERFACE	region	C	
+class	SETTLEMENT_SCRIPT_INTERFACE	slot_list	C	
+class	SLOT_LIST_SCRIPT_INTERFACE	__add	C	
+class	SLOT_LIST_SCRIPT_INTERFACE	__div	C	
+class	SLOT_LIST_SCRIPT_INTERFACE	__eq	C	
+class	SLOT_LIST_SCRIPT_INTERFACE	__gc	C	
+class	SLOT_LIST_SCRIPT_INTERFACE	__mul	C	
+class	SLOT_LIST_SCRIPT_INTERFACE	__sub	C	
+class	SLOT_LIST_SCRIPT_INTERFACE	__tostring	C	
+class	SLOT_LIST_SCRIPT_INTERFACE	buliding_type_exists	C	
+class	SLOT_LIST_SCRIPT_INTERFACE	is_empty	C	
+class	SLOT_LIST_SCRIPT_INTERFACE	item_at	C	
+class	SLOT_LIST_SCRIPT_INTERFACE	new	C	
+class	SLOT_LIST_SCRIPT_INTERFACE	num_items	C	
+class	SLOT_LIST_SCRIPT_INTERFACE	slot_type_exists	C	
+class	SLOT_SCRIPT_INTERFACE	__add	C	
+class	SLOT_SCRIPT_INTERFACE	__div	C	
+class	SLOT_SCRIPT_INTERFACE	__eq	C	
+class	SLOT_SCRIPT_INTERFACE	__gc	C	
+class	SLOT_SCRIPT_INTERFACE	__mul	C	
+class	SLOT_SCRIPT_INTERFACE	__sub	C	
+class	SLOT_SCRIPT_INTERFACE	__tostring	C	
+class	SLOT_SCRIPT_INTERFACE	building	C	
+class	SLOT_SCRIPT_INTERFACE	faction	C	
+class	SLOT_SCRIPT_INTERFACE	has_building	C	
+class	SLOT_SCRIPT_INTERFACE	is_null_interface	C	
+class	SLOT_SCRIPT_INTERFACE	model	C	
+class	SLOT_SCRIPT_INTERFACE	name	C	
+class	SLOT_SCRIPT_INTERFACE	new	C	
+class	SLOT_SCRIPT_INTERFACE	region	C	
+class	SLOT_SCRIPT_INTERFACE	type	C	
+class	ScriptedValueRegistry	__add	C	
+class	ScriptedValueRegistry	__div	C	
+class	ScriptedValueRegistry	__eq	C	
+class	ScriptedValueRegistry	__gc	C	
+class	ScriptedValueRegistry	__mul	C	
+class	ScriptedValueRegistry	__sub	C	
+class	ScriptedValueRegistry	__tostring	C	
+class	ScriptedValueRegistry	LoadBool	C	
+class	ScriptedValueRegistry	SaveBool	C	
+class	ScriptedValueRegistry	new	C	
+class	UIComponent	__add	C	
+class	UIComponent	__div	C	
+class	UIComponent	__eq	C	
+class	UIComponent	__gc	C	
+class	UIComponent	__mul	C	
+class	UIComponent	__sub	C	
+class	UIComponent	__tostring	C	
+class	UIComponent	Address	C	
+class	UIComponent	Adopt	C	
+class	UIComponent	AttachCustomControl	C	
+class	UIComponent	Bounds	C	
+class	UIComponent	CallbackId	C	
+class	UIComponent	ChildCount	C	
+class	UIComponent	ClearSound	C	
+class	UIComponent	CreateComponent	C	
+class	UIComponent	CurrentAnimationId	C	
+class	UIComponent	CurrentState	C	
+class	UIComponent	CurrentStateUI	C	
+class	UIComponent	DestroyChildren	C	
+class	UIComponent	Dimensions	C	
+class	UIComponent	Divorce	C	
+class	UIComponent	DockingPoint	C	
+class	UIComponent	Find	C	
+class	UIComponent	FindPositionIntoCurrentText	C	
+class	UIComponent	FindTextSnapPosition	C	
+class	UIComponent	ForceEvent	C	
+class	UIComponent	GetProperty	C	
+class	UIComponent	GetStateText	C	
+class	UIComponent	GetStateTextDetails	C	
+class	UIComponent	GetTooltipText	C	
+class	UIComponent	GlobalExists	C	
+class	UIComponent	HasInterface	C	
+class	UIComponent	Height	C	
+class	UIComponent	Highlight	C	
+class	UIComponent	Id	C	
+class	UIComponent	InterfaceFunction	C	
+class	UIComponent	IsCharPrintable	C	
+class	UIComponent	IsDragged	C	
+class	UIComponent	IsInteractive	C	
+class	UIComponent	IsMouseOverChildren	C	
+class	UIComponent	IsMoveable	C	
+class	UIComponent	Layout	C	
+class	UIComponent	LockPriority	C	
+class	UIComponent	LuaCall	C	
+class	UIComponent	MoveTo	C	
+class	UIComponent	Opacity	C	
+class	UIComponent	Parent	C	
+class	UIComponent	PopulateTextures	C	
+class	UIComponent	Position	C	
+class	UIComponent	Priority	C	
+class	UIComponent	PropagateImageColour	C	
+class	UIComponent	PropagateOpacity	C	
+class	UIComponent	PropagatePriority	C	
+class	UIComponent	PropagateVisibility	C	
+class	UIComponent	ReorderChildren	C	
+class	UIComponent	Resize	C	
+class	UIComponent	RestoreUIHeirarchy	C	
+class	UIComponent	RunScript	C	
+class	UIComponent	SaveUIHeirarchy	C	
+class	UIComponent	SequentialFind	C	
+class	UIComponent	SetDisabled	C	
+class	UIComponent	SetDockingPoint	C	
+class	UIComponent	SetDragged	C	
+class	UIComponent	SetEventCallback	C	
+class	UIComponent	SetGlobal	C	
+class	UIComponent	SetImageColour	C	
+class	UIComponent	SetImageRotation	C	
+class	UIComponent	SetInteractive	C	
+class	UIComponent	SetMoveable	C	
+class	UIComponent	SetOpacity	C	
+class	UIComponent	SetProperty	C	
+class	UIComponent	SetState	C	
+class	UIComponent	SetStateColours	C	
+class	UIComponent	SetStateText	C	
+class	UIComponent	SetStateTextDetails	C	
+class	UIComponent	SetStateTextXOffset	C	
+class	UIComponent	SetTooltipText	C	
+class	UIComponent	SetTooltipTextWithRLSKey	C	
+class	UIComponent	SetVisible	C	
+class	UIComponent	ShaderTechniqueGet	C	
+class	UIComponent	ShaderTechniqueSet	C	
+class	UIComponent	ShaderVarsGet	C	
+class	UIComponent	ShaderVarsSet	C	
+class	UIComponent	SimulateClick	C	
+class	UIComponent	SimulateKey	C	
+class	UIComponent	SimulateLClick	C	
+class	UIComponent	SimulateMouseMove	C	
+class	UIComponent	SimulateMouseOff	C	
+class	UIComponent	SimulateMouseOn	C	
+class	UIComponent	SimulateRClick	C	
+class	UIComponent	StealInputFocus	C	
+class	UIComponent	StealShortcutKey	C	
+class	UIComponent	TextDimensions	C	
+class	UIComponent	TextShaderTechniqueSet	C	
+class	UIComponent	TextShaderVarsGet	C	
+class	UIComponent	TextShaderVarsSet	C	
+class	UIComponent	TriggerAnimation	C	
+class	UIComponent	TriggerShortcut	C	
+class	UIComponent	UnLockPriority	C	
+class	UIComponent	Visible	C	
+class	UIComponent	Width	C	
+class	UIComponent	WidthOfTextLine	C	
+class	UIComponent	new	C	
+class	UNIT_LIST_SCRIPT_INTERFACE	__add	C	
+class	UNIT_LIST_SCRIPT_INTERFACE	__div	C	
+class	UNIT_LIST_SCRIPT_INTERFACE	__eq	C	
+class	UNIT_LIST_SCRIPT_INTERFACE	__gc	C	
+class	UNIT_LIST_SCRIPT_INTERFACE	__mul	C	
+class	UNIT_LIST_SCRIPT_INTERFACE	__sub	C	
+class	UNIT_LIST_SCRIPT_INTERFACE	__tostring	C	
+class	UNIT_LIST_SCRIPT_INTERFACE	has_unit	C	
+class	UNIT_LIST_SCRIPT_INTERFACE	is_empty	C	
+class	UNIT_LIST_SCRIPT_INTERFACE	item_at	C	
+class	UNIT_LIST_SCRIPT_INTERFACE	new	C	
+class	UNIT_LIST_SCRIPT_INTERFACE	num_items	C	
+class	UNIT_SCRIPT_INTERFACE	__add	C	
+class	UNIT_SCRIPT_INTERFACE	__div	C	
+class	UNIT_SCRIPT_INTERFACE	__eq	C	
+class	UNIT_SCRIPT_INTERFACE	__gc	C	
+class	UNIT_SCRIPT_INTERFACE	__mul	C	
+class	UNIT_SCRIPT_INTERFACE	__sub	C	
+class	UNIT_SCRIPT_INTERFACE	__tostring	C	
+class	UNIT_SCRIPT_INTERFACE	can_upgrade_unit	C	
+class	UNIT_SCRIPT_INTERFACE	can_upgrade_unit_equipment	C	
+class	UNIT_SCRIPT_INTERFACE	faction	C	
+class	UNIT_SCRIPT_INTERFACE	force_commander	C	
+class	UNIT_SCRIPT_INTERFACE	has_force_commander	C	
+class	UNIT_SCRIPT_INTERFACE	has_unit_commander	C	
+class	UNIT_SCRIPT_INTERFACE	is_land_unit	C	
+class	UNIT_SCRIPT_INTERFACE	is_naval_unit	C	
+class	UNIT_SCRIPT_INTERFACE	is_null_interface	C	
+class	UNIT_SCRIPT_INTERFACE	military_force	C	
+class	UNIT_SCRIPT_INTERFACE	model	C	
+class	UNIT_SCRIPT_INTERFACE	new	C	
+class	UNIT_SCRIPT_INTERFACE	percentage_proportion_of_full_strength	C	
+class	UNIT_SCRIPT_INTERFACE	unit_category	C	
+class	UNIT_SCRIPT_INTERFACE	unit_class	C	
+class	UNIT_SCRIPT_INTERFACE	unit_commander	C	
+class	UNIT_SCRIPT_INTERFACE	unit_key	C	
+class	WORLD_SCRIPT_INTERFACE	__add	C	
+class	WORLD_SCRIPT_INTERFACE	__div	C	
+class	WORLD_SCRIPT_INTERFACE	__eq	C	
+class	WORLD_SCRIPT_INTERFACE	__gc	C	
+class	WORLD_SCRIPT_INTERFACE	__mul	C	
+class	WORLD_SCRIPT_INTERFACE	__sub	C	
+class	WORLD_SCRIPT_INTERFACE	__tostring	C	
+class	WORLD_SCRIPT_INTERFACE	ancillary_exists	C	
+class	WORLD_SCRIPT_INTERFACE	climate_phase_index	C	
+class	WORLD_SCRIPT_INTERFACE	faction_by_key	C	
+class	WORLD_SCRIPT_INTERFACE	faction_exists	C	
+class	WORLD_SCRIPT_INTERFACE	faction_list	C	
+class	WORLD_SCRIPT_INTERFACE	is_null_interface	C	
+class	WORLD_SCRIPT_INTERFACE	model	C	
+class	WORLD_SCRIPT_INTERFACE	new	C	
+class	WORLD_SCRIPT_INTERFACE	region_manager	C	
+class	_LOADED	region_trading/explain	Lua	table: 0x7b44878b30
+class	_LOADLIB	__gc	C	
+global	CliExecute	function	C	_G
+global	RequireRegister	function	C	_G
+global	_G	table		_G
+global	_VERSION	string		_G
+global	assert	function	C	_G
+global	bit	table		_G
+member	bit	arshift	function	C	_G
+member	bit	band	function	C	_G
+member	bit	bits	number		_G
+member	bit	bnot	function	C	_G
+member	bit	bor	function	C	_G
+member	bit	bxor	function	C	_G
+member	bit	cast	function	C	_G
+member	bit	lshift	function	C	_G
+member	bit	rshift	function	C	_G
+global	collectgarbage	function	C	_G
+global	coroutine	table		_G
+member	coroutine	create	function	C	_G
+member	coroutine	resume	function	C	_G
+member	coroutine	running	function	C	_G
+member	coroutine	status	function	C	_G
+member	coroutine	wrap	function	C	_G
+member	coroutine	yield	function	C	_G
+global	debug	table		_G
+member	debug	debug	function	C	_G
+member	debug	getfenv	function	C	_G
+member	debug	gethook	function	C	_G
+member	debug	getinfo	function	C	_G
+member	debug	getlocal	function	C	_G
+member	debug	getmetatable	function	C	_G
+member	debug	getregistry	function	C	_G
+member	debug	getupvalue	function	C	_G
+member	debug	setfenv	function	C	_G
+member	debug	sethook	function	C	_G
+member	debug	setlocal	function	C	_G
+member	debug	setmetatable	function	C	_G
+member	debug	setupvalue	function	C	_G
+member	debug	traceback	function	C	_G
+global	decoda_name	string		_G
+global	defined	table		_G
+member	defined	debug	boolean		_G
+member	defined	demo	boolean		_G
+member	defined	demo2	boolean		_G
+member	defined	dylan	boolean		_G
+member	defined	final_release	boolean		_G
+member	defined	intel	boolean		_G
+member	defined	kostas	boolean		_G
+member	defined	shane	boolean		_G
+member	defined	tom	boolean		_G
+member	defined	tom_s	boolean		_G
+global	dofile	function	C	_G
+global	error	function	C	_G
+global	events	table		_G
+global	gcinfo	function	C	_G
+global	getfenv	function	C	_G
+global	getmetatable	function	C	_G
+global	io	table		_G
+member	io	close	function	C	_G
+member	io	flush	function	C	_G
+member	io	input	function	C	_G
+member	io	lines	function	C	_G
+member	io	open	function	C	_G
+member	io	output	function	C	_G
+member	io	popen	function	C	_G
+member	io	read	function	C	_G
+member	io	stderr	userdata		_G
+member	io	stdin	userdata		_G
+member	io	stdout	userdata		_G
+member	io	tmpfile	function	C	_G
+member	io	type	function	C	_G
+member	io	write	function	C	_G
+global	ipairs	function	C	_G
+global	load	function	C	_G
+global	loadfile	function	C	_G
+global	loadstring	function	C	_G
+global	lookup	table		_G
+global	math	table		_G
+member	math	abs	function	C	_G
+member	math	acos	function	C	_G
+member	math	asin	function	C	_G
+member	math	atan	function	C	_G
+member	math	atan2	function	C	_G
+member	math	ceil	function	C	_G
+member	math	cos	function	C	_G
+member	math	cosh	function	C	_G
+member	math	deg	function	C	_G
+member	math	exp	function	C	_G
+member	math	floor	function	C	_G
+member	math	fmod	function	C	_G
+member	math	frexp	function	C	_G
+member	math	ldexp	function	C	_G
+member	math	log	function	C	_G
+member	math	log10	function	C	_G
+member	math	max	function	C	_G
+member	math	min	function	C	_G
+member	math	mod	function	C	_G
+member	math	modf	function	C	_G
+member	math	pi	number		_G
+member	math	pow	function	C	_G
+member	math	rad	function	C	_G
+member	math	random	function	C	_G
+member	math	randomseed	function	C	_G
+member	math	sin	function	C	_G
+member	math	sinh	function	C	_G
+member	math	sqrt	function	C	_G
+member	math	tan	function	C	_G
+member	math	tanh	function	C	_G
+global	module	function	C	_G
+global	newproxy	function	C	_G
+global	next	function	C	_G
+global	os	table		_G
+member	os	clock	function	C	_G
+member	os	date	function	C	_G
+member	os	difftime	function	C	_G
+member	os	execute	function	C	_G
+member	os	exit	function	C	_G
+member	os	getenv	function	C	_G
+member	os	remove	function	C	_G
+member	os	rename	function	C	_G
+member	os	setlocale	function	C	_G
+member	os	time	function	C	_G
+member	os	tmpname	function	C	_G
+global	package	table		_G
+global	pairs	function	C	_G
+global	pcall	function	C	_G
+global	print	function	C	_G
+global	rawequal	function	C	_G
+global	rawget	function	C	_G
+global	rawset	function	C	_G
+global	require	function	C	_G
+global	select	function	C	_G
+global	setfenv	function	C	_G
+global	setmetatable	function	C	_G
+global	string	table		_G
+member	string	byte	function	C	_G
+member	string	char	function	C	_G
+member	string	dump	function	C	_G
+member	string	find	function	C	_G
+member	string	format	function	C	_G
+member	string	gfind	function	C	_G
+member	string	gmatch	function	C	_G
+member	string	gsub	function	C	_G
+member	string	len	function	C	_G
+member	string	length	function	C	_G
+member	string	lower	function	C	_G
+member	string	match	function	C	_G
+member	string	rep	function	C	_G
+member	string	reverse	function	C	_G
+member	string	sub	function	C	_G
+member	string	upper	function	C	_G
+global	system	table		_G
+member	system	ClearRequiredFiles	function	C	_G
+global	table	table		_G
+member	table	concat	function	C	_G
+member	table	foreach	function	C	_G
+member	table	foreachi	function	C	_G
+member	table	getn	function	C	_G
+member	table	insert	function	C	_G
+member	table	load	function	Lua	_G
+member	table	maxn	function	C	_G
+member	table	remove	function	C	_G
+member	table	save	function	Lua	_G
+member	table	setn	function	C	_G
+member	table	sort	function	C	_G
+global	tonumber	function	C	_G
+global	tostring	function	C	_G
+global	type	function	C	_G
+global	udata_lookup	table		_G
+global	unpack	function	C	_G
+global	vfs	table		_G
+member	vfs	exists	function	C	_G
+global	xpcall	function	C	_G
+info	_G metatable	nil		
+info	get_cm	function	table: 0x7b445fe5b0
+info	this chunk's environment	table: 0x7b445fe5b0
+global	ABSORB_ALLIES_CHOICE	number		lib
+global	ABSORB_ALLIES_DILEMMA	string		lib
+global	AESTI_KEY	string		lib
+global	ALANI_KEY	string		lib
+global	ALANI_TRIGGERED	number		lib
+global	ALEMANNI_KEY	string		lib
+global	ALEMANNI_TRIGGERED	number		lib
+global	ANTES_EVENT_TRIGGERED	boolean		lib
+global	ANTES_KEY	string		lib
+global	ANTIOHIA_KEY	string		lib
+global	ANTIOHIA_TRIGGERED	boolean		lib
+global	ARMENIA_KEY	string		lib
+global	AXUM_CAPITAL_POS_X	number		lib
+global	AXUM_CAPITAL_POS_Y	number		lib
+global	AXUM_KEY	string		lib
+global	Add_Antes_Events_Listeners	function	Lua	lib
+global	Add_Axum_Events_Listeners	function	Lua	lib
+global	Add_Axum_Mechanics_Listeners	function	Lua	lib
+global	Add_Barbarian_Invasion_Listeners	function	Lua	lib
+global	Add_Building_Locking_Listeners	function	Lua	lib
+global	Add_CivilWarFix_Listeners	function	Lua	lib
+global	Add_Dam_Damage	function	Lua	lib
+global	Add_Himyar_Events_Listeners	function	Lua	lib
+global	Add_Himyar_Mechanics_Listeners	function	Lua	lib
+global	Add_Lakhmids_Events_Listeners	function	Lua	lib
+global	Add_Lakhmids_Mechanics_Listeners	function	Lua	lib
+global	Add_Region_Count_On_Round_Start_Listener	function	Lua	lib
+global	Add_Religious_Event_Listeners	function	Lua	lib
+global	Add_Sclaveni_Events_Listeners	function	Lua	lib
+global	Add_Tanukhid_Raiding_Listeners	function	Lua	lib
+global	Add_Tanukhids_Events_Listeners	function	Lua	lib
+global	Add_Tanukhids_Mechanics_Listeners	function	Lua	lib
+global	Add_Venedi_Events_Listeners	function	Lua	lib
+global	Add_Wonder_Event_Listeners	function	Lua	lib
+global	All_Records_Same	function	Lua	lib
+global	Are_Huns_In_Venedi_Lands	function	Lua	lib
+global	Attila_CQI	number		lib
+global	BAGAUDAE_KEY	string		lib
+global	BAGAUDAE_TRIGGERED	boolean		lib
+global	BOOL_Attila_Story_Last_Battle_Was_Against_Player	boolean		lib
+global	BOOL_Attila_Story_System_Active	boolean		lib
+global	BOOL_Disable_All_Whitelists	boolean		lib
+global	BOOL_Fifth_Seal_Triggered	boolean		lib
+global	BOOL_First_Seal_Triggered	boolean		lib
+global	BOOL_Fourth_Seal_Triggered	boolean		lib
+global	BOOL_Hun_Preservation_System_Active	boolean		lib
+global	BOOL_Is_Military_Locked	boolean		lib
+global	BOOL_Is_Religious_Locked	boolean		lib
+global	BOOL_Is_Trade_Locked	boolean		lib
+global	BOOL_Player_Is_Attacker	boolean		lib
+global	BOOL_Player_Is_Defender	boolean		lib
+global	BOOL_Second_Seal_Triggered	boolean		lib
+global	BOOL_Seventh_Seal_Triggered	boolean		lib
+global	BOOL_Sixth_Seal_Triggered	boolean		lib
+global	BOOL_Third_Seal_Triggered	boolean		lib
+global	BUILDING_LIST_SCRIPT_INTERFACE	table		lib
+member	BUILDING_LIST_SCRIPT_INTERFACE	is_empty	function	C	lib
+member	BUILDING_LIST_SCRIPT_INTERFACE	item_at	function	C	lib
+member	BUILDING_LIST_SCRIPT_INTERFACE	new	function	C	lib
+member	BUILDING_LIST_SCRIPT_INTERFACE	num_items	function	C	lib
+global	BUILDING_SCRIPT_INTERFACE	table		lib
+member	BUILDING_SCRIPT_INTERFACE	chain	function	C	lib
+member	BUILDING_SCRIPT_INTERFACE	faction	function	C	lib
+member	BUILDING_SCRIPT_INTERFACE	is_null_interface	function	C	lib
+member	BUILDING_SCRIPT_INTERFACE	model	function	C	lib
+member	BUILDING_SCRIPT_INTERFACE	name	function	C	lib
+member	BUILDING_SCRIPT_INTERFACE	new	function	C	lib
+member	BUILDING_SCRIPT_INTERFACE	percent_health	function	C	lib
+member	BUILDING_SCRIPT_INTERFACE	region	function	C	lib
+member	BUILDING_SCRIPT_INTERFACE	slot	function	C	lib
+member	BUILDING_SCRIPT_INTERFACE	superchain	function	C	lib
+global	BURGUNDI_KEY	string		lib
+global	BURGUNDI_TRIGGERED	number		lib
+global	Bagaud_Spawn	function	Lua	lib
+global	BattleCompleted_CivilWarFix	function	Lua	lib
+global	BattleCompleted_Sclaveni	function	Lua	lib
+global	BattleCompleted_Slavs	function	Lua	lib
+global	BattleCompleted_Tanukhids_Mechanics	function	Lua	lib
+global	BuildingCompleted_Religious_Building	function	Lua	lib
+global	CAMPAIGN_AI_SCRIPT_INTERFACE	table		lib
+member	CAMPAIGN_AI_SCRIPT_INTERFACE	is_null_interface	function	C	lib
+member	CAMPAIGN_AI_SCRIPT_INTERFACE	new	function	C	lib
+member	CAMPAIGN_AI_SCRIPT_INTERFACE	strategic_stance_between_factions	function	C	lib
+member	CAMPAIGN_AI_SCRIPT_INTERFACE	strategic_stance_between_factions_available	function	C	lib
+member	CAMPAIGN_AI_SCRIPT_INTERFACE	strategic_stance_between_factions_is_being_blocked	function	C	lib
+member	CAMPAIGN_AI_SCRIPT_INTERFACE	strategic_stance_between_factions_is_being_blocked_until	function	C	lib
+member	CAMPAIGN_AI_SCRIPT_INTERFACE	strategic_stance_between_factions_promotion_current_level	function	C	lib
+member	CAMPAIGN_AI_SCRIPT_INTERFACE	strategic_stance_between_factions_promotion_end_level	function	C	lib
+member	CAMPAIGN_AI_SCRIPT_INTERFACE	strategic_stance_between_factions_promotion_end_round	function	C	lib
+member	CAMPAIGN_AI_SCRIPT_INTERFACE	strategic_stance_between_factions_promotion_is_active	function	C	lib
+member	CAMPAIGN_AI_SCRIPT_INTERFACE	strategic_stance_between_factions_promotion_or_blocking_is_set	function	C	lib
+member	CAMPAIGN_AI_SCRIPT_INTERFACE	strategic_stance_between_factions_promotion_start_level	function	C	lib
+member	CAMPAIGN_AI_SCRIPT_INTERFACE	strategic_stance_between_factions_promotion_start_round	function	C	lib
+global	CAMPAIGN_MISSION_SCRIPT_INTERFACE	table		lib
+member	CAMPAIGN_MISSION_SCRIPT_INTERFACE	faction	function	C	lib
+member	CAMPAIGN_MISSION_SCRIPT_INTERFACE	is_null_interface	function	C	lib
+member	CAMPAIGN_MISSION_SCRIPT_INTERFACE	mission_issuer_record_key	function	C	lib
+member	CAMPAIGN_MISSION_SCRIPT_INTERFACE	mission_record_key	function	C	lib
+member	CAMPAIGN_MISSION_SCRIPT_INTERFACE	model	function	C	lib
+member	CAMPAIGN_MISSION_SCRIPT_INTERFACE	new	function	C	lib
+global	CHARACTER_LIST_SCRIPT_INTERFACE	table		lib
+member	CHARACTER_LIST_SCRIPT_INTERFACE	is_empty	function	C	lib
+member	CHARACTER_LIST_SCRIPT_INTERFACE	item_at	function	C	lib
+member	CHARACTER_LIST_SCRIPT_INTERFACE	new	function	C	lib
+member	CHARACTER_LIST_SCRIPT_INTERFACE	num_items	function	C	lib
+global	CHARACTER_SCRIPT_INTERFACE	table		lib
+member	CHARACTER_SCRIPT_INTERFACE	action_points_per_turn	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	action_points_remaining_percent	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	age	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	battles_fought	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	battles_won	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	body_guard_casulties	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	character_type	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	command_queue_index	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	cqi	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	defensive_ambush_battles_fought	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	defensive_ambush_battles_won	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	defensive_battles_fought	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	defensive_battles_won	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	defensive_naval_battles_fought	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	defensive_naval_battles_won	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	defensive_sieges_fought	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	defensive_sieges_won	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	display_position_x	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	display_position_y	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	faction	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	family_member	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	father	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	forename	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	fought_in_battle	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	garrison_residence	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	get_forename	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	get_surname	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	gravitas	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	has_ancillary	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	has_father	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	has_garrison_residence	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	has_military_force	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	has_mother	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	has_recruited_mercenaries	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	has_region	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	has_skill	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	has_trait	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	in_port	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	in_settlement	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	is_ambushing	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	is_besieging	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	is_blockading	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	is_carrying_troops	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	is_deployed	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	is_embedded_in_military_force	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	is_faction_leader	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	is_hidden	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	is_male	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	is_null_interface	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	is_politician	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	logical_position_x	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	logical_position_y	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	loyalty	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	military_force	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	model	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	mother	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	new	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	number_of_traits	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	offensive_ambush_battles_fought	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	offensive_ambush_battles_won	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	offensive_battles_fought	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	offensive_battles_won	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	offensive_naval_battles_fought	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	offensive_naval_battles_won	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	offensive_sieges_fought	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	offensive_sieges_won	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	percentage_of_own_alliance_killed	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	performed_action_this_turn	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	rank	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	region	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	routed_in_battle	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	surname	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	trait_level	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	trait_points	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	turns_at_sea	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	turns_in_enemy_regions	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	turns_in_own_regions	function	C	lib
+member	CHARACTER_SCRIPT_INTERFACE	won_battle	function	C	lib
+global	CIVIL_EFFECT	table		lib
+member	CIVIL_EFFECT	absilae	string		lib
+member	CIVIL_EFFECT	aorsi	string		lib
+member	CIVIL_EFFECT	att_fact_abarshahr	string		lib
+member	CIVIL_EFFECT	att_fact_abasgia	string		lib
+member	CIVIL_EFFECT	att_fact_aegyptus	string		lib
+member	CIVIL_EFFECT	att_fact_africa	string		lib
+member	CIVIL_EFFECT	att_fact_afrighids	string		lib
+member	CIVIL_EFFECT	att_fact_alamanni	string		lib
+member	CIVIL_EFFECT	att_fact_alani	string		lib
+member	CIVIL_EFFECT	att_fact_anatolia	string		lib
+member	CIVIL_EFFECT	att_fact_angli	string		lib
+member	CIVIL_EFFECT	att_fact_antes	string		lib
+member	CIVIL_EFFECT	att_fact_aria	string		lib
+member	CIVIL_EFFECT	att_fact_armenia	string		lib
+member	CIVIL_EFFECT	att_fact_arran	string		lib
+member	CIVIL_EFFECT	att_fact_asia	string		lib
+member	CIVIL_EFFECT	att_fact_aturpatakan	string		lib
+member	CIVIL_EFFECT	att_fact_axum	string		lib
+member	CIVIL_EFFECT	att_fact_bastarnae	string		lib
+member	CIVIL_EFFECT	att_fact_britannia	string		lib
+member	CIVIL_EFFECT	att_fact_budini	string		lib
+member	CIVIL_EFFECT	att_fact_burgundii	string		lib
+member	CIVIL_EFFECT	att_fact_dacia	string		lib
+member	CIVIL_EFFECT	att_fact_dani	string		lib
+member	CIVIL_EFFECT	att_fact_eastern_roman_empire	string		lib
+member	CIVIL_EFFECT	att_fact_ebdani	string		lib
+member	CIVIL_EFFECT	att_fact_franci	string		lib
+member	CIVIL_EFFECT	att_fact_gaetuli	string		lib
+member	CIVIL_EFFECT	att_fact_gallia	string		lib
+member	CIVIL_EFFECT	att_fact_garamantes	string		lib
+member	CIVIL_EFFECT	att_fact_gauti	string		lib
+member	CIVIL_EFFECT	att_fact_gepidae	string		lib
+member	CIVIL_EFFECT	att_fact_ghassanids	string		lib
+member	CIVIL_EFFECT	att_fact_greuthingi	string		lib
+member	CIVIL_EFFECT	att_fact_himyar	string		lib
+member	CIVIL_EFFECT	att_fact_hispania	string		lib
+member	CIVIL_EFFECT	att_fact_hunni	string		lib
+member	CIVIL_EFFECT	att_fact_iazyges	string		lib
+member	CIVIL_EFFECT	att_fact_illyricum	string		lib
+member	CIVIL_EFFECT	att_fact_italia	string		lib
+member	CIVIL_EFFECT	att_fact_iuti	string		lib
+member	CIVIL_EFFECT	att_fact_judea	string		lib
+member	CIVIL_EFFECT	att_fact_kartli	string		lib
+member	CIVIL_EFFECT	att_fact_lakhmids	string		lib
+member	CIVIL_EFFECT	att_fact_langobardi	string		lib
+member	CIVIL_EFFECT	att_fact_lazica	string		lib
+member	CIVIL_EFFECT	att_fact_lugii	string		lib
+member	CIVIL_EFFECT	att_fact_macedonia	string		lib
+member	CIVIL_EFFECT	att_fact_magyars	string		lib
+member	CIVIL_EFFECT	att_fact_makran	string		lib
+member	CIVIL_EFFECT	att_fact_marcomanni	string		lib
+member	CIVIL_EFFECT	att_fact_mauri	string		lib
+member	CIVIL_EFFECT	att_fact_mazun	string		lib
+member	CIVIL_EFFECT	att_fact_nobatia	string		lib
+member	CIVIL_EFFECT	att_fact_oriens	string		lib
+member	CIVIL_EFFECT	att_fact_ostrogothi	string		lib
+member	CIVIL_EFFECT	att_fact_palmyra	string		lib
+member	CIVIL_EFFECT	att_fact_parthia	string		lib
+member	CIVIL_EFFECT	att_fact_persis	string		lib
+member	CIVIL_EFFECT	att_fact_picti	string		lib
+member	CIVIL_EFFECT	att_fact_pontus	string		lib
+member	CIVIL_EFFECT	att_fact_quadi	string		lib
+member	CIVIL_EFFECT	att_fact_roxolani	string		lib
+member	CIVIL_EFFECT	att_fact_rugii	string		lib
+member	CIVIL_EFFECT	att_fact_sabirs	string		lib
+member	CIVIL_EFFECT	att_fact_sassanid_empire	string		lib
+member	CIVIL_EFFECT	att_fact_saxones	string		lib
+member	CIVIL_EFFECT	att_fact_sclaveni	string		lib
+member	CIVIL_EFFECT	att_fact_septem_provinciem	string		lib
+member	CIVIL_EFFECT	att_fact_spahan	string		lib
+member	CIVIL_EFFECT	att_fact_suebi	string		lib
+member	CIVIL_EFFECT	att_fact_tanukhids	string		lib
+member	CIVIL_EFFECT	att_fact_thuringi	string		lib
+member	CIVIL_EFFECT	att_fact_vandali	string		lib
+member	CIVIL_EFFECT	att_fact_varini	string		lib
+member	CIVIL_EFFECT	att_fact_venedi	string		lib
+member	CIVIL_EFFECT	att_fact_visigothi	string		lib
+member	CIVIL_EFFECT	att_fact_votadini	string		lib
+member	CIVIL_EFFECT	att_fact_western_roman_empire	string		lib
+member	CIVIL_EFFECT	att_fact_white_huns	string		lib
+member	CIVIL_EFFECT	attacoti	string		lib
+member	CIVIL_EFFECT	bel_fact_basques	string		lib
+member	CIVIL_EFFECT	bel_fact_berberi	string		lib
+member	CIVIL_EFFECT	bel_fact_bretoni	string		lib
+member	CIVIL_EFFECT	bel_fact_burgundii	string		lib
+member	CIVIL_EFFECT	bel_fact_byzantine_empire	string		lib
+member	CIVIL_EFFECT	bel_fact_byzantine_expedition	string		lib
+member	CIVIL_EFFECT	bel_fact_franci	string		lib
+member	CIVIL_EFFECT	bel_fact_lombardi	string		lib
+member	CIVIL_EFFECT	bel_fact_mauri	string		lib
+member	CIVIL_EFFECT	bel_fact_ostrogothi	string		lib
+member	CIVIL_EFFECT	bel_fact_sardinii	string		lib
+member	CIVIL_EFFECT	bel_fact_suebi	string		lib
+member	CIVIL_EFFECT	bel_fact_vandali	string		lib
+member	CIVIL_EFFECT	bel_fact_visigothi	string		lib
+member	CIVIL_EFFECT	blemmyes	string		lib
+member	CIVIL_EFFECT	cha_fact_ailech	string		lib
+member	CIVIL_EFFECT	cha_fact_alemannia	string		lib
+member	CIVIL_EFFECT	cha_fact_alt_clut	string		lib
+member	CIVIL_EFFECT	cha_fact_angrians	string		lib
+member	CIVIL_EFFECT	cha_fact_aquitane	string		lib
+member	CIVIL_EFFECT	cha_fact_asturias	string		lib
+member	CIVIL_EFFECT	cha_fact_avars	string		lib
+member	CIVIL_EFFECT	cha_fact_badajoz	string		lib
+member	CIVIL_EFFECT	cha_fact_barcelona	string		lib
+member	CIVIL_EFFECT	cha_fact_bavaria	string		lib
+member	CIVIL_EFFECT	cha_fact_benevento	string		lib
+member	CIVIL_EFFECT	cha_fact_bohemia	string		lib
+member	CIVIL_EFFECT	cha_fact_brittany	string		lib
+member	CIVIL_EFFECT	cha_fact_burgundy	string		lib
+member	CIVIL_EFFECT	cha_fact_carloman	string		lib
+member	CIVIL_EFFECT	cha_fact_charlemagne	string		lib
+member	CIVIL_EFFECT	cha_fact_connachta	string		lib
+member	CIVIL_EFFECT	cha_fact_cordoba	string		lib
+member	CIVIL_EFFECT	cha_fact_croatia	string		lib
+member	CIVIL_EFFECT	cha_fact_danes	string		lib
+member	CIVIL_EFFECT	cha_fact_eastphalia	string		lib
+member	CIVIL_EFFECT	cha_fact_frisia	string		lib
+member	CIVIL_EFFECT	cha_fact_gascony	string		lib
+member	CIVIL_EFFECT	cha_fact_glywysing	string		lib
+member	CIVIL_EFFECT	cha_fact_granada	string		lib
+member	CIVIL_EFFECT	cha_fact_gwynedd	string		lib
+member	CIVIL_EFFECT	cha_fact_kent	string		lib
+member	CIVIL_EFFECT	cha_fact_leinster	string		lib
+member	CIVIL_EFFECT	cha_fact_lombards	string		lib
+member	CIVIL_EFFECT	cha_fact_mercia	string		lib
+member	CIVIL_EFFECT	cha_fact_munster	string		lib
+member	CIVIL_EFFECT	cha_fact_nordalingans	string		lib
+member	CIVIL_EFFECT	cha_fact_northumbria	string		lib
+member	CIVIL_EFFECT	cha_fact_obodrites	string		lib
+member	CIVIL_EFFECT	cha_fact_pamplona	string		lib
+member	CIVIL_EFFECT	cha_fact_papal_states	string		lib
+member	CIVIL_EFFECT	cha_fact_picts	string		lib
+member	CIVIL_EFFECT	cha_fact_powys	string		lib
+member	CIVIL_EFFECT	cha_fact_provence	string		lib
+member	CIVIL_EFFECT	cha_fact_sevilla	string		lib
+member	CIVIL_EFFECT	cha_fact_sicily	string		lib
+member	CIVIL_EFFECT	cha_fact_spoleto	string		lib
+member	CIVIL_EFFECT	cha_fact_toledo	string		lib
+member	CIVIL_EFFECT	cha_fact_ulaid	string		lib
+member	CIVIL_EFFECT	cha_fact_valencia	string		lib
+member	CIVIL_EFFECT	cha_fact_venice	string		lib
+member	CIVIL_EFFECT	cha_fact_wessex	string		lib
+member	CIVIL_EFFECT	cha_fact_westphalia	string		lib
+member	CIVIL_EFFECT	cha_fact_wilzi	string		lib
+member	CIVIL_EFFECT	cha_fact_zaragoza	string		lib
+member	CIVIL_EFFECT	heruli	string		lib
+member	CIVIL_EFFECT	iazyges	string		lib
+member	CIVIL_EFFECT	roman	string		lib
+member	CIVIL_EFFECT	roxolani	string		lib
+member	CIVIL_EFFECT	venedi	string		lib
+global	CampaignCharacter	table		lib
+member	CampaignCharacter	ActionPointsRatio	function	C	lib
+member	CampaignCharacter	Release	function	C	lib
+member	CampaignCharacter	new	function	C	lib
+global	CampaignSettlement	table		lib
+member	CampaignSettlement	LabelDetails	function	C	lib
+member	CampaignSettlement	ListDetails	function	C	lib
+member	CampaignSettlement	Release	function	C	lib
+member	CampaignSettlement	Settlement	function	C	lib
+member	CampaignSettlement	new	function	C	lib
+global	CampaignUI	table		lib
+member	CampaignUI	ClearSelection	function	C	lib
+member	CampaignUI	CurrentTabTypename	function	C	lib
+member	CampaignUI	GetCameraPosition	function	C	lib
+member	CampaignUI	HighlightComponent	function	C	lib
+member	CampaignUI	HighlightConstructionItem	function	C	lib
+member	CampaignUI	HighlightRecruitmentItem	function	C	lib
+member	CampaignUI	IsMultiplayer	function	C	lib
+member	CampaignUI	IsPreBattleTypeSiege	function	C	lib
+member	CampaignUI	OverrideLoadingScreenText	function	C	lib
+member	CampaignUI	SetCameraHeading	function	C	lib
+member	CampaignUI	SetCameraTarget	function	C	lib
+member	CampaignUI	SetCameraTargetInstant	function	C	lib
+member	CampaignUI	SetCameraZoom	function	C	lib
+member	CampaignUI	ShowObjective	function	C	lib
+member	CampaignUI	ToggleCinematicBorders	function	C	lib
+member	CampaignUI	ToggleScreenCover	function	C	lib
+member	CampaignUI	UpdateTechButton	function	C	lib
+member	CampaignUI	clear_highlights	function	C	lib
+member	CampaignUI	highlight_character	function	C	lib
+member	CampaignUI	highlight_position	function	C	lib
+member	CampaignUI	highlight_settlement	function	C	lib
+member	CampaignUI	unhighlight_character	function	C	lib
+member	CampaignUI	unhighlight_position	function	C	lib
+member	CampaignUI	unhighlight_settlement	function	C	lib
+global	Can_Faction_Build_Wonder_1	function	Lua	lib
+global	Can_Faction_Build_Wonder_Civic_2	function	Lua	lib
+global	Can_Faction_Build_Wonder_Civic_3	function	Lua	lib
+global	Can_Faction_Build_Wonder_Military_2	function	Lua	lib
+global	Can_Faction_Build_Wonder_Military_3	function	Lua	lib
+global	CharacterCompletedBattle_Tanukhids_Mechanics	function	Lua	lib
+global	CharacterParticipatedAsSecondaryGeneralInBattle_Tanukhids_Mechanics	function	Lua	lib
+global	CharacterPerformsOccupationDecisionRaze_Tanukhids_Mechanics	function	Lua	lib
+global	CharacterRazesRegion	function	Lua	lib
+global	Character_Battle	function	Lua	lib
+global	Check_Axum_Building_Unlocks	function	Lua	lib
+global	Check_Axum_Food_Import	function	Lua	lib
+global	Check_Lakhmid_Sassanid_Peace	function	Lua	lib
+global	Check_Sassanid_Roman_War	function	Lua	lib
+global	Check_Wonder_Unlocks	function	Lua	lib
+global	Check_faction_list	function	Lua	lib
+global	CleanupFinal	function	Lua	lib
+global	Count_Empire_Regions	function	Lua	lib
+global	Count_Hun_Armies_Spawned	number		lib
+global	Create_Flood	function	Lua	lib
+global	Cursor	table		lib
+member	Cursor	DistanceToBL	function	C	lib
+member	Cursor	Mode	function	C	lib
+member	Cursor	ModeString	function	C	lib
+member	Cursor	Modes	function	C	lib
+member	Cursor	SetMode	function	C	lib
+member	Cursor	new	function	C	lib
+global	DAM_DILEMMA_COUNTER	number		lib
+global	DAM_KEY	string		lib
+global	DAM_NOT_REPAIRED_LAST_TIME	boolean		lib
+global	DAM_REPAIR_TRAIT	string		lib
+global	Destroy_Dam	function	Lua	lib
+global	DilemmaChoiceMadeEvent_Dam	function	Lua	lib
+global	DilemmaChoiceMadeEvent_Venedi	function	Lua	lib
+global	DillemaOrIncidentStarted_Antes	function	Lua	lib
+global	DillemaOrIncidentStarted_Dam	function	Lua	lib
+global	DillemaOrIncidentStarted_Religious	function	Lua	lib
+global	DillemaOrIncidentStarted_Venedi	function	Lua	lib
+global	Distance	function	Lua	lib
+global	Do_High_Damage	function	Lua	lib
+global	Do_Low_Damage	function	Lua	lib
+global	Do_Medium_Damage	function	Lua	lib
+global	Does_Dam_Exist	function	Lua	lib
+global	Does_Faction_Own_Resource	function	Lua	lib
+global	Does_Himayar_Own_Zafar	function	Lua	lib
+global	Dogovor_Federati	function	Lua	lib
+global	EASTERN_ROMANS_KEY	string		lib
+global	EASTERN_ROMAN_KEY	string		lib
+global	EAST_ROMAN_EMPIRE_KEY	string		lib
+global	EBDANI_KEY	string		lib
+global	EBDANI_TRIGGERED	number		lib
+global	ELDERS_HUNS_TRIGGERED	boolean		lib
+global	ELDERS_HUNS_TRIGGERED2	boolean		lib
+global	EMPIRE_KEY	string		lib
+global	ERE_TRIGGERED_SRAWN	number		lib
+global	EXPEDITION_KEY	string		lib
+global	Elders_Hunn_Spawn	function	Lua	lib
+global	Elders_Hunn_Spawn2	function	Lua	lib
+global	Enable_Campaign_Menu_Buttons	function	Lua	lib
+global	Enable_Campaign_Settlement_Buttons	function	Lua	lib
+global	Enable_Radar_Rollout_Buttons	function	Lua	lib
+global	Enable_Radar_Values	function	Lua	lib
+global	EpisodicScripting	table		lib
+member	EpisodicScripting	AddEventCallBack	function	Lua	lib
+member	EpisodicScripting	ClearEventCallbacks	function	Lua	lib
+member	EpisodicScripting	ClearMessageAutoShowOverrides	function	Lua	lib
+member	EpisodicScripting	DisableFeature	function	Lua	lib
+member	EpisodicScripting	EnableComponent	function	Lua	lib
+member	EpisodicScripting	EnableFeature	function	Lua	lib
+member	EpisodicScripting	HideComponent	function	Lua	lib
+member	EpisodicScripting	HighlightComponent	function	Lua	lib
+member	EpisodicScripting	HighlightConstructionItem	function	Lua	lib
+member	EpisodicScripting	HighlightRecruitmentItem	function	Lua	lib
+member	EpisodicScripting	InitFeature	function	Lua	lib
+member	EpisodicScripting	IsOnCampaignMap	function	Lua	lib
+member	EpisodicScripting	OnUICreated	function	Lua	lib
+member	EpisodicScripting	OverrideMessageAutoShow	function	Lua	lib
+member	EpisodicScripting	RevealComponent	function	Lua	lib
+member	EpisodicScripting	SetCampaign	function	Lua	lib
+member	EpisodicScripting	ShowHUD	function	Lua	lib
+member	EpisodicScripting	_M	table		lib
+member	EpisodicScripting	_NAME	string		lib
+member	EpisodicScripting	_PACKAGE	string		lib
+global	FACTIONS_LIBERATED	table		lib
+global	FACTIONS_LIBERATED_REQUIRED	number		lib
+global	FACTION_LIST_SCRIPT_INTERFACE	table		lib
+member	FACTION_LIST_SCRIPT_INTERFACE	is_empty	function	C	lib
+member	FACTION_LIST_SCRIPT_INTERFACE	item_at	function	C	lib
+member	FACTION_LIST_SCRIPT_INTERFACE	new	function	C	lib
+member	FACTION_LIST_SCRIPT_INTERFACE	num_items	function	C	lib
+global	FACTION_SCRIPT_INTERFACE	table		lib
+member	FACTION_SCRIPT_INTERFACE	allied_with	function	C	lib
+member	FACTION_SCRIPT_INTERFACE	ancillary_exists	function	C	lib
+member	FACTION_SCRIPT_INTERFACE	at_war	function	C	lib
+member	FACTION_SCRIPT_INTERFACE	at_war_with	function	C	lib
+member	FACTION_SCRIPT_INTERFACE	character_list	function	C	lib
+member	FACTION_SCRIPT_INTERFACE	command_queue_index	function	C	lib
+member	FACTION_SCRIPT_INTERFACE	culture	function	C	lib
+member	FACTION_SCRIPT_INTERFACE	ended_war_this_turn	function	C	lib
+member	FACTION_SCRIPT_INTERFACE	faction_leader	function	C	lib
+member	FACTION_SCRIPT_INTERFACE	has_faction_leader	function	C	lib
+member	FACTION_SCRIPT_INTERFACE	has_food_shortage	function	C	lib
+member	FACTION_SCRIPT_INTERFACE	has_home_region	function	C	lib
+member	FACTION_SCRIPT_INTERFACE	has_technology	function	C	lib
+member	FACTION_SCRIPT_INTERFACE	home_region	function	C	lib
+member	FACTION_SCRIPT_INTERFACE	imperium_level	function	C	lib
+member	FACTION_SCRIPT_INTERFACE	is_horde	function	C	lib
+member	FACTION_SCRIPT_INTERFACE	is_human	function	C	lib
+member	FACTION_SCRIPT_INTERFACE	is_null_interface	function	C	lib
+member	FACTION_SCRIPT_INTERFACE	is_trading_with	function	C	lib
+member	FACTION_SCRIPT_INTERFACE	losing_money	function	C	lib
+member	FACTION_SCRIPT_INTERFACE	military_force_list	function	C	lib
+member	FACTION_SCRIPT_INTERFACE	model	function	C	lib
+member	FACTION_SCRIPT_INTERFACE	name	function	C	lib
+member	FACTION_SCRIPT_INTERFACE	new	function	C	lib
+member	FACTION_SCRIPT_INTERFACE	num_allies	function	C	lib
+member	FACTION_SCRIPT_INTERFACE	num_generals	function	C	lib
+member	FACTION_SCRIPT_INTERFACE	region_list	function	C	lib
+member	FACTION_SCRIPT_INTERFACE	research_queue_idle	function	C	lib
+member	FACTION_SCRIPT_INTERFACE	sea_trade_route_raided	function	C	lib
+member	FACTION_SCRIPT_INTERFACE	started_war_this_turn	function	C	lib
+member	FACTION_SCRIPT_INTERFACE	state_religion	function	C	lib
+member	FACTION_SCRIPT_INTERFACE	state_religion_percentage	function	C	lib
+member	FACTION_SCRIPT_INTERFACE	subculture	function	C	lib
+member	FACTION_SCRIPT_INTERFACE	tax_level	function	C	lib
+member	FACTION_SCRIPT_INTERFACE	trade_resource_exists	function	C	lib
+member	FACTION_SCRIPT_INTERFACE	trade_route_limit_reached	function	C	lib
+member	FACTION_SCRIPT_INTERFACE	trade_ship_not_in_trade_node	function	C	lib
+member	FACTION_SCRIPT_INTERFACE	trade_value	function	C	lib
+member	FACTION_SCRIPT_INTERFACE	trade_value_percent	function	C	lib
+member	FACTION_SCRIPT_INTERFACE	treasury	function	C	lib
+member	FACTION_SCRIPT_INTERFACE	treasury_percent	function	C	lib
+member	FACTION_SCRIPT_INTERFACE	unused_international_trade_route	function	C	lib
+member	FACTION_SCRIPT_INTERFACE	upkeep_expenditure_percent	function	C	lib
+global	FACTION_SEPARATSIT	table		lib
+member	FACTION_SEPARATSIT	absilae	string		lib
+member	FACTION_SEPARATSIT	aorsi	string		lib
+member	FACTION_SEPARATSIT	att_fact_abarshahr	string		lib
+member	FACTION_SEPARATSIT	att_fact_abasgia	string		lib
+member	FACTION_SEPARATSIT	att_fact_aegyptus	string		lib
+member	FACTION_SEPARATSIT	att_fact_africa	string		lib
+member	FACTION_SEPARATSIT	att_fact_afrighids	string		lib
+member	FACTION_SEPARATSIT	att_fact_alamanni	string		lib
+member	FACTION_SEPARATSIT	att_fact_alani	string		lib
+member	FACTION_SEPARATSIT	att_fact_anatolia	string		lib
+member	FACTION_SEPARATSIT	att_fact_angli	string		lib
+member	FACTION_SEPARATSIT	att_fact_antes	string		lib
+member	FACTION_SEPARATSIT	att_fact_aria	string		lib
+member	FACTION_SEPARATSIT	att_fact_armenia	string		lib
+member	FACTION_SEPARATSIT	att_fact_arran	string		lib
+member	FACTION_SEPARATSIT	att_fact_asia	string		lib
+member	FACTION_SEPARATSIT	att_fact_aturpatakan	string		lib
+member	FACTION_SEPARATSIT	att_fact_axum	string		lib
+member	FACTION_SEPARATSIT	att_fact_bastarnae	string		lib
+member	FACTION_SEPARATSIT	att_fact_britannia	string		lib
+member	FACTION_SEPARATSIT	att_fact_budini	string		lib
+member	FACTION_SEPARATSIT	att_fact_burgundii	string		lib
+member	FACTION_SEPARATSIT	att_fact_dacia	string		lib
+member	FACTION_SEPARATSIT	att_fact_dani	string		lib
+member	FACTION_SEPARATSIT	att_fact_eastern_roman_empire	string		lib
+member	FACTION_SEPARATSIT	att_fact_ebdani	string		lib
+member	FACTION_SEPARATSIT	att_fact_franci	string		lib
+member	FACTION_SEPARATSIT	att_fact_gaetuli	string		lib
+member	FACTION_SEPARATSIT	att_fact_gallia	string		lib
+member	FACTION_SEPARATSIT	att_fact_garamantes	string		lib
+member	FACTION_SEPARATSIT	att_fact_gauti	string		lib
+member	FACTION_SEPARATSIT	att_fact_gepidae	string		lib
+member	FACTION_SEPARATSIT	att_fact_ghassanids	string		lib
+member	FACTION_SEPARATSIT	att_fact_greuthingi	string		lib
+member	FACTION_SEPARATSIT	att_fact_himyar	string		lib
+member	FACTION_SEPARATSIT	att_fact_hispania	string		lib
+member	FACTION_SEPARATSIT	att_fact_hunni	string		lib
+member	FACTION_SEPARATSIT	att_fact_iazyges	string		lib
+member	FACTION_SEPARATSIT	att_fact_illyricum	string		lib
+member	FACTION_SEPARATSIT	att_fact_italia	string		lib
+member	FACTION_SEPARATSIT	att_fact_iuti	string		lib
+member	FACTION_SEPARATSIT	att_fact_judea	string		lib
+member	FACTION_SEPARATSIT	att_fact_kartli	string		lib
+member	FACTION_SEPARATSIT	att_fact_lakhmids	string		lib
+member	FACTION_SEPARATSIT	att_fact_langobardi	string		lib
+member	FACTION_SEPARATSIT	att_fact_lazica	string		lib
+member	FACTION_SEPARATSIT	att_fact_lugii	string		lib
+member	FACTION_SEPARATSIT	att_fact_macedonia	string		lib
+member	FACTION_SEPARATSIT	att_fact_magyars	string		lib
+member	FACTION_SEPARATSIT	att_fact_makran	string		lib
+member	FACTION_SEPARATSIT	att_fact_marcomanni	string		lib
+member	FACTION_SEPARATSIT	att_fact_mauri	string		lib
+member	FACTION_SEPARATSIT	att_fact_mazun	string		lib
+member	FACTION_SEPARATSIT	att_fact_nobatia	string		lib
+member	FACTION_SEPARATSIT	att_fact_oriens	string		lib
+member	FACTION_SEPARATSIT	att_fact_ostrogothi	string		lib
+member	FACTION_SEPARATSIT	att_fact_palmyra	string		lib
+member	FACTION_SEPARATSIT	att_fact_parthia	string		lib
+member	FACTION_SEPARATSIT	att_fact_persis	string		lib
+member	FACTION_SEPARATSIT	att_fact_picti	string		lib
+member	FACTION_SEPARATSIT	att_fact_pontus	string		lib
+member	FACTION_SEPARATSIT	att_fact_quadi	string		lib
+member	FACTION_SEPARATSIT	att_fact_roxolani	string		lib
+member	FACTION_SEPARATSIT	att_fact_rugii	string		lib
+member	FACTION_SEPARATSIT	att_fact_sabirs	string		lib
+member	FACTION_SEPARATSIT	att_fact_sassanid_empire	string		lib
+member	FACTION_SEPARATSIT	att_fact_saxones	string		lib
+member	FACTION_SEPARATSIT	att_fact_sclaveni	string		lib
+member	FACTION_SEPARATSIT	att_fact_septem_provinciem	string		lib
+member	FACTION_SEPARATSIT	att_fact_spahan	string		lib
+member	FACTION_SEPARATSIT	att_fact_suebi	string		lib
+member	FACTION_SEPARATSIT	att_fact_tanukhids	string		lib
+member	FACTION_SEPARATSIT	att_fact_thuringi	string		lib
+member	FACTION_SEPARATSIT	att_fact_vandali	string		lib
+member	FACTION_SEPARATSIT	att_fact_varini	string		lib
+member	FACTION_SEPARATSIT	att_fact_venedi	string		lib
+member	FACTION_SEPARATSIT	att_fact_visigothi	string		lib
+member	FACTION_SEPARATSIT	att_fact_votadini	string		lib
+member	FACTION_SEPARATSIT	att_fact_western_roman_empire	string		lib
+member	FACTION_SEPARATSIT	att_fact_white_huns	string		lib
+member	FACTION_SEPARATSIT	attacoti	string		lib
+member	FACTION_SEPARATSIT	bel_fact_basques	string		lib
+member	FACTION_SEPARATSIT	bel_fact_berberi	string		lib
+member	FACTION_SEPARATSIT	bel_fact_bretoni	string		lib
+member	FACTION_SEPARATSIT	bel_fact_burgundii	string		lib
+member	FACTION_SEPARATSIT	bel_fact_byzantine_empire	string		lib
+member	FACTION_SEPARATSIT	bel_fact_byzantine_expedition	string		lib
+member	FACTION_SEPARATSIT	bel_fact_franci	string		lib
+member	FACTION_SEPARATSIT	bel_fact_lombardi	string		lib
+member	FACTION_SEPARATSIT	bel_fact_mauri	string		lib
+member	FACTION_SEPARATSIT	bel_fact_ostrogothi	string		lib
+member	FACTION_SEPARATSIT	bel_fact_sardinii	string		lib
+member	FACTION_SEPARATSIT	bel_fact_suebi	string		lib
+member	FACTION_SEPARATSIT	bel_fact_vandali	string		lib
+member	FACTION_SEPARATSIT	bel_fact_visigothi	string		lib
+member	FACTION_SEPARATSIT	blemmyes	string		lib
+member	FACTION_SEPARATSIT	cha_fact_ailech	string		lib
+member	FACTION_SEPARATSIT	cha_fact_alemannia	string		lib
+member	FACTION_SEPARATSIT	cha_fact_alt_clut	string		lib
+member	FACTION_SEPARATSIT	cha_fact_angrians	string		lib
+member	FACTION_SEPARATSIT	cha_fact_aquitane	string		lib
+member	FACTION_SEPARATSIT	cha_fact_asturias	string		lib
+member	FACTION_SEPARATSIT	cha_fact_avars	string		lib
+member	FACTION_SEPARATSIT	cha_fact_badajoz	string		lib
+member	FACTION_SEPARATSIT	cha_fact_barcelona	string		lib
+member	FACTION_SEPARATSIT	cha_fact_bavaria	string		lib
+member	FACTION_SEPARATSIT	cha_fact_benevento	string		lib
+member	FACTION_SEPARATSIT	cha_fact_bohemia	string		lib
+member	FACTION_SEPARATSIT	cha_fact_brittany	string		lib
+member	FACTION_SEPARATSIT	cha_fact_burgundy	string		lib
+member	FACTION_SEPARATSIT	cha_fact_carloman	string		lib
+member	FACTION_SEPARATSIT	cha_fact_charlemagne	string		lib
+member	FACTION_SEPARATSIT	cha_fact_connachta	string		lib
+member	FACTION_SEPARATSIT	cha_fact_cordoba	string		lib
+member	FACTION_SEPARATSIT	cha_fact_croatia	string		lib
+member	FACTION_SEPARATSIT	cha_fact_danes	string		lib
+member	FACTION_SEPARATSIT	cha_fact_eastphalia	string		lib
+member	FACTION_SEPARATSIT	cha_fact_frisia	string		lib
+member	FACTION_SEPARATSIT	cha_fact_gascony	string		lib
+member	FACTION_SEPARATSIT	cha_fact_glywysing	string		lib
+member	FACTION_SEPARATSIT	cha_fact_granada	string		lib
+member	FACTION_SEPARATSIT	cha_fact_gwynedd	string		lib
+member	FACTION_SEPARATSIT	cha_fact_kent	string		lib
+member	FACTION_SEPARATSIT	cha_fact_leinster	string		lib
+member	FACTION_SEPARATSIT	cha_fact_lombards	string		lib
+member	FACTION_SEPARATSIT	cha_fact_mercia	string		lib
+member	FACTION_SEPARATSIT	cha_fact_munster	string		lib
+member	FACTION_SEPARATSIT	cha_fact_nordalingans	string		lib
+member	FACTION_SEPARATSIT	cha_fact_northumbria	string		lib
+member	FACTION_SEPARATSIT	cha_fact_obodrites	string		lib
+member	FACTION_SEPARATSIT	cha_fact_pamplona	string		lib
+member	FACTION_SEPARATSIT	cha_fact_papal_states	string		lib
+member	FACTION_SEPARATSIT	cha_fact_picts	string		lib
+member	FACTION_SEPARATSIT	cha_fact_powys	string		lib
+member	FACTION_SEPARATSIT	cha_fact_provence	string		lib
+member	FACTION_SEPARATSIT	cha_fact_sevilla	string		lib
+member	FACTION_SEPARATSIT	cha_fact_sicily	string		lib
+member	FACTION_SEPARATSIT	cha_fact_spoleto	string		lib
+member	FACTION_SEPARATSIT	cha_fact_toledo	string		lib
+member	FACTION_SEPARATSIT	cha_fact_ulaid	string		lib
+member	FACTION_SEPARATSIT	cha_fact_valencia	string		lib
+member	FACTION_SEPARATSIT	cha_fact_venice	string		lib
+member	FACTION_SEPARATSIT	cha_fact_wessex	string		lib
+member	FACTION_SEPARATSIT	cha_fact_westphalia	string		lib
+member	FACTION_SEPARATSIT	cha_fact_wilzi	string		lib
+member	FACTION_SEPARATSIT	cha_fact_zaragoza	string		lib
+member	FACTION_SEPARATSIT	heruli	string		lib
+member	FACTION_SEPARATSIT	iazyges	string		lib
+member	FACTION_SEPARATSIT	roman	string		lib
+member	FACTION_SEPARATSIT	roxolani	string		lib
+member	FACTION_SEPARATSIT	venedi	string		lib
+global	FAMILY_MEMBER_SCRIPT_INTERFACE	table		lib
+member	FAMILY_MEMBER_SCRIPT_INTERFACE	come_of_age	function	C	lib
+member	FAMILY_MEMBER_SCRIPT_INTERFACE	father	function	C	lib
+member	FAMILY_MEMBER_SCRIPT_INTERFACE	has_father	function	C	lib
+member	FAMILY_MEMBER_SCRIPT_INTERFACE	has_mother	function	C	lib
+member	FAMILY_MEMBER_SCRIPT_INTERFACE	has_trait	function	C	lib
+member	FAMILY_MEMBER_SCRIPT_INTERFACE	is_null_interface	function	C	lib
+member	FAMILY_MEMBER_SCRIPT_INTERFACE	mother	function	C	lib
+member	FAMILY_MEMBER_SCRIPT_INTERFACE	new	function	C	lib
+global	FEDERATS_PACT	boolean		lib
+global	FEDERATS_TRIGGERED	boolean		lib
+global	FOOD_EFFECT_KEY	string		lib
+global	FOOD_EFFECT_NEW_GAME	boolean		lib
+global	FOOD_EFFECT_TURNS	number		lib
+global	FRANCI_KEY	string		lib
+global	FRANCI_TRIGGERED	number		lib
+global	FactionBecomesLiberationVassal_Tanukhids	function	Lua	lib
+global	FactionEncountersOtherFaction_Antes	function	Lua	lib
+global	FactionIsAlive	function	Lua	lib
+global	FactionTurnEnd_Religious	function	Lua	lib
+global	FactionTurnEnd_Sclaveni	function	Lua	lib
+global	FactionTurnStart_Axum	function	Lua	lib
+global	FactionTurnStart_Axum_Mechanics	function	Lua	lib
+global	FactionTurnStart_CivilWarFix	function	Lua	lib
+global	FactionTurnStart_Lakhmid_Mechanics	function	Lua	lib
+global	FactionTurnStart_Lakhmids	function	Lua	lib
+global	FactionTurnStart_Religious	function	Lua	lib
+global	FactionTurnStart_Religious_Info	function	Lua	lib
+global	FactionTurnStart_Sands	function	Lua	lib
+global	FactionTurnStart_Sclaveni	function	Lua	lib
+global	FactionTurnStart_Slavs	function	Lua	lib
+global	FactionTurnStart_Tanukhids	function	Lua	lib
+global	FactionTurnStart_Venedi	function	Lua	lib
+global	Faction_Heroic_Victories	function	Lua	lib
+global	Faction_State_Religion_Percent	function	Lua	lib
+global	Faction_Trade_Income	function	Lua	lib
+global	FindAlaniSpawn	function	Lua	lib
+global	FindAntSpawn	function	Lua	lib
+global	FindAntiohiaSpawn	function	Lua	lib
+global	FindArabiaSpawn	function	Lua	lib
+global	FindCaledoniaSpawn	function	Lua	lib
+global	FindERESpawn	function	Lua	lib
+global	FindFrisiaSpawn	function	Lua	lib
+global	FindGepidiSpawn	function	Lua	lib
+global	FindGermaniaSpawn	function	Lua	lib
+global	FindGreithungiSpawn	function	Lua	lib
+global	FindIsavriSpawn	function	Lua	lib
+global	FindMacedoniaSpawn	function	Lua	lib
+global	FindOstgotiSpawn	function	Lua	lib
+global	FindRomaMavritaniaSpawn	function	Lua	lib
+global	FindRomanSpawn	function	Lua	lib
+global	FindSarmatov_KvadovSpawn	function	Lua	lib
+global	FindSpawn	function	Lua	lib
+global	FindSpawn0	function	Lua	lib
+global	FindSpawn010	function	Lua	lib
+global	FindSpawn011	function	Lua	lib
+global	FindSpawn012	function	Lua	lib
+global	FindSpawn013	function	Lua	lib
+global	FindSpawn014	function	Lua	lib
+global	FindSpawn015	function	Lua	lib
+global	FindSpawn016	function	Lua	lib
+global	FindSpawn02	function	Lua	lib
+global	FindSpawn03	function	Lua	lib
+global	FindSpawn04	function	Lua	lib
+global	FindSpawn05	function	Lua	lib
+global	FindSpawn06	function	Lua	lib
+global	FindSpawn07	function	Lua	lib
+global	FindSpawn08	function	Lua	lib
+global	FindSpawn09	function	Lua	lib
+global	FindSpawn2	function	Lua	lib
+global	FindSpawnBagaud	function	Lua	lib
+global	FindSpawnEuro	function	Lua	lib
+global	FindVandaliSpawn	function	Lua	lib
+global	FindVandaliSpawn2	function	Lua	lib
+global	FindVestgotiSpawn	function	Lua	lib
+global	FindWRESpawn	function	Lua	lib
+global	Fully_Repair_Dam	function	Lua	lib
+global	GAME	table		lib
+member	GAME	add_agent_experience	function	C	lib
+member	GAME	add_attack_of_opportunity_overrides	function	C	lib
+member	GAME	add_building_model_override	function	C	lib
+member	GAME	add_circle_area_trigger	function	C	lib
+member	GAME	add_custom_battlefield	function	C	lib
+member	GAME	add_development_points_to_region	function	C	lib
+member	GAME	add_event_restricted_building_record	function	C	lib
+member	GAME	add_event_restricted_building_record_for_faction	function	C	lib
+member	GAME	add_event_restricted_unit_record	function	C	lib
+member	GAME	add_event_restricted_unit_record_for_faction	function	C	lib
+member	GAME	add_exclusion_zone	function	C	lib
+member	GAME	add_location_trigger	function	C	lib
+member	GAME	add_marker	function	C	lib
+member	GAME	add_outline_area_trigger	function	C	lib
+member	GAME	add_prestige	function	C	lib
+member	GAME	add_restricted_building_level_record	function	C	lib
+member	GAME	add_restricted_building_level_record_for_faction	function	C	lib
+member	GAME	add_settlement_model_override	function	C	lib
+member	GAME	add_time_trigger	function	C	lib
+member	GAME	add_unit_model_overrides	function	C	lib
+member	GAME	add_unit_to_force	function	C	lib
+member	GAME	add_visibility_trigger	function	C	lib
+member	GAME	advance_to_next_campaign	function	C	lib
+member	GAME	allow_player_to_embark_navies	function	C	lib
+member	GAME	apply_effect_bundle	function	C	lib
+member	GAME	apply_effect_bundle_to_characters_force	function	C	lib
+member	GAME	apply_effect_bundle_to_force	function	C	lib
+member	GAME	apply_effect_bundle_to_region	function	C	lib
+member	GAME	appoint_character_to_most_expensive_force	function	C	lib
+member	GAME	attack	function	C	lib
+member	GAME	autosave_at_next_opportunity	function	C	lib
+member	GAME	award_experience_level	function	C	lib
+member	GAME	cai_strategic_stance_manager_block_all_stances_but_that_specified_towards_target_faction	function	C	lib
+member	GAME	cai_strategic_stance_manager_clear_all_blocking_between_factions	function	C	lib
+member	GAME	cai_strategic_stance_manager_clear_all_promotions_between_factions	function	C	lib
+member	GAME	cai_strategic_stance_manager_force_stance_update_between_factions	function	C	lib
+member	GAME	cai_strategic_stance_manager_promote_specified_stance_towards_target_faction	function	C	lib
+member	GAME	cai_strategic_stance_manager_promote_specified_stance_towards_target_faction_by_number	function	C	lib
+member	GAME	cai_strategic_stance_manager_set_stance_blocking_between_factions_for_a_given_stance	function	C	lib
+member	GAME	cai_strategic_stance_manager_set_stance_promotion_between_factions_for_a_given_stance	function	C	lib
+member	GAME	cancel_actions_for	function	C	lib
+member	GAME	cancel_custom_mission	function	C	lib
+member	GAME	compare_localised_string	function	C	lib
+member	GAME	create_agent	function	C	lib
+member	GAME	create_force	function	C	lib
+member	GAME	disable_elections	function	C	lib
+member	GAME	disable_end_turn	function	C	lib
+member	GAME	disable_movement_for_ai_under_shroud	function	C	lib
+member	GAME	disable_movement_for_character	function	C	lib
+member	GAME	disable_movement_for_faction	function	C	lib
+member	GAME	disable_pathfinding_restriction	function	C	lib
+member	GAME	disable_rebellions_worldwide	function	C	lib
+member	GAME	disable_saving_game	function	C	lib
+member	GAME	disable_shopping_for_ai_under_shroud	function	C	lib
+member	GAME	disable_shortcut	function	C	lib
+member	GAME	dismiss_advice	function	C	lib
+member	GAME	dismiss_advice_at_end_turn	function	C	lib
+member	GAME	display_turns	function	C	lib
+member	GAME	enable_auto_generated_missions	function	C	lib
+member	GAME	enable_movement_for_character	function	C	lib
+member	GAME	enable_movement_for_faction	function	C	lib
+member	GAME	enable_ui	function	C	lib
+member	GAME	end_turn	function	C	lib
+member	GAME	exempt_region_from_tax	function	C	lib
+member	GAME	faction_offers_peace_to_other_faction	function	C	lib
+member	GAME	fade_volume	function	C	lib
+member	GAME	force_add_ancillary	function	C	lib
+member	GAME	force_add_skill	function	C	lib
+member	GAME	force_add_trait	function	C	lib
+member	GAME	force_agent_action_success_for_human	function	C	lib
+member	GAME	force_assassination_success_for_human	function	C	lib
+member	GAME	force_break_alliance	function	C	lib
+member	GAME	force_break_defensive_alliance	function	C	lib
+member	GAME	force_break_military_alliance	function	C	lib
+member	GAME	force_break_non_aggression_pact	function	C	lib
+member	GAME	force_change_cai_faction_personality	function	C	lib
+member	GAME	force_character_force_into_stance	function	C	lib
+member	GAME	force_declare_war	function	C	lib
+member	GAME	force_diplomacy	function	C	lib
+member	GAME	force_garrison_infiltration_success_for_human	function	C	lib
+member	GAME	force_make_peace	function	C	lib
+member	GAME	force_make_trade_agreement	function	C	lib
+member	GAME	force_make_vassal	function	C	lib
+member	GAME	force_rebellion_in_region	function	C	lib
+member	GAME	grant_faction_handover	function	C	lib
+member	GAME	grant_unit	function	C	lib
+member	GAME	hide_character	function	C	lib
+member	GAME	infect_force_with_plague	function	C	lib
+member	GAME	infect_region_with_plague	function	C	lib
+member	GAME	instant_set_building_health_percent	function	C	lib
+member	GAME	instantly_dismantle_building	function	C	lib
+member	GAME	instantly_repair_building	function	C	lib
+member	GAME	is_new_game	function	C	lib
+member	GAME	join_garrison	function	C	lib
+member	GAME	kill_character	function	C	lib
+member	GAME	leave_garrison	function	C	lib
+member	GAME	load_named_value	function	C	lib
+member	GAME	lock_technology	function	C	lib
+member	GAME	make_neighbouring_regions_seen_in_shroud	function	C	lib
+member	GAME	make_neighbouring_regions_visible_in_shroud	function	C	lib
+member	GAME	make_region_seen_in_shroud	function	C	lib
+member	GAME	make_region_visible_in_shroud	function	C	lib
+member	GAME	make_sea_region_seen_in_shroud	function	C	lib
+member	GAME	make_sea_region_visible_in_shroud	function	C	lib
+member	GAME	make_son_come_of_age	function	C	lib
+member	GAME	model	function	C	lib
+member	GAME	modify_next_autoresolve_battle	function	C	lib
+member	GAME	move_to	function	C	lib
+member	GAME	new	function	C	lib
+member	GAME	optional_extras_for_episodics	function	C	lib
+member	GAME	override_attacker_win_chance_prediction	function	C	lib
+member	GAME	override_mission_succeeded_status	function	C	lib
+member	GAME	override_ui	function	C	lib
+member	GAME	pending_auto_show_messages	function	C	lib
+member	GAME	play_movie_in_ui	function	C	lib
+member	GAME	play_sound	function	C	lib
+member	GAME	register_instant_movie	function	C	lib
+member	GAME	register_movies	function	C	lib
+member	GAME	register_outro_movie	function	C	lib
+member	GAME	remove_area_trigger	function	C	lib
+member	GAME	remove_attack_of_opportunity_overrides	function	C	lib
+member	GAME	remove_building_model_override	function	C	lib
+member	GAME	remove_custom_battlefield	function	C	lib
+member	GAME	remove_effect_bundle	function	C	lib
+member	GAME	remove_effect_bundle_from_characters_force	function	C	lib
+member	GAME	remove_effect_bundle_from_force	function	C	lib
+member	GAME	remove_effect_bundle_from_region	function	C	lib
+member	GAME	remove_event_restricted_building_record	function	C	lib
+member	GAME	remove_event_restricted_building_record_for_faction	function	C	lib
+member	GAME	remove_event_restricted_unit_record	function	C	lib
+member	GAME	remove_event_restricted_unit_record_for_faction	function	C	lib
+member	GAME	remove_location_trigger	function	C	lib
+member	GAME	remove_marker	function	C	lib
+member	GAME	remove_restricted_building_level_record	function	C	lib
+member	GAME	remove_restricted_building_level_record_for_faction	function	C	lib
+member	GAME	remove_settlement_model_override	function	C	lib
+member	GAME	remove_time_trigger	function	C	lib
+member	GAME	remove_visibility_trigger	function	C	lib
+member	GAME	render_campaign_to_file	function	C	lib
+member	GAME	replenish_action_points	function	C	lib
+member	GAME	restore_shroud_from_snapshot	function	C	lib
+member	GAME	save_named_value	function	C	lib
+member	GAME	scroll_camera	function	C	lib
+member	GAME	scroll_camera_with_direction	function	C	lib
+member	GAME	seek_exchange	function	C	lib
+member	GAME	set_ai_uses_human_display_speed	function	C	lib
+member	GAME	set_campaign_ai_force_all_factions_boardering_human_vassals_to_have_invasion_behaviour	function	C	lib
+member	GAME	set_campaign_ai_force_all_factions_boardering_humans_to_have_invasion_behaviour	function	C	lib
+member	GAME	set_character_experience_disabled	function	C	lib
+member	GAME	set_character_immortality	function	C	lib
+member	GAME	set_character_skill_tier_limit	function	C	lib
+member	GAME	set_event_generation_enabled	function	C	lib
+member	GAME	set_faction_name_override	function	C	lib
+member	GAME	set_faction_summary_override	function	C	lib
+member	GAME	set_general_offered_dilemma_permitted	function	C	lib
+member	GAME	set_ignore_end_of_turn_public_order	function	C	lib
+member	GAME	set_imperium_level_change_disabled	function	C	lib
+member	GAME	set_liberation_options_disabled	function	C	lib
+member	GAME	set_looting_options_disabled_for_human	function	C	lib
+member	GAME	set_non_scripted_ancillaries_disabled	function	C	lib
+member	GAME	set_non_scripted_traits_disabled	function	C	lib
+member	GAME	set_only_allow_basic_recruit_stance	function	C	lib
+member	GAME	set_public_order_disabled_for_province_for_region	function	C	lib
+member	GAME	set_public_order_of_province_for_region	function	C	lib
+member	GAME	set_region_abandoned	function	C	lib
+member	GAME	set_tax_disabled	function	C	lib
+member	GAME	set_tax_rate	function	C	lib
+member	GAME	set_technology_research_disabled	function	C	lib
+member	GAME	set_ui_notification_of_victory_disabled	function	C	lib
+member	GAME	set_volume	function	C	lib
+member	GAME	set_zoom_limit	function	C	lib
+member	GAME	show_message_event	function	C	lib
+member	GAME	show_message_event_located	function	C	lib
+member	GAME	show_shroud	function	C	lib
+member	GAME	shown_message	function	C	lib
+member	GAME	shutdown	function	C	lib
+member	GAME	spawn_character_into_family_tree	function	C	lib
+member	GAME	speedup_active	function	C	lib
+member	GAME	steal_user_input	function	C	lib
+member	GAME	stop_camera	function	C	lib
+member	GAME	stop_sound	function	C	lib
+member	GAME	stop_user_input	function	C	lib
+member	GAME	take_shroud_snapshot	function	C	lib
+member	GAME	technology_osmosis_for_playables_enable_all	function	C	lib
+member	GAME	technology_osmosis_for_playables_enable_culture	function	C	lib
+member	GAME	toggle_speedup	function	C	lib
+member	GAME	transfer_region_to_faction	function	C	lib
+member	GAME	treasury_mod	function	C	lib
+member	GAME	trigger_custom_dilemma	function	C	lib
+member	GAME	trigger_custom_mission	function	C	lib
+member	GAME	trigger_dilemma	function	C	lib
+member	GAME	trigger_incident	function	C	lib
+member	GAME	trigger_mission	function	C	lib
+member	GAME	unhide_character	function	C	lib
+member	GAME	unlock_technology	function	C	lib
+member	GAME	win_next_autoresolve_battle	function	C	lib
+member	GAME	zero_action_points	function	C	lib
+global	GARAMANTI_KEY	string		lib
+global	GARRISON_RESIDENCE_SCRIPT_INTERFACE	table		lib
+member	GARRISON_RESIDENCE_SCRIPT_INTERFACE	army	function	C	lib
+member	GARRISON_RESIDENCE_SCRIPT_INTERFACE	buildings	function	C	lib
+member	GARRISON_RESIDENCE_SCRIPT_INTERFACE	can_assault	function	C	lib
+member	GARRISON_RESIDENCE_SCRIPT_INTERFACE	faction	function	C	lib
+member	GARRISON_RESIDENCE_SCRIPT_INTERFACE	has_army	function	C	lib
+member	GARRISON_RESIDENCE_SCRIPT_INTERFACE	has_navy	function	C	lib
+member	GARRISON_RESIDENCE_SCRIPT_INTERFACE	is_null_interface	function	C	lib
+member	GARRISON_RESIDENCE_SCRIPT_INTERFACE	is_settlement	function	C	lib
+member	GARRISON_RESIDENCE_SCRIPT_INTERFACE	is_slot	function	C	lib
+member	GARRISON_RESIDENCE_SCRIPT_INTERFACE	is_under_siege	function	C	lib
+member	GARRISON_RESIDENCE_SCRIPT_INTERFACE	model	function	C	lib
+member	GARRISON_RESIDENCE_SCRIPT_INTERFACE	navy	function	C	lib
+member	GARRISON_RESIDENCE_SCRIPT_INTERFACE	new	function	C	lib
+member	GARRISON_RESIDENCE_SCRIPT_INTERFACE	region	function	C	lib
+member	GARRISON_RESIDENCE_SCRIPT_INTERFACE	settlement_interface	function	C	lib
+member	GARRISON_RESIDENCE_SCRIPT_INTERFACE	slot_interface	function	C	lib
+member	GARRISON_RESIDENCE_SCRIPT_INTERFACE	unit_count	function	C	lib
+global	GEPIDI_TRIGGERED	number		lib
+global	GEPIDS_KEY	string		lib
+global	GETI_KEY	string		lib
+global	GOLD_REGIONS	table		lib
+global	GREITUNGI_KEY	string		lib
+global	GREITUNGI_LEADER	number		lib
+global	GREITUNGI_LEADER_DEAD	number		lib
+global	GREITUNGI_TRIGGERED	boolean		lib
+global	GREITUNGI_TRIGGERED2	boolean		lib
+global	GROWTH_EFFECTS	table		lib
+global	GarrisonOccupiedEvent_Axum	function	Lua	lib
+global	GarrisonOccupiedEvent_CivilWarFix	function	Lua	lib
+global	GarrisonOccupiedEvent_Dam	function	Lua	lib
+global	GarrisonOccupiedEvent_Slavs	function	Lua	lib
+global	Get_Chain_Religion	function	Lua	lib
+global	Get_Dam_Health	function	Lua	lib
+global	Get_Opposite_Religion	function	Lua	lib
+global	GiveRebelsForces	function	Lua	lib
+global	Great_Exodus	function	Lua	lib
+global	Great_Invasion	function	Lua	lib
+global	HERULI_KEY	string		lib
+global	HIMYAR_CAPITAL_POS_X	number		lib
+global	HIMYAR_CAPITAL_POS_Y	number		lib
+global	HIMYAR_KEY	string		lib
+global	HUNS_MLAD_KEY	string		lib
+global	HUNS_MLAD_TRIGGERED	boolean		lib
+global	HUNS_MLAD_TRIGGERED2	boolean		lib
+global	HUNS_MLAD_TRIGGERED3	boolean		lib
+global	HUNS_MLAD_TRIGGERED4	number		lib
+global	HUNS_SRED_KEY	string		lib
+global	HUNS_SRED_TRIGGERED	boolean		lib
+global	HUNS_SRED_TRIGGERED2	boolean		lib
+global	HUNS_SRED_TRIGGERED3	boolean		lib
+global	HUNS_STAP_KEY	string		lib
+global	HUNS_TRIGGERED	boolean		lib
+global	HUNS_TRIGGERED1	boolean		lib
+global	HUNS_TRIGGERED2	boolean		lib
+global	HUN_PRESERVATION_SYSTEM_SAFE_AI_DISTANCE_TO_SPAWNPOINT_SQUARED	number		lib
+global	HUN_PRESERVATION_SYSTEM_SAFE_DISTANCE_TO_BATTLE_SQUARED	number		lib
+global	HUN_PRESERVATION_SYSTEM_SAFE_HUNNIC_AI_DISTANCE_TO_SPAWNPOINT_SQUARED	number		lib
+global	HUN_PRESERVATION_SYSTEM_SAFE_PLAYER_DISTANCE_TO_SPAWNPOINT_SQUARED	number		lib
+global	Has_Required_Regions	function	Lua	lib
+global	Hunn_Mlad_Spawn	function	Lua	lib
+global	Hunn_Mlad_Spawn2	function	Lua	lib
+global	Hunn_Mlad_Spawn3	function	Lua	lib
+global	Hunn_Mlad_Spawn4	function	Lua	lib
+global	Hunn_Mlad_Spawn5	function	Lua	lib
+global	Hunn_Spawn	function	Lua	lib
+global	Hunn_Spawn1	function	Lua	lib
+global	Hunn_Spawn2	function	Lua	lib
+global	Hunn_Sred_Spawn	function	Lua	lib
+global	Hunn_Sred_Spawn2	function	Lua	lib
+global	Hunn_Sred_Spawn3	function	Lua	lib
+global	IAZYGES_KEY	string		lib
+global	INCIDENT_DUE	string		lib
+global	INSULT_START_DILEMMA	string		lib
+global	INSURGENT_KEY	string		lib
+global	INT_Attila_Story_Num_Times_Attila_Lost	number		lib
+global	INT_Attila_Story_System_State	number		lib
+global	INT_Attila_Story_Times_Player_Defeated_Attila	number		lib
+global	INT_Hun_Reinforcements_Last_Turn_Fired	number		lib
+global	INT_Number_Of_Heroic_Victories	number		lib
+global	INT_Number_Of_Resources	number		lib
+global	INVASION_BAGAUDAE_TURN	number		lib
+global	INVASION_HUNN_ELDERS_TURN	number		lib
+global	INVASION_HUNN_ELDERS_TURN2	number		lib
+global	INVASION_HUNN_MLAD_TURN	number		lib
+global	INVASION_HUNN_MLAD_TURN10	number		lib
+global	INVASION_HUNN_MLAD_TURN2	number		lib
+global	INVASION_HUNN_MLAD_TURN3	number		lib
+global	INVASION_HUNN_MLAD_TURN4	number		lib
+global	INVASION_HUNN_MLAD_TURN5	number		lib
+global	INVASION_HUNN_MLAD_TURN6	number		lib
+global	INVASION_HUNN_MLAD_TURN7	number		lib
+global	INVASION_HUNN_MLAD_TURN8	number		lib
+global	INVASION_HUNN_MLAD_TURN9	number		lib
+global	INVASION_HUNN_SRED_TURN	number		lib
+global	INVASION_HUNN_SRED_TURN2	number		lib
+global	INVASION_HUNN_SRED_TURN3	number		lib
+global	INVASION_HUNN_TURN	number		lib
+global	INVASION_HUNN_TURN1	number		lib
+global	INVASION_HUNN_TURN2	number		lib
+global	ISAVRI_KEY	string		lib
+global	ISAVRI_TRIGGERED	boolean		lib
+global	Immortality_Character_Check	function	Lua	lib
+global	Immortality_character	table		lib
+global	IncidentOccured_Lakhmids	function	Lua	lib
+global	Inflation	function	Lua	lib
+global	Inflation1	function	Lua	lib
+global	Inflation2	function	Lua	lib
+global	Initial_Building_Locking_Check	function	Lua	lib
+global	IsValidSpawn	function	Lua	lib
+global	Is_Leader_Great_Engineer	function	Lua	lib
+global	KVADI_KEY	string		lib
+global	KVADI_TRIGGERED	number		lib
+global	Keyboard	table		lib
+member	Keyboard	DisableQuickload	function	C	lib
+member	Keyboard	ReturnKey	function	C	lib
+member	Keyboard	StealKey	function	C	lib
+global	LAKHMIDI_KEY	string		lib
+global	LAKHMIDS_KEY	string		lib
+global	LANGOBARDI_KEY	string		lib
+global	LANGOBARDI_TRIGGERED	number		lib
+global	LENGTH_OF_BUNDLES	number		lib
+global	LIBERATION_MISSION_ACTIVE	boolean		lib
+global	MACEDONIA_TRIGGERED	boolean		lib
+global	MAVRITANIA_TRIGGERED	boolean		lib
+global	MAX_NUMBER_OF_TRAITS_TO_ADD_PER_TICK	number		lib
+global	MILITARY_FORCE_LIST_SCRIPT_INTERFACE	table		lib
+member	MILITARY_FORCE_LIST_SCRIPT_INTERFACE	is_empty	function	C	lib
+member	MILITARY_FORCE_LIST_SCRIPT_INTERFACE	item_at	function	C	lib
+member	MILITARY_FORCE_LIST_SCRIPT_INTERFACE	new	function	C	lib
+member	MILITARY_FORCE_LIST_SCRIPT_INTERFACE	num_items	function	C	lib
+global	MILITARY_FORCE_SCRIPT_INTERFACE	table		lib
+member	MILITARY_FORCE_SCRIPT_INTERFACE	active_stance	function	C	lib
+member	MILITARY_FORCE_SCRIPT_INTERFACE	building_exists	function	C	lib
+member	MILITARY_FORCE_SCRIPT_INTERFACE	buildings	function	C	lib
+member	MILITARY_FORCE_SCRIPT_INTERFACE	can_activate_stance	function	C	lib
+member	MILITARY_FORCE_SCRIPT_INTERFACE	character_list	function	C	lib
+member	MILITARY_FORCE_SCRIPT_INTERFACE	command_queue_index	function	C	lib
+member	MILITARY_FORCE_SCRIPT_INTERFACE	contains_mercenaries	function	C	lib
+member	MILITARY_FORCE_SCRIPT_INTERFACE	faction	function	C	lib
+member	MILITARY_FORCE_SCRIPT_INTERFACE	garrison_residence	function	C	lib
+member	MILITARY_FORCE_SCRIPT_INTERFACE	general_character	function	C	lib
+member	MILITARY_FORCE_SCRIPT_INTERFACE	has_garrison_residence	function	C	lib
+member	MILITARY_FORCE_SCRIPT_INTERFACE	has_general	function	C	lib
+member	MILITARY_FORCE_SCRIPT_INTERFACE	is_army	function	C	lib
+member	MILITARY_FORCE_SCRIPT_INTERFACE	is_horde	function	C	lib
+member	MILITARY_FORCE_SCRIPT_INTERFACE	is_navy	function	C	lib
+member	MILITARY_FORCE_SCRIPT_INTERFACE	is_null_interface	function	C	lib
+member	MILITARY_FORCE_SCRIPT_INTERFACE	model	function	C	lib
+member	MILITARY_FORCE_SCRIPT_INTERFACE	new	function	C	lib
+member	MILITARY_FORCE_SCRIPT_INTERFACE	unit_list	function	C	lib
+member	MILITARY_FORCE_SCRIPT_INTERFACE	upkeep	function	C	lib
+global	MODEL_SCRIPT_INTERFACE	table		lib
+member	MODEL_SCRIPT_INTERFACE	campaign_ai	function	C	lib
+member	MODEL_SCRIPT_INTERFACE	campaign_name	function	C	lib
+member	MODEL_SCRIPT_INTERFACE	campaign_type	function	C	lib
+member	MODEL_SCRIPT_INTERFACE	character_can_reach_character	function	C	lib
+member	MODEL_SCRIPT_INTERFACE	character_for_command_queue_index	function	C	lib
+member	MODEL_SCRIPT_INTERFACE	date_and_week_in_range	function	C	lib
+member	MODEL_SCRIPT_INTERFACE	date_in_range	function	C	lib
+member	MODEL_SCRIPT_INTERFACE	difficulty_level	function	C	lib
+member	MODEL_SCRIPT_INTERFACE	faction_for_command_queue_index	function	C	lib
+member	MODEL_SCRIPT_INTERFACE	faction_is_local	function	C	lib
+member	MODEL_SCRIPT_INTERFACE	has_character_command_queue_index	function	C	lib
+member	MODEL_SCRIPT_INTERFACE	has_faction_command_queue_index	function	C	lib
+member	MODEL_SCRIPT_INTERFACE	has_military_force_command_queue_index	function	C	lib
+member	MODEL_SCRIPT_INTERFACE	is_multiplayer	function	C	lib
+member	MODEL_SCRIPT_INTERFACE	is_null_interface	function	C	lib
+member	MODEL_SCRIPT_INTERFACE	is_player_turn	function	C	lib
+member	MODEL_SCRIPT_INTERFACE	military_force_for_command_queue_index	function	C	lib
+member	MODEL_SCRIPT_INTERFACE	new	function	C	lib
+member	MODEL_SCRIPT_INTERFACE	pending_battle	function	C	lib
+member	MODEL_SCRIPT_INTERFACE	player_steam_id_is_odd	function	C	lib
+member	MODEL_SCRIPT_INTERFACE	random_percent	function	C	lib
+member	MODEL_SCRIPT_INTERFACE	season	function	C	lib
+member	MODEL_SCRIPT_INTERFACE	turn_number	function	C	lib
+member	MODEL_SCRIPT_INTERFACE	world	function	C	lib
+global	MPAvatar	table		lib
+member	MPAvatar	Free	function	C	lib
+member	MPAvatar	SetComponentTexture	function	C	lib
+member	MPAvatar	Valid	function	C	lib
+member	MPAvatar	new	function	C	lib
+global	Make_Leader_Great_Engineer	function	Lua	lib
+global	MissionFailed_Sclaveni	function	Lua	lib
+global	MissionIssued_Sclaveni	function	Lua	lib
+global	MissionIssued_Tanukhids	function	Lua	lib
+global	MissionSucceeded_Sclaveni	function	Lua	lib
+global	NEW_WRE_Check	function	Lua	lib
+global	NULL_SCRIPT_INTERFACE	table		lib
+member	NULL_SCRIPT_INTERFACE	is_null_interface	function	C	lib
+member	NULL_SCRIPT_INTERFACE	new	function	C	lib
+global	OSTGOTHS_KEY	string		lib
+global	OSTGOTI_TRIGGERED	number		lib
+global	Obbyavit_Mir	function	Lua	lib
+global	Obbyavit_Vassal	function	Lua	lib
+global	Obbyavit_Vassal1	function	Lua	lib
+global	Obbyavit_Voinu	function	Lua	lib
+global	Obbyavit_Voinu1	function	Lua	lib
+global	Obbyavit_Voinu2	function	Lua	lib
+global	Obbyavit_Voinu_Rimu	function	Lua	lib
+global	Obbyavit_Voinu_WRE	function	Lua	lib
+global	Obbyavit_dip_otn_ne_igrok	function	Lua	lib
+global	Obbyavit_dip_otn_ne_igrok2	function	Lua	lib
+global	Obbyavit_dip_otn_ne_igrok3	function	Lua	lib
+global	OnKeyPressed	function	Lua	lib
+global	PENDING_BATTLE_SCRIPT_INTERFACE	table		lib
+member	PENDING_BATTLE_SCRIPT_INTERFACE	ambush_battle	function	C	lib
+member	PENDING_BATTLE_SCRIPT_INTERFACE	attacker	function	C	lib
+member	PENDING_BATTLE_SCRIPT_INTERFACE	attacker_battle_result	function	C	lib
+member	PENDING_BATTLE_SCRIPT_INTERFACE	attacker_commander_fought_in_battle	function	C	lib
+member	PENDING_BATTLE_SCRIPT_INTERFACE	attacker_commander_fought_in_melee	function	C	lib
+member	PENDING_BATTLE_SCRIPT_INTERFACE	attacker_is_stronger	function	C	lib
+member	PENDING_BATTLE_SCRIPT_INTERFACE	attacker_strength	function	C	lib
+member	PENDING_BATTLE_SCRIPT_INTERFACE	battle_type	function	C	lib
+member	PENDING_BATTLE_SCRIPT_INTERFACE	contested_garrison	function	C	lib
+member	PENDING_BATTLE_SCRIPT_INTERFACE	defender	function	C	lib
+member	PENDING_BATTLE_SCRIPT_INTERFACE	defender_battle_result	function	C	lib
+member	PENDING_BATTLE_SCRIPT_INTERFACE	defender_commander_fought_in_battle	function	C	lib
+member	PENDING_BATTLE_SCRIPT_INTERFACE	defender_commander_fought_in_melee	function	C	lib
+member	PENDING_BATTLE_SCRIPT_INTERFACE	defender_strength	function	C	lib
+member	PENDING_BATTLE_SCRIPT_INTERFACE	failed_ambush_battle	function	C	lib
+member	PENDING_BATTLE_SCRIPT_INTERFACE	has_attacker	function	C	lib
+member	PENDING_BATTLE_SCRIPT_INTERFACE	has_contested_garrison	function	C	lib
+member	PENDING_BATTLE_SCRIPT_INTERFACE	has_defender	function	C	lib
+member	PENDING_BATTLE_SCRIPT_INTERFACE	is_active	function	C	lib
+member	PENDING_BATTLE_SCRIPT_INTERFACE	is_null_interface	function	C	lib
+member	PENDING_BATTLE_SCRIPT_INTERFACE	model	function	C	lib
+member	PENDING_BATTLE_SCRIPT_INTERFACE	naval_battle	function	C	lib
+member	PENDING_BATTLE_SCRIPT_INTERFACE	new	function	C	lib
+member	PENDING_BATTLE_SCRIPT_INTERFACE	night_battle	function	C	lib
+member	PENDING_BATTLE_SCRIPT_INTERFACE	percentage_of_attacker_killed	function	C	lib
+member	PENDING_BATTLE_SCRIPT_INTERFACE	percentage_of_attacker_routed	function	C	lib
+member	PENDING_BATTLE_SCRIPT_INTERFACE	percentage_of_defender_killed	function	C	lib
+member	PENDING_BATTLE_SCRIPT_INTERFACE	percentage_of_defender_routed	function	C	lib
+member	PENDING_BATTLE_SCRIPT_INTERFACE	seige_battle	function	C	lib
+global	PEREMIRIE	number		lib
+global	PICTI_KEY	string		lib
+global	PICTI_TRIGGERED	number		lib
+global	PanelOpenedCampaign_Dam	function	Lua	lib
+global	PanelOpenedCampaign_Dam_Mechanics	function	Lua	lib
+global	PanelOpenedCampaign_Religious	function	Lua	lib
+global	Queue_Dam_Message	function	Lua	lib
+global	REBEL_MAVRITANIA_KEY	string		lib
+global	REGIONS_TO_UNLOCK	number		lib
+global	REGIONS_WRE	table		lib
+global	REGION_LIST_SCRIPT_INTERFACE	table		lib
+member	REGION_LIST_SCRIPT_INTERFACE	is_empty	function	C	lib
+member	REGION_LIST_SCRIPT_INTERFACE	item_at	function	C	lib
+member	REGION_LIST_SCRIPT_INTERFACE	new	function	C	lib
+member	REGION_LIST_SCRIPT_INTERFACE	num_items	function	C	lib
+global	REGION_MANAGER_SCRIPT_INTERFACE	table		lib
+member	REGION_MANAGER_SCRIPT_INTERFACE	faction_region_list	function	C	lib
+member	REGION_MANAGER_SCRIPT_INTERFACE	is_null_interface	function	C	lib
+member	REGION_MANAGER_SCRIPT_INTERFACE	model	function	C	lib
+member	REGION_MANAGER_SCRIPT_INTERFACE	new	function	C	lib
+member	REGION_MANAGER_SCRIPT_INTERFACE	region_by_key	function	C	lib
+member	REGION_MANAGER_SCRIPT_INTERFACE	region_list	function	C	lib
+member	REGION_MANAGER_SCRIPT_INTERFACE	resource_exists_anywhere	function	C	lib
+member	REGION_MANAGER_SCRIPT_INTERFACE	settlement_by_key	function	C	lib
+member	REGION_MANAGER_SCRIPT_INTERFACE	slot_by_key	function	C	lib
+global	REGION_SCRIPT_INTERFACE	table		lib
+member	REGION_SCRIPT_INTERFACE	adjacent_region_list	function	C	lib
+member	REGION_SCRIPT_INTERFACE	building_exists	function	C	lib
+member	REGION_SCRIPT_INTERFACE	building_superchain_exists	function	C	lib
+member	REGION_SCRIPT_INTERFACE	garrison_residence	function	C	lib
+member	REGION_SCRIPT_INTERFACE	governor	function	C	lib
+member	REGION_SCRIPT_INTERFACE	has_governor	function	C	lib
+member	REGION_SCRIPT_INTERFACE	is_null_interface	function	C	lib
+member	REGION_SCRIPT_INTERFACE	last_building_constructed_key	function	C	lib
+member	REGION_SCRIPT_INTERFACE	majority_religion	function	C	lib
+member	REGION_SCRIPT_INTERFACE	majority_religion_percentage	function	C	lib
+member	REGION_SCRIPT_INTERFACE	model	function	C	lib
+member	REGION_SCRIPT_INTERFACE	name	function	C	lib
+member	REGION_SCRIPT_INTERFACE	new	function	C	lib
+member	REGION_SCRIPT_INTERFACE	num_buildings	function	C	lib
+member	REGION_SCRIPT_INTERFACE	owning_faction	function	C	lib
+member	REGION_SCRIPT_INTERFACE	public_order	function	C	lib
+member	REGION_SCRIPT_INTERFACE	region_wealth_change_percent	function	C	lib
+member	REGION_SCRIPT_INTERFACE	resource_exists	function	C	lib
+member	REGION_SCRIPT_INTERFACE	sanitation	function	C	lib
+member	REGION_SCRIPT_INTERFACE	settlement	function	C	lib
+member	REGION_SCRIPT_INTERFACE	slot_list	function	C	lib
+member	REGION_SCRIPT_INTERFACE	slot_type_exists	function	C	lib
+member	REGION_SCRIPT_INTERFACE	squalor	function	C	lib
+member	REGION_SCRIPT_INTERFACE	town_wealth_growth	function	C	lib
+global	RELIGIOUS_BUILDING_COUNT	number		lib
+global	RELIGIOUS_DILEMMA	string		lib
+global	RELIGIOUS_PAYOFF_COST	number		lib
+global	RELIGIOUS_PERCENTAGE_TRIGGER	number		lib
+global	REPAIR_TIMER	number		lib
+global	ROBBERS_HUNN_KEY	string		lib
+global	ROMAN_EMPIRE	boolean		lib
+global	ROMAN_SETTLEMENTS_RAZED	number		lib
+global	ROMAN_SETTLEMENTS_RAZED_REQUIREMENT	number		lib
+global	ROMAN_TRIGGERED	boolean		lib
+global	ROMAN_TRIGGERED2	boolean		lib
+global	ROXOLANI_KEY	string		lib
+global	ROXOLANI_TRIGGERED	number		lib
+global	RUGII_KEY	string		lib
+global	Rebel_Character_Spawns	function	Lua	lib
+global	Record_Building	function	Lua	lib
+global	RegionTurnStart_Dam	function	Lua	lib
+global	Remove_Tanukhid_Effects	function	Lua	lib
+global	Rename_Faction	function	Lua	lib
+global	Repair_Bonus_Event	function	Lua	lib
+global	Restrict_Empire_Vassalage	function	Lua	lib
+global	SAFE_DISTANCE_FROM_OTHER_FACTIONS	number		lib
+global	SAFE_DISTANCE_FROM_PLAYER	number		lib
+global	SARACINI_KEY	string		lib
+global	SARACINI_SRAWN	number		lib
+global	SASSANID_KEY	string		lib
+global	SASSANID_WAR_MAX_TURN	number		lib
+global	SASSANID_WAR_MIN_TURN	number		lib
+global	SAXI_KEY	string		lib
+global	SAXI_TRIGGERED	number		lib
+global	SCLAVENI_KEY	string		lib
+global	SCLAVENI_MISSION	string		lib
+global	SCLAVENI_MISSION_COUNTER	number		lib
+global	SCLAVENI_MISSION_DEFENSIVE_REQUIREMENT	number		lib
+global	SCLAVENI_MISSION_OFFENSIVE_REQUIREMENT	number		lib
+global	SETTLEMENT_SCRIPT_INTERFACE	table		lib
+member	SETTLEMENT_SCRIPT_INTERFACE	commander	function	C	lib
+member	SETTLEMENT_SCRIPT_INTERFACE	display_position_x	function	C	lib
+member	SETTLEMENT_SCRIPT_INTERFACE	display_position_y	function	C	lib
+member	SETTLEMENT_SCRIPT_INTERFACE	faction	function	C	lib
+member	SETTLEMENT_SCRIPT_INTERFACE	has_commander	function	C	lib
+member	SETTLEMENT_SCRIPT_INTERFACE	is_null_interface	function	C	lib
+member	SETTLEMENT_SCRIPT_INTERFACE	logical_position_x	function	C	lib
+member	SETTLEMENT_SCRIPT_INTERFACE	logical_position_y	function	C	lib
+member	SETTLEMENT_SCRIPT_INTERFACE	model	function	C	lib
+member	SETTLEMENT_SCRIPT_INTERFACE	new	function	C	lib
+member	SETTLEMENT_SCRIPT_INTERFACE	region	function	C	lib
+member	SETTLEMENT_SCRIPT_INTERFACE	slot_list	function	C	lib
+global	SLAV_FACTIONS	table		lib
+global	SLAV_RESOURCES_GEMS	table		lib
+global	SLAV_RESOURCES_GOLD	table		lib
+global	SLAV_RESOURCES_IRON	table		lib
+global	SLAV_RESOURCES_LEAD	table		lib
+global	SLAV_RESOURCES_MARBLE	table		lib
+global	SLAV_RESOURCES_WOOD	table		lib
+global	SLAV_WINS_ANTES	number		lib
+global	SLAV_WINS_SCLAVENI	number		lib
+global	SLAV_WINS_VENEDI	number		lib
+global	SLAV_WONDER_1	string		lib
+global	SLAV_WONDER_CIVIC_2	string		lib
+global	SLAV_WONDER_CIVIC_3	string		lib
+global	SLAV_WONDER_MILITARY_2	string		lib
+global	SLAV_WONDER_MILITARY_3	string		lib
+global	SLOT_LIST_SCRIPT_INTERFACE	table		lib
+member	SLOT_LIST_SCRIPT_INTERFACE	buliding_type_exists	function	C	lib
+member	SLOT_LIST_SCRIPT_INTERFACE	is_empty	function	C	lib
+member	SLOT_LIST_SCRIPT_INTERFACE	item_at	function	C	lib
+member	SLOT_LIST_SCRIPT_INTERFACE	new	function	C	lib
+member	SLOT_LIST_SCRIPT_INTERFACE	num_items	function	C	lib
+member	SLOT_LIST_SCRIPT_INTERFACE	slot_type_exists	function	C	lib
+global	SLOT_SCRIPT_INTERFACE	table		lib
+member	SLOT_SCRIPT_INTERFACE	building	function	C	lib
+member	SLOT_SCRIPT_INTERFACE	faction	function	C	lib
+member	SLOT_SCRIPT_INTERFACE	has_building	function	C	lib
+member	SLOT_SCRIPT_INTERFACE	is_null_interface	function	C	lib
+member	SLOT_SCRIPT_INTERFACE	model	function	C	lib
+member	SLOT_SCRIPT_INTERFACE	name	function	C	lib
+member	SLOT_SCRIPT_INTERFACE	new	function	C	lib
+member	SLOT_SCRIPT_INTERFACE	region	function	C	lib
+member	SLOT_SCRIPT_INTERFACE	type	function	C	lib
+global	SPAWN_ATTEMPTS	number		lib
+global	SPICE_REGIONS	table		lib
+global	SVEBI_KEY	string		lib
+global	SVEBI_TRIGGERED	number		lib
+global	Sarmatov_Kvadov_TRIGGERED	boolean		lib
+global	Sclaveni_Lost	function	Lua	lib
+global	Sclaveni_Won	function	Lua	lib
+global	ScriptedValueRegistry	table		lib
+member	ScriptedValueRegistry	LoadBool	function	C	lib
+member	ScriptedValueRegistry	SaveBool	function	C	lib
+member	ScriptedValueRegistry	new	function	C	lib
+global	Set_Component_Active	function	Lua	lib
+global	Set_Component_State	function	Lua	lib
+global	Set_Component_Visible	function	Lua	lib
+global	Set_Dam_Health	function	Lua	lib
+global	SettlementSelected_Dam	function	Lua	lib
+global	SetupArmyTemplates	function	Lua	lib
+global	SetupBarbarianArmyTemplates	function	Lua	lib
+global	SetupErrorArmyTemplates	function	Lua	lib
+global	SetupGreithungiArmyTemplates	function	Lua	lib
+global	SetupMigrationArmyTemplates	function	Lua	lib
+global	SetupRomanArmyTemplates	function	Lua	lib
+global	SetupZeroArmyTemplates	function	Lua	lib
+global	Setup_Campaign	function	Lua	lib
+global	Spawn2_Alamanni	function	Lua	lib
+global	Spawn2_Alani	function	Lua	lib
+global	Spawn2_Burgundi	function	Lua	lib
+global	Spawn2_Ebdani	function	Lua	lib
+global	Spawn2_Franci	function	Lua	lib
+global	Spawn2_Gepidi	function	Lua	lib
+global	Spawn2_Kvadi	function	Lua	lib
+global	Spawn2_Langobardi	function	Lua	lib
+global	Spawn2_Ostgoti	function	Lua	lib
+global	Spawn2_Roxolani	function	Lua	lib
+global	Spawn2_Saxi	function	Lua	lib
+global	Spawn2_Svebi	function	Lua	lib
+global	Spawn2_Vandali	function	Lua	lib
+global	Spawn2_Vestgoti	function	Lua	lib
+global	Spawn_Alamanni	function	Lua	lib
+global	Spawn_Alani	function	Lua	lib
+global	Spawn_Alani2	function	Lua	lib
+global	Spawn_Antiohia	function	Lua	lib
+global	Spawn_Burgundi	function	Lua	lib
+global	Spawn_ERE	function	Lua	lib
+global	Spawn_Ebdani	function	Lua	lib
+global	Spawn_Franci	function	Lua	lib
+global	Spawn_Gepidi	function	Lua	lib
+global	Spawn_Greithungi	function	Lua	lib
+global	Spawn_Greithungi2	function	Lua	lib
+global	Spawn_Isavri	function	Lua	lib
+global	Spawn_Kvadi	function	Lua	lib
+global	Spawn_Langobardi	function	Lua	lib
+global	Spawn_Macedonia	function	Lua	lib
+global	Spawn_Ostgoti	function	Lua	lib
+global	Spawn_RomaMavritania	function	Lua	lib
+global	Spawn_Roman	function	Lua	lib
+global	Spawn_Roman2	function	Lua	lib
+global	Spawn_Roxolani	function	Lua	lib
+global	Spawn_Sarmatov_Kvadov	function	Lua	lib
+global	Spawn_Saxi	function	Lua	lib
+global	Spawn_Svebi	function	Lua	lib
+global	Spawn_Tanukhids	function	Lua	lib
+global	Spawn_Vandali	function	Lua	lib
+global	Spawn_Venedi	function	Lua	lib
+global	Spawn_Vestgoti	function	Lua	lib
+global	Spawn_Vestgoti2	function	Lua	lib
+global	Spawn_Vse_Vozrozdenie	function	Lua	lib
+global	Spawn_Vse_Vozrozdenie10	function	Lua	lib
+global	Spawn_Vse_Vozrozdenie11	function	Lua	lib
+global	Spawn_Vse_Vozrozdenie12	function	Lua	lib
+global	Spawn_Vse_Vozrozdenie13	function	Lua	lib
+global	Spawn_Vse_Vozrozdenie14	function	Lua	lib
+global	Spawn_Vse_Vozrozdenie15	function	Lua	lib
+global	Spawn_Vse_Vozrozdenie16	function	Lua	lib
+global	Spawn_Vse_Vozrozdenie2	function	Lua	lib
+global	Spawn_Vse_Vozrozdenie3	function	Lua	lib
+global	Spawn_Vse_Vozrozdenie4	function	Lua	lib
+global	Spawn_Vse_Vozrozdenie5	function	Lua	lib
+global	Spawn_Vse_Vozrozdenie6	function	Lua	lib
+global	Spawn_Vse_Vozrozdenie7	function	Lua	lib
+global	Spawn_Vse_Vozrozdenie8	function	Lua	lib
+global	Spawn_Vse_Vozrozdenie9	function	Lua	lib
+global	Spawn_WRE	function	Lua	lib
+global	SplitString	function	Lua	lib
+global	TANUKHIDS_KEY	string		lib
+global	TANUKHIDS_TIER_1	boolean		lib
+global	TANUKHIDS_TIER_2	boolean		lib
+global	TANUKHIDS_TIER_3	boolean		lib
+global	TANUKHIDS_TIER_4	boolean		lib
+global	TRAIT_CHANCE_BOOST	number		lib
+global	TRAIT_SYSTEM_INTERVAL	number		lib
+global	TRIGGERED_Exodus	function	Lua	lib
+global	TURNS_BETWEEN_MISSIONS	number		lib
+global	TURNS_BETWEEN_REPAIR_MAX	number		lib
+global	TURNS_BETWEEN_REPAIR_MIN	number		lib
+global	TURN_DAMAGE_DEALT	boolean		lib
+global	TYPE_BARRICADE_ATTACK_GROUP	string		lib
+global	TYPE_BATTLE_MANAGER	string		lib
+global	TYPE_CAMPAIGN_CUTSCENE	string		lib
+global	TYPE_CAMPAIGN_DEFENSE	string		lib
+global	TYPE_CAMPAIGN_MANAGER	string		lib
+global	TYPE_CONVEX_AREA	string		lib
+global	TYPE_CUTSCENE_MANAGER	string		lib
+global	TYPE_DECISION_POINT	string		lib
+global	TYPE_ESCAPE_MANAGER	string		lib
+global	TYPE_ESCAPE_ROUTE	string		lib
+global	TYPE_EVENT_HANDLER	string		lib
+global	TYPE_FACTION_START	string		lib
+global	TYPE_FE_HB_SEQUENCE	string		lib
+global	TYPE_FIRESTORM_MANAGER	string		lib
+global	TYPE_GENERATED_ARMY	string		lib
+global	TYPE_GENERATED_BATTLE	string		lib
+global	TYPE_HIDING_PLACE	string		lib
+global	TYPE_HURT_AREA	string		lib
+global	TYPE_ITERATOR	string		lib
+global	TYPE_SCRIPT_AI_PLANNER	string		lib
+global	TYPE_SCRIPT_MESSAGER	string		lib
+global	TYPE_SCRIPT_UNIT	string		lib
+global	TYPE_SCRIPT_UNITS	string		lib
+global	TYPE_TELEPORT_SQUAD	string		lib
+global	TYPE_TIMER_MANAGER	string		lib
+global	TYPE_UI_OVERRIDE	string		lib
+global	TYPE_WAYPOINT	string		lib
+global	TYPE_ZONE_CONTROLLER	string		lib
+global	TYPE_ZONE_MANAGER	string		lib
+global	TanukhidsDilemmaChoiceMade	function	Lua	lib
+global	TanukhidsSettled	function	Lua	lib
+global	Tanukhids_Start_Food	function	Lua	lib
+global	TimeTrigger_Tanukhids	function	Lua	lib
+global	TradeRouteEstablished_Axum_Mechanics	function	Lua	lib
+global	UIComponent	table		lib
+member	UIComponent	Address	function	C	lib
+member	UIComponent	Adopt	function	C	lib
+member	UIComponent	AttachCustomControl	function	C	lib
+member	UIComponent	Bounds	function	C	lib
+member	UIComponent	CallbackId	function	C	lib
+member	UIComponent	ChildCount	function	C	lib
+member	UIComponent	ClearSound	function	C	lib
+member	UIComponent	CreateComponent	function	C	lib
+member	UIComponent	CurrentAnimationId	function	C	lib
+member	UIComponent	CurrentState	function	C	lib
+member	UIComponent	CurrentStateUI	function	C	lib
+member	UIComponent	DestroyChildren	function	C	lib
+member	UIComponent	Dimensions	function	C	lib
+member	UIComponent	Divorce	function	C	lib
+member	UIComponent	DockingPoint	function	C	lib
+member	UIComponent	Find	function	C	lib
+member	UIComponent	FindPositionIntoCurrentText	function	C	lib
+member	UIComponent	FindTextSnapPosition	function	C	lib
+member	UIComponent	ForceEvent	function	C	lib
+member	UIComponent	GetProperty	function	C	lib
+member	UIComponent	GetStateText	function	C	lib
+member	UIComponent	GetStateTextDetails	function	C	lib
+member	UIComponent	GetTooltipText	function	C	lib
+member	UIComponent	GlobalExists	function	C	lib
+member	UIComponent	HasInterface	function	C	lib
+member	UIComponent	Height	function	C	lib
+member	UIComponent	Highlight	function	C	lib
+member	UIComponent	Id	function	C	lib
+member	UIComponent	InterfaceFunction	function	C	lib
+member	UIComponent	IsCharPrintable	function	C	lib
+member	UIComponent	IsDragged	function	C	lib
+member	UIComponent	IsInteractive	function	C	lib
+member	UIComponent	IsMouseOverChildren	function	C	lib
+member	UIComponent	IsMoveable	function	C	lib
+member	UIComponent	Layout	function	C	lib
+member	UIComponent	LockPriority	function	C	lib
+member	UIComponent	LuaCall	function	C	lib
+member	UIComponent	MoveTo	function	C	lib
+member	UIComponent	Opacity	function	C	lib
+member	UIComponent	Parent	function	C	lib
+member	UIComponent	PopulateTextures	function	C	lib
+member	UIComponent	Position	function	C	lib
+member	UIComponent	Priority	function	C	lib
+member	UIComponent	PropagateImageColour	function	C	lib
+member	UIComponent	PropagateOpacity	function	C	lib
+member	UIComponent	PropagatePriority	function	C	lib
+member	UIComponent	PropagateVisibility	function	C	lib
+member	UIComponent	ReorderChildren	function	C	lib
+member	UIComponent	Resize	function	C	lib
+member	UIComponent	RestoreUIHeirarchy	function	C	lib
+member	UIComponent	RunScript	function	C	lib
+member	UIComponent	SaveUIHeirarchy	function	C	lib
+member	UIComponent	SequentialFind	function	C	lib
+member	UIComponent	SetDisabled	function	C	lib
+member	UIComponent	SetDockingPoint	function	C	lib
+member	UIComponent	SetDragged	function	C	lib
+member	UIComponent	SetEventCallback	function	C	lib
+member	UIComponent	SetGlobal	function	C	lib
+member	UIComponent	SetImageColour	function	C	lib
+member	UIComponent	SetImageRotation	function	C	lib
+member	UIComponent	SetInteractive	function	C	lib
+member	UIComponent	SetMoveable	function	C	lib
+member	UIComponent	SetOpacity	function	C	lib
+member	UIComponent	SetProperty	function	C	lib
+member	UIComponent	SetState	function	C	lib
+member	UIComponent	SetStateColours	function	C	lib
+member	UIComponent	SetStateText	function	C	lib
+member	UIComponent	SetStateTextDetails	function	C	lib
+member	UIComponent	SetStateTextXOffset	function	C	lib
+member	UIComponent	SetTooltipText	function	C	lib
+member	UIComponent	SetTooltipTextWithRLSKey	function	C	lib
+member	UIComponent	SetVisible	function	C	lib
+member	UIComponent	ShaderTechniqueGet	function	C	lib
+member	UIComponent	ShaderTechniqueSet	function	C	lib
+member	UIComponent	ShaderVarsGet	function	C	lib
+member	UIComponent	ShaderVarsSet	function	C	lib
+member	UIComponent	SimulateClick	function	C	lib
+member	UIComponent	SimulateKey	function	C	lib
+member	UIComponent	SimulateLClick	function	C	lib
+member	UIComponent	SimulateMouseMove	function	C	lib
+member	UIComponent	SimulateMouseOff	function	C	lib
+member	UIComponent	SimulateMouseOn	function	C	lib
+member	UIComponent	SimulateRClick	function	C	lib
+member	UIComponent	StealInputFocus	function	C	lib
+member	UIComponent	StealShortcutKey	function	C	lib
+member	UIComponent	TextDimensions	function	C	lib
+member	UIComponent	TextShaderTechniqueSet	function	C	lib
+member	UIComponent	TextShaderVarsGet	function	C	lib
+member	UIComponent	TextShaderVarsSet	function	C	lib
+member	UIComponent	TriggerAnimation	function	C	lib
+member	UIComponent	TriggerShortcut	function	C	lib
+member	UIComponent	UnLockPriority	function	C	lib
+member	UIComponent	Visible	function	C	lib
+member	UIComponent	Width	function	C	lib
+member	UIComponent	WidthOfTextLine	function	C	lib
+member	UIComponent	new	function	C	lib
+global	UNIT	string		lib
+global	UNIT1	string		lib
+global	UNIT1B	string		lib
+global	UNIT2	string		lib
+global	UNIT3	string		lib
+global	UNIT4	string		lib
+global	UNIT5	string		lib
+global	UNIT5B	string		lib
+global	UNIT_LIST_SCRIPT_INTERFACE	table		lib
+member	UNIT_LIST_SCRIPT_INTERFACE	has_unit	function	C	lib
+member	UNIT_LIST_SCRIPT_INTERFACE	is_empty	function	C	lib
+member	UNIT_LIST_SCRIPT_INTERFACE	item_at	function	C	lib
+member	UNIT_LIST_SCRIPT_INTERFACE	new	function	C	lib
+member	UNIT_LIST_SCRIPT_INTERFACE	num_items	function	C	lib
+global	UNIT_R1	string		lib
+global	UNIT_R2	string		lib
+global	UNIT_R3	string		lib
+global	UNIT_R4	string		lib
+global	UNIT_R5	string		lib
+global	UNIT_R6	string		lib
+global	UNIT_R7	string		lib
+global	UNIT_R8	string		lib
+global	UNIT_R9	string		lib
+global	UNIT_SCRIPT_INTERFACE	table		lib
+member	UNIT_SCRIPT_INTERFACE	can_upgrade_unit	function	C	lib
+member	UNIT_SCRIPT_INTERFACE	can_upgrade_unit_equipment	function	C	lib
+member	UNIT_SCRIPT_INTERFACE	faction	function	C	lib
+member	UNIT_SCRIPT_INTERFACE	force_commander	function	C	lib
+member	UNIT_SCRIPT_INTERFACE	has_force_commander	function	C	lib
+member	UNIT_SCRIPT_INTERFACE	has_unit_commander	function	C	lib
+member	UNIT_SCRIPT_INTERFACE	is_land_unit	function	C	lib
+member	UNIT_SCRIPT_INTERFACE	is_naval_unit	function	C	lib
+member	UNIT_SCRIPT_INTERFACE	is_null_interface	function	C	lib
+member	UNIT_SCRIPT_INTERFACE	military_force	function	C	lib
+member	UNIT_SCRIPT_INTERFACE	model	function	C	lib
+member	UNIT_SCRIPT_INTERFACE	new	function	C	lib
+member	UNIT_SCRIPT_INTERFACE	percentage_proportion_of_full_strength	function	C	lib
+member	UNIT_SCRIPT_INTERFACE	unit_category	function	C	lib
+member	UNIT_SCRIPT_INTERFACE	unit_class	function	C	lib
+member	UNIT_SCRIPT_INTERFACE	unit_commander	function	C	lib
+member	UNIT_SCRIPT_INTERFACE	unit_key	function	C	lib
+global	Unlock_Tier_1	function	Lua	lib
+global	Unlock_Tier_2	function	Lua	lib
+global	Unlock_Tier_3	function	Lua	lib
+global	VALENT_DEAD	number		lib
+global	VALENT_NAME	string		lib
+global	VALENT_NAME2	string		lib
+global	VALENT_NAME4	string		lib
+global	VANDALANI_TRIGGERED	number		lib
+global	VANDALI_KEY	string		lib
+global	VENEDI_ANGRY_HUNS	boolean		lib
+global	VENEDI_EVENT_STARTED	boolean		lib
+global	VENEDI_KEY	string		lib
+global	VENEDI_RESETTLED	number		lib
+global	VENEDI_TRIGGERED	number		lib
+global	VESTGOTHS_KEY	string		lib
+global	VESTGOTI2_TRIGGERED	number		lib
+global	VESTGOTI_TRIGGERED	number		lib
+global	VOLUME_TYPE_ADVISOR	number		lib
+global	VOLUME_TYPE_INTERFACE	number		lib
+global	VOLUME_TYPE_MASTER	number		lib
+global	VOLUME_TYPE_MOVIE	number		lib
+global	VOLUME_TYPE_MUSIC	number		lib
+global	VOLUME_TYPE_SFX	number		lib
+global	VOLUME_TYPE_VO	number		lib
+global	VOLUME_TYPE_VOICE_CHAT	number		lib
+global	VOTADINI_KEY	string		lib
+global	VOTADINI_TRIGGERED	number		lib
+global	Vosstanie_Alanov	function	Lua	lib
+global	Vosstanie_Alemannov	function	Lua	lib
+global	Vosstanie_Burgundov	function	Lua	lib
+global	Vosstanie_Frankov	function	Lua	lib
+global	Vosstanie_Gepidov	function	Lua	lib
+global	Vosstanie_Greithungov	function	Lua	lib
+global	Vosstanie_Langobardov	function	Lua	lib
+global	Vosstanie_Ostgotov	function	Lua	lib
+global	Vosstanie_Roxolanov	function	Lua	lib
+global	Vosstanie_Saxov	function	Lua	lib
+global	Vosstanie_Skotov	function	Lua	lib
+global	Vosstanie_Svebov	function	Lua	lib
+global	Vosstanie_Vandalov	function	Lua	lib
+global	Vosstanie_Venedov	function	Lua	lib
+global	Vosstanie_Vestgotov	function	Lua	lib
+global	WAR_TRIGGER_INCIDENT	string		lib
+global	WEST_ROMAN_EMPIRE_KEY	string		lib
+global	WORLD_SCRIPT_INTERFACE	table		lib
+member	WORLD_SCRIPT_INTERFACE	ancillary_exists	function	C	lib
+member	WORLD_SCRIPT_INTERFACE	climate_phase_index	function	C	lib
+member	WORLD_SCRIPT_INTERFACE	faction_by_key	function	C	lib
+member	WORLD_SCRIPT_INTERFACE	faction_exists	function	C	lib
+member	WORLD_SCRIPT_INTERFACE	faction_list	function	C	lib
+member	WORLD_SCRIPT_INTERFACE	is_null_interface	function	C	lib
+member	WORLD_SCRIPT_INTERFACE	model	function	C	lib
+member	WORLD_SCRIPT_INTERFACE	new	function	C	lib
+member	WORLD_SCRIPT_INTERFACE	region_manager	function	C	lib
+global	WRE_TRIGGERED	number		lib
+global	WRE_TRIGGERED_SRAWN	number		lib
+global	YUTI_KEY	string		lib
+global	YUTI_TRIGGERED	number		lib
+global	ZAFAR_KEY	string		lib
+global	ZERO_TRIGGERED	number		lib
+global	__CAMPAIGN_DEFENSE_ACTIVE	string		lib
+global	__CAMPAIGN_DEFENSE_INACTIVE	string		lib
+global	__advisor_progress_button_name	string		lib
+global	__advisor_progress_button_parent_name	string		lib
+global	__bool_infotext_currently_being_added	boolean		lib
+global	__campaign_character_selected	string		lib
+global	__campaign_character_selected_faction	string		lib
+global	__campaign_cleanup_actions	table		lib
+global	__campaign_cutscene_debug	boolean		lib
+global	__campaign_cutscene_list	table		lib
+global	__campaign_defense_loadstring	string		lib
+global	__campaign_defenses	table		lib
+global	__campaign_manager	table		lib
+member	__campaign_manager	core	table		lib
+member	__campaign_manager	eh	table		lib
+member	__campaign_manager	factions	table		lib
+member	__campaign_manager	first_tick_callbacks	table		lib
+member	__campaign_manager	loading_game_callbacks	table		lib
+member	__campaign_manager	modal_queue	table		lib
+member	__campaign_manager	name	string		lib
+member	__campaign_manager	pending_battle_cached_attackers	table		lib
+member	__campaign_manager	pending_battle_cached_defenders	table		lib
+member	__campaign_manager	pre_dismiss_advice_callbacks	table		lib
+member	__campaign_manager	saved_values	table		lib
+member	__campaign_manager	saving_game_callbacks	table		lib
+member	__campaign_manager	scripting	table		lib
+member	__campaign_manager	session_created_callbacks	table		lib
+member	__campaign_manager	turn_countdown_events	table		lib
+member	__campaign_manager	ui_created_callbacks	table		lib
+member	__campaign_manager	ui_destroyed_callbacks	table		lib
+global	__campaign_panels_open	table		lib
+global	__campaign_settlement_selected	string		lib
+global	__end_of_turn_warnings_to_suppress	table		lib
+member	__end_of_turn_warnings_to_suppress	army	boolean		lib
+member	__end_of_turn_warnings_to_suppress	bankrupt	boolean		lib
+member	__end_of_turn_warnings_to_suppress	character	boolean		lib
+member	__end_of_turn_warnings_to_suppress	edict	boolean		lib
+member	__end_of_turn_warnings_to_suppress	morale	boolean		lib
+member	__end_of_turn_warnings_to_suppress	politics	boolean		lib
+member	__end_of_turn_warnings_to_suppress	siege	boolean		lib
+member	__end_of_turn_warnings_to_suppress	tech	boolean		lib
+global	__event_handler	table		lib
+member	__event_handler	add_func	function	Lua	lib
+member	__event_handler	attached_events	table		lib
+member	__event_handler	listeners	table		lib
+global	__event_panel_auto_open_enabled	boolean		lib
+global	__faction_start_playing	boolean		lib
+global	__game_mode	number		lib
+global	__highlighted_characters	table		lib
+global	__highlighted_settlements	table		lib
+global	__infotext_initial_delay	number		lib
+global	__infotext_line_delay	number		lib
+global	__infotext_to_add	table		lib
+global	__lib_type_battle	number		lib
+global	__lib_type_campaign	number		lib
+global	__lib_type_frontend	number		lib
+global	__move_npc_army_active_list	table		lib
+global	__move_npc_army_trigger_count	number		lib
+global	__objective_chain_active	string		lib
+global	__objective_chain_cached_objective	boolean		lib
+global	__objective_chain_cached_opt_a	boolean		lib
+global	__objective_chain_cached_opt_b	boolean		lib
+global	__objective_debug	boolean		lib
+global	__objectives_list	table		lib
+global	__previous_objective_chains	table		lib
+global	__save_counter	number		lib
+global	ability_trait_list	table		lib
+member	ability_trait_list	att_trait_general_ability_all_brace	number		lib
+member	ability_trait_list	att_trait_general_ability_all_fast	number		lib
+member	ability_trait_list	att_trait_general_ability_all_fear	number		lib
+member	ability_trait_list	att_trait_general_ability_all_inspire	number		lib
+member	ability_trait_list	att_trait_general_ability_all_power	number		lib
+member	ability_trait_list	att_trait_general_ability_all_presence	number		lib
+member	ability_trait_list	att_trait_general_ability_all_raise	number		lib
+member	ability_trait_list	att_trait_general_ability_all_rally	number		lib
+member	ability_trait_list	att_trait_general_ability_all_recon	number		lib
+member	ability_trait_list	att_trait_general_ability_all_second	number		lib
+member	ability_trait_list	att_trait_general_ability_all_war	number		lib
+global	activate_cinematic_cam	function	Lua	lib
+global	activate_objective_chain	function	Lua	lib
+global	add_all_characters_for_faction_selection_whitelist	function	Lua	lib
+global	add_all_settlements_for_faction_selection_whitelist	function	Lua	lib
+global	add_battle_completed_listener	function	Lua	lib
+global	add_callback	function	Lua	lib
+global	add_campaign_cleanup_action	function	Lua	lib
+global	add_character_selection_whitelist	function	Lua	lib
+global	add_hun_preservation_army_template	function	Lua	lib
+global	add_hun_preservation_spawnpoint	function	Lua	lib
+global	add_infotext	function	Lua	lib
+global	add_infotext_line	function	Lua	lib
+global	add_loadgame_callback	function	Lua	lib
+global	add_os_clock_callback	function	Lua	lib
+global	add_peending_battle_listener	function	Lua	lib
+global	add_religious_listener	function	Lua	lib
+global	add_repeat_callback	function	Lua	lib
+global	add_savegame_callback	function	Lua	lib
+global	add_settlement_selection_whitelist	function	Lua	lib
+global	add_trade_listener	function	Lua	lib
+global	add_unit_to_	function	Lua	lib
+global	add_unit_to_2	function	Lua	lib
+global	add_unit_to_3	function	Lua	lib
+global	add_unit_to_horde	function	Lua	lib
+global	appoint_attila_most_expensive_force	function	Lua	lib
+global	armies_stance	function	Lua	lib
+global	armies_stance2	function	Lua	lib
+global	armies_stance3	function	Lua	lib
+global	army_Antiohia	table		lib
+global	army_Arabia	table		lib
+global	army_ERE	table		lib
+global	army_Isavri	table		lib
+global	army_Makedonia	table		lib
+global	army_Sarmatov_Kvadov	table		lib
+global	army_WRE	table		lib
+global	army_ant	table		lib
+global	army_apulum	table		lib
+global	army_brittania	table		lib
+global	army_budorgis	table		lib
+global	army_budorgis2	table		lib
+global	army_caledonia	table		lib
+global	army_chersonessus	table		lib
+global	army_east	table		lib
+global	army_euro	table		lib
+global	army_frisia	table		lib
+global	army_galliya	table		lib
+global	army_germania	table		lib
+global	army_leopolis	table		lib
+global	army_markianorol	table		lib
+global	army_mavritania	table		lib
+global	army_petrodava	table		lib
+global	army_sarmatiya	table		lib
+global	army_zero	table		lib
+global	army_zero10	table		lib
+global	army_zero11	table		lib
+global	army_zero12	table		lib
+global	army_zero13	table		lib
+global	army_zero14	table		lib
+global	army_zero15	table		lib
+global	army_zero16	table		lib
+global	army_zero17	table		lib
+global	army_zero2	table		lib
+global	army_zero3	table		lib
+global	army_zero4	table		lib
+global	army_zero5	table		lib
+global	army_zero6	table		lib
+global	army_zero7	table		lib
+global	army_zero8	table		lib
+global	army_zero9	table		lib
+global	assign_startpos_generals_abilities	function	Lua	lib
+global	attila_story_attila_becomes_king	function	Lua	lib
+global	attila_story_attila_has_died	function	Lua	lib
+global	attila_story_disable	function	Lua	lib
+global	attila_story_get_attila	function	Lua	lib
+global	attila_story_get_hunnic_faction	function	Lua	lib
+global	attila_story_remove_come_of_age_listener	function	Lua	lib
+global	attila_story_remove_invulnerable	function	Lua	lib
+global	attila_story_spawn_attila	function	Lua	lib
+global	attila_story_start_come_of_age_listener	function	Lua	lib
+global	attila_story_start_death_listener	function	Lua	lib
+global	attila_story_start_force_lead_armies_listener	function	Lua	lib
+global	attila_story_start_player_battle_listener	function	Lua	lib
+global	attila_story_stop_death_listener	function	Lua	lib
+global	attila_story_stop_force_lead_armies_listener	function	Lua	lib
+global	attila_story_stop_player_battle_listener	function	Lua	lib
+global	attila_story_the_death_of_attila	function	Lua	lib
+global	axum_army_type	string		lib
+global	axum_event_religious_buildings	number		lib
+global	axum_event_religious_change	number		lib
+global	axum_food_bundle	string		lib
+global	axum_last_building_religions	table		lib
+global	axum_max_food_bundles	number		lib
+global	axum_required_building_religion_buildings	string		lib
+global	bool_campaign_ui_initialised	boolean		lib
+global	bool_end_of_turn_warning_suppression_system_started	boolean		lib
+global	bool_trait_addition_system_active	boolean		lib
+global	buildings	table		lib
+global	buildings1	table		lib
+global	byzantine_home_region	string		lib
+global	cache_tab	function	Lua	lib
+global	camera_position_to_string	function	Lua	lib
+global	campaign_cutscene	table		lib
+member	campaign_cutscene	action	function	Lua	lib
+member	campaign_cutscene	action_list	table		lib
+member	campaign_cutscene	advice_is_dismissed	function	Lua	lib
+member	campaign_cutscene	advisor_wait	boolean		lib
+member	campaign_cutscene	cutscene_length	number		lib
+member	campaign_cutscene	disable_settlement_labels	boolean		lib
+member	campaign_cutscene	disable_shroud	boolean		lib
+member	campaign_cutscene	dismiss_advice	function	Lua	lib
+member	campaign_cutscene	dismiss_advice_on_end	boolean		lib
+member	campaign_cutscene	do_not_end	boolean		lib
+member	campaign_cutscene	do_not_skip_on_next_advice_dismissal	boolean		lib
+member	campaign_cutscene	finish	function	Lua	lib
+member	campaign_cutscene	is_active	function	Lua	lib
+member	campaign_cutscene	is_any_cutscene_running	function	Lua	lib
+member	campaign_cutscene	is_debug	boolean		lib
+member	campaign_cutscene	is_running	boolean		lib
+member	campaign_cutscene	is_skippable	boolean		lib
+member	campaign_cutscene	name	string		lib
+member	campaign_cutscene	neighbouring_regions_visible	boolean		lib
+member	campaign_cutscene	new	function	Lua	lib
+member	campaign_cutscene	process_next_action	function	Lua	lib
+member	campaign_cutscene	release	function	Lua	lib
+member	campaign_cutscene	restore_ui	boolean		lib
+member	campaign_cutscene	reveal_region_by_proximity	function	Lua	lib
+member	campaign_cutscene	reveal_region_by_proximity_action	function	Lua	lib
+member	campaign_cutscene	set_debug	function	Lua	lib
+member	campaign_cutscene	set_debug_all	function	Lua	lib
+member	campaign_cutscene	set_disable_settlement_labels	function	Lua	lib
+member	campaign_cutscene	set_disable_shroud	function	Lua	lib
+member	campaign_cutscene	set_dismiss_advice_on_end	function	Lua	lib
+member	campaign_cutscene	set_do_not_end	function	Lua	lib
+member	campaign_cutscene	set_neighbouring_regions_visible	function	Lua	lib
+member	campaign_cutscene	set_restore_ui	function	Lua	lib
+member	campaign_cutscene	set_skip_camera	function	Lua	lib
+member	campaign_cutscene	set_skippable	function	Lua	lib
+member	campaign_cutscene	set_use_cinematic_borders	function	Lua	lib
+member	campaign_cutscene	skip	function	Lua	lib
+member	campaign_cutscene	skip_cam_h	boolean		lib
+member	campaign_cutscene	skip_cam_r	boolean		lib
+member	campaign_cutscene	skip_cam_x	boolean		lib
+member	campaign_cutscene	skip_cam_y	boolean		lib
+member	campaign_cutscene	start	function	Lua	lib
+member	campaign_cutscene	use_cinematic_borders	boolean		lib
+member	campaign_cutscene	wait_for_advisor	function	Lua	lib
+member	campaign_cutscene	wait_offset	number		lib
+member	campaign_cutscene	was_skipped	boolean		lib
+global	campaign_defense	table		lib
+member	campaign_defense	active	boolean		lib
+member	campaign_defense	cqi	string		lib
+member	campaign_defense	dump	function	Lua	lib
+member	campaign_defense	enable_movement	function	Lua	lib
+member	campaign_defense	faction	string		lib
+member	campaign_defense	generate_campaign_defense_loadstring	function	Lua	lib
+member	campaign_defense	get_army_char	function	Lua	lib
+member	campaign_defense	movement_enabled	boolean		lib
+member	campaign_defense	name	string		lib
+member	campaign_defense	new	function	Lua	lib
+member	campaign_defense	set_callback	function	Lua	lib
+member	campaign_defense	set_should_award_upkeep	function	Lua	lib
+member	campaign_defense	should_award_upkeep	boolean		lib
+member	campaign_defense	stop	function	Lua	lib
+member	campaign_defense	turn_start	function	Lua	lib
+global	campaign_manager	table		lib
+member	campaign_manager	PROGRESS_ON_ADVICE_FINISHED_REPOLL_TIME	number		lib
+member	campaign_manager	__index	function	Lua	lib
+member	campaign_manager	__tostring	function	Lua	lib
+member	campaign_manager	__type	function	Lua	lib
+member	campaign_manager	add_listener	function	Lua	lib
+member	campaign_manager	add_modal_section	function	Lua	lib
+member	campaign_manager	add_modal_section_to_queue	function	Lua	lib
+member	campaign_manager	add_turn_countdown_event	function	Lua	lib
+member	campaign_manager	add_turn_end_callback	function	Lua	lib
+member	campaign_manager	add_turn_end_callback_for_faction	function	Lua	lib
+member	campaign_manager	add_turn_start_callback	function	Lua	lib
+member	campaign_manager	add_turn_start_callback_for_faction	function	Lua	lib
+member	campaign_manager	attack	function	Lua	lib
+member	campaign_manager	cache_pending_battle	function	Lua	lib
+member	campaign_manager	cache_pending_battle_character	function	Lua	lib
+member	campaign_manager	cancel_progress_on_advice_dismissed	function	Lua	lib
+member	campaign_manager	cancel_progress_on_advice_finished	function	Lua	lib
+member	campaign_manager	cancel_progress_on_mission_accepted	function	Lua	lib
+member	campaign_manager	check_turn_countdown_events	function	Lua	lib
+member	campaign_manager	cinematic_zoom_limit_h_max	number		lib
+member	campaign_manager	cinematic_zoom_limit_h_min	number		lib
+member	campaign_manager	clear_modal_queue	function	Lua	lib
+member	campaign_manager	clear_turn_end_callbacks	function	Lua	lib
+member	campaign_manager	clear_turn_start_callbacks	function	Lua	lib
+member	campaign_manager	core	boolean		lib
+member	campaign_manager	create_force	function	Lua	lib
+member	campaign_manager	default_zoom_limit_h_max	boolean		lib
+member	campaign_manager	default_zoom_limit_h_min	boolean		lib
+member	campaign_manager	default_zoom_limits_set	function	Lua	lib
+member	campaign_manager	dismiss_advice	function	Lua	lib
+member	campaign_manager	eh	table		lib
+member	campaign_manager	factions	table		lib
+member	campaign_manager	first_tick	function	Lua	lib
+member	campaign_manager	first_tick_callbacks	table		lib
+member	campaign_manager	force_created	function	Lua	lib
+member	campaign_manager	further_advice_allowed	boolean		lib
+member	campaign_manager	game_interface	boolean		lib
+member	campaign_manager	game_interface_created	boolean		lib
+member	campaign_manager	game_loaded	boolean		lib
+member	campaign_manager	get_local_faction	function	Lua	lib
+member	campaign_manager	get_saved_value	function	Lua	lib
+member	campaign_manager	insert_modal_section	function	Lua	lib
+member	campaign_manager	is_multiplayer	function	Lua	lib
+member	campaign_manager	is_multiplayer_campaign	boolean		lib
+member	campaign_manager	is_new_game	function	Lua	lib
+member	campaign_manager	is_ui_created	boolean		lib
+member	campaign_manager	load_value	function	Lua	lib
+member	campaign_manager	load_values_from_string	function	Lua	lib
+member	campaign_manager	loading_game	function	Lua	lib
+member	campaign_manager	loading_game_callbacks	table		lib
+member	campaign_manager	local_faction	string		lib
+member	campaign_manager	lock_modal_queue	function	Lua	lib
+member	campaign_manager	lock_ui	function	Lua	lib
+member	campaign_manager	log_to_dis	function	Lua	lib
+member	campaign_manager	modal_queue	table		lib
+member	campaign_manager	modal_section_active	boolean		lib
+member	campaign_manager	modal_sections_end	function	Lua	lib
+member	campaign_manager	modal_system_locked	boolean		lib
+member	campaign_manager	modify_advice	function	Lua	lib
+member	campaign_manager	modify_advice_str	string		lib
+member	campaign_manager	name	string		lib
+member	campaign_manager	new	function	Lua	lib
+member	campaign_manager	new_session_created	function	Lua	lib
+member	campaign_manager	next_modal_section	function	Lua	lib
+member	campaign_manager	on_turn_end	function	Lua	lib
+member	campaign_manager	on_turn_start	function	Lua	lib
+member	campaign_manager	pending_battle_cache_char_was_attacker	function	Lua	lib
+member	campaign_manager	pending_battle_cache_char_was_defender	function	Lua	lib
+member	campaign_manager	pending_battle_cache_char_was_involved	function	Lua	lib
+member	campaign_manager	pending_battle_cache_faction_was_attacker	function	Lua	lib
+member	campaign_manager	pending_battle_cache_faction_was_defender	function	Lua	lib
+member	campaign_manager	pending_battle_cache_faction_was_involved	function	Lua	lib
+member	campaign_manager	pending_battle_cache_from_string	function	Lua	lib
+member	campaign_manager	pending_battle_cache_get_attacker	function	Lua	lib
+member	campaign_manager	pending_battle_cache_get_defender	function	Lua	lib
+member	campaign_manager	pending_battle_cache_mf_was_attacker	function	Lua	lib
+member	campaign_manager	pending_battle_cache_mf_was_defender	function	Lua	lib
+member	campaign_manager	pending_battle_cache_mf_was_involved	function	Lua	lib
+member	campaign_manager	pending_battle_cache_num_attackers	function	Lua	lib
+member	campaign_manager	pending_battle_cache_num_defenders	function	Lua	lib
+member	campaign_manager	pending_battle_cache_table_from_string	function	Lua	lib
+member	campaign_manager	pending_battle_cache_to_string	function	Lua	lib
+member	campaign_manager	pending_battle_cached_attacker_str	string		lib
+member	campaign_manager	pending_battle_cached_attackers	table		lib
+member	campaign_manager	pending_battle_cached_defender_str	string		lib
+member	campaign_manager	pending_battle_cached_defenders	table		lib
+member	campaign_manager	pre_dismiss_advice_callbacks	table		lib
+member	campaign_manager	prevent_additional_advice	function	Lua	lib
+member	campaign_manager	process_first_tick_callbacks	function	Lua	lib
+member	campaign_manager	process_loading_game_callbacks	function	Lua	lib
+member	campaign_manager	process_saving_game_callbacks	function	Lua	lib
+member	campaign_manager	process_session_created_callbacks	function	Lua	lib
+member	campaign_manager	process_ui_created_callbacks	function	Lua	lib
+member	campaign_manager	process_ui_destroyed_callbacks	function	Lua	lib
+member	campaign_manager	progress_on_advice_dismissed	function	Lua	lib
+member	campaign_manager	progress_on_advice_dismissed_str	string		lib
+member	campaign_manager	progress_on_advice_finished	function	Lua	lib
+member	campaign_manager	progress_on_advice_finished_poll	function	Lua	lib
+member	campaign_manager	progress_on_advice_finished_str	string		lib
+member	campaign_manager	progress_on_loading_screen_dismissed	function	Lua	lib
+member	campaign_manager	progress_on_mission_accepted	function	Lua	lib
+member	campaign_manager	quit	function	Lua	lib
+member	campaign_manager	random_number	function	Lua	lib
+member	campaign_manager	random_sort	function	Lua	lib
+member	campaign_manager	register_event	function	Lua	lib
+member	campaign_manager	register_first_tick_callback	function	Lua	lib
+member	campaign_manager	register_loading_game_callback	function	Lua	lib
+member	campaign_manager	register_post_saving_game_callback	function	Lua	lib
+member	campaign_manager	register_pre_dismiss_advice_callback	function	Lua	lib
+member	campaign_manager	register_saving_game_callback	function	Lua	lib
+member	campaign_manager	register_session_created_callback	function	Lua	lib
+member	campaign_manager	register_ui_created_callback	function	Lua	lib
+member	campaign_manager	register_ui_destroyed_callback	function	Lua	lib
+member	campaign_manager	remove_listener	function	Lua	lib
+member	campaign_manager	remove_turn_end_callback	function	Lua	lib
+member	campaign_manager	remove_turn_start_callback	function	Lua	lib
+member	campaign_manager	restore_zoom_limit	function	Lua	lib
+member	campaign_manager	save	function	Lua	lib
+member	campaign_manager	save_value	function	Lua	lib
+member	campaign_manager	saved_values	table		lib
+member	campaign_manager	saved_values_to_string	function	Lua	lib
+member	campaign_manager	saving_game	function	Lua	lib
+member	campaign_manager	saving_game_callbacks	table		lib
+member	campaign_manager	scripting	boolean		lib
+member	campaign_manager	session_created_callbacks	table		lib
+member	campaign_manager	set_cinematic_zoom_limit	function	Lua	lib
+member	campaign_manager	set_default_turn_end_callback	function	Lua	lib
+member	campaign_manager	set_default_turn_start_callback	function	Lua	lib
+member	campaign_manager	set_default_zoom_limit	function	Lua	lib
+member	campaign_manager	set_saved_value	function	Lua	lib
+member	campaign_manager	set_zoom_limit	function	Lua	lib
+member	campaign_manager	show_advice	function	Lua	lib
+member	campaign_manager	start_advice_navigation_listener	function	Lua	lib
+member	campaign_manager	start_pending_battle_cache	function	Lua	lib
+member	campaign_manager	start_turn_manager	function	Lua	lib
+member	campaign_manager	stop_advice_navigation_listener	function	Lua	lib
+member	campaign_manager	stop_progress_on_loading_screen_dismissed	function	Lua	lib
+member	campaign_manager	suppress_events_popup_on_player_turn_start	function	Lua	lib
+member	campaign_manager	trigger_custom_mission	function	Lua	lib
+member	campaign_manager	trigger_event	function	Lua	lib
+member	campaign_manager	turn_countdown_events	table		lib
+member	campaign_manager	turn_countdown_events_from_string	function	Lua	lib
+member	campaign_manager	turn_countdown_events_to_string	function	Lua	lib
+member	campaign_manager	turn_end_callback_list	table		lib
+member	campaign_manager	turn_manager_started	boolean		lib
+member	campaign_manager	turn_start_callback_list	table		lib
+member	campaign_manager	ui_created	function	Lua	lib
+member	campaign_manager	ui_created_callbacks	table		lib
+member	campaign_manager	ui_destroyed	function	Lua	lib
+member	campaign_manager	ui_destroyed_callbacks	table		lib
+member	campaign_manager	ui_locked	boolean		lib
+member	campaign_manager	ui_root	function	Lua	lib
+member	campaign_manager	unlock_ui	function	Lua	lib
+global	campaign_name	string		lib
+global	campaign_obj_to_string	function	Lua	lib
+global	campaign_ui_initialised	function	Lua	lib
+global	campaign_ui_output_stamp	number		lib
+global	cancel_add_infotext	function	Lua	lib
+global	cancel_all_move_npc_army	function	Lua	lib
+global	cancel_progress_on_advice_dismissed	function	Lua	lib
+global	cancel_progress_on_advice_finished	function	Lua	lib
+global	char_display_pos	function	Lua	lib
+global	char_is_army_commander	function	Lua	lib
+global	char_logical_pos	function	Lua	lib
+global	char_lookup_str	function	Lua	lib
+global	character_selection_whitelist	table		lib
+global	check_armies_stance	function	Lua	lib
+global	check_callbacks	function	Lua	lib
+global	check_defense	function	Lua	lib
+global	check_defense_trigger_regions	function	Lua	lib
+global	check_for_building	function	Lua	lib
+global	check_religion	function	Lua	lib
+global	check_resources	function	Lua	lib
+global	check_result	function	Lua	lib
+global	clear_and_add_infotext	function	Lua	lib
+global	clear_character_selection_whitelist	function	Lua	lib
+global	clear_infotext	function	Lua	lib
+global	clear_settlement_selection_whitelist	function	Lua	lib
+global	climate_change_event_triggered	function	Lua	lib
+global	cm	table		lib
+member	cm	core	table		lib
+member	cm	eh	table		lib
+member	cm	factions	table		lib
+member	cm	first_tick_callbacks	table		lib
+member	cm	loading_game_callbacks	table		lib
+member	cm	modal_queue	table		lib
+member	cm	name	string		lib
+member	cm	pending_battle_cached_attackers	table		lib
+member	cm	pending_battle_cached_defenders	table		lib
+member	cm	pre_dismiss_advice_callbacks	table		lib
+member	cm	saved_values	table		lib
+member	cm	saving_game_callbacks	table		lib
+member	cm	scripting	table		lib
+member	cm	session_created_callbacks	table		lib
+member	cm	turn_countdown_events	table		lib
+member	cm	ui_created_callbacks	table		lib
+member	cm	ui_destroyed_callbacks	table		lib
+global	complete_objective	function	Lua	lib
+global	components_highlighted_with_duration	table		lib
+global	create_force_in_garrison	function	Lua	lib
+global	create_infotext_panel	function	Lua	lib
+global	create_objectives_panel	function	Lua	lib
+global	current_dilemma	string		lib
+global	custom_context	table		lib
+member	custom_context	add_data	function	Lua	lib
+member	custom_context	character	function	Lua	lib
+member	custom_context	component	function	Lua	lib
+member	custom_context	faction	function	Lua	lib
+member	custom_context	military_force	function	Lua	lib
+member	custom_context	new	function	Lua	lib
+member	custom_context	region	function	Lua	lib
+global	d_to_r	function	Lua	lib
+global	dam_message_events	table		lib
+member	dam_message_events	destroyed	string		lib
+member	dam_message_events	fully_repaired	string		lib
+member	dam_message_events	fully_repaired_foreman_trait	string		lib
+member	dam_message_events	fully_repaired_inspired_farmers	string		lib
+member	dam_message_events	high_damage	string		lib
+member	dam_message_events	low_damage	string		lib
+member	dam_message_events	low_damage_foreman_trait	string		lib
+member	dam_message_events	low_damage_inspired_farmers	string		lib
+member	dam_message_events	medium_damage	string		lib
+global	damage_levels	table		lib
+member	damage_levels	HIGH	table		lib
+member	damage_levels	LOW	table		lib
+member	damage_levels	MEDIUM	table		lib
+member	damage_levels	NONE	table		lib
+global	data_attila_name	string		lib
+global	data_hunnic_faction_name	string		lib
+global	data_hunnic_forces_to_spawn	table		lib
+global	data_num_attila_lives	number		lib
+global	dec_tab	function	Lua	lib
+global	decoda_name	string		lib
+global	disable_character_selection_whitelist	function	Lua	lib
+global	disable_settlement_selection_whitelist	function	Lua	lib
+global	dismiss_advice	function	Lua	lib
+global	distance_squared	function	Lua	lib
+global	dump_timers	function	Lua	lib
+global	enable_all_diplomacy	function	Lua	lib
+global	enable_character_selection_whitelist	function	Lua	lib
+global	enable_event_panel_auto_open	function	Lua	lib
+global	enable_settlement_selection_whitelist	function	Lua	lib
+global	end_objective_chain	function	Lua	lib
+global	end_objective_chain_on_advice_dismissed	function	Lua	lib
+global	end_of_turn_warnings_displayed	function	Lua	lib
+global	enqueue_trait_to_add	function	Lua	lib
+global	event_feed_string_lookup	function	Lua	lib
+global	event_handler	table		lib
+member	event_handler	__index	table		lib
+member	event_handler	__tostring	function	Lua	lib
+member	event_handler	add_listener	function	Lua	lib
+member	event_handler	attach_to_event	function	Lua	lib
+member	event_handler	attached_events	table		lib
+member	event_handler	clean_listeners	function	Lua	lib
+member	event_handler	event_callback	function	Lua	lib
+member	event_handler	list_events	function	Lua	lib
+member	event_handler	listeners	table		lib
+member	event_handler	new	function	Lua	lib
+member	event_handler	register_event	function	Lua	lib
+member	event_handler	remove_listener	function	Lua	lib
+member	event_handler	trigger_event	function	Lua	lib
+global	faction_attacker_in_battle	function	Lua	lib
+global	faction_defender_in_battle	function	Lua	lib
+global	faction_involved_in_battle	function	Lua	lib
+global	faction_religion_unlocks	table		lib
+member	faction_religion_unlocks	att_fact_axum	table		lib
+member	faction_religion_unlocks	att_fact_himyar	table		lib
+member	faction_religion_unlocks	att_fact_lakhmids	table		lib
+global	faction_religions	table		lib
+member	faction_religions	att_fact_axum	table		lib
+member	faction_religions	att_fact_himyar	table		lib
+global	faction_start	table		lib
+member	faction_start	default_heading	number		lib
+member	faction_start	default_x	number		lib
+member	faction_start	default_y	number		lib
+member	faction_start	default_zoom	number		lib
+member	faction_start	force_intro_cutscene_playback	boolean		lib
+member	faction_start	name	string		lib
+member	faction_start	new	function	Lua	lib
+member	faction_start	process_start	function	Lua	lib
+member	faction_start	register_each_mp_game_callback	function	Lua	lib
+member	faction_start	register_each_sp_game_callback	function	Lua	lib
+member	faction_start	register_intro_cutscene_callback	function	Lua	lib
+member	faction_start	register_new_mp_game_callback	function	Lua	lib
+member	faction_start	register_new_sp_game_callback	function	Lua	lib
+member	faction_start	set_camera_to_default	function	Lua	lib
+member	faction_start	set_force_intro_cutscene_playback	function	Lua	lib
+member	faction_start	start	function	Lua	lib
+global	fail_objective	function	Lua	lib
+global	find_character_selection_whitelist	function	Lua	lib
+global	find_single_uicomponent	function	Lua	lib
+global	find_timer	function	Lua	lib
+global	find_uicomponent	function	Lua	lib
+global	find_uicomponent_by_table	function	Lua	lib
+global	fireforged_fixes	table		lib
+member	fireforged_fixes	cm	function	Lua	lib
+member	fireforged_fixes	config	table		lib
+member	fireforged_fixes	env	table		lib
+member	fireforged_fixes	errors	table		lib
+member	fireforged_fixes	find_env	function	Lua	lib
+member	fireforged_fixes	log	function	Lua	lib
+member	fireforged_fixes	patched	table		lib
+member	fireforged_fixes	record_error	function	Lua	lib
+member	fireforged_fixes	report	function	Lua	lib
+member	fireforged_fixes	version	string		lib
+member	fireforged_fixes	wrap	function	Lua	lib
+global	force_require	function	Lua	lib
+global	game_is_loading	function	Lua	lib
+global	game_is_saving	function	Lua	lib
+global	generate_campaign_defense_loadstring	function	Lua	lib
+global	get_advisor_progress_button	function	Lua	lib
+global	get_character_from_faction	function	Lua	lib
+global	get_character_from_faction_by_cqi	function	Lua	lib
+global	get_character_from_faction_name	function	Lua	lib
+global	get_closest_commander_to_position_from_faction	function	Lua	lib
+global	get_cm	function	Lua	lib
+global	get_commander_at_position_all_factions	function	Lua	lib
+global	get_eh	function	Lua	lib
+global	get_faction	function	Lua	lib
+global	get_faction_armies	function	Lua	lib
+global	get_faction_leader	function	Lua	lib
+global	get_folder_name_and_shortform	function	Lua	lib
+global	get_hun_army_string	function	Lua	lib
+global	get_local_faction_name	function	Lua	lib
+global	get_messager	function	Lua	lib
+global	get_next_campaign_ui_output_stamp	function	Lua	lib
+global	get_random_ability_trait_string	function	Lua	lib
+global	get_region	function	Lua	lib
+global	give_ability_trait_based_on_faction	function	Lua	lib
+global	give_random_ability_trait	function	Lua	lib
+global	highlight_advisor_progress_button	function	Lua	lib
+global	highlight_all_general_characters_for_faction	function	Lua	lib
+global	highlight_all_settlements_for_faction	function	Lua	lib
+global	highlight_character	function	Lua	lib
+global	highlight_character_for_selection	function	Lua	lib
+global	highlight_component	function	Lua	lib
+global	highlight_component_with_duration	function	Lua	lib
+global	highlight_settlement	function	Lua	lib
+global	highlight_settlement_for_selection	function	Lua	lib
+global	himyar_army_type	string		lib
+global	himyar_event_religious_buildings	number		lib
+global	himyar_event_religious_change	number		lib
+global	himyar_last_building_religions	table		lib
+global	himyar_required_building_religion_buildings	string		lib
+global	hun_preservation_army_template_list	table		lib
+global	hun_preservation_max_num_forces_to_spawn_per_turn	number		lib
+global	hun_preservation_num_desired_hunnic_forces	number		lib
+global	hun_preservation_preferred_spawnpoint_list	table		lib
+global	hun_preservation_spawnpoint_list	table		lib
+global	hun_preservation_turns_between_hun_forces_spawn	number		lib
+global	inc_tab	function	Lua	lib
+global	init_campaign_ui_state	function	Lua	lib
+global	initialise_timers	function	Lua	lib
+global	intro_cinematic_str	boolean		lib
+global	is_alliance	function	Lua	lib
+global	is_alliances	function	Lua	lib
+global	is_armies	function	Lua	lib
+global	is_army	function	Lua	lib
+global	is_barricadeattackgroup	function	Lua	lib
+global	is_battle	function	Lua	lib
+global	is_battlemanager	function	Lua	lib
+global	is_battlesoundeffect	function	Lua	lib
+global	is_bool	function	Lua	lib
+global	is_boolean	function	Lua	lib
+global	is_building	function	Lua	lib
+global	is_buildinglist	function	Lua	lib
+global	is_buildings	function	Lua	lib
+global	is_campaignai	function	Lua	lib
+global	is_campaigncutscene	function	Lua	lib
+global	is_campaigndefense	function	Lua	lib
+global	is_campaignmanager	function	Lua	lib
+global	is_campaignmission	function	Lua	lib
+global	is_char_selected	function	Lua	lib
+global	is_char_selected_from_faction	function	Lua	lib
+global	is_character	function	Lua	lib
+global	is_character_moving	function	Lua	lib
+global	is_characterlist	function	Lua	lib
+global	is_component	function	Lua	lib
+global	is_convexarea	function	Lua	lib
+global	is_cutscene	function	Lua	lib
+global	is_decisionpoint	function	Lua	lib
+global	is_defeat_str	function	Lua	lib
+global	is_escapemanager	function	Lua	lib
+global	is_escaperoute	function	Lua	lib
+global	is_eventhandler	function	Lua	lib
+global	is_faction	function	Lua	lib
+global	is_factionlist	function	Lua	lib
+global	is_factionstart	function	Lua	lib
+global	is_fehbsequence	function	Lua	lib
+global	is_firestormmanager	function	Lua	lib
+global	is_function	function	Lua	lib
+global	is_garrisonresidence	function	Lua	lib
+global	is_generatedarmy	function	Lua	lib
+global	is_generatedbattle	function	Lua	lib
+global	is_hidingplace	function	Lua	lib
+global	is_hurtarea	function	Lua	lib
+global	is_iterator	function	Lua	lib
+global	is_militaryforce	function	Lua	lib
+global	is_militaryforcelist	function	Lua	lib
+global	is_model	function	Lua	lib
+global	is_nil	function	Lua	lib
+global	is_null	function	Lua	lib
+global	is_number	function	Lua	lib
+global	is_panel_open	function	Lua	lib
+global	is_patrolmanager	function	Lua	lib
+global	is_pendingbattle	function	Lua	lib
+global	is_player_in_battle	function	Lua	lib
+global	is_region	function	Lua	lib
+global	is_regionlist	function	Lua	lib
+global	is_regionmanager	function	Lua	lib
+global	is_scriptaiplanner	function	Lua	lib
+global	is_scriptmessager	function	Lua	lib
+global	is_scriptunit	function	Lua	lib
+global	is_scriptunits	function	Lua	lib
+global	is_settlement	function	Lua	lib
+global	is_settlement_selected	function	Lua	lib
+global	is_slot	function	Lua	lib
+global	is_slotlist	function	Lua	lib
+global	is_string	function	Lua	lib
+global	is_subtitles	function	Lua	lib
+global	is_sunit	function	Lua	lib
+global	is_sunits	function	Lua	lib
+global	is_table	function	Lua	lib
+global	is_teleportsquad	function	Lua	lib
+global	is_timermanager	function	Lua	lib
+global	is_uicomponent	function	Lua	lib
+global	is_uioverride	function	Lua	lib
+global	is_unit	function	Lua	lib
+global	is_unitcontroller	function	Lua	lib
+global	is_unitlist	function	Lua	lib
+global	is_units	function	Lua	lib
+global	is_vector	function	Lua	lib
+global	is_viable_preservation_system_spawnpoint	function	Lua	lib
+global	is_victory_str	function	Lua	lib
+global	is_waypoint	function	Lua	lib
+global	is_world	function	Lua	lib
+global	is_zonecontroller	function	Lua	lib
+global	is_zonemanager	function	Lua	lib
+global	iterator	table		lib
+member	iterator	get_next	function	Lua	lib
+member	iterator	my_index	number		lib
+member	iterator	my_table	table		lib
+member	iterator	new	function	Lua	lib
+member	iterator	reset	function	Lua	lib
+global	land_ability_trait_list	table		lib
+member	land_ability_trait_list	att_trait_general_ability_all_brace	number		lib
+member	land_ability_trait_list	att_trait_general_ability_all_fast	number		lib
+member	land_ability_trait_list	att_trait_general_ability_all_fear	number		lib
+member	land_ability_trait_list	att_trait_general_ability_all_presence	number		lib
+member	land_ability_trait_list	att_trait_general_ability_all_raise	number		lib
+member	land_ability_trait_list	att_trait_general_ability_all_rally	number		lib
+member	land_ability_trait_list	att_trait_general_ability_all_recon	number		lib
+member	land_ability_trait_list	att_trait_general_ability_all_second	number		lib
+member	land_ability_trait_list	att_trait_general_ability_all_war	number		lib
+global	last_settlement_selected	string		lib
+global	load_campaign_ui_state	function	Lua	lib
+global	load_faction_script	function	Lua	lib
+global	load_hun_preservation_data	function	Lua	lib
+global	local_faction	string		lib
+global	lock_campaign_ui	function	Lua	lib
+global	lua_scripts	table		lib
+member	lua_scripts	episodicscripting	table		lib
+global	message_treaty_federates	function	Lua	lib
+global	message_treaty_federates2	function	Lua	lib
+global	military_force_average_casualties	function	Lua	lib
+global	military_force_is_mobile	function	Lua	lib
+global	modify_advice	function	Lua	lib
+global	move_npc_army	function	Lua	lib
+global	naval_ability_trait_list	table		lib
+member	naval_ability_trait_list	att_trait_general_ability_all_inspire	number		lib
+member	naval_ability_trait_list	att_trait_general_ability_all_power	number		lib
+global	notify_on_character_halt	function	Lua	lib
+global	notify_on_character_movement	function	Lua	lib
+global	npc_army_arrived	function	Lua	lib
+global	number_of_major_religious_buildings_required	number		lib
+global	number_of_resources_needed	number		lib
+global	number_of_traits_added_this_tick	number		lib
+global	number_of_victories_required	number		lib
+global	objective_output	function	Lua	lib
+global	out	table		lib
+member	out	design	function	C	lib
+member	out	dylan	function	C	lib
+member	out	kostas	function	C	lib
+member	out	scott_b	function	C	lib
+member	out	shane	function	C	lib
+member	out	ting	function	C	lib
+member	out	tom	function	C	lib
+global	output	function	Lua	lib
+global	output_campaign_obj	function	Lua	lib
+global	output_campaign_obj_separator	string		lib
+global	output_uicomponent	function	Lua	lib
+global	output_uicomponent_on_click	function	Lua	lib
+global	pending_battle_in_region	function	Lua	lib
+global	perform_hun_preservation_check	function	Lua	lib
+global	player_attacker_in_battle	function	Lua	lib
+global	player_defender_in_battle	function	Lua	lib
+global	player_involved_in_battle	function	Lua	lib
+global	prevent_additional_advice	function	Lua	lib
+global	process_os_clock_callback	function	Lua	lib
+global	progress_on_advice_dismissed	function	Lua	lib
+global	progress_on_advice_finished	function	Lua	lib
+global	progress_on_advice_finished_poll	function	Lua	lib
+global	query_loadstring_campaign_defense_cqi	function	Lua	lib
+global	query_loadstring_campaign_defense_is_active	function	Lua	lib
+global	queue_up_next_force_to_spawn	function	Lua	lib
+global	r_to_d	function	Lua	lib
+global	ram	table		lib
+member	ram	AddMandatoryUnit	function	Lua	lib
+member	ram	AddUnit	function	Lua	lib
+member	ram	GetRandomForce	function	Lua	lib
+member	ram	NewForce	function	Lua	lib
+member	ram	RemoveForce	function	Lua	lib
+member	ram	_M	table		lib
+member	ram	_NAME	string		lib
+member	ram	_PACKAGE	string		lib
+member	ram	force_list	table		lib
+global	random_army	table		lib
+member	random_army	AddMandatoryUnit	function	Lua	lib
+member	random_army	AddUnit	function	Lua	lib
+member	random_army	GetRandomForce	function	Lua	lib
+member	random_army	NewForce	function	Lua	lib
+member	random_army	RemoveForce	function	Lua	lib
+member	random_army	_M	table		lib
+member	random_army	_NAME	string		lib
+member	random_army	_PACKAGE	string		lib
+member	random_army	force_list	table		lib
+global	random_sort	function	Lua	lib
+global	random_subset	function	Lua	lib
+global	region_owned_by_faction	function	Lua	lib
+global	region_trading	table		lib
+member	region_trading	explain	function	Lua	lib
+member	region_trading	federates	table		lib
+member	region_trading	rt	table		lib
+member	region_trading	value	table		lib
+global	release_campaign_ui	function	Lua	lib
+global	release_defense	function	Lua	lib
+global	religious_building_chains	table		lib
+member	religious_building_chains	att_rel_church_east	table		lib
+member	religious_building_chains	att_rel_judaism	table		lib
+member	religious_building_chains	att_rel_semitic_paganism	table		lib
+global	remove_all_objectives	function	Lua	lib
+global	remove_callback	function	Lua	lib
+global	remove_character_selection_whitelist	function	Lua	lib
+global	remove_infotext	function	Lua	lib
+global	remove_listener_assign_general_ability_character_created	function	Lua	lib
+global	remove_listener_assign_general_ability_comes_of_age	function	Lua	lib
+global	remove_objective	function	Lua	lib
+global	remove_settlement_selection_whitelist	function	Lua	lib
+global	repair_options	table		lib
+global	reset_objective_chain	function	Lua	lib
+global	reset_to_default_values	function	Lua	lib
+global	resource_list	table		lib
+global	restart_trait_addition_system	function	Lua	lib
+global	restore_tab	function	Lua	lib
+global	restrict_buildings_for_faction	function	Lua	lib
+global	restrict_military_building	function	Lua	lib
+global	restrict_religious_building	function	Lua	lib
+global	restrict_technologies_for_faction	function	Lua	lib
+global	restrict_trade_building	function	Lua	lib
+global	restrict_units_for_faction	function	Lua	lib
+global	restricted_military_building_list	table		lib
+global	restricted_religion_building_list	table		lib
+global	restricted_trade_building_list	table		lib
+global	sands/random_army	table		lib
+member	sands/random_army	AddMandatoryUnit	function	Lua	lib
+member	sands/random_army	AddUnit	function	Lua	lib
+member	sands/random_army	GetRandomForce	function	Lua	lib
+member	sands/random_army	NewForce	function	Lua	lib
+member	sands/random_army	RemoveForce	function	Lua	lib
+member	sands/random_army	_M	table		lib
+member	sands/random_army	_NAME	string		lib
+member	sands/random_army	_PACKAGE	string		lib
+member	sands/random_army	force_list	table		lib
+global	save_campaign_ui_state	function	Lua	lib
+global	save_load_callbacks	table		lib
+member	save_load_callbacks	eh	table		lib
+member	save_load_callbacks	load_callbacks	table		lib
+member	save_load_callbacks	save_callbacks	table		lib
+global	script_error	function	Lua	lib
+global	script_messager	table		lib
+member	script_messager	add_listener	function	Lua	lib
+member	script_messager	dump	function	Lua	lib
+member	script_messager	is_debug	boolean		lib
+member	script_messager	listeners	table		lib
+member	script_messager	new	function	Lua	lib
+member	script_messager	set_debug	function	Lua	lib
+member	script_messager	trigger_message	function	Lua	lib
+global	script_timer_index	number		lib
+global	script_timers	table		lib
+global	scripting	table		lib
+member	scripting	AddEventCallBack	function	Lua	lib
+member	scripting	ClearEventCallbacks	function	Lua	lib
+member	scripting	ClearMessageAutoShowOverrides	function	Lua	lib
+member	scripting	DisableFeature	function	Lua	lib
+member	scripting	EnableComponent	function	Lua	lib
+member	scripting	EnableFeature	function	Lua	lib
+member	scripting	HideComponent	function	Lua	lib
+member	scripting	HighlightComponent	function	Lua	lib
+member	scripting	HighlightConstructionItem	function	Lua	lib
+member	scripting	HighlightRecruitmentItem	function	Lua	lib
+member	scripting	InitFeature	function	Lua	lib
+member	scripting	IsOnCampaignMap	function	Lua	lib
+member	scripting	OnUICreated	function	Lua	lib
+member	scripting	OverrideMessageAutoShow	function	Lua	lib
+member	scripting	RevealComponent	function	Lua	lib
+member	scripting	SetCampaign	function	Lua	lib
+member	scripting	ShowHUD	function	Lua	lib
+member	scripting	_M	table		lib
+member	scripting	_NAME	string		lib
+member	scripting	_PACKAGE	string		lib
+global	scroll_camera	function	Lua	lib
+global	scroll_camera_position_check	function	Lua	lib
+global	scroll_camera_with_direction	function	Lua	lib
+global	set_all_campaign_ui	function	Lua	lib
+global	set_end_of_turn_warning	function	Lua	lib
+global	set_intro_cinematic	function	Lua	lib
+global	set_objective	function	Lua	lib
+global	settlement_display_pos	function	Lua	lib
+global	settlement_logical_pos	function	Lua	lib
+global	settlement_pos	function	Lua	lib
+global	settlement_selection_whitelist	table		lib
+global	setup_save_load_callbacks	function	Lua	lib
+global	should_assign_attila	boolean		lib
+global	show_advice	function	Lua	lib
+global	show_advisor_progress_button	function	Lua	lib
+global	show_infotext	function	Lua	lib
+global	show_infotext_finish	function	Lua	lib
+global	skip_all_campaign_cutscenes	function	Lua	lib
+global	spawn_additional_forces	function	Lua	lib
+global	spawn_hun_force	function	Lua	lib
+global	spawn_hun_force_at_spawnpoint	function	Lua	lib
+global	start_all_hun_preservation_systems	function	Lua	lib
+global	start_attila_story_system	function	Lua	lib
+global	start_campaign_selection_listener	function	Lua	lib
+global	start_climate_change_monitor	function	Lua	lib
+global	start_defense	function	Lua	lib
+global	start_end_of_turn_warning_suppression_system	function	Lua	lib
+global	start_game_all_factions	function	Lua	lib
+global	start_general_ability_trait_system	function	Lua	lib
+global	start_hun_preservation_system	function	Lua	lib
+global	start_listener_assign_general_ability_character_created	function	Lua	lib
+global	start_listener_assign_general_ability_comes_of_age	function	Lua	lib
+global	start_trait_addition_system	function	Lua	lib
+global	stop_climate_change_monitor	function	Lua	lib
+global	stop_end_of_turn_warning_suppression_system	function	Lua	lib
+global	stop_hun_preservation_system	function	Lua	lib
+global	stop_trait_addition_system	function	Lua	lib
+global	suspend_contextual_advice_for_campaign	function	Lua	lib
+global	time_increment_ms	number		lib
+global	traits_to_add	table		lib
+global	trigger_fifth_seal	function	Lua	lib
+global	trigger_first_seal	function	Lua	lib
+global	trigger_fourth_seal	function	Lua	lib
+global	trigger_second_seal	function	Lua	lib
+global	trigger_seventh_seal	function	Lua	lib
+global	trigger_sixth_seal	function	Lua	lib
+global	trigger_third_seal	function	Lua	lib
+global	twase	table		lib
+member	twase	building_level	function	C	lib
+member	twase	dev_db_fields	function	C	lib
+member	twase	dev_db_record	function	C	lib
+member	twase	dev_diplomacy_actions	function	C	lib
+member	twase	dev_last_deal_score	function	C	lib
+member	twase	dev_transfer_region	function	C	lib
+member	twase	enable_region_trading	function	C	lib
+member	twase	faction_attitude	function	C	lib
+member	twase	levy_pool	function	C	lib
+member	twase	localise	function	C	lib
+member	twase	region_province	function	C	lib
+member	twase	region_wealth	function	C	lib
+member	twase	unit	function	C	lib
+member	twase	version	string		lib
+global	ui/CoreUtils	table		lib
+member	ui/CoreUtils	Clamp	function	Lua	lib
+member	ui/CoreUtils	CompareByValue	function	Lua	lib
+member	ui/CoreUtils	CopyIntoTable	function	Lua	lib
+member	ui/CoreUtils	CopyTable	function	Lua	lib
+member	ui/CoreUtils	LoadTable	function	Lua	lib
+member	ui/CoreUtils	Max	function	Lua	lib
+member	ui/CoreUtils	Min	function	Lua	lib
+member	ui/CoreUtils	NamespaceFile	function	Lua	lib
+member	ui/CoreUtils	OffsetFrom	function	Lua	lib
+member	ui/CoreUtils	PickFGColour	function	Lua	lib
+member	ui/CoreUtils	PrintTable	function	Lua	lib
+member	ui/CoreUtils	Require	function	Lua	lib
+member	ui/CoreUtils	RoundToInt	function	Lua	lib
+member	ui/CoreUtils	RupToInt	function	Lua	lib
+member	ui/CoreUtils	SaveTable	function	Lua	lib
+member	ui/CoreUtils	TimeString	function	Lua	lib
+member	ui/CoreUtils	TruncToInt	function	Lua	lib
+member	ui/CoreUtils	UnRequire	function	Lua	lib
+member	ui/CoreUtils	UnRequireAll	function	Lua	lib
+member	ui/CoreUtils	_M	table		lib
+member	ui/CoreUtils	_NAME	string		lib
+member	ui/CoreUtils	_PACKAGE	string		lib
+member	ui/CoreUtils	outputbitfield	function	Lua	lib
+global	ui_override	table		lib
+member	ui_override	__index	table		lib
+member	ui_override	__tostring	function	Lua	lib
+member	ui_override	current_state	boolean		lib
+member	ui_override	get_allowed	function	Lua	lib
+member	ui_override	is_allowed	boolean		lib
+member	ui_override	lock	function	Lua	lib
+member	ui_override	name	string		lib
+member	ui_override	new	function	Lua	lib
+member	ui_override	set_allowed	function	Lua	lib
+member	ui_override	unlock	function	Lua	lib
+global	ui_state	table		lib
+member	ui_state	abandon_settlements	table		lib
+member	ui_state	army_morale_warning	table		lib
+member	ui_state	autoresolve	table		lib
+member	ui_state	bankruptcy_warning	table		lib
+member	ui_state	building_browser	table		lib
+member	ui_state	campaign_values	table		lib
+member	ui_state	cancel_construction	table		lib
+member	ui_state	cancel_recruitment	table		lib
+member	ui_state	cancel_siege_weapons	table		lib
+member	ui_state	character_details	table		lib
+member	ui_state	character_skills_warning	table		lib
+member	ui_state	construction_site	table		lib
+member	ui_state	convert_religion	table		lib
+member	ui_state	cost_display	table		lib
+member	ui_state	diplomacy	table		lib
+member	ui_state	disable_dismiss_advice_end_turn	table		lib
+member	ui_state	disable_end_of_turn_warnings	table		lib
+member	ui_state	disable_resettle	table		lib
+member	ui_state	disable_side_panels	table		lib
+member	ui_state	disband_unit	table		lib
+member	ui_state	dismantle_building	table		lib
+member	ui_state	edicts_warning	table		lib
+member	ui_state	end_turn	table		lib
+member	ui_state	enlist_agent	table		lib
+member	ui_state	enlist_navy	table		lib
+member	ui_state	events_panel	table		lib
+member	ui_state	events_rollout	table		lib
+member	ui_state	faction_button	table		lib
+member	ui_state	finance	table		lib
+member	ui_state	food_display	table		lib
+member	ui_state	force_details	table		lib
+member	ui_state	force_skills_warning	table		lib
+member	ui_state	governor_warning	table		lib
+member	ui_state	incentives	table		lib
+member	ui_state	intrigue_actions	table		lib
+member	ui_state	large_info_panels	table		lib
+member	ui_state	loot_button	table		lib
+member	ui_state	maintain_siege	table		lib
+member	ui_state	migration	table		lib
+member	ui_state	migration_cancel	table		lib
+member	ui_state	missions	table		lib
+member	ui_state	non_city_building_upgrades	table		lib
+member	ui_state	occupy_button	table		lib
+member	ui_state	prebattle_attack	table		lib
+member	ui_state	prebattle_save	table		lib
+member	ui_state	province_details	table		lib
+member	ui_state	public_order_display	table		lib
+member	ui_state	radar_rollout_buttons	table		lib
+member	ui_state	raise_army	table		lib
+member	ui_state	raze_button	table		lib
+member	ui_state	recruit_mercenaries	table		lib
+member	ui_state	recruit_units	table		lib
+member	ui_state	repair_building	table		lib
+member	ui_state	replace_general	table		lib
+member	ui_state	retreat	table		lib
+member	ui_state	sack_button	table		lib
+member	ui_state	sally_forth_button	table		lib
+member	ui_state	saving	table		lib
+member	ui_state	seek_wife	table		lib
+member	ui_state	settlement_renaming	table		lib
+member	ui_state	siege_equipment_warning	table		lib
+member	ui_state	stances	table		lib
+member	ui_state	subjugation_button	table		lib
+member	ui_state	tactical_map	table		lib
+member	ui_state	tax_exemption	table		lib
+member	ui_state	technology	table		lib
+member	ui_state	technology_warning	table		lib
+member	ui_state	toggle_move_speed	table		lib
+member	ui_state	toggle_movement_speed	table		lib
+member	ui_state	upgrade_unit	table		lib
+member	ui_state	windowed_movies	table		lib
+global	uicomponent_to_str	function	Lua	lib
+global	unhighlight_character	function	Lua	lib
+global	unhighlight_character_for_selection	function	Lua	lib
+global	unhighlight_component_with_duration	function	Lua	lib
+global	unhighlight_settlement	function	Lua	lib
+global	unhighlight_settlement_for_selection	function	Lua	lib
+global	unlock_campaign_ui	function	Lua	lib
+global	unlock_military_buildings	function	Lua	lib
+global	unlock_the_religious_buildings	function	Lua	lib
+global	unlock_trade_buildings	function	Lua	lib
+global	update_end_of_turn_warning_suppression_system	function	Lua	lib
+global	update_objective_chain	function	Lua	lib
+global	update_objectives_position	function	Lua	lib
+event	AdviceDismissed
+event	AdviceFinishedTrigger
+event	AdviceIssued
+event	AdviceSuperseded
+event	AreaCameraEntered
+event	AreaEntered
+event	AreaExited
+event	ArmyBribeAttemptFailure
+event	ArmySabotageAttemptFailure
+event	ArmySabotageAttemptSuccess
+event	AssassinationAttemptCriticalSuccess
+event	AssassinationAttemptFailure
+event	AssassinationAttemptSuccess
+event	BattleBoardingActionCommenced
+event	BattleCommandingShipRouts
+event	BattleCommandingUnitRouts
+event	BattleCompleted
+event	BattleConflictPhaseCommenced
+event	BattleDeploymentPhaseCommenced
+event	BattleFortPlazaCaptureCommenced
+event	BattleShipAttacksEnemyShip
+event	BattleShipCaughtFire
+event	BattleShipMagazineExplosion
+event	BattleShipRouts
+event	BattleShipRunAground
+event	BattleShipSailingIntoWind
+event	BattleShipSurrendered
+event	BattleUnitAttacksBuilding
+event	BattleUnitAttacksEnemyUnit
+event	BattleUnitAttacksWalls
+event	BattleUnitCapturesBuilding
+event	BattleUnitDestroysBuilding
+event	BattleUnitRouts
+event	BattleUnitUsingBuilding
+event	BattleUnitUsingWall
+event	BuildingCardSelected
+event	BuildingCompleted
+event	BuildingConstructionIssuedByPlayer
+event	BuildingInfoPanelOpenedCampaign
+event	CameraMoverCancelled
+event	CameraMoverFinished
+event	CampaignArmiesMerge
+event	CampaignBuildingDamaged
+event	CampaignCoastalAssaultOnCharacter
+event	CampaignCoastalAssaultOnGarrison
+event	CampaignEffectsBundleAwarded
+event	CampaignSettlementAttacked
+event	CharacterAttacksAlly
+event	CharacterBecomesFactionLeader
+event	CharacterBesiegesSettlement
+event	CharacterBlockadedPort
+event	CharacterBrokePortBlockade
+event	CharacterBuildingCompleted
+event	CharacterCanLiberate
+event	CharacterCandidateBecomesMinister
+event	CharacterCharacterTargetAction
+event	CharacterComesOfAge
+event	CharacterCompletedBattle
+event	CharacterCreated
+event	CharacterDamagedByDisaster
+event	CharacterDeselected
+event	CharacterDiscovered
+event	CharacterDisembarksNavy
+event	CharacterEmbarksNavy
+event	CharacterEntersAttritionalArea
+event	CharacterEntersGarrison
+event	CharacterFactionCompletesResearch
+event	CharacterFamilyRelationDied
+event	CharacterGarrisonTargetAction
+event	CharacterInfoPanelOpened
+event	CharacterLeavesGarrison
+event	CharacterLootedSettlement
+event	CharacterMarriage
+event	CharacterMilitaryForceTraditionPointAllocated
+event	CharacterMilitaryForceTraditionPointAvailable
+event	CharacterParticipatedAsSecondaryGeneralInBattle
+event	CharacterPerformsActionAgainstFriendlyTarget
+event	CharacterPerformsOccupationDecisionLoot
+event	CharacterPerformsOccupationDecisionOccupy
+event	CharacterPerformsOccupationDecisionRaze
+event	CharacterPerformsOccupationDecisionResettle
+event	CharacterPerformsOccupationDecisionSack
+event	CharacterPostBattleEnslave
+event	CharacterPostBattleRelease
+event	CharacterPostBattleSlaughter
+event	CharacterPromoted
+event	CharacterRankUp
+event	CharacterRankUpNeedsAncillary
+event	CharacterRelativeKilled
+event	CharacterSelected
+event	CharacterSettlementBesieged
+event	CharacterSettlementBlockaded
+event	CharacterSkillPointAllocated
+event	CharacterSuccessfulArmyBribe
+event	CharacterSuccessfulConvert
+event	CharacterSuccessfulDemoralise
+event	CharacterSuccessfulInciteRevolt
+event	CharacterSurvivesAssassinationAttempt
+event	CharacterTurnEnd
+event	CharacterTurnStart
+event	CharacterWoundedInAssassinationAttempt
+event	ClanBecomesVassal
+event	ClimatePhaseChange
+event	ComponentCreated
+event	ComponentLClickUp
+event	ComponentLinkClicked
+event	ComponentMouseOn
+event	ComponentMoved
+event	ConvertAttemptFailure
+event	DemoraliseAttemptFailure
+event	DilemmaChoiceMadeEvent
+event	DilemmaEvent
+event	DilemmaIssuedEvent
+event	DillemaOrIncidentStarted
+event	DiplomacyNegotiationStarted
+event	DiplomaticOfferRejected
+event	DuelDemanded
+event	DummyEvent
+event	EncylopediaEntryRequested
+event	EventMessageOpenedBattle
+event	EventMessageOpenedCampaign
+event	FactionAboutToEndTurn
+event	FactionBecomesLiberationProtectorate
+event	FactionBecomesLiberationVassal
+event	FactionBecomesShogun
+event	FactionBecomesWorldLeader
+event	FactionBeginTurnPhaseNormal
+event	FactionCapturesKyoto
+event	FactionCapturesWorldCapital
+event	FactionEncountersOtherFaction
+event	FactionFameLevelUp
+event	FactionGovernmentTypeChanged
+event	FactionHordeStatusChange
+event	FactionLeaderDeclaresWar
+event	FactionLeaderSignsPeaceTreaty
+event	FactionRoundStart
+event	FactionSubjugatesOtherFaction
+event	FactionTurnEnd
+event	FactionTurnStart
+event	FirstTickAfterNewCampaignStarted
+event	FirstTickAfterWorldCreated
+event	ForceAdoptsStance
+event	FortSelected
+event	FrontendScreenTransition
+event	GarrisonAttackedEvent
+event	GarrisonOccupiedEvent
+event	GarrisonResidenceCaptured
+event	GovernorAssignedCharacterEvent
+event	GovernorshipTaxRateChanged
+event	HistoricBattleEvent
+event	HistoricalCharacters
+event	HistoricalEvents
+event	HudRefresh
+event	IncidentOccuredEvent
+event	InciteRevoltAttemptFailure
+event	IncomingMessage
+event	LandTradeRouteRaided
+event	LoadingGame
+event	LoadingScreenDismissed
+event	LocationEntered
+event	LocationUnveiled
+event	MPLobbyChatCreated
+event	MapIconMoved
+event	MissionCancelled
+event	MissionCheckAssassination
+event	MissionCheckBlockadePort
+event	MissionCheckBuild
+event	MissionCheckCaptureCity
+event	MissionCheckDuel
+event	MissionCheckEngageCharacter
+event	MissionCheckEngageFaction
+event	MissionCheckGainMilitaryAccess
+event	MissionCheckMakeAlliance
+event	MissionCheckMakeTradeAgreement
+event	MissionCheckRecruit
+event	MissionCheckResearch
+event	MissionCheckSpyOnCity
+event	MissionEvaluateAssassination
+event	MissionEvaluateBlockadePort
+event	MissionEvaluateBuild
+event	MissionEvaluateCaptureCity
+event	MissionEvaluateDuel
+event	MissionEvaluateEngageCharacter
+event	MissionEvaluateEngageFaction
+event	MissionEvaluateGainMilitaryAccess
+event	MissionEvaluateMakeAlliance
+event	MissionEvaluateMakeTradeAgreement
+event	MissionEvaluateRecruit
+event	MissionEvaluateResearch
+event	MissionEvaluateSpyOnCity
+event	MissionFailed
+event	MissionIssued
+event	MissionNearingExpiry
+event	MissionSucceeded
+event	ModelCreated
+event	MovementPointsExhausted
+event	MultiTurnMove
+event	NewCampaignStarted
+event	NewSession
+event	PanelAdviceRequestedBattle
+event	PanelAdviceRequestedCampaign
+event	PanelClosedBattle
+event	PanelClosedCampaign
+event	PanelOpenedBattle
+event	PanelOpenedCampaign
+event	PendingBankruptcy
+event	PendingBattle
+event	PositiveDiplomaticEvent
+event	PreBattle
+event	RecruitmentItemIssuedByPlayer
+event	RegionGainedDevlopmentPoint
+event	RegionIssuesDemands
+event	RegionRebels
+event	RegionRiots
+event	RegionSelected
+event	RegionStrikes
+event	RegionTurnEnd
+event	RegionTurnStart
+event	ResearchCompleted
+event	ResearchStarted
+event	SabotageAttemptFailure
+event	SabotageAttemptSuccess
+event	SavingGame
+event	ScriptedAgentCreated
+event	ScriptedAgentCreationFailed
+event	ScriptedCharacterUnhidden
+event	ScriptedCharacterUnhiddenFailed
+event	ScriptedForceCreated
+event	SeaTradeRouteRaided
+event	SettlementDeselected
+event	SettlementOccupied
+event	SettlementSelected
+event	ShortcutTriggered
+event	SiegeLifted
+event	SlotOpens
+event	SlotRoundStart
+event	SlotSelected
+event	SlotTurnStart
+event	StartRegionPopupVisible
+event	StartRegionSelected
+event	TechnologyInfoPanelOpenedCampaign
+event	TestEvent
+event	TimeTrigger
+event	TooltipAdvice
+event	TradeLinkEstablished
+event	TradeNodeConnected
+event	TradeRouteEstablished
+event	UICreated
+event	UIDestroyed
+event	UngarrisonedFort
+event	UnitCompletedBattle
+event	UnitCreated
+event	UnitDisembarkCompleted
+event	UnitSelectedCampaign
+event	UnitTrained
+event	UnitTurnEnd
+event	VictoryConditionFailed
+event	VictoryConditionMet
+event	WorldCreated
+event	_M
+event	_NAME
+event	_PACKAGE
+event	historical_events

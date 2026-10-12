@@ -22,6 +22,8 @@ Every Lua state belongs to an environment object. All of them derive from `UTILI
 
 `EPISODIC_SCRIPTING_ENV` keeps the campaign folder (`campaigns/main_attila`) and the script path (`campaigns/main_attila/scripting.lua`) as strings in the object. Its startup function reads the script through the game's file system, sets `package.path`, loads the chunk with `luaL_loadbuffer` and runs it. TWASE's mod loader hooks exactly this function: after the original has run, it registers `twase` and `require`s the mods (see [script mods](../modding/script-mods.md)).
 
+The campaign script runs in an **environment of its own**, not `_G`, and the game's `require` loads files into the caller's environment: the script library and the script mods all share that environment. `_G` only holds Lua's standard library and a few engine functions (`CliExecute`, `RequireRegister`, `system`, `vfs`).
+
 The game keeps a linked list of its script runtimes, each with its Lua state; the console's `.contexts` lists them, and the active one is where typed Lua runs.
 
 ## Threads
@@ -36,10 +38,6 @@ The game runs its Lua on the game thread (the thread of the game's `WinMain`). T
 
 The campaign model is bound with the **Lunar** C++ template. A script object (e.g. what `faction_by_key` returns) is a userdata holding a pointer to a `<CLASS>_SCRIPT_INTERFACE` object, which points to the game object (e.g. `FACTION`). The class's metatable is in the Lua registry under the class name (`"FACTION_SCRIPT_INTERFACE"`), so a userdata's class can be checked by comparing its metatable with the registry entry.
 
-Each class has a static method table of 24-byte entries `{ const char* name, member function, this adjustment }`, ending at a null name. The methods are called as `(T* this, lua_State* L)`. On Mac there are 36 such tables with 805 methods (battle and campaign classes); the classes known so far:
-
-- `FACTION_SCRIPT_INTERFACE`: `region_list` … `is_trading_with`
-- `REGION_SCRIPT_INTERFACE`: `model` … `sanitation` (22 methods)
-- `UIComponent` (the UI binding): `Width`, `Height`, `SetState`, `SetTooltipText`, `Find`, `Adopt`, …
+Each class has a static method table of 24-byte entries `{ const char* name, member function, this adjustment }`, ending at a null name. The methods are called as `(T* this, lua_State* L)`. On Mac there are 36 such tables with 805 methods (battle and campaign classes); the campaign ones are matched to their classes in the [campaign API reference](../reference/README.md).
 
 Campaign methods read their arguments and push their results through a few shared helpers that take a context object (the Lua state plus a "still valid" flag that a type mismatch clears, after logging "Trying to retrieve type %s, found type %s"). Battle methods use a different, variadic convention.

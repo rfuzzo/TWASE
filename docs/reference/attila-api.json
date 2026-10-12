@@ -1,0 +1,7656 @@
+{
+ "build": "Feral 1.6.1 RC2 (Mac), LC_UUID 392D6F66-9183-329E-8A98-8C90FC828326",
+ "classes": {
+  "BUILDING_LIST_SCRIPT_INTERFACE": {
+   "method_table": null,
+   "methods": [
+    {
+     "args": "",
+     "handler": null,
+     "name": "is_empty",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "item_at",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "new",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "num_items",
+     "returns": ""
+    }
+   ]
+  },
+  "BUILDING_SCRIPT_INTERFACE": {
+   "method_table": "0x104f84620",
+   "methods": [
+    {
+     "args": "",
+     "handler": "0x101d33e1c",
+     "name": "chain",
+     "returns": "string"
+    },
+    {
+     "args": "",
+     "handler": "0x101d33bf4",
+     "name": "faction",
+     "returns": "FACTION_SCRIPT_INTERFACE"
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "is_null_interface",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": "0x101d33b68",
+     "name": "model",
+     "returns": "MODEL_SCRIPT_INTERFACE"
+    },
+    {
+     "args": "",
+     "handler": "0x101d33d94",
+     "name": "name",
+     "returns": "string"
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "new",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": "0x101d33f44",
+     "name": "percent_health",
+     "returns": "number (int)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d33c8c",
+     "name": "region",
+     "returns": "REGION_SCRIPT_INTERFACE"
+    },
+    {
+     "args": "",
+     "handler": "0x101d33d10",
+     "name": "slot",
+     "returns": "SLOT_SCRIPT_INTERFACE"
+    },
+    {
+     "args": "",
+     "handler": "0x101d33eac",
+     "name": "superchain",
+     "returns": "string"
+    }
+   ]
+  },
+  "CAMPAIGN_AI_SCRIPT_INTERFACE": {
+   "method_table": "0x104f85040",
+   "methods": [
+    {
+     "args": "",
+     "handler": null,
+     "name": "is_null_interface",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "new",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": "0x101d36c24",
+     "name": "strategic_stance_between_factions",
+     "returns": "number (int)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d36ce4",
+     "name": "strategic_stance_between_factions_available",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d373ec",
+     "name": "strategic_stance_between_factions_is_being_blocked",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d374d4",
+     "name": "strategic_stance_between_factions_is_being_blocked_until",
+     "returns": "number (uint)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d36f4c",
+     "name": "strategic_stance_between_factions_promotion_current_level",
+     "returns": "number (float)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d372fc",
+     "name": "strategic_stance_between_factions_promotion_end_level",
+     "returns": "number (float)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d37214",
+     "name": "strategic_stance_between_factions_promotion_end_round",
+     "returns": "number (uint)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d36e64",
+     "name": "strategic_stance_between_factions_promotion_is_active",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d36da4",
+     "name": "strategic_stance_between_factions_promotion_or_blocking_is_set",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d37124",
+     "name": "strategic_stance_between_factions_promotion_start_level",
+     "returns": "number (float)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d3703c",
+     "name": "strategic_stance_between_factions_promotion_start_round",
+     "returns": "number (uint)"
+    }
+   ]
+  },
+  "CAMPAIGN_MISSION_SCRIPT_INTERFACE": {
+   "method_table": "0x104f84fb0",
+   "methods": [
+    {
+     "args": "",
+     "handler": "0x101d36ae8",
+     "name": "faction",
+     "returns": "FACTION_SCRIPT_INTERFACE"
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "is_null_interface",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": "0x101d36bb8",
+     "name": "mission_issuer_record_key",
+     "returns": "string"
+    },
+    {
+     "args": "",
+     "handler": "0x101d36b68",
+     "name": "mission_record_key",
+     "returns": "string"
+    },
+    {
+     "args": "",
+     "handler": "0x101d36a58",
+     "name": "model",
+     "returns": "MODEL_SCRIPT_INTERFACE"
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "new",
+     "returns": ""
+    }
+   ]
+  },
+  "CHARACTER_LIST_SCRIPT_INTERFACE": {
+   "method_table": null,
+   "methods": [
+    {
+     "args": "",
+     "handler": null,
+     "name": "is_empty",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "item_at",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "new",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "num_items",
+     "returns": ""
+    }
+   ]
+  },
+  "CHARACTER_SCRIPT_INTERFACE": {
+   "method_table": "0x104f83618",
+   "methods": [
+    {
+     "args": "",
+     "handler": "0x101d2e170",
+     "name": "action_points_per_turn",
+     "returns": "number (int)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2e09c",
+     "name": "action_points_remaining_percent",
+     "returns": "number (float)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2e224",
+     "name": "age",
+     "returns": "number (int)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2e04c",
+     "name": "battles_fought",
+     "returns": "number (uint)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2ea08",
+     "name": "battles_won",
+     "returns": "number (uint)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2f378",
+     "name": "body_guard_casulties",
+     "returns": "number (float)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2daac",
+     "name": "character_type",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2fa2c",
+     "name": "command_queue_index",
+     "returns": "number (uint)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2ee18",
+     "name": "cqi",
+     "returns": "number (uint)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2edc8",
+     "name": "defensive_ambush_battles_fought",
+     "returns": "number (uint)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2ed78",
+     "name": "defensive_ambush_battles_won",
+     "returns": "number (uint)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2eb48",
+     "name": "defensive_battles_fought",
+     "returns": "number (uint)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2eaf8",
+     "name": "defensive_battles_won",
+     "returns": "number (uint)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2ec88",
+     "name": "defensive_naval_battles_fought",
+     "returns": "number (uint)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2ec38",
+     "name": "defensive_naval_battles_won",
+     "returns": "number (uint)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2e4b8",
+     "name": "defensive_sieges_fought",
+     "returns": "number (uint)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2e508",
+     "name": "defensive_sieges_won",
+     "returns": "number (uint)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2e950",
+     "name": "display_position_x",
+     "returns": "number (float)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2e9ac",
+     "name": "display_position_y",
+     "returns": "number (float)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2d404",
+     "name": "faction",
+     "returns": "FACTION_SCRIPT_INTERFACE"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2f9ac",
+     "name": "family_member",
+     "returns": "FAMILY_MEMBER_SCRIPT_INTERFACE"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2f8a4",
+     "name": "father",
+     "returns": "FAMILY_MEMBER_SCRIPT_INTERFACE"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2d5b0",
+     "name": "forename",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2e5f8",
+     "name": "fought_in_battle",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2d378",
+     "name": "garrison_residence",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": "0x101d2d778",
+     "name": "get_forename",
+     "returns": "string"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2d80c",
+     "name": "get_surname",
+     "returns": "string"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2f740",
+     "name": "gravitas",
+     "returns": "number (uint)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2debc",
+     "name": "has_ancillary",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2f7ec",
+     "name": "has_father",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2d198",
+     "name": "has_garrison_residence",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2d284",
+     "name": "has_military_force",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2f848",
+     "name": "has_mother",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2f1dc",
+     "name": "has_recruited_mercenaries",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2d1f0",
+     "name": "has_region",
+     "returns": "boolean"
+    },
+    {
+     "args": "string",
+     "handler": "0x101d2eed0",
+     "name": "has_skill",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2db6c",
+     "name": "has_trait",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2d918",
+     "name": "in_port",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2d8a0",
+     "name": "in_settlement",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2e2c8",
+     "name": "is_ambushing",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2d994",
+     "name": "is_besieging",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2d9e8",
+     "name": "is_blockading",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2da3c",
+     "name": "is_carrying_troops",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2f18c",
+     "name": "is_deployed",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2ee68",
+     "name": "is_embedded_in_military_force",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2e40c",
+     "name": "is_faction_leader",
+     "returns": "boolean"
+    },
+    {
+     "args": "string",
+     "handler": "0x101d2f054",
+     "name": "is_hidden",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2e1cc",
+     "name": "is_male",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "is_null_interface",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": "0x101d2f6ec",
+     "name": "is_politician",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2e8a8",
+     "name": "logical_position_x",
+     "returns": "number (uint)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2e8fc",
+     "name": "logical_position_y",
+     "returns": "number (uint)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2f798",
+     "name": "loyalty",
+     "returns": "number (uint)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2d518",
+     "name": "military_force",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": "0x101d2d2ec",
+     "name": "model",
+     "returns": "MODEL_SCRIPT_INTERFACE"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2f928",
+     "name": "mother",
+     "returns": "FAMILY_MEMBER_SCRIPT_INTERFACE"
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "new",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": "0x101d2f4e4",
+     "name": "number_of_traits",
+     "returns": "number (uint)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2ed28",
+     "name": "offensive_ambush_battles_fought",
+     "returns": "number (uint)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2ecd8",
+     "name": "offensive_ambush_battles_won",
+     "returns": "number (uint)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2eaa8",
+     "name": "offensive_battles_fought",
+     "returns": "number (uint)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2ea58",
+     "name": "offensive_battles_won",
+     "returns": "number (uint)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2ebe8",
+     "name": "offensive_naval_battles_fought",
+     "returns": "number (uint)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2eb98",
+     "name": "offensive_naval_battles_won",
+     "returns": "number (uint)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2e558",
+     "name": "offensive_sieges_fought",
+     "returns": "number (uint)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2e5a8",
+     "name": "offensive_sieges_won",
+     "returns": "number (uint)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2e7c0",
+     "name": "percentage_of_own_alliance_killed",
+     "returns": "number (float)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2e278",
+     "name": "performed_action_this_turn",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2e464",
+     "name": "rank",
+     "returns": "number (int)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2d488",
+     "name": "region",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": "0x101d2f234",
+     "name": "routed_in_battle",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2d694",
+     "name": "surname",
+     "returns": "boolean"
+    },
+    {
+     "args": "string",
+     "handler": "0x101d2f524",
+     "name": "trait_level",
+     "returns": "number (int)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2dd14",
+     "name": "trait_points",
+     "returns": "number (int)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2e31c",
+     "name": "turns_at_sea",
+     "returns": "number (uint)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2e3bc",
+     "name": "turns_in_enemy_regions",
+     "returns": "number (uint)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2e36c",
+     "name": "turns_in_own_regions",
+     "returns": "number (uint)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2e728",
+     "name": "won_battle",
+     "returns": "boolean"
+    }
+   ]
+  },
+  "CampaignCharacter": {
+   "method_table": null,
+   "methods": [
+    {
+     "args": "",
+     "handler": null,
+     "name": "ActionPointsRatio",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "Release",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "new",
+     "returns": ""
+    }
+   ]
+  },
+  "CampaignSettlement": {
+   "method_table": null,
+   "methods": [
+    {
+     "args": "",
+     "handler": null,
+     "name": "LabelDetails",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "ListDetails",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "Release",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "Settlement",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "new",
+     "returns": ""
+    }
+   ]
+  },
+  "Cursor": {
+   "method_table": "0x104ff1c08",
+   "methods": [
+    {
+     "args": "",
+     "handler": "0x102c45b30",
+     "name": "DistanceToBL",
+     "returns": "number (int)"
+    },
+    {
+     "args": "",
+     "handler": "0x102c459b8",
+     "name": "Mode",
+     "returns": "number (int)"
+    },
+    {
+     "args": "",
+     "handler": "0x102c45adc",
+     "name": "ModeString",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": "0x102c459f8",
+     "name": "Modes",
+     "returns": ""
+    },
+    {
+     "args": "string, boolean",
+     "handler": "0x102c45918",
+     "name": "SetMode",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "new",
+     "returns": ""
+    }
+   ]
+  },
+  "FACTION_LIST_SCRIPT_INTERFACE": {
+   "method_table": null,
+   "methods": [
+    {
+     "args": "",
+     "handler": null,
+     "name": "is_empty",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "item_at",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "new",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "num_items",
+     "returns": ""
+    }
+   ]
+  },
+  "FACTION_SCRIPT_INTERFACE": {
+   "method_table": "0x104f831b0",
+   "methods": [
+    {
+     "args": "",
+     "handler": "0x101d2b344",
+     "name": "allied_with",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2aeac",
+     "name": "ancillary_exists",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2b15c",
+     "name": "at_war",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2b4d8",
+     "name": "at_war_with",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2a79c",
+     "name": "character_list",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": "0x101d2cdc8",
+     "name": "command_queue_index",
+     "returns": "number (uint)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2cb80",
+     "name": "culture",
+     "returns": "string"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2ae5c",
+     "name": "ended_war_this_turn",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2ac70",
+     "name": "faction_leader",
+     "returns": "CHARACTER_SCRIPT_INTERFACE"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2ad48",
+     "name": "has_faction_leader",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2ccc0",
+     "name": "has_food_shortage",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2adb4",
+     "name": "has_home_region",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2c824",
+     "name": "has_technology",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2abe8",
+     "name": "home_region",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": "0x101d2cd24",
+     "name": "imperium_level",
+     "returns": "number (uint)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2cd74",
+     "name": "is_horde",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2ab44",
+     "name": "is_human",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "is_null_interface",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": "0x101d2ce18",
+     "name": "is_trading_with",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2c52c",
+     "name": "losing_money",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2a924",
+     "name": "military_force_list",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": "0x101d2aab8",
+     "name": "model",
+     "returns": "MODEL_SCRIPT_INTERFACE"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2ab94",
+     "name": "name",
+     "returns": "string"
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "new",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": "0x101d2af6c",
+     "name": "num_allies",
+     "returns": "number (int)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2caf4",
+     "name": "num_generals",
+     "returns": "number (int)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2a614",
+     "name": "region_list",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": "0x101d2c7cc",
+     "name": "research_queue_idle",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2c270",
+     "name": "sea_trade_route_raided",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2ae0c",
+     "name": "started_war_this_turn",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2c9c8",
+     "name": "state_religion",
+     "returns": "string"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2ca60",
+     "name": "state_religion_percentage",
+     "returns": "number (float)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2cc20",
+     "name": "subculture",
+     "returns": "string"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2c5e0",
+     "name": "tax_level",
+     "returns": "number (int)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2b594",
+     "name": "trade_resource_exists",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2bfdc",
+     "name": "trade_route_limit_reached",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2c2b4",
+     "name": "trade_ship_not_in_trade_node",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2b980",
+     "name": "trade_value",
+     "returns": "number (uint)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2bb80",
+     "name": "trade_value_percent",
+     "returns": "number (float)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2c380",
+     "name": "treasury",
+     "returns": "number (int)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2c3d0",
+     "name": "treasury_percent",
+     "returns": "number (float)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2bd48",
+     "name": "unused_international_trade_route",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2c6c0",
+     "name": "upkeep_expenditure_percent",
+     "returns": "number (float)"
+    }
+   ]
+  },
+  "FAMILY_MEMBER_SCRIPT_INTERFACE": {
+   "method_table": "0x104f83dc8",
+   "methods": [
+    {
+     "args": "",
+     "handler": "0x101d3004c",
+     "name": "come_of_age",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2fda0",
+     "name": "father",
+     "returns": "FAMILY_MEMBER_SCRIPT_INTERFACE"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2fcf0",
+     "name": "has_father",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2fd48",
+     "name": "has_mother",
+     "returns": "boolean"
+    },
+    {
+     "args": "string",
+     "handler": "0x101d2fea0",
+     "name": "has_trait",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "is_null_interface",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": "0x101d2fe20",
+     "name": "mother",
+     "returns": "FAMILY_MEMBER_SCRIPT_INTERFACE"
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "new",
+     "returns": ""
+    }
+   ]
+  },
+  "GAME": {
+   "method_table": "0x104f89b48",
+   "methods": [
+    {
+     "args": "string",
+     "handler": "0x102166ddc",
+     "name": "add_agent_experience",
+     "returns": ""
+    },
+    {
+     "args": "string, boolean",
+     "handler": "0x1021671ac",
+     "name": "add_attack_of_opportunity_overrides",
+     "returns": ""
+    },
+    {
+     "args": "string, string, string",
+     "handler": "0x10216675c",
+     "name": "add_building_model_override",
+     "returns": ""
+    },
+    {
+     "args": "number, number, number, string, string, boolean, boolean, boolean",
+     "handler": "0x10216a2fc",
+     "name": "add_circle_area_trigger",
+     "returns": ""
+    },
+    {
+     "args": "string, number, number, number, boolean, string, string, string, boolean, boolean",
+     "handler": "0x102161ef0",
+     "name": "add_custom_battlefield",
+     "returns": ""
+    },
+    {
+     "args": "string",
+     "handler": "0x10216d5ec",
+     "name": "add_development_points_to_region",
+     "returns": ""
+    },
+    {
+     "args": "string",
+     "handler": "0x10216cd44",
+     "name": "add_event_restricted_building_record",
+     "returns": ""
+    },
+    {
+     "args": "string, string",
+     "handler": "0x10216ce9c",
+     "name": "add_event_restricted_building_record_for_faction",
+     "returns": ""
+    },
+    {
+     "args": "string",
+     "handler": "0x10216ca9c",
+     "name": "add_event_restricted_unit_record",
+     "returns": ""
+    },
+    {
+     "args": "string, string",
+     "handler": "0x10216cb84",
+     "name": "add_event_restricted_unit_record_for_faction",
+     "returns": ""
+    },
+    {
+     "args": "number, number, number, number, boolean, boolean, boolean, string",
+     "handler": "0x102163758",
+     "name": "add_exclusion_zone",
+     "returns": ""
+    },
+    {
+     "args": "number, number, number, string",
+     "handler": "0x102162290",
+     "name": "add_location_trigger",
+     "returns": ""
+    },
+    {
+     "args": "string, string, number, number, number",
+     "handler": "0x102168a74",
+     "name": "add_marker",
+     "returns": ""
+    },
+    {
+     "args": "string, string, boolean, boolean, boolean, number, number",
+     "handler": "0x10216a4f4",
+     "name": "add_outline_area_trigger",
+     "returns": ""
+    },
+    {
+     "args": "string, string",
+     "handler": "0x10216f5d8",
+     "name": "add_prestige",
+     "returns": ""
+    },
+    {
+     "args": "string",
+     "handler": "0x102161c78",
+     "name": "add_restricted_building_level_record",
+     "returns": ""
+    },
+    {
+     "args": "string, string",
+     "handler": "0x102161d60",
+     "name": "add_restricted_building_level_record_for_faction",
+     "returns": ""
+    },
+    {
+     "args": "string, string",
+     "handler": "0x102166644",
+     "name": "add_settlement_model_override",
+     "returns": ""
+    },
+    {
+     "args": "string, number",
+     "handler": "0x102164ebc",
+     "name": "add_time_trigger",
+     "returns": ""
+    },
+    {
+     "args": "string, string",
+     "handler": "0x102167098",
+     "name": "add_unit_model_overrides",
+     "returns": ""
+    },
+    {
+     "args": "string",
+     "handler": "0x10216f154",
+     "name": "add_unit_to_force",
+     "returns": ""
+    },
+    {
+     "args": "number, number, string",
+     "handler": "0x1021620fc",
+     "name": "add_visibility_trigger",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": "0x102164ea4",
+     "name": "advance_to_next_campaign",
+     "returns": ""
+    },
+    {
+     "args": "boolean",
+     "handler": "0x10216c770",
+     "name": "allow_player_to_embark_navies",
+     "returns": " + unidentified push sub_1038b23d0"
+    },
+    {
+     "args": "string, string",
+     "handler": "0x10216a894",
+     "name": "apply_effect_bundle",
+     "returns": ""
+    },
+    {
+     "args": "string, boolean",
+     "handler": "0x10216b09c",
+     "name": "apply_effect_bundle_to_characters_force",
+     "returns": ""
+    },
+    {
+     "args": "string",
+     "handler": "0x10216ac60",
+     "name": "apply_effect_bundle_to_force",
+     "returns": ""
+    },
+    {
+     "args": "string, string",
+     "handler": "0x10216b5a8",
+     "name": "apply_effect_bundle_to_region",
+     "returns": ""
+    },
+    {
+     "args": "string",
+     "handler": "0x10216e21c",
+     "name": "appoint_character_to_most_expensive_force",
+     "returns": ""
+    },
+    {
+     "args": "string, string, boolean",
+     "handler": "0x102169460",
+     "name": "attack",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": "0x10216ca78",
+     "name": "autosave_at_next_opportunity",
+     "returns": ""
+    },
+    {
+     "args": "string",
+     "handler": "0x102166f14",
+     "name": "award_experience_level",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "cai_strategic_stance_manager_block_all_stances_but_that_specified_towards_target_faction",
+     "returns": ""
+    },
+    {
+     "args": "string, string",
+     "handler": "0x10216dd14",
+     "name": "cai_strategic_stance_manager_clear_all_blocking_between_factions",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "cai_strategic_stance_manager_clear_all_promotions_between_factions",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "cai_strategic_stance_manager_force_stance_update_between_factions",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "cai_strategic_stance_manager_promote_specified_stance_towards_target_faction",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "cai_strategic_stance_manager_promote_specified_stance_towards_target_faction_by_number",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "cai_strategic_stance_manager_set_stance_blocking_between_factions_for_a_given_stance",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "cai_strategic_stance_manager_set_stance_promotion_between_factions_for_a_given_stance",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": "0x1021639f4",
+     "name": "cancel_actions_for",
+     "returns": ""
+    },
+    {
+     "args": "string, string",
+     "handler": "0x1021625e0",
+     "name": "cancel_custom_mission",
+     "returns": ""
+    },
+    {
+     "args": "string",
+     "handler": "0x102163a60",
+     "name": "compare_localised_string",
+     "returns": "boolean"
+    },
+    {
+     "args": "string, string, number, number, string, boolean",
+     "handler": "0x10216b914",
+     "name": "create_agent",
+     "returns": ""
+    },
+    {
+     "args": "string, string, string, number, number, string, boolean",
+     "handler": "0x102169d74",
+     "name": "create_force",
+     "returns": ""
+    },
+    {
+     "args": "boolean",
+     "handler": "0x102162458",
+     "name": "disable_elections",
+     "returns": " + unidentified push sub_1038b23d0"
+    },
+    {
+     "args": "boolean",
+     "handler": "0x102169fb4",
+     "name": "disable_end_turn",
+     "returns": ""
+    },
+    {
+     "args": "string, string",
+     "handler": "0x1021638bc",
+     "name": "disable_movement_for_ai_under_shroud",
+     "returns": ""
+    },
+    {
+     "args": "string",
+     "handler": "0x1021650e0",
+     "name": "disable_movement_for_character",
+     "returns": ""
+    },
+    {
+     "args": "string",
+     "handler": "0x102165178",
+     "name": "disable_movement_for_faction",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": "0x10216de74",
+     "name": "disable_pathfinding_restriction",
+     "returns": ""
+    },
+    {
+     "args": "boolean",
+     "handler": "0x102168094",
+     "name": "disable_rebellions_worldwide",
+     "returns": ""
+    },
+    {
+     "args": "boolean",
+     "handler": "0x102169a10",
+     "name": "disable_saving_game",
+     "returns": ""
+    },
+    {
+     "args": "boolean",
+     "handler": "0x1021665fc",
+     "name": "disable_shopping_for_ai_under_shroud",
+     "returns": " + unidentified push sub_1038b23d0"
+    },
+    {
+     "args": "string, string, boolean",
+     "handler": "0x10216a7dc",
+     "name": "disable_shortcut",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": "0x102164e64",
+     "name": "dismiss_advice",
+     "returns": ""
+    },
+    {
+     "args": "boolean",
+     "handler": "0x10216a794",
+     "name": "dismiss_advice_at_end_turn",
+     "returns": " + unidentified push sub_1038b23d0"
+    },
+    {
+     "args": "boolean",
+     "handler": "0x102165e8c",
+     "name": "display_turns",
+     "returns": " + unidentified push sub_1038b23d0"
+    },
+    {
+     "args": "boolean",
+     "handler": "0x102166ffc",
+     "name": "enable_auto_generated_missions",
+     "returns": " + unidentified push sub_1038b23d0"
+    },
+    {
+     "args": "string",
+     "handler": "0x102169c24",
+     "name": "enable_movement_for_character",
+     "returns": ""
+    },
+    {
+     "args": "string",
+     "handler": "0x102169cbc",
+     "name": "enable_movement_for_faction",
+     "returns": ""
+    },
+    {
+     "args": "boolean",
+     "handler": "0x102167044",
+     "name": "enable_ui",
+     "returns": ""
+    },
+    {
+     "args": "boolean",
+     "handler": "0x10216a000",
+     "name": "end_turn",
+     "returns": ""
+    },
+    {
+     "args": "string, boolean",
+     "handler": "0x102167fa0",
+     "name": "exempt_region_from_tax",
+     "returns": ""
+    },
+    {
+     "args": "string, string",
+     "handler": "0x10216ddc8",
+     "name": "faction_offers_peace_to_other_faction",
+     "returns": ""
+    },
+    {
+     "args": "number",
+     "handler": "0x10216e96c",
+     "name": "fade_volume",
+     "returns": ""
+    },
+    {
+     "args": "string, string",
+     "handler": "0x1021687a4",
+     "name": "force_add_ancillary",
+     "returns": ""
+    },
+    {
+     "args": "string, string",
+     "handler": "0x102168888",
+     "name": "force_add_skill",
+     "returns": ""
+    },
+    {
+     "args": "string, string, boolean",
+     "handler": "0x10216865c",
+     "name": "force_add_trait",
+     "returns": ""
+    },
+    {
+     "args": "boolean",
+     "handler": "0x10216c194",
+     "name": "force_agent_action_success_for_human",
+     "returns": ""
+    },
+    {
+     "args": "boolean",
+     "handler": "0x102167e4c",
+     "name": "force_assassination_success_for_human",
+     "returns": ""
+    },
+    {
+     "args": "string, string",
+     "handler": "0x10216eb04",
+     "name": "force_break_alliance",
+     "returns": ""
+    },
+    {
+     "args": "string, string",
+     "handler": "0x10216ec44",
+     "name": "force_break_defensive_alliance",
+     "returns": ""
+    },
+    {
+     "args": "string, string",
+     "handler": "0x10216ed74",
+     "name": "force_break_military_alliance",
+     "returns": ""
+    },
+    {
+     "args": "string, string",
+     "handler": "0x10216eea4",
+     "name": "force_break_non_aggression_pact",
+     "returns": ""
+    },
+    {
+     "args": "string, string",
+     "handler": "0x10216c7b8",
+     "name": "force_change_cai_faction_personality",
+     "returns": ""
+    },
+    {
+     "args": "string, string",
+     "handler": "0x10216d14c",
+     "name": "force_character_force_into_stance",
+     "returns": ""
+    },
+    {
+     "args": "string, string",
+     "handler": "0x10216812c",
+     "name": "force_declare_war",
+     "returns": ""
+    },
+    {
+     "args": "string, string, string, boolean, boolean",
+     "handler": "0x1021655f4",
+     "name": "force_diplomacy",
+     "returns": ""
+    },
+    {
+     "args": "boolean",
+     "handler": "0x1021680e0",
+     "name": "force_garrison_infiltration_success_for_human",
+     "returns": ""
+    },
+    {
+     "args": "string, string",
+     "handler": "0x10216850c",
+     "name": "force_make_peace",
+     "returns": ""
+    },
+    {
+     "args": "string, string",
+     "handler": "0x102168ca4",
+     "name": "force_make_trade_agreement",
+     "returns": ""
+    },
+    {
+     "args": "string, string",
+     "handler": "0x102168254",
+     "name": "force_make_vassal",
+     "returns": ""
+    },
+    {
+     "args": "string, string, boolean",
+     "handler": "0x1021683f0",
+     "name": "force_rebellion_in_region",
+     "returns": ""
+    },
+    {
+     "args": "string, string",
+     "handler": "0x1021633c8",
+     "name": "grant_faction_handover",
+     "returns": ""
+    },
+    {
+     "args": "string, string",
+     "handler": "0x102167c48",
+     "name": "grant_unit",
+     "returns": ""
+    },
+    {
+     "args": "string, boolean",
+     "handler": "0x10216a0f0",
+     "name": "hide_character",
+     "returns": ""
+    },
+    {
+     "args": "string, string",
+     "handler": "0x10216e2c8",
+     "name": "infect_force_with_plague",
+     "returns": ""
+    },
+    {
+     "args": "string, string",
+     "handler": "0x10216e4a0",
+     "name": "infect_region_with_plague",
+     "returns": ""
+    },
+    {
+     "args": "string, string",
+     "handler": "0x10216c628",
+     "name": "instant_set_building_health_percent",
+     "returns": ""
+    },
+    {
+     "args": "string",
+     "handler": "0x10216bb48",
+     "name": "instantly_dismantle_building",
+     "returns": ""
+    },
+    {
+     "args": "string",
+     "handler": "0x10216c1e0",
+     "name": "instantly_repair_building",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": "0x1021665c4",
+     "name": "is_new_game",
+     "returns": "boolean"
+    },
+    {
+     "args": "string, string",
+     "handler": "0x10216925c",
+     "name": "join_garrison",
+     "returns": ""
+    },
+    {
+     "args": "string, boolean, boolean",
+     "handler": "0x10216c028",
+     "name": "kill_character",
+     "returns": ""
+    },
+    {
+     "args": "string, number, number",
+     "handler": "0x1021693c0",
+     "name": "leave_garrison",
+     "returns": ""
+    },
+    {
+     "args": "string, boolean, string, string, string",
+     "handler": "0x102166278",
+     "name": "load_named_value",
+     "returns": "boolean, number (int), string"
+    },
+    {
+     "args": "string, string",
+     "handler": "0x10216c280",
+     "name": "lock_technology",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": "0x1021653f8",
+     "name": "make_neighbouring_regions_seen_in_shroud",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": "0x10216538c",
+     "name": "make_neighbouring_regions_visible_in_shroud",
+     "returns": ""
+    },
+    {
+     "args": "string, string",
+     "handler": "0x10216d524",
+     "name": "make_region_seen_in_shroud",
+     "returns": ""
+    },
+    {
+     "args": "string, string",
+     "handler": "0x10216d45c",
+     "name": "make_region_visible_in_shroud",
+     "returns": ""
+    },
+    {
+     "args": "string",
+     "handler": "0x10216552c",
+     "name": "make_sea_region_seen_in_shroud",
+     "returns": ""
+    },
+    {
+     "args": "string",
+     "handler": "0x102165464",
+     "name": "make_sea_region_visible_in_shroud",
+     "returns": ""
+    },
+    {
+     "args": "string",
+     "handler": "0x10216c6e4",
+     "name": "make_son_come_of_age",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": "0x10216d25c",
+     "name": "model",
+     "returns": "MODEL_SCRIPT_INTERFACE"
+    },
+    {
+     "args": "number, number, number, number, boolean",
+     "handler": "0x10216bccc",
+     "name": "modify_next_autoresolve_battle",
+     "returns": ""
+    },
+    {
+     "args": "string, boolean",
+     "handler": "0x102168db4",
+     "name": "move_to",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "new",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": "0x102166d6c",
+     "name": "optional_extras_for_episodics",
+     "returns": "string"
+    },
+    {
+     "args": "number",
+     "handler": "0x10216eaa0",
+     "name": "override_attacker_win_chance_prediction",
+     "returns": ""
+    },
+    {
+     "args": "string, string, boolean",
+     "handler": "0x1021627f4",
+     "name": "override_mission_succeeded_status",
+     "returns": ""
+    },
+    {
+     "args": "string, boolean",
+     "handler": "0x10216bfa8",
+     "name": "override_ui",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": "0x102163b58",
+     "name": "pending_auto_show_messages",
+     "returns": ""
+    },
+    {
+     "args": "string",
+     "handler": "0x10216e638",
+     "name": "play_movie_in_ui",
+     "returns": ""
+    },
+    {
+     "args": "string",
+     "handler": "0x10216e738",
+     "name": "play_sound",
+     "returns": ""
+    },
+    {
+     "args": "string",
+     "handler": "0x10216736c",
+     "name": "register_instant_movie",
+     "returns": ""
+    },
+    {
+     "args": "string",
+     "handler": "0x102163660",
+     "name": "register_movies",
+     "returns": ""
+    },
+    {
+     "args": "string",
+     "handler": "0x102167458",
+     "name": "register_outro_movie",
+     "returns": ""
+    },
+    {
+     "args": "string",
+     "handler": "0x10216a720",
+     "name": "remove_area_trigger",
+     "returns": ""
+    },
+    {
+     "args": "string",
+     "handler": "0x102167274",
+     "name": "remove_attack_of_opportunity_overrides",
+     "returns": ""
+    },
+    {
+     "args": "string, string",
+     "handler": "0x102166afc",
+     "name": "remove_building_model_override",
+     "returns": ""
+    },
+    {
+     "args": "string",
+     "handler": "0x102162088",
+     "name": "remove_custom_battlefield",
+     "returns": ""
+    },
+    {
+     "args": "string, string",
+     "handler": "0x10216aaa8",
+     "name": "remove_effect_bundle",
+     "returns": ""
+    },
+    {
+     "args": "string",
+     "handler": "0x10216b3a8",
+     "name": "remove_effect_bundle_from_characters_force",
+     "returns": ""
+    },
+    {
+     "args": "string",
+     "handler": "0x10216aeb0",
+     "name": "remove_effect_bundle_from_force",
+     "returns": ""
+    },
+    {
+     "args": "string, string",
+     "handler": "0x10216b78c",
+     "name": "remove_effect_bundle_from_region",
+     "returns": ""
+    },
+    {
+     "args": "string",
+     "handler": "0x10216cdf0",
+     "name": "remove_event_restricted_building_record",
+     "returns": ""
+    },
+    {
+     "args": "string, string",
+     "handler": "0x10216cf50",
+     "name": "remove_event_restricted_building_record_for_faction",
+     "returns": ""
+    },
+    {
+     "args": "string",
+     "handler": "0x10216cb10",
+     "name": "remove_event_restricted_unit_record",
+     "returns": ""
+    },
+    {
+     "args": "string, string",
+     "handler": "0x10216cc64",
+     "name": "remove_event_restricted_unit_record_for_faction",
+     "returns": ""
+    },
+    {
+     "args": "number, number, number, string",
+     "handler": "0x102162390",
+     "name": "remove_location_trigger",
+     "returns": ""
+    },
+    {
+     "args": "string",
+     "handler": "0x102168bbc",
+     "name": "remove_marker",
+     "returns": ""
+    },
+    {
+     "args": "string",
+     "handler": "0x102161cec",
+     "name": "remove_restricted_building_level_record",
+     "returns": ""
+    },
+    {
+     "args": "string, string",
+     "handler": "0x102161e28",
+     "name": "remove_restricted_building_level_record_for_faction",
+     "returns": ""
+    },
+    {
+     "args": "string",
+     "handler": "0x102166950",
+     "name": "remove_settlement_model_override",
+     "returns": ""
+    },
+    {
+     "args": "string",
+     "handler": "0x102164f9c",
+     "name": "remove_time_trigger",
+     "returns": ""
+    },
+    {
+     "args": "number, number, string",
+     "handler": "0x1021621dc",
+     "name": "remove_visibility_trigger",
+     "returns": ""
+    },
+    {
+     "args": "string, string, number",
+     "handler": "0x10216d004",
+     "name": "render_campaign_to_file",
+     "returns": ""
+    },
+    {
+     "args": "string",
+     "handler": "0x10216be7c",
+     "name": "replenish_action_points",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": "0x10216531c",
+     "name": "restore_shroud_from_snapshot",
+     "returns": ""
+    },
+    {
+     "args": "string, boolean, string, string, string",
+     "handler": "0x102165f64",
+     "name": "save_named_value",
+     "returns": ""
+    },
+    {
+     "args": "number, number, number, number, number, number, number, number, number, number, number",
+     "handler": "0x102163bb0",
+     "name": "scroll_camera",
+     "returns": ""
+    },
+    {
+     "args": "number, number, number, number, number, number, number, number, number, number, number, number, number, number",
+     "handler": "0x102164460",
+     "name": "scroll_camera_with_direction",
+     "returns": ""
+    },
+    {
+     "args": "string, string, boolean, boolean",
+     "handler": "0x102169880",
+     "name": "seek_exchange",
+     "returns": ""
+    },
+    {
+     "args": "boolean",
+     "handler": "0x10216d2c4",
+     "name": "set_ai_uses_human_display_speed",
+     "returns": " + unidentified push sub_1038b23d0"
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "set_campaign_ai_force_all_factions_boardering_human_vassals_to_have_invasion_behaviour",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "set_campaign_ai_force_all_factions_boardering_humans_to_have_invasion_behaviour",
+     "returns": ""
+    },
+    {
+     "args": "boolean",
+     "handler": "0x10216c9a0",
+     "name": "set_character_experience_disabled",
+     "returns": " + unidentified push sub_1038b23d0"
+    },
+    {
+     "args": "string, boolean",
+     "handler": "0x10216debc",
+     "name": "set_character_immortality",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": "0x10216c9e8",
+     "name": "set_character_skill_tier_limit",
+     "returns": ""
+    },
+    {
+     "args": "boolean",
+     "handler": "0x10216ca30",
+     "name": "set_event_generation_enabled",
+     "returns": " + unidentified push sub_1038b23d0"
+    },
+    {
+     "args": "string, string",
+     "handler": "0x10216efcc",
+     "name": "set_faction_name_override",
+     "returns": ""
+    },
+    {
+     "args": "string, string",
+     "handler": "0x10216f090",
+     "name": "set_faction_summary_override",
+     "returns": ""
+    },
+    {
+     "args": "boolean",
+     "handler": "0x10216c5e0",
+     "name": "set_general_offered_dilemma_permitted",
+     "returns": " + unidentified push sub_1038b23d0"
+    },
+    {
+     "args": "boolean",
+     "handler": "0x10216c958",
+     "name": "set_ignore_end_of_turn_public_order",
+     "returns": " + unidentified push sub_1038b23d0"
+    },
+    {
+     "args": "boolean",
+     "handler": "0x10216e1d4",
+     "name": "set_imperium_level_change_disabled",
+     "returns": " + unidentified push sub_1038b23d0"
+    },
+    {
+     "args": "boolean",
+     "handler": "0x102169b8c",
+     "name": "set_liberation_options_disabled",
+     "returns": ""
+    },
+    {
+     "args": "boolean",
+     "handler": "0x102169a5c",
+     "name": "set_looting_options_disabled_for_human",
+     "returns": ""
+    },
+    {
+     "args": "boolean",
+     "handler": "0x102169af4",
+     "name": "set_non_scripted_ancillaries_disabled",
+     "returns": ""
+    },
+    {
+     "args": "boolean",
+     "handler": "0x102169aa8",
+     "name": "set_non_scripted_traits_disabled",
+     "returns": ""
+    },
+    {
+     "args": "boolean",
+     "handler": "0x10216e18c",
+     "name": "set_only_allow_basic_recruit_stance",
+     "returns": " + unidentified push sub_1038b23d0"
+    },
+    {
+     "args": "string, boolean",
+     "handler": "0x10216d3b4",
+     "name": "set_public_order_disabled_for_province_for_region",
+     "returns": ""
+    },
+    {
+     "args": "string",
+     "handler": "0x10216d30c",
+     "name": "set_public_order_of_province_for_region",
+     "returns": ""
+    },
+    {
+     "args": "string",
+     "handler": "0x10216e9e4",
+     "name": "set_region_abandoned",
+     "returns": ""
+    },
+    {
+     "args": "boolean",
+     "handler": "0x10216f7e0",
+     "name": "set_tax_disabled",
+     "returns": ""
+    },
+    {
+     "args": "string",
+     "handler": "0x102167e98",
+     "name": "set_tax_rate",
+     "returns": ""
+    },
+    {
+     "args": "boolean",
+     "handler": "0x102169b40",
+     "name": "set_technology_research_disabled",
+     "returns": ""
+    },
+    {
+     "args": "boolean",
+     "handler": "0x102169bd8",
+     "name": "set_ui_notification_of_victory_disabled",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": "0x10216e900",
+     "name": "set_volume",
+     "returns": ""
+    },
+    {
+     "args": "number, number",
+     "handler": "0x1021624a0",
+     "name": "set_zoom_limit",
+     "returns": ""
+    },
+    {
+     "args": "string, string, string, string, boolean",
+     "handler": "0x1021675e8",
+     "name": "show_message_event",
+     "returns": ""
+    },
+    {
+     "args": "string, string, string, string, boolean",
+     "handler": "0x102167900",
+     "name": "show_message_event_located",
+     "returns": ""
+    },
+    {
+     "args": "boolean",
+     "handler": "0x102165230",
+     "name": "show_shroud",
+     "returns": " + unidentified push sub_1038b23d0"
+    },
+    {
+     "args": "",
+     "handler": "0x102163b34",
+     "name": "shown_message",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x102167548",
+     "name": "shutdown",
+     "returns": ""
+    },
+    {
+     "args": "string, string, string, string, string, boolean, string, string, boolean, string, boolean, boolean",
+     "handler": "0x10216df60",
+     "name": "spawn_character_into_family_tree",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": "0x10216a0b8",
+     "name": "speedup_active",
+     "returns": "boolean"
+    },
+    {
+     "args": "boolean",
+     "handler": "0x102165f1c",
+     "name": "steal_user_input",
+     "returns": " + unidentified push sub_1038b23d0"
+    },
+    {
+     "args": "",
+     "handler": "0x102164e3c",
+     "name": "stop_camera",
+     "returns": ""
+    },
+    {
+     "args": "string",
+     "handler": "0x10216e81c",
+     "name": "stop_sound",
+     "returns": ""
+    },
+    {
+     "args": "boolean",
+     "handler": "0x102165ed4",
+     "name": "stop_user_input",
+     "returns": " + unidentified push sub_1038b23d0"
+    },
+    {
+     "args": "",
+     "handler": "0x1021652b4",
+     "name": "take_shroud_snapshot",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": "0x102167560",
+     "name": "technology_osmosis_for_playables_enable_all",
+     "returns": ""
+    },
+    {
+     "args": "string",
+     "handler": "0x102167578",
+     "name": "technology_osmosis_for_playables_enable_culture",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": "0x10216a09c",
+     "name": "toggle_speedup",
+     "returns": ""
+    },
+    {
+     "args": "string, string",
+     "handler": "0x10216f6c4",
+     "name": "transfer_region_to_faction",
+     "returns": ""
+    },
+    {
+     "args": "string",
+     "handler": "0x10216bd78",
+     "name": "treasury_mod",
+     "returns": ""
+    },
+    {
+     "args": "string, string, string, string",
+     "handler": "0x10216299c",
+     "name": "trigger_custom_dilemma",
+     "returns": ""
+    },
+    {
+     "args": "string, string",
+     "handler": "0x1021624fc",
+     "name": "trigger_custom_mission",
+     "returns": ""
+    },
+    {
+     "args": "string, string",
+     "handler": "0x102162ec4",
+     "name": "trigger_dilemma",
+     "returns": ""
+    },
+    {
+     "args": "string, string",
+     "handler": "0x10216321c",
+     "name": "trigger_incident",
+     "returns": ""
+    },
+    {
+     "args": "string, string",
+     "handler": "0x102163070",
+     "name": "trigger_mission",
+     "returns": ""
+    },
+    {
+     "args": "string, boolean",
+     "handler": "0x10216a1e0",
+     "name": "unhide_character",
+     "returns": ""
+    },
+    {
+     "args": "string, string",
+     "handler": "0x10216c430",
+     "name": "unlock_technology",
+     "returns": ""
+    },
+    {
+     "args": "string",
+     "handler": "0x10216bbe8",
+     "name": "win_next_autoresolve_battle",
+     "returns": ""
+    },
+    {
+     "args": "string",
+     "handler": "0x10216bf14",
+     "name": "zero_action_points",
+     "returns": ""
+    }
+   ]
+  },
+  "GARRISON_RESIDENCE_SCRIPT_INTERFACE": {
+   "method_table": "0x104f84200",
+   "methods": [
+    {
+     "args": "",
+     "handler": "0x101d322e0",
+     "name": "army",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": "0x101d32494",
+     "name": "buildings",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": "0x101d32944",
+     "name": "can_assault",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d32254",
+     "name": "faction",
+     "returns": "FACTION_SCRIPT_INTERFACE"
+    },
+    {
+     "args": "",
+     "handler": "0x101d32108",
+     "name": "has_army",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d32168",
+     "name": "has_navy",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "is_null_interface",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": "0x101d326cc",
+     "name": "is_settlement",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d3272c",
+     "name": "is_slot",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d32664",
+     "name": "is_under_siege",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d321c8",
+     "name": "model",
+     "returns": "MODEL_SCRIPT_INTERFACE"
+    },
+    {
+     "args": "",
+     "handler": "0x101d32374",
+     "name": "navy",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "new",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": "0x101d32408",
+     "name": "region",
+     "returns": "REGION_SCRIPT_INTERFACE"
+    },
+    {
+     "args": "",
+     "handler": "0x101d3278c",
+     "name": "settlement_interface",
+     "returns": "SETTLEMENT_SCRIPT_INTERFACE"
+    },
+    {
+     "args": "",
+     "handler": "0x101d32868",
+     "name": "slot_interface",
+     "returns": "SLOT_SCRIPT_INTERFACE"
+    },
+    {
+     "args": "",
+     "handler": "0x101d325ec",
+     "name": "unit_count",
+     "returns": "number (uint)"
+    }
+   ]
+  },
+  "MILITARY_FORCE_LIST_SCRIPT_INTERFACE": {
+   "method_table": null,
+   "methods": [
+    {
+     "args": "",
+     "handler": null,
+     "name": "is_empty",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "item_at",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "new",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "num_items",
+     "returns": ""
+    }
+   ]
+  },
+  "MILITARY_FORCE_SCRIPT_INTERFACE": {
+   "method_table": "0x104f84770",
+   "methods": [
+    {
+     "args": "",
+     "handler": "0x101d347e8",
+     "name": "active_stance",
+     "returns": "string"
+    },
+    {
+     "args": "string",
+     "handler": "0x101d34a18",
+     "name": "building_exists",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d34bb4",
+     "name": "buildings",
+     "returns": ""
+    },
+    {
+     "args": "string",
+     "handler": "0x101d34868",
+     "name": "can_activate_stance",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d343cc",
+     "name": "character_list",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": "0x101d34970",
+     "name": "command_queue_index",
+     "returns": "number (uint)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d3470c",
+     "name": "contains_mercenaries",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d345a4",
+     "name": "faction",
+     "returns": "FACTION_SCRIPT_INTERFACE"
+    },
+    {
+     "args": "",
+     "handler": "0x101d34680",
+     "name": "garrison_residence",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": "0x101d34514",
+     "name": "general_character",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": "0x101d34628",
+     "name": "has_garrison_residence",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d340f4",
+     "name": "has_general",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d34150",
+     "name": "is_army",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d349c0",
+     "name": "is_horde",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d341a4",
+     "name": "is_navy",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "is_null_interface",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": "0x101d341f4",
+     "name": "model",
+     "returns": "MODEL_SCRIPT_INTERFACE"
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "new",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": "0x101d34280",
+     "name": "unit_list",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": "0x101d34790",
+     "name": "upkeep",
+     "returns": "number (uint)"
+    }
+   ]
+  },
+  "MODEL_SCRIPT_INTERFACE": {
+   "method_table": "0x104f82f70",
+   "methods": [
+    {
+     "args": "",
+     "handler": "0x101d29df0",
+     "name": "campaign_ai",
+     "returns": "object: CAMPAIGN_AI_SCRIPT_INTERFACE (wraps ?)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d29858",
+     "name": "campaign_name",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d29e74",
+     "name": "campaign_type",
+     "returns": "number (uint)"
+    },
+    {
+     "args": "2 values",
+     "handler": "0x101d29af0",
+     "name": "character_can_reach_character",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d29f30",
+     "name": "character_for_command_queue_index",
+     "returns": "CHARACTER_SCRIPT_INTERFACE"
+    },
+    {
+     "args": "",
+     "handler": "0x101d29738",
+     "name": "date_and_week_in_range",
+     "returns": "boolean"
+    },
+    {
+     "args": "number, number",
+     "handler": "0x101d2967c",
+     "name": "date_in_range",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d29bd4",
+     "name": "difficulty_level",
+     "returns": "number (int)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2a088",
+     "name": "faction_for_command_queue_index",
+     "returns": "FACTION_SCRIPT_INTERFACE"
+    },
+    {
+     "args": "",
+     "handler": "0x101d29c7c",
+     "name": "faction_is_local",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2a134",
+     "name": "has_character_command_queue_index",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2a1bc",
+     "name": "has_faction_command_queue_index",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d2a178",
+     "name": "has_military_force_command_queue_index",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d29a04",
+     "name": "is_multiplayer",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "is_null_interface",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": "0x101d29a64",
+     "name": "is_player_turn",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d29fdc",
+     "name": "military_force_for_command_queue_index",
+     "returns": "MILITARY_FORCE_SCRIPT_INTERFACE"
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "new",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": "0x101d295fc",
+     "name": "pending_battle",
+     "returns": "PENDING_BATTLE_SCRIPT_INTERFACE"
+    },
+    {
+     "args": "",
+     "handler": "0x101d29d74",
+     "name": "player_steam_id_is_odd",
+     "returns": "boolean"
+    },
+    {
+     "args": "number",
+     "handler": "0x101d29920",
+     "name": "random_percent",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d29ed0",
+     "name": "season",
+     "returns": "number (uint)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d29804",
+     "name": "turn_number",
+     "returns": "number (uint)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d29578",
+     "name": "world",
+     "returns": "WORLD_SCRIPT_INTERFACE"
+    }
+   ]
+  },
+  "MPAvatar": {
+   "method_table": null,
+   "methods": [
+    {
+     "args": "",
+     "handler": null,
+     "name": "Free",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "SetComponentTexture",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "Valid",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "new",
+     "returns": ""
+    }
+   ]
+  },
+  "NULL_SCRIPT_INTERFACE": {
+   "method_table": null,
+   "methods": [
+    {
+     "args": "",
+     "handler": null,
+     "name": "is_null_interface",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "new",
+     "returns": ""
+    }
+   ]
+  },
+  "PENDING_BATTLE_SCRIPT_INTERFACE": {
+   "method_table": "0x104f84cf8",
+   "methods": [
+    {
+     "args": "",
+     "handler": "0x101d366e0",
+     "name": "ambush_battle",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d35de4",
+     "name": "attacker",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": "0x101d36458",
+     "name": "attacker_battle_result",
+     "returns": "string"
+    },
+    {
+     "args": "",
+     "handler": "0x101d36288",
+     "name": "attacker_commander_fought_in_battle",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d36380",
+     "name": "attacker_commander_fought_in_melee",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d35ff4",
+     "name": "attacker_is_stronger",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d3684c",
+     "name": "attacker_strength",
+     "returns": "number (float)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d367d0",
+     "name": "battle_type",
+     "returns": "string"
+    },
+    {
+     "args": "",
+     "handler": "0x101d35efc",
+     "name": "contested_garrison",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": "0x101d35e70",
+     "name": "defender",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": "0x101d364ec",
+     "name": "defender_battle_result",
+     "returns": "string"
+    },
+    {
+     "args": "",
+     "handler": "0x101d36304",
+     "name": "defender_commander_fought_in_battle",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d363ec",
+     "name": "defender_commander_fought_in_melee",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d368ac",
+     "name": "defender_strength",
+     "returns": "number (float)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d36730",
+     "name": "failed_ambush_battle",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d35c50",
+     "name": "has_attacker",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d35d00",
+     "name": "has_contested_garrison",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d35ca8",
+     "name": "has_defender",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d35f84",
+     "name": "is_active",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "is_null_interface",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": "0x101d35d58",
+     "name": "model",
+     "returns": "MODEL_SCRIPT_INTERFACE"
+    },
+    {
+     "args": "",
+     "handler": "0x101d36580",
+     "name": "naval_battle",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "new",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": "0x101d36780",
+     "name": "night_battle",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d36068",
+     "name": "percentage_of_attacker_killed",
+     "returns": "number (float)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d36180",
+     "name": "percentage_of_attacker_routed",
+     "returns": "number (float)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d360f4",
+     "name": "percentage_of_defender_killed",
+     "returns": "number (float)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d36204",
+     "name": "percentage_of_defender_routed",
+     "returns": "number (float)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d36684",
+     "name": "seige_battle",
+     "returns": "boolean"
+    }
+   ]
+  },
+  "REGION_LIST_SCRIPT_INTERFACE": {
+   "method_table": null,
+   "methods": [
+    {
+     "args": "",
+     "handler": null,
+     "name": "is_empty",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "item_at",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "new",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "num_items",
+     "returns": ""
+    }
+   ]
+  },
+  "REGION_MANAGER_SCRIPT_INTERFACE": {
+   "method_table": "0x104f83e88",
+   "methods": [
+    {
+     "args": "1 values",
+     "handler": "0x101d3016c",
+     "name": "faction_region_list",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "is_null_interface",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": "0x101d3009c",
+     "name": "model",
+     "returns": "MODEL_SCRIPT_INTERFACE"
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "new",
+     "returns": ""
+    },
+    {
+     "args": "string",
+     "handler": "0x101d30358",
+     "name": "region_by_key",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": "0x101d30124",
+     "name": "region_list",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": "0x101d308b0",
+     "name": "resource_exists_anywhere",
+     "returns": "boolean"
+    },
+    {
+     "args": "string",
+     "handler": "0x101d30520",
+     "name": "settlement_by_key",
+     "returns": ""
+    },
+    {
+     "args": "string",
+     "handler": "0x101d306e8",
+     "name": "slot_by_key",
+     "returns": ""
+    }
+   ]
+  },
+  "REGION_SCRIPT_INTERFACE": {
+   "method_table": "0x104f83f60",
+   "methods": [
+    {
+     "args": "",
+     "handler": "0x101d3171c",
+     "name": "adjacent_region_list",
+     "returns": ""
+    },
+    {
+     "args": "string",
+     "handler": "0x101d3132c",
+     "name": "building_exists",
+     "returns": "boolean"
+    },
+    {
+     "args": "string",
+     "handler": "0x101d318c0",
+     "name": "building_superchain_exists",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d31010",
+     "name": "garrison_residence",
+     "returns": "GARRISON_RESIDENCE_SCRIPT_INTERFACE"
+    },
+    {
+     "args": "",
+     "handler": "0x101d31a84",
+     "name": "governor",
+     "returns": "CHARACTER_SCRIPT_INTERFACE"
+    },
+    {
+     "args": "",
+     "handler": "0x101d31a18",
+     "name": "has_governor",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "is_null_interface",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": "0x101d3147c",
+     "name": "last_building_constructed_key",
+     "returns": "string"
+    },
+    {
+     "args": "",
+     "handler": "0x101d31764",
+     "name": "majority_religion",
+     "returns": "string"
+    },
+    {
+     "args": "",
+     "handler": "0x101d317f8",
+     "name": "majority_religion_percentage",
+     "returns": "number (float)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d30e34",
+     "name": "model",
+     "returns": "MODEL_SCRIPT_INTERFACE"
+    },
+    {
+     "args": "",
+     "handler": "0x101d31090",
+     "name": "name",
+     "returns": "string"
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "new",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": "0x101d31168",
+     "name": "num_buildings",
+     "returns": "number (uint)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d30ec0",
+     "name": "owning_faction",
+     "returns": "FACTION_SCRIPT_INTERFACE"
+    },
+    {
+     "args": "",
+     "handler": "0x101d3110c",
+     "name": "public_order",
+     "returns": "number (int)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d31868",
+     "name": "region_wealth_change_percent",
+     "returns": "number (float)"
+    },
+    {
+     "args": "string",
+     "handler": "0x101d314f8",
+     "name": "resource_exists",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d31b70",
+     "name": "sanitation",
+     "returns": "number (uint)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d30f90",
+     "name": "settlement",
+     "returns": "SETTLEMENT_SCRIPT_INTERFACE"
+    },
+    {
+     "args": "",
+     "handler": "0x101d30f44",
+     "name": "slot_list",
+     "returns": ""
+    },
+    {
+     "args": "string",
+     "handler": "0x101d311f8",
+     "name": "slot_type_exists",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d31b0c",
+     "name": "squalor",
+     "returns": "number (uint)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d316cc",
+     "name": "town_wealth_growth",
+     "returns": "number (int)"
+    }
+   ]
+  },
+  "SETTLEMENT_SCRIPT_INTERFACE": {
+   "method_table": "0x104f84398",
+   "methods": [
+    {
+     "args": "",
+     "handler": "0x101d32ea8",
+     "name": "commander",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": "0x101d32d54",
+     "name": "display_position_x",
+     "returns": "number (float)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d32db8",
+     "name": "display_position_y",
+     "returns": "number (float)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d32f64",
+     "name": "faction",
+     "returns": "FACTION_SCRIPT_INTERFACE"
+    },
+    {
+     "args": "",
+     "handler": "0x101d32c14",
+     "name": "has_commander",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "is_null_interface",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": "0x101d32c9c",
+     "name": "logical_position_x",
+     "returns": "number (uint)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d32cf8",
+     "name": "logical_position_y",
+     "returns": "number (uint)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d32e1c",
+     "name": "model",
+     "returns": "MODEL_SCRIPT_INTERFACE"
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "new",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": "0x101d32ff0",
+     "name": "region",
+     "returns": "REGION_SCRIPT_INTERFACE"
+    },
+    {
+     "args": "",
+     "handler": "0x101d3307c",
+     "name": "slot_list",
+     "returns": ""
+    }
+   ]
+  },
+  "SLOT_LIST_SCRIPT_INTERFACE": {
+   "method_table": null,
+   "methods": [
+    {
+     "args": "",
+     "handler": null,
+     "name": "buliding_type_exists",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "is_empty",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "item_at",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "new",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "num_items",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "slot_type_exists",
+     "returns": ""
+    }
+   ]
+  },
+  "SLOT_SCRIPT_INTERFACE": {
+   "method_table": "0x104f844b8",
+   "methods": [
+    {
+     "args": "",
+     "handler": "0x101d33534",
+     "name": "building",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": "0x101d335c4",
+     "name": "faction",
+     "returns": "FACTION_SCRIPT_INTERFACE"
+    },
+    {
+     "args": "",
+     "handler": "0x101d333c0",
+     "name": "has_building",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "is_null_interface",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": "0x101d3341c",
+     "name": "model",
+     "returns": "MODEL_SCRIPT_INTERFACE"
+    },
+    {
+     "args": "",
+     "handler": "0x101d336a4",
+     "name": "name",
+     "returns": "string"
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "new",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": "0x101d334a8",
+     "name": "region",
+     "returns": "REGION_SCRIPT_INTERFACE"
+    },
+    {
+     "args": "",
+     "handler": "0x101d33650",
+     "name": "type",
+     "returns": "string"
+    }
+   ]
+  },
+  "ScriptedValueRegistry": {
+   "method_table": null,
+   "methods": [
+    {
+     "args": "",
+     "handler": null,
+     "name": "LoadBool",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "SaveBool",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "new",
+     "returns": ""
+    }
+   ]
+  },
+  "UIComponent": {
+   "method_table": null,
+   "methods": [
+    {
+     "args": "",
+     "handler": null,
+     "name": "Address",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "Adopt",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "AttachCustomControl",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "Bounds",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "CallbackId",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "ChildCount",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "ClearSound",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "CreateComponent",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "CurrentAnimationId",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "CurrentState",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "CurrentStateUI",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "DestroyChildren",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "Dimensions",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "Divorce",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "DockingPoint",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "Find",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "FindPositionIntoCurrentText",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "FindTextSnapPosition",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "ForceEvent",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "GetProperty",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "GetStateText",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "GetStateTextDetails",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "GetTooltipText",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "GlobalExists",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "HasInterface",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "Height",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "Highlight",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "Id",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "InterfaceFunction",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "IsCharPrintable",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "IsDragged",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "IsInteractive",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "IsMouseOverChildren",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "IsMoveable",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "Layout",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "LockPriority",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "LuaCall",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "MoveTo",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "Opacity",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "Parent",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "PopulateTextures",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "Position",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "Priority",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "PropagateImageColour",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "PropagateOpacity",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "PropagatePriority",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "PropagateVisibility",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "ReorderChildren",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "Resize",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "RestoreUIHeirarchy",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "RunScript",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "SaveUIHeirarchy",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "SequentialFind",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "SetDisabled",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "SetDockingPoint",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "SetDragged",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "SetEventCallback",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "SetGlobal",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "SetImageColour",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "SetImageRotation",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "SetInteractive",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "SetMoveable",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "SetOpacity",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "SetProperty",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "SetState",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "SetStateColours",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "SetStateText",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "SetStateTextDetails",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "SetStateTextXOffset",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "SetTooltipText",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "SetTooltipTextWithRLSKey",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "SetVisible",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "ShaderTechniqueGet",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "ShaderTechniqueSet",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "ShaderVarsGet",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "ShaderVarsSet",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "SimulateClick",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "SimulateKey",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "SimulateLClick",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "SimulateMouseMove",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "SimulateMouseOff",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "SimulateMouseOn",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "SimulateRClick",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "StealInputFocus",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "StealShortcutKey",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "TextDimensions",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "TextShaderTechniqueSet",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "TextShaderVarsGet",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "TextShaderVarsSet",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "TriggerAnimation",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "TriggerShortcut",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "UnLockPriority",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "Visible",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "Width",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "WidthOfTextLine",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "new",
+     "returns": ""
+    }
+   ]
+  },
+  "UNIT_LIST_SCRIPT_INTERFACE": {
+   "method_table": null,
+   "methods": [
+    {
+     "args": "",
+     "handler": null,
+     "name": "has_unit",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "is_empty",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "item_at",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "new",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "num_items",
+     "returns": ""
+    }
+   ]
+  },
+  "UNIT_SCRIPT_INTERFACE": {
+   "method_table": "0x104f84ae8",
+   "methods": [
+    {
+     "args": "",
+     "handler": "0x101d35994",
+     "name": "can_upgrade_unit",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d3590c",
+     "name": "can_upgrade_unit_equipment",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d35828",
+     "name": "faction",
+     "returns": "FACTION_SCRIPT_INTERFACE"
+    },
+    {
+     "args": "",
+     "handler": "0x101d35584",
+     "name": "force_commander",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": "0x101d35390",
+     "name": "has_force_commander",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d353e8",
+     "name": "has_unit_commander",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d35450",
+     "name": "is_land_unit",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d354a4",
+     "name": "is_naval_unit",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "is_null_interface",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": "0x101d356a8",
+     "name": "military_force",
+     "returns": "MILITARY_FORCE_SCRIPT_INTERFACE"
+    },
+    {
+     "args": "",
+     "handler": "0x101d354f8",
+     "name": "model",
+     "returns": "MODEL_SCRIPT_INTERFACE"
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "new",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": "0x101d358a8",
+     "name": "percentage_proportion_of_full_strength",
+     "returns": "number (float)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d35780",
+     "name": "unit_category",
+     "returns": "string"
+    },
+    {
+     "args": "",
+     "handler": "0x101d357d4",
+     "name": "unit_class",
+     "returns": "string"
+    },
+    {
+     "args": "",
+     "handler": "0x101d35610",
+     "name": "unit_commander",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": "0x101d35730",
+     "name": "unit_key",
+     "returns": "string"
+    }
+   ]
+  },
+  "WORLD_SCRIPT_INTERFACE": {
+   "method_table": "0x104f82e98",
+   "methods": [
+    {
+     "args": "",
+     "handler": "0x101d29074",
+     "name": "ancillary_exists",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d29134",
+     "name": "climate_phase_index",
+     "returns": "number (int)"
+    },
+    {
+     "args": "",
+     "handler": "0x101d28eb4",
+     "name": "faction_by_key",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": "0x101d28fb4",
+     "name": "faction_exists",
+     "returns": "boolean"
+    },
+    {
+     "args": "",
+     "handler": "0x101d28d5c",
+     "name": "faction_list",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "is_null_interface",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": "0x101d28e28",
+     "name": "model",
+     "returns": "MODEL_SCRIPT_INTERFACE"
+    },
+    {
+     "args": "",
+     "handler": null,
+     "name": "new",
+     "returns": ""
+    },
+    {
+     "args": "",
+     "handler": "0x101d28da4",
+     "name": "region_manager",
+     "returns": "REGION_MANAGER_SCRIPT_INTERFACE"
+    }
+   ]
+  }
+ },
+ "engine": {
+  "CampaignUI": [
+   "ClearSelection",
+   "CurrentTabTypename",
+   "GetCameraPosition",
+   "HighlightComponent",
+   "HighlightConstructionItem",
+   "HighlightRecruitmentItem",
+   "IsMultiplayer",
+   "IsPreBattleTypeSiege",
+   "OverrideLoadingScreenText",
+   "SetCameraHeading",
+   "SetCameraTarget",
+   "SetCameraTargetInstant",
+   "SetCameraZoom",
+   "ShowObjective",
+   "ToggleCinematicBorders",
+   "ToggleScreenCover",
+   "UpdateTechButton",
+   "clear_highlights",
+   "highlight_character",
+   "highlight_position",
+   "highlight_settlement",
+   "unhighlight_character",
+   "unhighlight_position",
+   "unhighlight_settlement"
+  ],
+  "system": [
+   "ClearRequiredFiles"
+  ],
+  "vfs": [
+   "exists"
+  ]
+ },
+ "events": [
+  "AdviceDismissed",
+  "AdviceFinishedTrigger",
+  "AdviceIssued",
+  "AdviceSuperseded",
+  "AreaCameraEntered",
+  "AreaEntered",
+  "AreaExited",
+  "ArmyBribeAttemptFailure",
+  "ArmySabotageAttemptFailure",
+  "ArmySabotageAttemptSuccess",
+  "AssassinationAttemptCriticalSuccess",
+  "AssassinationAttemptFailure",
+  "AssassinationAttemptSuccess",
+  "BattleBoardingActionCommenced",
+  "BattleCommandingShipRouts",
+  "BattleCommandingUnitRouts",
+  "BattleCompleted",
+  "BattleConflictPhaseCommenced",
+  "BattleDeploymentPhaseCommenced",
+  "BattleFortPlazaCaptureCommenced",
+  "BattleShipAttacksEnemyShip",
+  "BattleShipCaughtFire",
+  "BattleShipMagazineExplosion",
+  "BattleShipRouts",
+  "BattleShipRunAground",
+  "BattleShipSailingIntoWind",
+  "BattleShipSurrendered",
+  "BattleUnitAttacksBuilding",
+  "BattleUnitAttacksEnemyUnit",
+  "BattleUnitAttacksWalls",
+  "BattleUnitCapturesBuilding",
+  "BattleUnitDestroysBuilding",
+  "BattleUnitRouts",
+  "BattleUnitUsingBuilding",
+  "BattleUnitUsingWall",
+  "BuildingCardSelected",
+  "BuildingCompleted",
+  "BuildingConstructionIssuedByPlayer",
+  "BuildingInfoPanelOpenedCampaign",
+  "CameraMoverCancelled",
+  "CameraMoverFinished",
+  "CampaignArmiesMerge",
+  "CampaignBuildingDamaged",
+  "CampaignCoastalAssaultOnCharacter",
+  "CampaignCoastalAssaultOnGarrison",
+  "CampaignEffectsBundleAwarded",
+  "CampaignSettlementAttacked",
+  "CharacterAttacksAlly",
+  "CharacterBecomesFactionLeader",
+  "CharacterBesiegesSettlement",
+  "CharacterBlockadedPort",
+  "CharacterBrokePortBlockade",
+  "CharacterBuildingCompleted",
+  "CharacterCanLiberate",
+  "CharacterCandidateBecomesMinister",
+  "CharacterCharacterTargetAction",
+  "CharacterComesOfAge",
+  "CharacterCompletedBattle",
+  "CharacterCreated",
+  "CharacterDamagedByDisaster",
+  "CharacterDeselected",
+  "CharacterDiscovered",
+  "CharacterDisembarksNavy",
+  "CharacterEmbarksNavy",
+  "CharacterEntersAttritionalArea",
+  "CharacterEntersGarrison",
+  "CharacterFactionCompletesResearch",
+  "CharacterFamilyRelationDied",
+  "CharacterGarrisonTargetAction",
+  "CharacterInfoPanelOpened",
+  "CharacterLeavesGarrison",
+  "CharacterLootedSettlement",
+  "CharacterMarriage",
+  "CharacterMilitaryForceTraditionPointAllocated",
+  "CharacterMilitaryForceTraditionPointAvailable",
+  "CharacterParticipatedAsSecondaryGeneralInBattle",
+  "CharacterPerformsActionAgainstFriendlyTarget",
+  "CharacterPerformsOccupationDecisionLoot",
+  "CharacterPerformsOccupationDecisionOccupy",
+  "CharacterPerformsOccupationDecisionRaze",
+  "CharacterPerformsOccupationDecisionResettle",
+  "CharacterPerformsOccupationDecisionSack",
+  "CharacterPostBattleEnslave",
+  "CharacterPostBattleRelease",
+  "CharacterPostBattleSlaughter",
+  "CharacterPromoted",
+  "CharacterRankUp",
+  "CharacterRankUpNeedsAncillary",
+  "CharacterRelativeKilled",
+  "CharacterSelected",
+  "CharacterSettlementBesieged",
+  "CharacterSettlementBlockaded",
+  "CharacterSkillPointAllocated",
+  "CharacterSuccessfulArmyBribe",
+  "CharacterSuccessfulConvert",
+  "CharacterSuccessfulDemoralise",
+  "CharacterSuccessfulInciteRevolt",
+  "CharacterSurvivesAssassinationAttempt",
+  "CharacterTurnEnd",
+  "CharacterTurnStart",
+  "CharacterWoundedInAssassinationAttempt",
+  "ClanBecomesVassal",
+  "ClimatePhaseChange",
+  "ComponentCreated",
+  "ComponentLClickUp",
+  "ComponentLinkClicked",
+  "ComponentMouseOn",
+  "ComponentMoved",
+  "ConvertAttemptFailure",
+  "DemoraliseAttemptFailure",
+  "DilemmaChoiceMadeEvent",
+  "DilemmaEvent",
+  "DilemmaIssuedEvent",
+  "DillemaOrIncidentStarted",
+  "DiplomacyNegotiationStarted",
+  "DiplomaticOfferRejected",
+  "DuelDemanded",
+  "DummyEvent",
+  "EncylopediaEntryRequested",
+  "EventMessageOpenedBattle",
+  "EventMessageOpenedCampaign",
+  "FactionAboutToEndTurn",
+  "FactionBecomesLiberationProtectorate",
+  "FactionBecomesLiberationVassal",
+  "FactionBecomesShogun",
+  "FactionBecomesWorldLeader",
+  "FactionBeginTurnPhaseNormal",
+  "FactionCapturesKyoto",
+  "FactionCapturesWorldCapital",
+  "FactionEncountersOtherFaction",
+  "FactionFameLevelUp",
+  "FactionGovernmentTypeChanged",
+  "FactionHordeStatusChange",
+  "FactionLeaderDeclaresWar",
+  "FactionLeaderSignsPeaceTreaty",
+  "FactionRoundStart",
+  "FactionSubjugatesOtherFaction",
+  "FactionTurnEnd",
+  "FactionTurnStart",
+  "FirstTickAfterNewCampaignStarted",
+  "FirstTickAfterWorldCreated",
+  "ForceAdoptsStance",
+  "FortSelected",
+  "FrontendScreenTransition",
+  "GarrisonAttackedEvent",
+  "GarrisonOccupiedEvent",
+  "GarrisonResidenceCaptured",
+  "GovernorAssignedCharacterEvent",
+  "GovernorshipTaxRateChanged",
+  "HistoricBattleEvent",
+  "HistoricalCharacters",
+  "HistoricalEvents",
+  "HudRefresh",
+  "IncidentOccuredEvent",
+  "InciteRevoltAttemptFailure",
+  "IncomingMessage",
+  "LandTradeRouteRaided",
+  "LoadingGame",
+  "LoadingScreenDismissed",
+  "LocationEntered",
+  "LocationUnveiled",
+  "MPLobbyChatCreated",
+  "MapIconMoved",
+  "MissionCancelled",
+  "MissionCheckAssassination",
+  "MissionCheckBlockadePort",
+  "MissionCheckBuild",
+  "MissionCheckCaptureCity",
+  "MissionCheckDuel",
+  "MissionCheckEngageCharacter",
+  "MissionCheckEngageFaction",
+  "MissionCheckGainMilitaryAccess",
+  "MissionCheckMakeAlliance",
+  "MissionCheckMakeTradeAgreement",
+  "MissionCheckRecruit",
+  "MissionCheckResearch",
+  "MissionCheckSpyOnCity",
+  "MissionEvaluateAssassination",
+  "MissionEvaluateBlockadePort",
+  "MissionEvaluateBuild",
+  "MissionEvaluateCaptureCity",
+  "MissionEvaluateDuel",
+  "MissionEvaluateEngageCharacter",
+  "MissionEvaluateEngageFaction",
+  "MissionEvaluateGainMilitaryAccess",
+  "MissionEvaluateMakeAlliance",
+  "MissionEvaluateMakeTradeAgreement",
+  "MissionEvaluateRecruit",
+  "MissionEvaluateResearch",
+  "MissionEvaluateSpyOnCity",
+  "MissionFailed",
+  "MissionIssued",
+  "MissionNearingExpiry",
+  "MissionSucceeded",
+  "ModelCreated",
+  "MovementPointsExhausted",
+  "MultiTurnMove",
+  "NewCampaignStarted",
+  "NewSession",
+  "PanelAdviceRequestedBattle",
+  "PanelAdviceRequestedCampaign",
+  "PanelClosedBattle",
+  "PanelClosedCampaign",
+  "PanelOpenedBattle",
+  "PanelOpenedCampaign",
+  "PendingBankruptcy",
+  "PendingBattle",
+  "PositiveDiplomaticEvent",
+  "PreBattle",
+  "RecruitmentItemIssuedByPlayer",
+  "RegionGainedDevlopmentPoint",
+  "RegionIssuesDemands",
+  "RegionRebels",
+  "RegionRiots",
+  "RegionSelected",
+  "RegionStrikes",
+  "RegionTurnEnd",
+  "RegionTurnStart",
+  "ResearchCompleted",
+  "ResearchStarted",
+  "SabotageAttemptFailure",
+  "SabotageAttemptSuccess",
+  "SavingGame",
+  "ScriptedAgentCreated",
+  "ScriptedAgentCreationFailed",
+  "ScriptedCharacterUnhidden",
+  "ScriptedCharacterUnhiddenFailed",
+  "ScriptedForceCreated",
+  "SeaTradeRouteRaided",
+  "SettlementDeselected",
+  "SettlementOccupied",
+  "SettlementSelected",
+  "ShortcutTriggered",
+  "SiegeLifted",
+  "SlotOpens",
+  "SlotRoundStart",
+  "SlotSelected",
+  "SlotTurnStart",
+  "StartRegionPopupVisible",
+  "StartRegionSelected",
+  "TechnologyInfoPanelOpenedCampaign",
+  "TestEvent",
+  "TimeTrigger",
+  "TooltipAdvice",
+  "TradeLinkEstablished",
+  "TradeNodeConnected",
+  "TradeRouteEstablished",
+  "UICreated",
+  "UIDestroyed",
+  "UngarrisonedFort",
+  "UnitCompletedBattle",
+  "UnitCreated",
+  "UnitDisembarkCompleted",
+  "UnitSelectedCampaign",
+  "UnitTrained",
+  "UnitTurnEnd",
+  "VictoryConditionFailed",
+  "VictoryConditionMet",
+  "WorldCreated",
+  "historical_events"
+ ],
+ "library": {
+  "functions": [
+   {
+    "file": "campaigns/main_attila/roman_empire_no_vassal.lua",
+    "line": 19,
+    "name": "Add_Region_Count_On_Round_Start_Listener",
+    "params": ""
+   },
+   {
+    "file": "script/_lib/lib_campaign_cleanup.lua",
+    "line": 26,
+    "name": "CleanupFinal",
+    "params": ""
+   },
+   {
+    "file": "campaigns/main_attila/roman_empire_no_vassal.lua",
+    "line": 31,
+    "name": "Count_Empire_Regions",
+    "params": ""
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 777,
+    "name": "Enable_Campaign_Menu_Buttons",
+    "params": "value"
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 800,
+    "name": "Enable_Campaign_Settlement_Buttons",
+    "params": "value"
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 762,
+    "name": "Enable_Radar_Rollout_Buttons",
+    "params": "value"
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 792,
+    "name": "Enable_Radar_Values",
+    "params": "value"
+   },
+   {
+    "file": "script/_lib/lib_campaign_cutscene.lua",
+    "line": 665,
+    "name": "OnKeyPressed",
+    "params": "key, is_key_up"
+   },
+   {
+    "file": "campaigns/main_attila/roman_empire_no_vassal.lua",
+    "line": 6,
+    "name": "Restrict_Empire_Vassalage",
+    "params": "faction_key, enable"
+   },
+   {
+    "file": "script/_lib/lib_campaign_ui.lua",
+    "line": 1453,
+    "name": "Set_Component_Active",
+    "params": "is_active, root, ..."
+   },
+   {
+    "file": "script/_lib/lib_campaign_ui.lua",
+    "line": 1390,
+    "name": "Set_Component_State",
+    "params": "callback, root, ..."
+   },
+   {
+    "file": "script/_lib/lib_campaign_ui.lua",
+    "line": 1435,
+    "name": "Set_Component_Visible",
+    "params": "visible, root, ..."
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 11,
+    "name": "Setup_Campaign",
+    "params": "name"
+   },
+   {
+    "file": "script/_lib/lib_campaign_cutscene.lua",
+    "line": 24,
+    "name": "activate_cinematic_cam",
+    "params": "value"
+   },
+   {
+    "file": "script/_lib/lib_objectives.lua",
+    "line": 190,
+    "name": "activate_objective_chain",
+    "params": "name, objective, opt_a, opt_b"
+   },
+   {
+    "file": "script/_lib/lib_campaign_ui.lua",
+    "line": 2080,
+    "name": "add_all_characters_for_faction_selection_whitelist",
+    "params": "faction_name"
+   },
+   {
+    "file": "script/_lib/lib_campaign_ui.lua",
+    "line": 1965,
+    "name": "add_all_settlements_for_faction_selection_whitelist",
+    "params": "faction_name"
+   },
+   {
+    "file": "campaigns/main_attila/restrict_military_building.lua",
+    "line": 64,
+    "name": "add_battle_completed_listener",
+    "params": ""
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 107,
+    "name": "add_callback",
+    "params": "new_callback, new_t, new_name"
+   },
+   {
+    "file": "script/_lib/lib_campaign_cleanup.lua",
+    "line": 13,
+    "name": "add_campaign_cleanup_action",
+    "params": "callback"
+   },
+   {
+    "file": "script/_lib/lib_campaign_ui.lua",
+    "line": 2013,
+    "name": "add_character_selection_whitelist",
+    "params": "cqi"
+   },
+   {
+    "file": "campaigns/main_attila/att_preservation.lua",
+    "line": 95,
+    "name": "add_hun_preservation_army_template",
+    "params": "name, min_date, max_date, army_string"
+   },
+   {
+    "file": "campaigns/main_attila/att_preservation.lua",
+    "line": 57,
+    "name": "add_hun_preservation_spawnpoint",
+    "params": "x, y, region_name, preferred"
+   },
+   {
+    "file": "script/_lib/lib_objectives.lua",
+    "line": 419,
+    "name": "add_infotext",
+    "params": "param1, ..."
+   },
+   {
+    "file": "script/_lib/lib_objectives.lua",
+    "line": 358,
+    "name": "add_infotext_line",
+    "params": "key"
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 714,
+    "name": "add_loadgame_callback",
+    "params": "eh, callback"
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 133,
+    "name": "add_os_clock_callback",
+    "params": "callback, delay, name"
+   },
+   {
+    "file": "campaigns/main_attila/restrict_military_building.lua",
+    "line": 42,
+    "name": "add_peending_battle_listener",
+    "params": ""
+   },
+   {
+    "file": "campaigns/main_attila/restrict_religious_building.lua",
+    "line": 37,
+    "name": "add_religious_listener",
+    "params": ""
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 95,
+    "name": "add_repeat_callback",
+    "params": "new_callback, new_t, new_name"
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 700,
+    "name": "add_savegame_callback",
+    "params": "eh, callback"
+   },
+   {
+    "file": "script/_lib/lib_campaign_ui.lua",
+    "line": 1883,
+    "name": "add_settlement_selection_whitelist",
+    "params": "settlement"
+   },
+   {
+    "file": "campaigns/main_attila/restrict_trade_building.lua",
+    "line": 59,
+    "name": "add_trade_listener",
+    "params": ""
+   },
+   {
+    "file": "campaigns/main_attila/att_attila_story.lua",
+    "line": 207,
+    "name": "appoint_attila_most_expensive_force",
+    "params": ""
+   },
+   {
+    "file": "campaigns/main_attila/att_traits.lua",
+    "line": 32,
+    "name": "assign_startpos_generals_abilities",
+    "params": ""
+   },
+   {
+    "file": "campaigns/main_attila/att_attila_story.lua",
+    "line": 159,
+    "name": "attila_story_attila_becomes_king",
+    "params": ""
+   },
+   {
+    "file": "campaigns/main_attila/att_attila_story.lua",
+    "line": 508,
+    "name": "attila_story_attila_has_died",
+    "params": ""
+   },
+   {
+    "file": "campaigns/main_attila/att_attila_story.lua",
+    "line": 500,
+    "name": "attila_story_disable",
+    "params": ""
+   },
+   {
+    "file": "campaigns/main_attila/att_attila_story.lua",
+    "line": 528,
+    "name": "attila_story_get_attila",
+    "params": ""
+   },
+   {
+    "file": "campaigns/main_attila/att_attila_story.lua",
+    "line": 554,
+    "name": "attila_story_get_hunnic_faction",
+    "params": ""
+   },
+   {
+    "file": "campaigns/main_attila/att_attila_story.lua",
+    "line": 141,
+    "name": "attila_story_remove_come_of_age_listener",
+    "params": ""
+   },
+   {
+    "file": "campaigns/main_attila/att_attila_story.lua",
+    "line": 361,
+    "name": "attila_story_remove_invulnerable",
+    "params": ""
+   },
+   {
+    "file": "campaigns/main_attila/att_attila_story.lua",
+    "line": 58,
+    "name": "attila_story_spawn_attila",
+    "params": ""
+   },
+   {
+    "file": "campaigns/main_attila/att_attila_story.lua",
+    "line": 97,
+    "name": "attila_story_start_come_of_age_listener",
+    "params": ""
+   },
+   {
+    "file": "campaigns/main_attila/att_attila_story.lua",
+    "line": 385,
+    "name": "attila_story_start_death_listener",
+    "params": ""
+   },
+   {
+    "file": "campaigns/main_attila/att_attila_story.lua",
+    "line": 316,
+    "name": "attila_story_start_force_lead_armies_listener",
+    "params": ""
+   },
+   {
+    "file": "campaigns/main_attila/att_attila_story.lua",
+    "line": 227,
+    "name": "attila_story_start_player_battle_listener",
+    "params": ""
+   },
+   {
+    "file": "campaigns/main_attila/att_attila_story.lua",
+    "line": 448,
+    "name": "attila_story_stop_death_listener",
+    "params": ""
+   },
+   {
+    "file": "campaigns/main_attila/att_attila_story.lua",
+    "line": 355,
+    "name": "attila_story_stop_force_lead_armies_listener",
+    "params": ""
+   },
+   {
+    "file": "campaigns/main_attila/att_attila_story.lua",
+    "line": 308,
+    "name": "attila_story_stop_player_battle_listener",
+    "params": ""
+   },
+   {
+    "file": "campaigns/main_attila/att_attila_story.lua",
+    "line": 467,
+    "name": "attila_story_the_death_of_attila",
+    "params": ""
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 220,
+    "name": "cache_tab",
+    "params": ""
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 44,
+    "name": "camera_position_to_string",
+    "params": "pos"
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 563,
+    "name": "campaign_obj_to_string",
+    "params": "input"
+   },
+   {
+    "file": "script/_lib/lib_campaign_ui.lua",
+    "line": 1373,
+    "name": "campaign_ui_initialised",
+    "params": "context"
+   },
+   {
+    "file": "script/_lib/lib_objectives.lua",
+    "line": 394,
+    "name": "cancel_add_infotext",
+    "params": ""
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 935,
+    "name": "cancel_all_move_npc_army",
+    "params": ""
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 638,
+    "name": "cancel_progress_on_advice_dismissed",
+    "params": ""
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 653,
+    "name": "cancel_progress_on_advice_finished",
+    "params": ""
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 1146,
+    "name": "char_display_pos",
+    "params": "character"
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 1166,
+    "name": "char_is_army_commander",
+    "params": "char"
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 1156,
+    "name": "char_logical_pos",
+    "params": "character"
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 1321,
+    "name": "char_lookup_str",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 185,
+    "name": "check_callbacks",
+    "params": "context"
+   },
+   {
+    "file": "script/_lib/lib_campaign_defense.lua",
+    "line": 401,
+    "name": "check_defense",
+    "params": "name, target_regions"
+   },
+   {
+    "file": "script/_lib/lib_campaign_defense.lua",
+    "line": 410,
+    "name": "check_defense_trigger_regions",
+    "params": "name, trigger_regions"
+   },
+   {
+    "file": "campaigns/main_attila/restrict_military_building.lua",
+    "line": 94,
+    "name": "check_for_building",
+    "params": "result"
+   },
+   {
+    "file": "campaigns/main_attila/restrict_religious_building.lua",
+    "line": 47,
+    "name": "check_religion",
+    "params": "faction"
+   },
+   {
+    "file": "campaigns/main_attila/restrict_trade_building.lua",
+    "line": 70,
+    "name": "check_resources",
+    "params": "faction"
+   },
+   {
+    "file": "campaigns/main_attila/restrict_military_building.lua",
+    "line": 74,
+    "name": "check_result",
+    "params": ""
+   },
+   {
+    "file": "script/_lib/lib_objectives.lua",
+    "line": 540,
+    "name": "clear_and_add_infotext",
+    "params": "param1, ..."
+   },
+   {
+    "file": "script/_lib/lib_campaign_ui.lua",
+    "line": 2038,
+    "name": "clear_character_selection_whitelist",
+    "params": ""
+   },
+   {
+    "file": "script/_lib/lib_objectives.lua",
+    "line": 376,
+    "name": "clear_infotext",
+    "params": ""
+   },
+   {
+    "file": "script/_lib/lib_campaign_ui.lua",
+    "line": 1918,
+    "name": "clear_settlement_selection_whitelist",
+    "params": ""
+   },
+   {
+    "file": "campaigns/main_attila/att_climate_change.lua",
+    "line": 35,
+    "name": "climate_change_event_triggered",
+    "params": "phase"
+   },
+   {
+    "file": "script/_lib/lib_objectives.lua",
+    "line": 98,
+    "name": "complete_objective",
+    "params": "obj_name"
+   },
+   {
+    "file": "script/_lib/lib_campaign_defense.lua",
+    "line": 319,
+    "name": "create_force_in_garrison",
+    "params": "faction_name, army_string, region_name, name"
+   },
+   {
+    "file": "script/_lib/lib_objectives.lua",
+    "line": 347,
+    "name": "create_infotext_panel",
+    "params": ""
+   },
+   {
+    "file": "script/_lib/lib_objectives.lua",
+    "line": 28,
+    "name": "create_objectives_panel",
+    "params": ""
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 747,
+    "name": "d_to_r",
+    "params": "value"
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 234,
+    "name": "dec_tab",
+    "params": ""
+   },
+   {
+    "file": "script/_lib/lib_campaign_ui.lua",
+    "line": 2069,
+    "name": "disable_character_selection_whitelist",
+    "params": "no_output"
+   },
+   {
+    "file": "script/_lib/lib_campaign_ui.lua",
+    "line": 1954,
+    "name": "disable_settlement_selection_whitelist",
+    "params": "no_output"
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 628,
+    "name": "dismiss_advice",
+    "params": ""
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 1316,
+    "name": "distance_squared",
+    "params": "a_x, a_y, b_x, b_y"
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 198,
+    "name": "dump_timers",
+    "params": ""
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 1546,
+    "name": "enable_all_diplomacy",
+    "params": "value"
+   },
+   {
+    "file": "script/_lib/lib_campaign_ui.lua",
+    "line": 2044,
+    "name": "enable_character_selection_whitelist",
+    "params": ""
+   },
+   {
+    "file": "script/_lib/lib_campaign_cutscene.lua",
+    "line": 5,
+    "name": "enable_event_panel_auto_open",
+    "params": "new_value"
+   },
+   {
+    "file": "script/_lib/lib_campaign_ui.lua",
+    "line": 1925,
+    "name": "enable_settlement_selection_whitelist",
+    "params": ""
+   },
+   {
+    "file": "script/_lib/lib_objectives.lua",
+    "line": 256,
+    "name": "end_objective_chain",
+    "params": "name"
+   },
+   {
+    "file": "script/_lib/lib_objectives.lua",
+    "line": 271,
+    "name": "end_objective_chain_on_advice_dismissed",
+    "params": "name"
+   },
+   {
+    "file": "script/_lib/lib_campaign_ui.lua",
+    "line": 2195,
+    "name": "end_of_turn_warnings_displayed",
+    "params": ""
+   },
+   {
+    "file": "campaigns/main_attila/att_traits.lua",
+    "line": 267,
+    "name": "enqueue_trait_to_add",
+    "params": "char_str, trait_to_give, show_msg"
+   },
+   {
+    "file": "campaigns/main_attila/att_attila_story.lua",
+    "line": 566,
+    "name": "event_feed_string_lookup",
+    "params": "key"
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 1647,
+    "name": "faction_attacker_in_battle",
+    "params": "pb, faction_name"
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 1652,
+    "name": "faction_defender_in_battle",
+    "params": "pb, faction_name"
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 1642,
+    "name": "faction_involved_in_battle",
+    "params": "pb, faction_name"
+   },
+   {
+    "file": "script/_lib/lib_objectives.lua",
+    "line": 130,
+    "name": "fail_objective",
+    "params": "obj_name"
+   },
+   {
+    "file": "script/_lib/lib_campaign_ui.lua",
+    "line": 2001,
+    "name": "find_character_selection_whitelist",
+    "params": "cqi"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 947,
+    "name": "find_single_uicomponent",
+    "params": "parent, component_name"
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 147,
+    "name": "find_timer",
+    "params": "id"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 963,
+    "name": "find_uicomponent",
+    "params": "parent, ..."
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 981,
+    "name": "find_uicomponent_by_table",
+    "params": "parent, t"
+   },
+   {
+    "file": "lua_scripts/battle_script_header.lua",
+    "line": 9,
+    "name": "force_require",
+    "params": "file"
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 741,
+    "name": "game_is_loading",
+    "params": "context"
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 728,
+    "name": "game_is_saving",
+    "params": "context"
+   },
+   {
+    "file": "script/_lib/lib_campaign_defense.lua",
+    "line": 17,
+    "name": "generate_campaign_defense_loadstring",
+    "params": ""
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 1166,
+    "name": "get_advisor_progress_button",
+    "params": ""
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 1183,
+    "name": "get_character_from_faction",
+    "params": "faction, forename, surname"
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 1280,
+    "name": "get_character_from_faction_by_cqi",
+    "params": "faction, cqi"
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 1299,
+    "name": "get_character_from_faction_name",
+    "params": "faction_name, forename, surname"
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 1201,
+    "name": "get_closest_commander_to_position_from_faction",
+    "params": "faction, x, y, disregard_upkeep"
+   },
+   {
+    "file": "script/_lib/lib_campaign_manager.lua",
+    "line": 13,
+    "name": "get_cm",
+    "params": ""
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 1248,
+    "name": "get_commander_at_position_all_factions",
+    "params": "x, y"
+   },
+   {
+    "file": "script/_lib/lib_event_handler.lua",
+    "line": 54,
+    "name": "get_eh",
+    "params": ""
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 1061,
+    "name": "get_faction",
+    "params": "key"
+   },
+   {
+    "file": "campaigns/main_attila/att_preservation.lua",
+    "line": 492,
+    "name": "get_faction_armies",
+    "params": "faction_name"
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 1072,
+    "name": "get_faction_leader",
+    "params": "faction_key"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 51,
+    "name": "get_folder_name_and_shortform",
+    "params": ""
+   },
+   {
+    "file": "campaigns/main_attila/att_preservation.lua",
+    "line": 457,
+    "name": "get_hun_army_string",
+    "params": ""
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 1044,
+    "name": "get_local_faction_name",
+    "params": "model"
+   },
+   {
+    "file": "script/_lib/lib_script_messager.lua",
+    "line": 4,
+    "name": "get_messager",
+    "params": ""
+   },
+   {
+    "file": "script/_lib/lib_campaign_ui.lua",
+    "line": 1238,
+    "name": "get_next_campaign_ui_output_stamp",
+    "params": ""
+   },
+   {
+    "file": "campaigns/main_attila/att_traits.lua",
+    "line": 181,
+    "name": "get_random_ability_trait_string",
+    "params": "trait_list, character_context"
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 1310,
+    "name": "get_region",
+    "params": "region_name"
+   },
+   {
+    "file": "campaigns/main_attila/att_traits.lua",
+    "line": 114,
+    "name": "give_ability_trait_based_on_faction",
+    "params": "faction_character, show_msg"
+   },
+   {
+    "file": "campaigns/main_attila/att_traits.lua",
+    "line": 136,
+    "name": "give_random_ability_trait",
+    "params": "target_character, trait_list, show_msg"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 1199,
+    "name": "highlight_advisor_progress_button",
+    "params": "value"
+   },
+   {
+    "file": "script/_lib/lib_campaign_ui.lua",
+    "line": 1762,
+    "name": "highlight_all_general_characters_for_faction",
+    "params": "faction_name, value"
+   },
+   {
+    "file": "script/_lib/lib_campaign_ui.lua",
+    "line": 1632,
+    "name": "highlight_all_settlements_for_faction",
+    "params": "faction_name, value"
+   },
+   {
+    "file": "script/_lib/lib_campaign_ui.lua",
+    "line": 1729,
+    "name": "highlight_character",
+    "params": "char"
+   },
+   {
+    "file": "script/_lib/lib_campaign_ui.lua",
+    "line": 1796,
+    "name": "highlight_character_for_selection",
+    "params": "char, callback"
+   },
+   {
+    "file": "script/_lib/lib_campaign_ui.lua",
+    "line": 1865,
+    "name": "highlight_component",
+    "params": "..."
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 1113,
+    "name": "highlight_component_with_duration",
+    "params": "component_name, is_square, parent_name, duration"
+   },
+   {
+    "file": "script/_lib/lib_campaign_ui.lua",
+    "line": 1665,
+    "name": "highlight_settlement",
+    "params": "settlement_name, x_offset, y_offset"
+   },
+   {
+    "file": "script/_lib/lib_campaign_ui.lua",
+    "line": 1833,
+    "name": "highlight_settlement_for_selection",
+    "params": "settlement_name, callback, x_offset, y_offset, province_name"
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 230,
+    "name": "inc_tab",
+    "params": ""
+   },
+   {
+    "file": "script/_lib/lib_campaign_ui.lua",
+    "line": 1358,
+    "name": "init_campaign_ui_state",
+    "params": "eh, player_faction"
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 172,
+    "name": "initialise_timers",
+    "params": "eh"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 164,
+    "name": "is_alliance",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 156,
+    "name": "is_alliances",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 172,
+    "name": "is_armies",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 180,
+    "name": "is_army",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 488,
+    "name": "is_barricadeattackgroup",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 148,
+    "name": "is_battle",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 213,
+    "name": "is_battlemanager",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 140,
+    "name": "is_battlesoundeffect",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 128,
+    "name": "is_bool",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 120,
+    "name": "is_boolean",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 269,
+    "name": "is_building",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 668,
+    "name": "is_buildinglist",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 278,
+    "name": "is_buildings",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 722,
+    "name": "is_campaignai",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 237,
+    "name": "is_campaigncutscene",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 497,
+    "name": "is_campaigndefense",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 221,
+    "name": "is_campaignmanager",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 713,
+    "name": "is_campaignmission",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_campaign_ui.lua",
+    "line": 1608,
+    "name": "is_char_selected",
+    "params": "char"
+   },
+   {
+    "file": "script/_lib/lib_campaign_ui.lua",
+    "line": 1613,
+    "name": "is_char_selected_from_faction",
+    "params": "faction_name"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 578,
+    "name": "is_character",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 952,
+    "name": "is_character_moving",
+    "params": "faction_name, char_cqi, is_moving_callback, is_not_moving_callback"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 587,
+    "name": "is_characterlist",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 479,
+    "name": "is_component",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 286,
+    "name": "is_convexarea",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 253,
+    "name": "is_cutscene",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 380,
+    "name": "is_decisionpoint",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 1619,
+    "name": "is_defeat_str",
+    "params": "str"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 398,
+    "name": "is_escapemanager",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 389,
+    "name": "is_escaperoute",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 425,
+    "name": "is_eventhandler",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 560,
+    "name": "is_faction",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 569,
+    "name": "is_factionlist",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 229,
+    "name": "is_factionstart",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 443,
+    "name": "is_fehbsequence",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 326,
+    "name": "is_firestormmanager",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 104,
+    "name": "is_function",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 623,
+    "name": "is_garrisonresidence",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 524,
+    "name": "is_generatedarmy",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 515,
+    "name": "is_generatedbattle",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 335,
+    "name": "is_hidingplace",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 318,
+    "name": "is_hurtarea",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 245,
+    "name": "is_iterator",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 677,
+    "name": "is_militaryforce",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 686,
+    "name": "is_militaryforcelist",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 542,
+    "name": "is_model",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 88,
+    "name": "is_nil",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 533,
+    "name": "is_null",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 96,
+    "name": "is_number",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_campaign_ui.lua",
+    "line": 1596,
+    "name": "is_panel_open",
+    "params": "panel"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 407,
+    "name": "is_patrolmanager",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 704,
+    "name": "is_pendingbattle",
+    "params": "obj"
+   },
+   {
+    "file": "campaigns/main_attila/restrict_military_building.lua",
+    "line": 52,
+    "name": "is_player_in_battle",
+    "params": "context"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 605,
+    "name": "is_region",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 614,
+    "name": "is_regionlist",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 596,
+    "name": "is_regionmanager",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 434,
+    "name": "is_scriptaiplanner",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 506,
+    "name": "is_scriptmessager",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 294,
+    "name": "is_scriptunit",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 302,
+    "name": "is_scriptunits",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 632,
+    "name": "is_settlement",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_campaign_ui.lua",
+    "line": 1618,
+    "name": "is_settlement_selected",
+    "params": "settlement"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 641,
+    "name": "is_slot",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 650,
+    "name": "is_slotlist",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 112,
+    "name": "is_string",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 353,
+    "name": "is_subtitles",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 310,
+    "name": "is_sunit",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 314,
+    "name": "is_sunits",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 132,
+    "name": "is_table",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 344,
+    "name": "is_teleportsquad",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 452,
+    "name": "is_timermanager",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 470,
+    "name": "is_uicomponent",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 461,
+    "name": "is_uioverride",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 197,
+    "name": "is_unit",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 205,
+    "name": "is_unitcontroller",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 695,
+    "name": "is_unitlist",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 188,
+    "name": "is_units",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 261,
+    "name": "is_vector",
+    "params": "obj"
+   },
+   {
+    "file": "campaigns/main_attila/att_preservation.lua",
+    "line": 417,
+    "name": "is_viable_preservation_system_spawnpoint",
+    "params": "spawnpoint, faction_name"
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 1611,
+    "name": "is_victory_str",
+    "params": "str"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 416,
+    "name": "is_waypoint",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 551,
+    "name": "is_world",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 371,
+    "name": "is_zonecontroller",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 362,
+    "name": "is_zonemanager",
+    "params": "obj"
+   },
+   {
+    "file": "script/_lib/lib_campaign_ui.lua",
+    "line": 1336,
+    "name": "load_campaign_ui_state",
+    "params": "context"
+   },
+   {
+    "file": "campaigns/main_attila/scripting.lua",
+    "line": 63,
+    "name": "load_faction_script",
+    "params": "scriptname"
+   },
+   {
+    "file": "campaigns/main_attila/att_preservation_data.lua",
+    "line": 43,
+    "name": "load_hun_preservation_data",
+    "params": ""
+   },
+   {
+    "file": "script/_lib/lib_campaign_ui.lua",
+    "line": 1244,
+    "name": "lock_campaign_ui",
+    "params": ""
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 1706,
+    "name": "military_force_average_casualties",
+    "params": "military_force"
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 1724,
+    "name": "military_force_is_mobile",
+    "params": "military_force"
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 623,
+    "name": "modify_advice",
+    "params": "progress_button, highlight"
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 822,
+    "name": "move_npc_army",
+    "params": "faction_name, cqi, display_x, display_y, log_x, log_y, callback, dont_disable_movement"
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 1012,
+    "name": "notify_on_character_halt",
+    "params": "faction_name, char_cqi, callback"
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 1339,
+    "name": "notify_on_character_movement",
+    "params": "char, callback, land_only"
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 905,
+    "name": "npc_army_arrived",
+    "params": "faction, display_x, display_y, trigger_name, callback, dont_disable_movement"
+   },
+   {
+    "file": "script/_lib/lib_objectives.lua",
+    "line": 17,
+    "name": "objective_output",
+    "params": "str"
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 240,
+    "name": "output",
+    "params": "input"
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 277,
+    "name": "output_campaign_obj",
+    "params": "input, verbosity"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 1021,
+    "name": "output_uicomponent",
+    "params": "uic"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 1083,
+    "name": "output_uicomponent_on_click",
+    "params": ""
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 1672,
+    "name": "pending_battle_in_region",
+    "params": "region_name"
+   },
+   {
+    "file": "campaigns/main_attila/att_preservation.lua",
+    "line": 206,
+    "name": "perform_hun_preservation_check",
+    "params": "faction_name, pb"
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 1662,
+    "name": "player_attacker_in_battle",
+    "params": "pb"
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 1667,
+    "name": "player_defender_in_battle",
+    "params": "pb"
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 1657,
+    "name": "player_involved_in_battle",
+    "params": "pb"
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 618,
+    "name": "prevent_additional_advice",
+    "params": ""
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 138,
+    "name": "process_os_clock_callback",
+    "params": "callback, end_time, name"
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 633,
+    "name": "progress_on_advice_dismissed",
+    "params": "callback, delay"
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 643,
+    "name": "progress_on_advice_finished",
+    "params": "callback, delay, playtime, use_os_clock"
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 648,
+    "name": "progress_on_advice_finished_poll",
+    "params": "callback, delay, playtime, use_os_clock, count"
+   },
+   {
+    "file": "script/_lib/lib_campaign_defense.lua",
+    "line": 54,
+    "name": "query_loadstring_campaign_defense_cqi",
+    "params": "name"
+   },
+   {
+    "file": "script/_lib/lib_campaign_defense.lua",
+    "line": 31,
+    "name": "query_loadstring_campaign_defense_is_active",
+    "params": "name"
+   },
+   {
+    "file": "campaigns/main_attila/att_preservation.lua",
+    "line": 335,
+    "name": "queue_up_next_force_to_spawn",
+    "params": "faction"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 738,
+    "name": "r_to_d",
+    "params": "value"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 859,
+    "name": "random_sort",
+    "params": "t"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 892,
+    "name": "random_subset",
+    "params": "input_table, min_size, max_size"
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 1124,
+    "name": "region_owned_by_faction",
+    "params": "region_name, faction_name"
+   },
+   {
+    "file": "script/_lib/lib_campaign_ui.lua",
+    "line": 1309,
+    "name": "release_campaign_ui",
+    "params": ""
+   },
+   {
+    "file": "script/_lib/lib_campaign_defense.lua",
+    "line": 439,
+    "name": "release_defense",
+    "params": "name, home_faction_name, target_faction_name, cqi, message"
+   },
+   {
+    "file": "script/_lib/lib_objectives.lua",
+    "line": 276,
+    "name": "remove_all_objectives",
+    "params": "exception"
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 158,
+    "name": "remove_callback",
+    "params": "name"
+   },
+   {
+    "file": "script/_lib/lib_campaign_ui.lua",
+    "line": 2025,
+    "name": "remove_character_selection_whitelist",
+    "params": "cqi"
+   },
+   {
+    "file": "script/_lib/lib_objectives.lua",
+    "line": 367,
+    "name": "remove_infotext",
+    "params": "key"
+   },
+   {
+    "file": "campaigns/main_attila/att_traits.lua",
+    "line": 109,
+    "name": "remove_listener_assign_general_ability_character_created",
+    "params": ""
+   },
+   {
+    "file": "campaigns/main_attila/att_traits.lua",
+    "line": 86,
+    "name": "remove_listener_assign_general_ability_comes_of_age",
+    "params": ""
+   },
+   {
+    "file": "script/_lib/lib_objectives.lua",
+    "line": 150,
+    "name": "remove_objective",
+    "params": "obj_name"
+   },
+   {
+    "file": "script/_lib/lib_campaign_ui.lua",
+    "line": 1902,
+    "name": "remove_settlement_selection_whitelist",
+    "params": "settlement"
+   },
+   {
+    "file": "script/_lib/lib_objectives.lua",
+    "line": 178,
+    "name": "reset_objective_chain",
+    "params": "name"
+   },
+   {
+    "file": "campaigns/main_attila/restrict_military_building.lua",
+    "line": 89,
+    "name": "reset_to_default_values",
+    "params": ""
+   },
+   {
+    "file": "campaigns/main_attila/att_traits.lua",
+    "line": 313,
+    "name": "restart_trait_addition_system",
+    "params": ""
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 225,
+    "name": "restore_tab",
+    "params": ""
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 1473,
+    "name": "restrict_buildings_for_faction",
+    "params": "faction_name, building_list, value"
+   },
+   {
+    "file": "campaigns/main_attila/restrict_military_building.lua",
+    "line": 17,
+    "name": "restrict_military_building",
+    "params": ""
+   },
+   {
+    "file": "campaigns/main_attila/restrict_religious_building.lua",
+    "line": 12,
+    "name": "restrict_religious_building",
+    "params": ""
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 1504,
+    "name": "restrict_technologies_for_faction",
+    "params": "faction_name, tech_list, value"
+   },
+   {
+    "file": "campaigns/main_attila/restrict_trade_building.lua",
+    "line": 33,
+    "name": "restrict_trade_building",
+    "params": ""
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 1444,
+    "name": "restrict_units_for_faction",
+    "params": "faction_name, unit_list, value"
+   },
+   {
+    "file": "script/_lib/lib_campaign_ui.lua",
+    "line": 1329,
+    "name": "save_campaign_ui_state",
+    "params": "context"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 21,
+    "name": "script_error",
+    "params": "msg"
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 52,
+    "name": "scroll_camera",
+    "params": "t, source, dest"
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 38,
+    "name": "scroll_camera_position_check",
+    "params": "source, dest"
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 66,
+    "name": "scroll_camera_with_direction",
+    "params": "t, source, dest"
+   },
+   {
+    "file": "script/_lib/lib_campaign_ui.lua",
+    "line": 1284,
+    "name": "set_all_campaign_ui",
+    "params": ""
+   },
+   {
+    "file": "script/_lib/lib_campaign_ui.lua",
+    "line": 2215,
+    "name": "set_end_of_turn_warning",
+    "params": "warning, value"
+   },
+   {
+    "file": "campaigns/main_attila/att_start.lua",
+    "line": 13,
+    "name": "set_intro_cinematic",
+    "params": "str"
+   },
+   {
+    "file": "script/_lib/lib_objectives.lua",
+    "line": 39,
+    "name": "set_objective",
+    "params": "new_obj_name, obj_param_a, obj_param_b"
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 1114,
+    "name": "settlement_display_pos",
+    "params": "settlement_name"
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 1119,
+    "name": "settlement_logical_pos",
+    "params": "settlement_name"
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 1091,
+    "name": "settlement_pos",
+    "params": "settlement_name, display"
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 679,
+    "name": "setup_save_load_callbacks",
+    "params": "eh"
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 612,
+    "name": "show_advice",
+    "params": "..."
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 1186,
+    "name": "show_advisor_progress_button",
+    "params": "value"
+   },
+   {
+    "file": "script/_lib/lib_objectives.lua",
+    "line": 447,
+    "name": "show_infotext",
+    "params": "infotext_record, end_callback"
+   },
+   {
+    "file": "script/_lib/lib_objectives.lua",
+    "line": 531,
+    "name": "show_infotext_finish",
+    "params": "end_callback"
+   },
+   {
+    "file": "script/_lib/lib_campaign_cutscene.lua",
+    "line": 655,
+    "name": "skip_all_campaign_cutscenes",
+    "params": ""
+   },
+   {
+    "file": "campaigns/main_attila/att_preservation.lua",
+    "line": 267,
+    "name": "spawn_additional_forces",
+    "params": "faction_name"
+   },
+   {
+    "file": "campaigns/main_attila/att_preservation.lua",
+    "line": 356,
+    "name": "spawn_hun_force",
+    "params": "faction"
+   },
+   {
+    "file": "campaigns/main_attila/att_preservation.lua",
+    "line": 390,
+    "name": "spawn_hun_force_at_spawnpoint",
+    "params": "spawnpoint, faction"
+   },
+   {
+    "file": "campaigns/main_attila/att_preservation.lua",
+    "line": 22,
+    "name": "start_all_hun_preservation_systems",
+    "params": ""
+   },
+   {
+    "file": "campaigns/main_attila/att_attila_story.lua",
+    "line": 25,
+    "name": "start_attila_story_system",
+    "params": ""
+   },
+   {
+    "file": "script/_lib/lib_campaign_ui.lua",
+    "line": 1495,
+    "name": "start_campaign_selection_listener",
+    "params": "eh"
+   },
+   {
+    "file": "campaigns/main_attila/att_climate_change.lua",
+    "line": 11,
+    "name": "start_climate_change_monitor",
+    "params": ""
+   },
+   {
+    "file": "script/_lib/lib_campaign_defense.lua",
+    "line": 361,
+    "name": "start_defense",
+    "params": "name, faction_name, cqi, target_regions, trigger_regions, message"
+   },
+   {
+    "file": "script/_lib/lib_campaign_ui.lua",
+    "line": 2137,
+    "name": "start_end_of_turn_warning_suppression_system",
+    "params": ""
+   },
+   {
+    "file": "campaigns/main_attila/att_start.lua",
+    "line": 37,
+    "name": "start_game_all_factions",
+    "params": ""
+   },
+   {
+    "file": "campaigns/main_attila/att_traits.lua",
+    "line": 15,
+    "name": "start_general_ability_trait_system",
+    "params": ""
+   },
+   {
+    "file": "campaigns/main_attila/att_preservation.lua",
+    "line": 127,
+    "name": "start_hun_preservation_system",
+    "params": "faction_name"
+   },
+   {
+    "file": "campaigns/main_attila/att_traits.lua",
+    "line": 94,
+    "name": "start_listener_assign_general_ability_character_created",
+    "params": ""
+   },
+   {
+    "file": "campaigns/main_attila/att_traits.lua",
+    "line": 71,
+    "name": "start_listener_assign_general_ability_comes_of_age",
+    "params": ""
+   },
+   {
+    "file": "campaigns/main_attila/att_traits.lua",
+    "line": 283,
+    "name": "start_trait_addition_system",
+    "params": ""
+   },
+   {
+    "file": "campaigns/main_attila/att_climate_change.lua",
+    "line": 28,
+    "name": "stop_climate_change_monitor",
+    "params": ""
+   },
+   {
+    "file": "script/_lib/lib_campaign_ui.lua",
+    "line": 2156,
+    "name": "stop_end_of_turn_warning_suppression_system",
+    "params": ""
+   },
+   {
+    "file": "campaigns/main_attila/att_preservation.lua",
+    "line": 188,
+    "name": "stop_hun_preservation_system",
+    "params": ""
+   },
+   {
+    "file": "campaigns/main_attila/att_traits.lua",
+    "line": 320,
+    "name": "stop_trait_addition_system",
+    "params": ""
+   },
+   {
+    "file": "script/_lib/lib_misc_campaign.lua",
+    "line": 22,
+    "name": "suspend_contextual_advice_for_campaign",
+    "params": ""
+   },
+   {
+    "file": "campaigns/main_attila/att_climate_change.lua",
+    "line": 147,
+    "name": "trigger_fifth_seal",
+    "params": ""
+   },
+   {
+    "file": "campaigns/main_attila/att_climate_change.lua",
+    "line": 64,
+    "name": "trigger_first_seal",
+    "params": ""
+   },
+   {
+    "file": "campaigns/main_attila/att_climate_change.lua",
+    "line": 123,
+    "name": "trigger_fourth_seal",
+    "params": ""
+   },
+   {
+    "file": "campaigns/main_attila/att_climate_change.lua",
+    "line": 81,
+    "name": "trigger_second_seal",
+    "params": ""
+   },
+   {
+    "file": "campaigns/main_attila/att_climate_change.lua",
+    "line": 190,
+    "name": "trigger_seventh_seal",
+    "params": ""
+   },
+   {
+    "file": "campaigns/main_attila/att_climate_change.lua",
+    "line": 167,
+    "name": "trigger_sixth_seal",
+    "params": ""
+   },
+   {
+    "file": "campaigns/main_attila/att_climate_change.lua",
+    "line": 99,
+    "name": "trigger_third_seal",
+    "params": ""
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 1008,
+    "name": "uicomponent_to_str",
+    "params": "uic"
+   },
+   {
+    "file": "script/_lib/lib_campaign_ui.lua",
+    "line": 1747,
+    "name": "unhighlight_character",
+    "params": "char"
+   },
+   {
+    "file": "script/_lib/lib_campaign_ui.lua",
+    "line": 1823,
+    "name": "unhighlight_character_for_selection",
+    "params": "char"
+   },
+   {
+    "file": "script/_lib/lib_common.lua",
+    "line": 1138,
+    "name": "unhighlight_component_with_duration",
+    "params": "component_name, is_square, parent_name"
+   },
+   {
+    "file": "script/_lib/lib_campaign_ui.lua",
+    "line": 1707,
+    "name": "unhighlight_settlement",
+    "params": "settlement_name"
+   },
+   {
+    "file": "script/_lib/lib_campaign_ui.lua",
+    "line": 1856,
+    "name": "unhighlight_settlement_for_selection",
+    "params": "settlement_name"
+   },
+   {
+    "file": "script/_lib/lib_campaign_ui.lua",
+    "line": 1264,
+    "name": "unlock_campaign_ui",
+    "params": ""
+   },
+   {
+    "file": "campaigns/main_attila/restrict_military_building.lua",
+    "line": 28,
+    "name": "unlock_military_buildings",
+    "params": ""
+   },
+   {
+    "file": "campaigns/main_attila/restrict_religious_building.lua",
+    "line": 22,
+    "name": "unlock_the_religious_buildings",
+    "params": ""
+   },
+   {
+    "file": "campaigns/main_attila/restrict_trade_building.lua",
+    "line": 44,
+    "name": "unlock_trade_buildings",
+    "params": ""
+   },
+   {
+    "file": "script/_lib/lib_campaign_ui.lua",
+    "line": 2166,
+    "name": "update_end_of_turn_warning_suppression_system",
+    "params": ""
+   },
+   {
+    "file": "script/_lib/lib_objectives.lua",
+    "line": 215,
+    "name": "update_objective_chain",
+    "params": "name, objective, opt_a, opt_b"
+   },
+   {
+    "file": "script/_lib/lib_objectives.lua",
+    "line": 307,
+    "name": "update_objectives_position",
+    "params": ""
+   }
+  ],
+  "tables": {
+   "campaign_cutscene": [
+    {
+     "file": "script/_lib/lib_campaign_cutscene.lua",
+     "line": 281,
+     "name": "action",
+     "params": "new_callback, new_delay"
+    },
+    {
+     "file": "script/_lib/lib_campaign_cutscene.lua",
+     "line": 525,
+     "name": "advice_is_dismissed",
+     "params": ""
+    },
+    {
+     "file": "script/_lib/lib_campaign_cutscene.lua",
+     "line": 518,
+     "name": "dismiss_advice",
+     "params": ""
+    },
+    {
+     "file": "script/_lib/lib_campaign_cutscene.lua",
+     "line": 581,
+     "name": "finish",
+     "params": ""
+    },
+    {
+     "file": "script/_lib/lib_campaign_cutscene.lua",
+     "line": 276,
+     "name": "is_active",
+     "params": ""
+    },
+    {
+     "file": "script/_lib/lib_campaign_cutscene.lua",
+     "line": 261,
+     "name": "is_any_cutscene_running",
+     "params": ""
+    },
+    {
+     "file": "script/_lib/lib_campaign_cutscene.lua",
+     "line": 94,
+     "name": "new",
+     "params": "name, length, end_callback"
+    },
+    {
+     "file": "script/_lib/lib_campaign_cutscene.lua",
+     "line": 393,
+     "name": "process_next_action",
+     "params": "action_ptr"
+    },
+    {
+     "file": "script/_lib/lib_campaign_cutscene.lua",
+     "line": 593,
+     "name": "release",
+     "params": ""
+    },
+    {
+     "file": "script/_lib/lib_campaign_cutscene.lua",
+     "line": 460,
+     "name": "reveal_region_by_proximity",
+     "params": "region_name, prox"
+    },
+    {
+     "file": "script/_lib/lib_campaign_cutscene.lua",
+     "line": 490,
+     "name": "reveal_region_by_proximity_action",
+     "params": "faction_name, region_name, x, y, prox, closest"
+    },
+    {
+     "file": "script/_lib/lib_campaign_cutscene.lua",
+     "line": 132,
+     "name": "set_debug",
+     "params": "is_debug"
+    },
+    {
+     "file": "script/_lib/lib_campaign_cutscene.lua",
+     "line": 141,
+     "name": "set_debug_all",
+     "params": "is_debug"
+    },
+    {
+     "file": "script/_lib/lib_campaign_cutscene.lua",
+     "line": 199,
+     "name": "set_disable_settlement_labels",
+     "params": "value"
+    },
+    {
+     "file": "script/_lib/lib_campaign_cutscene.lua",
+     "line": 217,
+     "name": "set_disable_shroud",
+     "params": "value"
+    },
+    {
+     "file": "script/_lib/lib_campaign_cutscene.lua",
+     "line": 163,
+     "name": "set_dismiss_advice_on_end",
+     "params": "value"
+    },
+    {
+     "file": "script/_lib/lib_campaign_cutscene.lua",
+     "line": 172,
+     "name": "set_do_not_end",
+     "params": "value"
+    },
+    {
+     "file": "script/_lib/lib_campaign_cutscene.lua",
+     "line": 208,
+     "name": "set_neighbouring_regions_visible",
+     "params": "value"
+    },
+    {
+     "file": "script/_lib/lib_campaign_cutscene.lua",
+     "line": 190,
+     "name": "set_restore_ui",
+     "params": "value"
+    },
+    {
+     "file": "script/_lib/lib_campaign_cutscene.lua",
+     "line": 227,
+     "name": "set_skip_camera",
+     "params": "x, y, h, r"
+    },
+    {
+     "file": "script/_lib/lib_campaign_cutscene.lua",
+     "line": 150,
+     "name": "set_skippable",
+     "params": "skippable, callback"
+    },
+    {
+     "file": "script/_lib/lib_campaign_cutscene.lua",
+     "line": 181,
+     "name": "set_use_cinematic_borders",
+     "params": "value"
+    },
+    {
+     "file": "script/_lib/lib_campaign_cutscene.lua",
+     "line": 541,
+     "name": "skip",
+     "params": "advice_being_dismissed"
+    },
+    {
+     "file": "script/_lib/lib_campaign_cutscene.lua",
+     "line": 311,
+     "name": "start",
+     "params": ""
+    },
+    {
+     "file": "script/_lib/lib_campaign_cutscene.lua",
+     "line": 449,
+     "name": "wait_for_advisor",
+     "params": ""
+    }
+   ],
+   "campaign_defense": [
+    {
+     "file": "script/_lib/lib_campaign_defense.lua",
+     "line": 191,
+     "name": "dump",
+     "params": ""
+    },
+    {
+     "file": "script/_lib/lib_campaign_defense.lua",
+     "line": 243,
+     "name": "enable_movement",
+     "params": "value"
+    },
+    {
+     "file": "script/_lib/lib_campaign_defense.lua",
+     "line": 265,
+     "name": "generate_campaign_defense_loadstring",
+     "params": ""
+    },
+    {
+     "file": "script/_lib/lib_campaign_defense.lua",
+     "line": 278,
+     "name": "get_army_char",
+     "params": ""
+    },
+    {
+     "file": "script/_lib/lib_campaign_defense.lua",
+     "line": 96,
+     "name": "new",
+     "params": "name, faction, cqi, condition, callback"
+    },
+    {
+     "file": "script/_lib/lib_campaign_defense.lua",
+     "line": 172,
+     "name": "set_callback",
+     "params": "callback"
+    },
+    {
+     "file": "script/_lib/lib_campaign_defense.lua",
+     "line": 182,
+     "name": "set_should_award_upkeep",
+     "params": "value"
+    },
+    {
+     "file": "script/_lib/lib_campaign_defense.lua",
+     "line": 300,
+     "name": "stop",
+     "params": ""
+    },
+    {
+     "file": "script/_lib/lib_campaign_defense.lua",
+     "line": 206,
+     "name": "turn_start",
+     "params": ""
+    }
+   ],
+   "campaign_manager": [
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 86,
+     "name": "__index",
+     "params": "key"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 132,
+     "name": "__tostring",
+     "params": ""
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 137,
+     "name": "__type",
+     "params": ""
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 681,
+     "name": "add_listener",
+     "params": "..."
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 1450,
+     "name": "add_modal_section",
+     "params": "name, callback, params, lock_ui, is_filler"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 1395,
+     "name": "add_modal_section_to_queue",
+     "params": "insert_at_front, name, callback, params, lock_ui, is_filler"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 2098,
+     "name": "add_turn_countdown_event",
+     "params": "faction_name, number_of_turns, event_name, context_str"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 1317,
+     "name": "add_turn_end_callback",
+     "params": "new_name, new_condition, new_callback, new_should_repeat"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 1349,
+     "name": "add_turn_end_callback_for_faction",
+     "params": "name, faction_name, callback, should_repeat"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 1240,
+     "name": "add_turn_start_callback",
+     "params": "new_name, new_condition, new_callback, new_should_repeat"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 1272,
+     "name": "add_turn_start_callback_for_faction",
+     "params": "name, faction_name, callback, should_repeat"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 1681,
+     "name": "attack",
+     "params": "attacker, defender, command_queue"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 2308,
+     "name": "cache_pending_battle",
+     "params": "context"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 2291,
+     "name": "cache_pending_battle_character",
+     "params": "list, character"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 902,
+     "name": "cancel_progress_on_advice_dismissed",
+     "params": ""
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 979,
+     "name": "cancel_progress_on_advice_finished",
+     "params": ""
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 1112,
+     "name": "cancel_progress_on_mission_accepted",
+     "params": ""
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 2160,
+     "name": "check_turn_countdown_events",
+     "params": "faction_name"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 1523,
+     "name": "clear_modal_queue",
+     "params": ""
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 1377,
+     "name": "clear_turn_end_callbacks",
+     "params": ""
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 1299,
+     "name": "clear_turn_start_callbacks",
+     "params": ""
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 1710,
+     "name": "create_force",
+     "params": "faction_key, unit_list, region_key, x, y, id, command_queue, success_callback"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 731,
+     "name": "default_zoom_limits_set",
+     "params": ""
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 849,
+     "name": "dismiss_advice",
+     "params": ""
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 448,
+     "name": "first_tick",
+     "params": "context"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 1804,
+     "name": "force_created",
+     "params": "id, listener_name, faction_key, x, y, success_callback"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 664,
+     "name": "get_local_faction",
+     "params": ""
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 1990,
+     "name": "get_saved_value",
+     "params": "name"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 1445,
+     "name": "insert_modal_section",
+     "params": "name, callback, params, lock_ui, is_filler"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 633,
+     "name": "is_multiplayer",
+     "params": ""
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 649,
+     "name": "is_new_game",
+     "params": ""
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 621,
+     "name": "load_value",
+     "params": "name, default, context"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 2007,
+     "name": "load_values_from_string",
+     "params": "str"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 572,
+     "name": "loading_game",
+     "params": "context"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 1530,
+     "name": "lock_modal_queue",
+     "params": "value"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 1576,
+     "name": "lock_ui",
+     "params": ""
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 1834,
+     "name": "log_to_dis",
+     "params": "x, y"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 1509,
+     "name": "modal_sections_end",
+     "params": ""
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 804,
+     "name": "modify_advice",
+     "params": "progress_button, highlight"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 147,
+     "name": "new",
+     "params": "name"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 302,
+     "name": "new_session_created",
+     "params": "context"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 1455,
+     "name": "next_modal_section",
+     "params": ""
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 1196,
+     "name": "on_turn_end",
+     "params": "context"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 1164,
+     "name": "on_turn_start",
+     "params": "context"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 2499,
+     "name": "pending_battle_cache_char_was_attacker",
+     "params": "obj"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 2524,
+     "name": "pending_battle_cache_char_was_defender",
+     "params": "obj"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 2549,
+     "name": "pending_battle_cache_char_was_involved",
+     "params": "obj"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 2468,
+     "name": "pending_battle_cache_faction_was_attacker",
+     "params": "faction_name"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 2481,
+     "name": "pending_battle_cache_faction_was_defender",
+     "params": "faction_name"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 2494,
+     "name": "pending_battle_cache_faction_was_involved",
+     "params": "faction_name"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 2375,
+     "name": "pending_battle_cache_from_string",
+     "params": ""
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 2428,
+     "name": "pending_battle_cache_get_attacker",
+     "params": "index"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 2450,
+     "name": "pending_battle_cache_get_defender",
+     "params": "index"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 2563,
+     "name": "pending_battle_cache_mf_was_attacker",
+     "params": "obj"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 2587,
+     "name": "pending_battle_cache_mf_was_defender",
+     "params": "obj"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 2611,
+     "name": "pending_battle_cache_mf_was_involved",
+     "params": "obj"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 2423,
+     "name": "pending_battle_cache_num_attackers",
+     "params": ""
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 2445,
+     "name": "pending_battle_cache_num_defenders",
+     "params": ""
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 2381,
+     "name": "pending_battle_cache_table_from_string",
+     "params": "str"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 2352,
+     "name": "pending_battle_cache_to_string",
+     "params": ""
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 799,
+     "name": "prevent_additional_advice",
+     "params": ""
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 464,
+     "name": "process_first_tick_callbacks",
+     "params": "context"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 602,
+     "name": "process_loading_game_callbacks",
+     "params": "context"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 532,
+     "name": "process_saving_game_callbacks",
+     "params": "context"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 334,
+     "name": "process_session_created_callbacks",
+     "params": "context"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 382,
+     "name": "process_ui_created_callbacks",
+     "params": "context"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 423,
+     "name": "process_ui_destroyed_callbacks",
+     "params": "context"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 872,
+     "name": "progress_on_advice_dismissed",
+     "params": "callback, delay, objective_chain"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 907,
+     "name": "progress_on_advice_finished",
+     "params": "callback, delay, playtime, use_os_clock"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 945,
+     "name": "progress_on_advice_finished_poll",
+     "params": "callback, delay, playtime, use_os_clock, count"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 1018,
+     "name": "progress_on_loading_screen_dismissed",
+     "params": "callback"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 1076,
+     "name": "progress_on_mission_accepted",
+     "params": "callback, delay, should_highlight"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 1660,
+     "name": "quit",
+     "params": ""
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 1868,
+     "name": "random_number",
+     "params": "max_num, min_num"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 1935,
+     "name": "random_sort",
+     "params": "t"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 691,
+     "name": "register_event",
+     "params": "..."
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 438,
+     "name": "register_first_tick_callback",
+     "params": "callback"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 562,
+     "name": "register_loading_game_callback",
+     "params": "callback"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 486,
+     "name": "register_post_saving_game_callback",
+     "params": "callback"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 839,
+     "name": "register_pre_dismiss_advice_callback",
+     "params": "callback"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 476,
+     "name": "register_saving_game_callback",
+     "params": "callback"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 293,
+     "name": "register_session_created_callback",
+     "params": "callback"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 348,
+     "name": "register_ui_created_callback",
+     "params": "callback"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 396,
+     "name": "register_ui_destroyed_callback",
+     "params": "callback"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 686,
+     "name": "remove_listener",
+     "params": "..."
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 1363,
+     "name": "remove_turn_end_callback",
+     "params": "name"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 1286,
+     "name": "remove_turn_start_callback",
+     "params": "name"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 736,
+     "name": "restore_zoom_limit",
+     "params": ""
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 539,
+     "name": "save",
+     "params": "callback, lock_afterwards"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 615,
+     "name": "save_value",
+     "params": "name, value, context"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 1995,
+     "name": "saved_values_to_string",
+     "params": ""
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 496,
+     "name": "saving_game",
+     "params": "context"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 743,
+     "name": "set_cinematic_zoom_limit",
+     "params": ""
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 1304,
+     "name": "set_default_turn_end_callback",
+     "params": "callback"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 1227,
+     "name": "set_default_turn_start_callback",
+     "params": "callback"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 723,
+     "name": "set_default_zoom_limit",
+     "params": "h_max, h_min"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 1970,
+     "name": "set_saved_value",
+     "params": "name, value"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 750,
+     "name": "set_zoom_limit",
+     "params": "h_max, h_min"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 765,
+     "name": "show_advice",
+     "params": "key, progress_button, highlight, playtime, callback, delay"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 991,
+     "name": "start_advice_navigation_listener",
+     "params": ""
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 2280,
+     "name": "start_pending_battle_cache",
+     "params": ""
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 1136,
+     "name": "start_turn_manager",
+     "params": ""
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 1002,
+     "name": "stop_advice_navigation_listener",
+     "params": ""
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 1063,
+     "name": "stop_progress_on_loading_screen_dismissed",
+     "params": ""
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 1538,
+     "name": "suppress_events_popup_on_player_turn_start",
+     "params": "ui_override, value"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 1694,
+     "name": "trigger_custom_mission",
+     "params": "faction, mission, do_not_cancel"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 696,
+     "name": "trigger_event",
+     "params": "..."
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 2215,
+     "name": "turn_countdown_events_from_string",
+     "params": "state_str"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 2193,
+     "name": "turn_countdown_events_to_string",
+     "params": ""
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 357,
+     "name": "ui_created",
+     "params": "context"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 405,
+     "name": "ui_destroyed",
+     "params": "context"
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 706,
+     "name": "ui_root",
+     "params": ""
+    },
+    {
+     "file": "script/_lib/lib_campaign_manager.lua",
+     "line": 1609,
+     "name": "unlock_ui",
+     "params": ""
+    }
+   ],
+   "custom_context": [
+    {
+     "file": "script/_lib/lib_event_handler.lua",
+     "line": 266,
+     "name": "add_data",
+     "params": "obj"
+    },
+    {
+     "file": "script/_lib/lib_event_handler.lua",
+     "line": 291,
+     "name": "character",
+     "params": ""
+    },
+    {
+     "file": "script/_lib/lib_event_handler.lua",
+     "line": 301,
+     "name": "component",
+     "params": ""
+    },
+    {
+     "file": "script/_lib/lib_event_handler.lua",
+     "line": 296,
+     "name": "faction",
+     "params": ""
+    },
+    {
+     "file": "script/_lib/lib_event_handler.lua",
+     "line": 306,
+     "name": "military_force",
+     "params": ""
+    },
+    {
+     "file": "script/_lib/lib_event_handler.lua",
+     "line": 257,
+     "name": "new",
+     "params": ""
+    },
+    {
+     "file": "script/_lib/lib_event_handler.lua",
+     "line": 286,
+     "name": "region",
+     "params": ""
+    }
+   ],
+   "event_handler": [
+    {
+     "file": "script/_lib/lib_event_handler.lua",
+     "line": 62,
+     "name": "add_listener",
+     "params": "new_name, new_event, new_condition, new_callback, new_persistent"
+    },
+    {
+     "file": "script/_lib/lib_event_handler.lua",
+     "line": 101,
+     "name": "attach_to_event",
+     "params": "eventname"
+    },
+    {
+     "file": "script/_lib/lib_event_handler.lua",
+     "line": 157,
+     "name": "clean_listeners",
+     "params": ""
+    },
+    {
+     "file": "script/_lib/lib_event_handler.lua",
+     "line": 125,
+     "name": "event_callback",
+     "params": "eventname, context"
+    },
+    {
+     "file": "script/_lib/lib_event_handler.lua",
+     "line": 188,
+     "name": "list_events",
+     "params": ""
+    },
+    {
+     "file": "script/_lib/lib_event_handler.lua",
+     "line": 19,
+     "name": "new",
+     "params": "new_add_func"
+    },
+    {
+     "file": "script/_lib/lib_event_handler.lua",
+     "line": 213,
+     "name": "register_event",
+     "params": "event"
+    },
+    {
+     "file": "script/_lib/lib_event_handler.lua",
+     "line": 169,
+     "name": "remove_listener",
+     "params": "name_to_remove, start_point"
+    },
+    {
+     "file": "script/_lib/lib_event_handler.lua",
+     "line": 222,
+     "name": "trigger_event",
+     "params": "event, ..."
+    }
+   ],
+   "faction_start": [
+    {
+     "file": "script/_lib/lib_campaign_faction_start.lua",
+     "line": 26,
+     "name": "new",
+     "params": "name, x, y, zoom, heading"
+    },
+    {
+     "file": "script/_lib/lib_campaign_faction_start.lua",
+     "line": 147,
+     "name": "process_start",
+     "params": "should_show_cutscene"
+    },
+    {
+     "file": "script/_lib/lib_campaign_faction_start.lua",
+     "line": 126,
+     "name": "register_each_mp_game_callback",
+     "params": "callback"
+    },
+    {
+     "file": "script/_lib/lib_campaign_faction_start.lua",
+     "line": 108,
+     "name": "register_each_sp_game_callback",
+     "params": "callback"
+    },
+    {
+     "file": "script/_lib/lib_campaign_faction_start.lua",
+     "line": 79,
+     "name": "register_intro_cutscene_callback",
+     "params": "callback"
+    },
+    {
+     "file": "script/_lib/lib_campaign_faction_start.lua",
+     "line": 117,
+     "name": "register_new_mp_game_callback",
+     "params": "callback"
+    },
+    {
+     "file": "script/_lib/lib_campaign_faction_start.lua",
+     "line": 99,
+     "name": "register_new_sp_game_callback",
+     "params": "callback"
+    },
+    {
+     "file": "script/_lib/lib_campaign_faction_start.lua",
+     "line": 267,
+     "name": "set_camera_to_default",
+     "params": ""
+    },
+    {
+     "file": "script/_lib/lib_campaign_faction_start.lua",
+     "line": 94,
+     "name": "set_force_intro_cutscene_playback",
+     "params": "value"
+    },
+    {
+     "file": "script/_lib/lib_campaign_faction_start.lua",
+     "line": 136,
+     "name": "start",
+     "params": "should_show_cutscene, wait_for_loading_screen"
+    }
+   ],
+   "iterator": [
+    {
+     "file": "script/_lib/lib_common.lua",
+     "line": 796,
+     "name": "get_next",
+     "params": ""
+    },
+    {
+     "file": "script/_lib/lib_common.lua",
+     "line": 778,
+     "name": "new",
+     "params": "new_t"
+    },
+    {
+     "file": "script/_lib/lib_common.lua",
+     "line": 807,
+     "name": "reset",
+     "params": ""
+    }
+   ],
+   "script_messager": [
+    {
+     "file": "script/_lib/lib_script_messager.lua",
+     "line": 53,
+     "name": "add_listener",
+     "params": "new_message, new_callback, new_always_listen"
+    },
+    {
+     "file": "script/_lib/lib_script_messager.lua",
+     "line": 132,
+     "name": "dump",
+     "params": ""
+    },
+    {
+     "file": "script/_lib/lib_script_messager.lua",
+     "line": 23,
+     "name": "new",
+     "params": ""
+    },
+    {
+     "file": "script/_lib/lib_script_messager.lua",
+     "line": 144,
+     "name": "set_debug",
+     "params": "value"
+    },
+    {
+     "file": "script/_lib/lib_script_messager.lua",
+     "line": 81,
+     "name": "trigger_message",
+     "params": "message"
+    }
+   ],
+   "ui_override": [
+    {
+     "file": "script/_lib/lib_campaign_ui.lua",
+     "line": 85,
+     "name": "get_allowed",
+     "params": ""
+    },
+    {
+     "file": "script/_lib/lib_campaign_ui.lua",
+     "line": 91,
+     "name": "lock",
+     "params": "force, silent"
+    },
+    {
+     "file": "script/_lib/lib_campaign_ui.lua",
+     "line": 21,
+     "name": "new",
+     "params": "name, lock_func, unlock_func, is_allowed"
+    },
+    {
+     "file": "script/_lib/lib_campaign_ui.lua",
+     "line": 56,
+     "name": "set_allowed",
+     "params": "value, silent"
+    },
+    {
+     "file": "script/_lib/lib_campaign_ui.lua",
+     "line": 113,
+     "name": "unlock",
+     "params": "force, silent"
+    }
+   ]
+  }
+ }
+}
