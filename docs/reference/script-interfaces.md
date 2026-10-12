@@ -546,10 +546,10 @@ _Method table not found in the binary yet, names only._
 | `PropagateVisibility` | boolean |  |
 | `ReorderChildren` | userdata, table | boolean |
 | `Resize` | number, number, boolean, boolean |  |
-| `RestoreUIHeirarchy` | table | number (int), string, table |
+| `RestoreUIHeirarchy` | table | Pointer<Component>, number (int), string, table |
 | `RunScript` |  |  |
 | `SaveUIHeirarchy` |  |  |
-| `SequentialFind` | string | string, Pointer<Component>, UIComponent |
+| `SequentialFind` | string | Pointer<Component>, string, UIComponent |
 | `SetDisabled` | boolean |  |
 | `SetDockingPoint` | number (int), number (int) |  |
 | `SetDragged` |  |  |

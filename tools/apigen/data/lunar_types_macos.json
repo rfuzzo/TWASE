@@ -5959,7 +5959,7 @@
    "method": "SequentialFind",
    "handler": "0x1032fad54",
    "args": "string",
-   "returns": "string, Pointer<Component>, UIComponent"
+   "returns": "Pointer<Component>, string, UIComponent"
   },
   {
    "method": "Layout",
@@ -6127,7 +6127,7 @@
    "method": "RestoreUIHeirarchy",
    "handler": "0x1032fc024",
    "args": "table",
-   "returns": "number (int), string, table"
+   "returns": "Pointer<Component>, number (int), string, table"
   },
   {
    "method": "IsCharPrintable",
@@ -6329,7 +6329,7 @@
    "method": "Selected",
    "handler": "0x103303d54",
    "args": "",
-   "returns": "table"
+   "returns": "Pointer<Component>, table"
   },
   {
    "method": "DeselectAll",

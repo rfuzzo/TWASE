@@ -199,6 +199,22 @@ The campaign model is bound to Lua with the **Lunar** template (`Lunar<T, LIST_P
 
 `REGION_SCRIPT_INTERFACE`'s method table: `0x104f83f60` (`model`) … `0x104f84158` (`sanitation`); `town_wealth_growth` reads `REGION + 0x184`, `region_wealth_change_percent` `REGION + 0x174`. There's no region argument check like the faction one, TWASE does its own (type, registry metatable `"REGION_SCRIPT_INTERFACE"`, `lua_rawequal` `0x103f27b7c`).
 
+### Argument and push helpers (named in the bndb 2026-10-13)
+
+Campaign handlers get a context `ctx = LuaGetLookup(L)` (`ctx[0]` the `lua_State*`, byte at `ctx + 8` still valid) and pop their arguments from the top of the stack (so in reverse order); a type mismatch calls `LuaTypeMismatchError` and clears the valid flag.
+
+| Name | Mac VA | Notes |
+|---|---|---|
+| LuaPopInt / LuaPopInt2 | `0x1038b0a68` / `0x1038b2318` | `(ctx, int32* out)`: number, rounded (two identical copies) |
+| LuaPopTable | `0x1038b251c` | `(ctx, ref)`: checks for a table, keeps `ctx` and the stack top in `ref` |
+| LuaPopLightUserdata | `0x1010de910` | `(ctx, void** out)`: light userdata, nil gives null |
+| LuaPushNewTable | `0x1038b1fa0` | `lua_createtable(L, 0, 0)` into a table reference |
+| FactionScriptInterface_GetArg / CharacterScriptInterface_GetArg | `0x101d5c640` / `0x101d5bd18` | `bool (L, index, T** out)`, by stack index: the only script interface arguments in the campaign classes |
+| LunarPush_`<CLASS>` | 24 functions, e.g. `0x101c217dc` (faction), `0x101d52c44` (region list) | `(L, object, flag)`: nil for null, else a userdata with the metatable `"<CLASS>"` from the registry; flag 0 also marks it "do not trash" |
+| LuaPushComponentPointer | `0x1014a2224` | `State::operator<<(Pointer<TWUI::Component>)`: a UI component's address |
+
+The list classes are one template, `LIST_SCRIPT_INTERFACE<LIST, ITEM, OBJECT>::{num_items, item_at, is_empty}`, with weak definitions: their method table entries are binds to the binary's own symbols, not rebases. Each method table starts with the virtual `is_null_interface` (member function pointer with bit 0 of the adjustment set, vtable offset `0x38`). The tables and types are in `tools/apigen/data/lunar_types_macos.json`.
+
 ## Database (loaded DB tables, game + mods merged)
 
 Reached from the campaign global the UI uses: world = `*(*(*0x105608ea0 + 0x30) + 0x48)`, DB container = `DB_GetContainer(world + 0x21e0)` (`0x101e76780`: `*(*(*field + 0x58) + 0x20)`). Each table has a lazy accessor `DATABASE_TABLE* (container)` that loads it on first use (`"Loading database: %s"`, the name string `<table>_table` is referenced only by its accessor) and caches it at a fixed container offset. Lookup by key: `StringHashMap_Find(table + 0x18, const TempString* key)` (`0x1010e5040`) → `int* index`, records at `table + 0x10` (`RECORD**`), count at `table + 0x0c`. Records start with their key (`TempString` at `+0`) and follow the schema's column order; references to other tables are record pointers. Junction tables have composite keys, so they're scanned. Layouts found by dumping records in game (`twase.dev_db_record`) and matching the extracted TSVs.

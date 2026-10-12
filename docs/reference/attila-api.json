@@ -3725,7 +3725,7 @@
      "args": "table",
      "handler": "0x1032fc024",
      "name": "RestoreUIHeirarchy",
-     "returns": "number (int), string, table"
+     "returns": "Pointer<Component>, number (int), string, table"
     },
     {
      "args": "",
@@ -3743,7 +3743,7 @@
      "args": "string",
      "handler": "0x1032fad54",
      "name": "SequentialFind",
-     "returns": "string, Pointer<Component>, UIComponent"
+     "returns": "Pointer<Component>, string, UIComponent"
     },
     {
      "args": "boolean",

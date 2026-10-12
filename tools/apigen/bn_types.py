@@ -47,7 +47,10 @@ PUSH = {
     "LuaPushFloat": "number", "sub_1038b1b68": "number", "lua_pushnumber": "number", "sub_103f28c94": "number",
     "LuaPushBool": "boolean", "sub_1038b00a8": "boolean", "lua_pushboolean": "boolean",
     "LuaPushNewTable": "table", "sub_1038b1fa0": "table",
+    "LuaPushComponentPointer": "Pointer<Component>", "sub_1014a2224": "Pointer<Component>",
 }
+# the per-class Lunar push, named LunarPush_<CLASS> in the bndb (2026-10-13)
+NAMED_PUSH = re.compile(r"\bLunarPush_(\w+)\(")
 TAG = {1: "boolean", 3: "number", 4: "string", 5: "table", 6: "function", 7: "userdata"}
 
 
@@ -109,7 +112,8 @@ def push_class(mcp, function, cache, depth=0):
         # State::operator<<(Pointer<T>): a pointer userdata, e.g. a UI component's address
         cache[function] = f"Pointer<{pointer.group(1)}>"
     elif depth == 0:
-        found = {push_class(mcp, f, cache, 1) for f in lua_state_calls(body, "arg1")} - {None}
+        found = set(NAMED_PUSH.findall(body)) | {push_class(mcp, f, cache, 1) for f in lua_state_calls(body, "arg1")}
+        found.discard(None)
         # one class, or one class or the null interface (e.g. "faction has no home region")
         if len(found) == 1 or (len(found) == 2 and "NULL_SCRIPT_INTERFACE" in found):
             cache[function] = ", ".join(sorted(found))
@@ -118,7 +122,7 @@ def push_class(mcp, function, cache, depth=0):
 
 def push_classes(mcp, code, cache):
     """The classes of the objects `code` pushes"""
-    classes = set()
+    classes = set(NAMED_PUSH.findall(code))
     for function in lua_state_calls(code, "arg2"):
         classes.update(c for c in (push_class(mcp, function, cache) or "").split(", ") if c)
     return classes
