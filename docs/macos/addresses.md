@@ -162,7 +162,7 @@ Tested 2026-10-04 (`twase.*`): `faction_attitude` matches the diplomacy screen (
 
 Tested 2026-10-04: the "Likelihood of success" tooltip shows the deal score (e.g. -12.35 → low, 0.71 → moderate); forced likelihoods (gifts) get no score.
 
-## Lua API for mods (`twase.*`, `src/dylib/Scripting/LuaApi.cpp`)
+## Lua API for mods (`twase.*`, `src/platform/macos/dylib/Scripting/LuaApi.cpp`)
 
 More of the game's Lua 5.1 API, for registering C functions. **The game's `lua_Number` is `float`** (`lua_pushnumber` stores `s0`), not `double`.
 
