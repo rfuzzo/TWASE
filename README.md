@@ -1,102 +1,107 @@
 # TWASE
 
-A Total War: Attila Script extender similar to and heavily based on [RED4ext](https://github.com/wopss/RED4ext), [CET](https://github.com/maximegmd/CyberEngineTweaks) and [MWSE](https://github.com/MWSE/MWSE).
+A script extender for **Total War: ATTILA** on Windows and Mac, similar to and heavily based on [RED4ext](https://github.com/wopss/RED4ext), [CET](https://github.com/maximegmd/CyberEngineTweaks) and [MWSE](https://github.com/MWSE/MWSE).
 
 ## Features
 
-- In-game debug console for logging and executing Lua code (toggle with the key below `Esc`, e.g. `~` on US or `^` on German layouts)
-- Captures the game's Lua log output and forwards it to the console and log files
-- Auto-loads mods from `<campaign_folder>/mods/*/scripting.lua`
-- Patches memory in the game to fix crashes and issues
-- Optional tweaks, toggleable in the console window's *Tweaks* tab (defaults in `[tweaks]` in the config)
+- In-game Lua console (toggle with the key below `Esc`, e.g. `~` on US or `^` on German keyboards)
+- Captures the game's Lua log output and writes it to the console and to log files
+- Auto-loads script mods from `<campaign folder>/mods/*/scripting.lua`
+- Fixes the crash when too many units are spawned (e.g. with Fireforged Empire)
+- Optional tweak: shows the AI's deal score in the diplomacy "Likelihood of success" tooltip. The AI accepts deals with a score of 0 or higher.
+- Mac: start the game directly with a mod list or straight into a save
 
-### Tweaks
+## Requirements
 
-- [x] Diplomacy deal score: adds the AI's deal score to the "Likelihood of success" tooltip in the diplomacy panel. The AI accepts deals with a score of 0 or higher.
+- **Windows:** Total War: ATTILA from Steam
+- **Mac:** a Mac with Apple Silicon and Total War: ATTILA from Steam (Feral version 1.6.1). On other game versions TWASE stays inactive.
 
-### Console Commands
+## Installation
+
+Download the zip for your system from [Releases](https://github.com/rfuzzo/TWASE/releases): `TWASE-<version>.zip` for Windows, `TWASE-macOS-<version>.zip` for Mac. Open the game folder: in Steam, right-click *Total War: ATTILA* → *Manage* → *Browse local files*.
+
+### Windows
+
+Extract the zip into the game folder, so that `winmm.dll` is next to `Attila.exe` and `TWASE.dll` is in the `TWASE` folder. Then play as usual.
+
+### Mac
+
+1. Extract the zip into the game folder, so that `twase-launch.command` and the `TWASE` folder are next to `Total War ATTILA.app`.
+2. macOS blocks downloaded files from unknown developers. Allow them once by running this in Terminal:
+
+   ```bash
+   cd "$HOME/Library/Application Support/Steam/steamapps/common/Total War Attila" && xattr -dr com.apple.quarantine TWASE twase-launch.command
+   ```
+
+3. To load TWASE when you press *Play* in Steam, set the game's launch options once: in Steam, right-click *Total War: ATTILA* → *Properties* → *General* → *Launch Options*, and enter (with your game folder):
+
+   ```text
+   "/Users/<you>/Library/Application Support/Steam/steamapps/common/Total War Attila/twase-launch.command" %command%
+   ```
+
+   Or start Steam and double-click `twase-launch.command` in the game folder.
+
+The launcher can also start the game directly, without Feral's launcher window. Put the options in front of `%command%` in the launch options, or run it in Terminal from the game folder:
+
+| Option | Description |
+| --- | --- |
+| `--skip-launcher` | Start the game directly |
+| `--mods <file>` | Load the mods from a mod list (lines like `mod "my_mod.pack";`) instead of the ones enabled in Feral's mod manager |
+| `--load "<save>"` | Load a campaign save, e.g. `--load "Saxons 395 AD Spring.save"` |
+
+```bash
+./twase-launch.command --mods mod_list.txt --load "Saxons 395 AD Spring.save"
+```
+
+## Console
+
+Press the key below `Esc` to open or close the console. Type Lua code to run it in the selected Lua context, or one of these commands:
 
 | Command | Description |
 | --- | --- |
 | `.contexts` | List all active Lua contexts |
-| `.active` | Show the currently active Lua context |
-| `.switch <N\|name>` | Switch context by index or partial name match |
+| `.active` | Show the selected Lua context |
+| `.switch <N\|name>` | Switch context by index or name |
 | `.globals` | List all global variables in the current context |
-| `.list <table>` | List fields of a table (e.g. `.list CampaignUI`) |
-| `.help` | Show all available commands |
+| `.list <table>` | List the fields of a table (e.g. `.list CampaignUI`) |
+| `.help` | Show all commands |
 
-Any other input is executed directly as Lua code in the active context.
+The *Tweaks* tab turns the diplomacy deal score on or off.
 
-### Patches
+## Script mods
 
-- [x] UnitSizePatch: Fixes crashes when too many units are spawned (e.g. with the mod Fireforeged Empire installed)
+TWASE loads every `scripting.lua` in `<campaign folder>/mods/<mod name>/` when a campaign starts, sorted by name, e.g. for the main campaign:
 
-## Usage
+- loose files in the game's data folder: `data/campaigns/main_attila/mods/my_mod/scripting.lua` (on Mac `TotalWarAttilaData/data/...`)
+- or inside a mod pack at `campaigns/main_attila/mods/my_mod/scripting.lua`
 
-- Extract `winmm.dll` to `<game directory>` (e.g. `SteamLibrary\steamapps\common\Total War Attila`)
-- Extract `TWASE.dll` to `<game directory>/TWASE` (e.g. `SteamLibrary\steamapps\common\Total War Attila\TWASE`)
+## Configuration and logs
 
-Logs are created in `<game directory>/TWASE/logs`.
-
-### Mod Auto-Loading
-
-Place your mods under `<campaign_folder>/mods/`. Each mod must have a `scripting.lua` entry point:
-
-```text
-mods/
-  mymod/
-    scripting.lua
-  anothermod/
-    scripting.lua
-```
-
-TWASE will execute `require('mods/mymod/scripting')` for each discovered mod, sorted alphabetically. Enable this feature via `scripting.auto_load_mods = true` in the config.
-
-## Configuration
-
-You can configure certain things in `<game directory>/TWASE/config.ini`. Example:
+Settings are in `TWASE/config.ini` in the game folder (created on the first start), logs are written to `TWASE/logs`.
 
 ```toml
-version = 0
-
 [logging]
-level = "info"        # trace, debug, info, warn, err, critical, off
-flush_on = "info"
-max_files = 5
-max_file_size = 10    # MB
+level = "info"          # trace, debug, info, warn, err, critical, off
 
 [scripting]
 enable_logging = true   # Forward game Lua log output to the console and log files
 auto_load_mods = true   # Auto-load mods from <campaign_folder>/mods/*/scripting.lua
 
 [tweaks]
-diplomacy_deal_score = true   # Show the AI deal score in the diplomacy likelihood tooltip
-
-[plugins]
-enabled = true
-ignored = []
-
-[dev]
-console = false
-wait_for_debugger = false
+diplomacy_deal_score = true
 ```
 
-## Building
+## Troubleshooting
 
-- Clone the repo to some folder
-- Run `xmake`
-- Run `xmake project -k vsxmake -m "debug,release"` to create a VS solution
+- **Mac: "Apple could not verify … is free of malware"**: run the Terminal command from step 2 of the installation, then start again.
+- **Mac: the game closes right away after updating TWASE** (crash report: "Code Signature Invalid"): macOS still remembers the old file. Delete the `TWASE` folder and extract the new one, instead of overwriting the files.
+- **Mac: a modded save crashes while loading**: make sure the mods are enabled in Feral's launcher window (*Disable all mods* must be off), or use `--mods`.
+- **Something else**: open an [issue](https://github.com/rfuzzo/TWASE/issues) and attach the newest file from `TWASE/logs`.
 
-The xmake contains a post-build step which will copy the built DLL to the `TWASE` folder in your game directory. You can change this path in `xmake.lua`.
-The game directory can also be specified via the `TWASE_GAMEROOT` environment variable.
+## Uninstalling
 
-## Releasing
+Delete the `TWASE` folder from the game folder, and `winmm.dll` (Windows) or `twase-launch.command` (Mac). On Mac, also clear the Steam launch options.
 
-Every push to `main` updates the zip on the [nightly release](https://github.com/rfuzzo/TWASE/releases/tag/nightly).
+---
 
-To publish a versioned release:
-
-1. Bump the version in `src/dll/Version.hpp` and merge it to `main`
-2. Tag the commit and push the tag, e.g. `git tag v1.1.0 && git push origin v1.1.0`
-
-The CI builds the tag and creates the release `TWASE v1.1.0` with `TWASE-v1.1.0.zip` and notes generated from the merged PRs. The build fails if the tag doesn't match `TWASE_VERSION_STR`.
+Building and releasing: [docs/development.md](docs/development.md).
