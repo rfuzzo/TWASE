@@ -1,5 +1,7 @@
 # TWASE macOS port – plan
 
+History of the macOS port (formerly the repo `rfuzzo/twase_macos`, merged into TWASE on 2026-10-12, where the code lives in `src/platform/macos/`). Section 6 shows the layout of the old repo.
+
 Status: 2026-10-03. Phases 0–3 done: the dylib injects, patches, captures the Lua log, and the in-game Lua console works in the frontend and in campaign. Phase 4 (mod loader) and Phase 5 (diplomacy tweak, unit-size patch) work. Phase 6: CI and README done, waiting for the first CI run and a release tag. Target build: Feral *Total War: ATTILA* 1.6.1 RC2 (`CFBundleVersion 480285.103778`, Steam).
 
 ## 1. What we are porting *to* (findings)
@@ -30,7 +32,7 @@ Code signing (it decides how we inject and hook):
 Tooling notes:
 
 - ⚠️ `TotalWarAttilaData/attila.dll` (the file your `.bndb` was made from) is a **resource-only Windows DLL**: icons, version info, and the Games Explorer XML pointing at `Rome2.exe`. It contains no game code. Open the Mach-O `Total War ATTILA.app/Contents/MacOS/Total War ATTILA` in Binary Ninja instead.
-- Binary Ninja installed: **6.0 Free**. The GUI MCP server is included in every GUI edition (enable `ui.mcp.enabled`, then *Plugins ▸ MCP ▸ Start Server*, which serves `http://127.0.0.1:24642/mcp`). Despite the docs saying "read-only", the 6.0 server also has **mutation tools**: `bn_symbol_rename`, `bn_comment_set`, `bn_type_struct_create`, `bn_function_prototype_set`, and `bn_open_item_save`. So the bndb can carry names, types, and comments. `docs/addresses.md` stays the reviewed source for the C++ offset tables.
+- Binary Ninja installed: **6.0 Free**. The GUI MCP server is included in every GUI edition (enable `ui.mcp.enabled`, then *Plugins ▸ MCP ▸ Start Server*, which serves `http://127.0.0.1:24642/mcp`). Despite the docs saying "read-only", the 6.0 server also has **mutation tools**: `bn_symbol_rename`, `bn_comment_set`, `bn_type_struct_create`, `bn_function_prototype_set`, and `bn_open_item_save`. So the bndb can carry names, types, and comments. `docs/macos/addresses.md` stays the reviewed source for the C++ offset tables.
 - `IDA Home (PC)` is the x86/x64 edition, so it cannot do arm64. Keep using it for the *PC* side of the cross-reference.
 - Xcode license accepted (Apple clang 21); `nm`/`otool`/`python3` work.
 
@@ -80,7 +82,7 @@ There are 30 addresses to re-find (13 game functions/globals, 12 Lua API functio
    - its vtable/RTTI class, if it is virtual
    - its call-graph shape (number of callees, which ones have strings)
 2. **In Binary Ninja**, locate the same anchors in the Mach-O. Claude can drive this through the MCP server: strings → xrefs → decompile → compare against the PC pseudo-C.
-3. **Record every hit** in `docs/addresses.md`: name, PC RVA, Mac offset, anchor used, confidence, and notes such as "inlined at N sites".
+3. **Record every hit** in `docs/macos/addresses.md`: name, PC RVA, Mac offset, anchor used, confidence, and notes such as "inlined at N sites".
 
 Specific strategies:
 
@@ -88,7 +90,7 @@ Specific strategies:
 - **Script interfaces / runtime list.** Start from the `"decoda_name"` xref and the RTTI names around `UTILITYDLL::LUA::State`.
 - **Mod loader.** Start from the `"scripting.lua"` string to reach `RunStartupPath`, then the VFS calls inside it.
 - **Diplomacy.** Start from the `"dy_chance"` string and the `DIPLOMACY_LIKELIHOOD` mangled signatures. Expect clang to inline small helpers more aggressively than MSVC did.
-- **Unit-size crash.** ✅ Found via the libc++ string `"bitset test argument out of range"`, see `docs/addresses.md`.
+- **Unit-size crash.** ✅ Found via the libc++ string `"bitset test argument out of range"`, see `docs/macos/addresses.md`.
 - **Small functions (`GetLuaState`, `WString` ctor/dtor, `CName` ctor).** If clang inlined them away, reimplement them in our code instead of calling them.
 
 Feral updates are rare. **Hardcoded offset tables keyed by `LC_UUID` are enough for now.** If the UUID doesn't match, TWASE logs it and disables hooks instead of crashing. Pattern scanning can come later if needed.
@@ -103,7 +105,7 @@ Feral updates are rare. **Hardcoded offset tables keyed by `LC_UUID` are enough 
 - [ ] 0.3 **Injection.** A hello-world dylib whose constructor writes a log line (`spikes/inject`). Test:
   - (a) ✅ Running the binary directly with `DYLD_INSERT_LIBRARIES` while Steam is running works. The dylib loads (ad-hoc signed, from outside the bundle), there is no Steam relaunch, and `SteamAPI_Init` is OK. Code-signing flags in the process: `VALID HARD KILL RUNTIME`. Note: with injection, dyld image 0 is *our* dylib; find the game by `MH_EXECUTE`.
   - (b) Steam launch options `DYLD_INSERT_LIBRARIES=… %command%`
-  - (c) ✅ launcher script `scripts/twase-launch.command`
+  - (c) ✅ launcher script `src/platform/macos/launcher/twase-launch.command`
 
   Watch for macOS stripping `DYLD_*` when a SIP-protected binary such as `/bin/sh` sits in the chain.
 - [x] 0.4 **Code patching under the hardened runtime.** ✅ Works without re-signing. `spikes/inject` rewrites the page holding the entry point (`main`, executed right after the constructors). Both methods ran without a kill or crash report (3/3 runs):
@@ -121,12 +123,12 @@ Feral updates are rare. **Hardcoded offset tables keyed by `LC_UUID` are enough 
 - [x] `xmake.lua`: `libTWASE.dylib` (C++23), arm64, packages spdlog/fmt/toml11/dobby; post-build copy of the dylib to `TWASE/` and the launcher to the game root. Links Foundation so dyld initializes it before our constructor.
 - [x] Port `Config`, `Paths`, logging, `Utils`; Mach-O `Image` with an `LC_UUID` check (hooks disabled on unknown builds); `Hook<T>` on Dobby + `Memory::PatchBytes`. (`SemVer` not needed yet.)
   - Lesson: never call `CFBundleGetValueForInfoDictionaryKey` (or anything else that goes through Foundation's localization) from the constructor. It recursed forever before Foundation was initialized.
-- [x] Launcher `scripts/twase-launch.command` (deployed to the game root).
+- [x] Launcher `src/platform/macos/launcher/twase-launch.command` (deployed to the game root).
 - [ ] Install instructions, including `xattr -dr com.apple.quarantine` and ad-hoc `codesign -s -` for downloaded builds (Phase 6 README).
 
 ### Phase 2: Lua core
 
-- [x] Find the 12 Lua API functions, LuaLog, `g_RuntimeLuaList{Head,Sentinel}`, and `GetLuaState`; re-derive `ScriptRuntime` / `RuntimeLuaNode` (see `docs/addresses.md`). Watch out: the binary has two Lua copies, and the game uses the one at `0x103f…`.
+- [x] Find the 12 Lua API functions, LuaLog, `g_RuntimeLuaList{Head,Sentinel}`, and `GetLuaState`; re-derive `ScriptRuntime` / `RuntimeLuaNode` (see `docs/macos/addresses.md`). Watch out: the binary has two Lua copies, and the game uses the one at `0x103f…`.
 - [x] LuaLog: a data hook on the sink pointer + a `nop` in its setter. Lua log lines show up in `TWASE/logs`.
 - [x] Port `LuaRuntime` and `LuaGameEnvironment` (`Init` takes the ASLR slide).
 
@@ -138,19 +140,19 @@ Feral updates are rare. **Hardcoded offset tables keyed by `LC_UUID` are enough 
 
 ### Phase 4: mod loader
 
-- [x] RunStartupPath, `VFS_GetInstance`, `VFS_SearchFiles` (a VFS virtual), `CName_ctor`, `tw_free`, and the 64-bit `ScriptingEnv`/`TempString`/`VFSSearchResults` layouts, cross-checked against RTTI (see `docs/addresses.md`). ✅ A loose `TotalWarAttilaData/data/campaigns/main_attila/mods/<name>/scripting.lua` auto-loads; Lua errors in a mod are caught and logged.
+- [x] RunStartupPath, `VFS_GetInstance`, `VFS_SearchFiles` (a VFS virtual), `CName_ctor`, `tw_free`, and the 64-bit `ScriptingEnv`/`TempString`/`VFSSearchResults` layouts, cross-checked against RTTI (see `docs/macos/addresses.md`). ✅ A loose `TotalWarAttilaData/data/campaigns/main_attila/mods/<name>/scripting.lua` auto-loads; Lua errors in a mod are caught and logged.
 - [x] Mods inside a `.pack` load too. Feral's user `maps` folder is not usable (not searched, and wiped on every launch).
 - [ ] Document the local mod locations in the README (Phase 6).
 
 ### Phase 5: tweaks + patches
 
-- [x] Diplomacy deal-score tooltip: all functions and offsets found (see `docs/addresses.md`), tested in the game. Lesson: hooks must not use `App::Get()` from the `App` constructor, hooking now runs in `App::Initialize()`.
+- [x] Diplomacy deal-score tooltip: all functions and offsets found (see `docs/macos/addresses.md`), tested in the game. Lesson: hooks must not use `App::Get()` from the `App` constructor, hooking now runs in `App::Initialize()`.
 - [x] Unit-size patch: the same bitset<64> throw exists on Mac. TWASE applies the one-instruction `b.eq` retarget at `0x101a51c58`. 2026-10-04: a Fireforged Empire save loads and plays fine with the patch (whether the >64 case was hit isn't logged).
 - [x] Mod list logging: the `WinMain` hook logs the engine command line and the enabled mods.
 - [ ] Start the game with mods from the launcher script (to test the unit-size patch with Fireforged). Findings so far (2026-10-03):
   - Feral's preferences (`~/Library/Application Support/Feral Interactive/Total War ATTILA/Preferences Data`, XML) have `DisableAllMods = 1` and a `mods` list. Loading a Fireforged save with mods disabled crashes on a missing DB record (not TWASE).
   - On Windows, Runcher writes `mod_list.txt` (`mod "x.pack";`, `add_working_directory "…";`) and starts `Attila.exe mod_list.txt;` (+ `game_startup_mode campaign_load <save>`). It doesn't support macOS.
-  - 2026-10-04: Feral builds the command line itself (`0x100022b7c`, mods via `0x100014f1c`). Process arguments don't reach the engine; Feral's pre-launcher shows on every start unless `GameOptionsDialogShouldShow = 0`. ✅ `ExtraCommandLineEnabled` + `ExtraCommandLine` in Feral's preferences are appended to the engine command line, so a direct start with a chosen mod set needs only preference edits (see `docs/addresses.md`). ✅ `twase-launch.command --skip-launcher | --mods <Runcher mod_list.txt> | --load <save> | --extra <statements>` sets these preferences for one launch and restores the changed keys afterwards. With `DisableAllMods`, Feral empties its own mods folder, so the launcher links missing packs from the Workshop folder into `TotalWarAttilaData/data` and removes the links on exit. Tested: 6 mods + `--load` of a Fireforged save go straight into the campaign.
+  - 2026-10-04: Feral builds the command line itself (`0x100022b7c`, mods via `0x100014f1c`). Process arguments don't reach the engine; Feral's pre-launcher shows on every start unless `GameOptionsDialogShouldShow = 0`. ✅ `ExtraCommandLineEnabled` + `ExtraCommandLine` in Feral's preferences are appended to the engine command line, so a direct start with a chosen mod set needs only preference edits (see `docs/macos/addresses.md`). ✅ `twase-launch.command --skip-launcher | --mods <Runcher mod_list.txt> | --load <save> | --extra <statements>` sets these preferences for one launch and restores the changed keys afterwards. With `DisableAllMods`, Feral empties its own mods folder, so the launcher links missing packs from the Workshop folder into `TotalWarAttilaData/data` and removes the links on exit. Tested: 6 mods + `--load` of a Fireforged save go straight into the campaign.
   - The Mac binary still has CA's command-line keywords as UTF-16 strings (`add_working_directory`, `game_startup_mode`, `campaign_load`). Feral's game shell (`0x100f858f0`) starts the `WinMain` thread through `0x100020344`, which converts a string into the UTF-16 command line for `WinMain` (`0x1032bc10c`). Still to check: where that string comes from (`argv`?) and how Feral maps paths (Lua paths show a virtual `q:\feral\users\default\...` drive), then try `mod_list.txt;` as an argument.
 
 ### Phase 6: release
