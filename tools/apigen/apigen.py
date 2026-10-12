@@ -3,7 +3,7 @@
 
 - data/api_dump_macos.tsv: what the game's Lua offers in a campaign, written by dump.lua in the game
 - data/lunar_types_macos.json: the script interfaces' method tables in the Mac binary (handler, arguments, return type),
-  typed from the decompiled handlers in Binary Ninja (the local-llm-re experiments, 2026-10-06)
+  found by find_tables.py and typed by bn_types.py from the decompiled handlers in Binary Ninja
 - the game's own script library, from an extracted data.pack (script/_lib, lua_scripts, campaigns/<campaign>/*.lua),
   for the library functions' parameters and where they're defined
 
@@ -54,13 +54,15 @@ def is_metamethod(name):
 
 
 def match_tables(classes, types):
-    """The binary's method table for each class, by the largest overlap of method names"""
+    """The binary's method table for each class, by the largest overlap of method names; tables of template classes
+    (e.g. the lists, which all have num_items / item_at / is_empty) by the class name in their handlers' symbols"""
     matched = {}
     for address, methods in types.items():
         names = {m["method"] for m in methods}
+        symbols = " ".join(m.get("symbol", "") for m in methods)
         best, overlap = None, 0
         for name, class_methods in classes.items():
-            common = len(names & class_methods)
+            common = len(names & class_methods) + (0.5 if re.search(rf"\d{name}E", symbols) else 0)
             if common > overlap:
                 best, overlap = name, common
         # a real match covers (nearly) the whole table; battle tables share only a few common names
@@ -172,9 +174,11 @@ def write_markdown(api, out):
     interfaces = [n for n in api["classes"] if n != "GAME"]
     lines = [header + "# Script interfaces\n",
              "The campaign model's classes as Lua sees them (Lunar bindings), e.g. what `get_cm():model():world()` returns. "
-             "Methods are called with `:`. **Arguments** lists what the handler reads with the known helpers: object arguments "
-             "(a faction, a character, ...) and some numbers aren't detected yet, so an empty cell doesn't mean the method takes "
-             "none. **Returns** is empty where the handler pushes nothing we recognise (usually: nothing).\n",
+             "Methods are called with `:`. **Arguments** are the types the handler reads, in order; for methods with optional or "
+             "alternative arguments (mostly `UIComponent`, e.g. `Find(name or index[, boolean])`) it lists every type the handler "
+             "can read. **Returns** is empty where the handler pushes nothing (or nothing we recognise yet). `Pointer<T>` is a "
+             "pointer userdata (e.g. a UI component's address), `NULL_SCRIPT_INTERFACE` what a lookup returns when there's "
+             "nothing to return.\n",
              "Classes: " + ", ".join(f"[{n}](#{anchor(n)})" for n in interfaces) + "\n"]
     for name in interfaces:
         cls = api["classes"][name]

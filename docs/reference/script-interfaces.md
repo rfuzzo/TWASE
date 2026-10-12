@@ -2,20 +2,18 @@
 
 # Script interfaces
 
-The campaign model's classes as Lua sees them (Lunar bindings), e.g. what `get_cm():model():world()` returns. Methods are called with `:`. **Arguments** lists what the handler reads with the known helpers: object arguments (a faction, a character, ...) and some numbers aren't detected yet, so an empty cell doesn't mean the method takes none. **Returns** is empty where the handler pushes nothing we recognise (usually: nothing).
+The campaign model's classes as Lua sees them (Lunar bindings), e.g. what `get_cm():model():world()` returns. Methods are called with `:`. **Arguments** are the types the handler reads, in order; for methods with optional or alternative arguments (mostly `UIComponent`, e.g. `Find(name or index[, boolean])`) it lists every type the handler can read. **Returns** is empty where the handler pushes nothing (or nothing we recognise yet). `Pointer<T>` is a pointer userdata (e.g. a UI component's address), `NULL_SCRIPT_INTERFACE` what a lookup returns when there's nothing to return.
 
 Classes: [BUILDING_LIST_SCRIPT_INTERFACE](#building_list_script_interface), [BUILDING_SCRIPT_INTERFACE](#building_script_interface), [CAMPAIGN_AI_SCRIPT_INTERFACE](#campaign_ai_script_interface), [CAMPAIGN_MISSION_SCRIPT_INTERFACE](#campaign_mission_script_interface), [CHARACTER_LIST_SCRIPT_INTERFACE](#character_list_script_interface), [CHARACTER_SCRIPT_INTERFACE](#character_script_interface), [CampaignCharacter](#campaigncharacter), [CampaignSettlement](#campaignsettlement), [Cursor](#cursor), [FACTION_LIST_SCRIPT_INTERFACE](#faction_list_script_interface), [FACTION_SCRIPT_INTERFACE](#faction_script_interface), [FAMILY_MEMBER_SCRIPT_INTERFACE](#family_member_script_interface), [GARRISON_RESIDENCE_SCRIPT_INTERFACE](#garrison_residence_script_interface), [MILITARY_FORCE_LIST_SCRIPT_INTERFACE](#military_force_list_script_interface), [MILITARY_FORCE_SCRIPT_INTERFACE](#military_force_script_interface), [MODEL_SCRIPT_INTERFACE](#model_script_interface), [MPAvatar](#mpavatar), [NULL_SCRIPT_INTERFACE](#null_script_interface), [PENDING_BATTLE_SCRIPT_INTERFACE](#pending_battle_script_interface), [REGION_LIST_SCRIPT_INTERFACE](#region_list_script_interface), [REGION_MANAGER_SCRIPT_INTERFACE](#region_manager_script_interface), [REGION_SCRIPT_INTERFACE](#region_script_interface), [SETTLEMENT_SCRIPT_INTERFACE](#settlement_script_interface), [SLOT_LIST_SCRIPT_INTERFACE](#slot_list_script_interface), [SLOT_SCRIPT_INTERFACE](#slot_script_interface), [ScriptedValueRegistry](#scriptedvalueregistry), [UIComponent](#uicomponent), [UNIT_LIST_SCRIPT_INTERFACE](#unit_list_script_interface), [UNIT_SCRIPT_INTERFACE](#unit_script_interface), [WORLD_SCRIPT_INTERFACE](#world_script_interface)
 
 ## BUILDING_LIST_SCRIPT_INTERFACE
 
-_Method table not found in the binary yet, names only._
-
 | Method | Arguments | Returns |
 |---|---|---|
-| `is_empty` |  |  |
-| `item_at` |  |  |
+| `is_empty` |  | boolean |
+| `item_at` | number | BUILDING_SCRIPT_INTERFACE |
 | `new` |  |  |
-| `num_items` |  |  |
+| `num_items` |  | number (uint) |
 
 ## BUILDING_SCRIPT_INTERFACE
 
@@ -40,15 +38,15 @@ _Method table not found in the binary yet, names only._
 | `new` |  |  |
 | `strategic_stance_between_factions` |  | number (int) |
 | `strategic_stance_between_factions_available` |  | boolean |
-| `strategic_stance_between_factions_is_being_blocked` |  | boolean |
-| `strategic_stance_between_factions_is_being_blocked_until` |  | number (uint) |
-| `strategic_stance_between_factions_promotion_current_level` |  | number (float) |
-| `strategic_stance_between_factions_promotion_end_level` |  | number (float) |
-| `strategic_stance_between_factions_promotion_end_round` |  | number (uint) |
-| `strategic_stance_between_factions_promotion_is_active` |  | boolean |
+| `strategic_stance_between_factions_is_being_blocked` | 3 values | boolean |
+| `strategic_stance_between_factions_is_being_blocked_until` | 3 values | number (uint) |
+| `strategic_stance_between_factions_promotion_current_level` | 3 values | number |
+| `strategic_stance_between_factions_promotion_end_level` | 3 values | number |
+| `strategic_stance_between_factions_promotion_end_round` | 3 values | number (uint) |
+| `strategic_stance_between_factions_promotion_is_active` | 3 values | boolean |
 | `strategic_stance_between_factions_promotion_or_blocking_is_set` |  | boolean |
-| `strategic_stance_between_factions_promotion_start_level` |  | number (float) |
-| `strategic_stance_between_factions_promotion_start_round` |  | number (uint) |
+| `strategic_stance_between_factions_promotion_start_level` | 3 values | number |
+| `strategic_stance_between_factions_promotion_start_round` | 3 values | number (uint) |
 
 ## CAMPAIGN_MISSION_SCRIPT_INTERFACE
 
@@ -63,26 +61,24 @@ _Method table not found in the binary yet, names only._
 
 ## CHARACTER_LIST_SCRIPT_INTERFACE
 
-_Method table not found in the binary yet, names only._
-
 | Method | Arguments | Returns |
 |---|---|---|
-| `is_empty` |  |  |
-| `item_at` |  |  |
+| `is_empty` |  | boolean |
+| `item_at` | number | CHARACTER_SCRIPT_INTERFACE |
 | `new` |  |  |
-| `num_items` |  |  |
+| `num_items` |  | number (uint) |
 
 ## CHARACTER_SCRIPT_INTERFACE
 
 | Method | Arguments | Returns |
 |---|---|---|
 | `action_points_per_turn` |  | number (int) |
-| `action_points_remaining_percent` |  | number (float) |
+| `action_points_remaining_percent` |  | number |
 | `age` |  | number (int) |
 | `battles_fought` |  | number (uint) |
 | `battles_won` |  | number (uint) |
-| `body_guard_casulties` |  | number (float) |
-| `character_type` |  | boolean |
+| `body_guard_casulties` |  | number |
+| `character_type` | string | boolean |
 | `command_queue_index` |  | number (uint) |
 | `cqi` |  | number (uint) |
 | `defensive_ambush_battles_fought` |  | number (uint) |
@@ -93,18 +89,18 @@ _Method table not found in the binary yet, names only._
 | `defensive_naval_battles_won` |  | number (uint) |
 | `defensive_sieges_fought` |  | number (uint) |
 | `defensive_sieges_won` |  | number (uint) |
-| `display_position_x` |  | number (float) |
-| `display_position_y` |  | number (float) |
+| `display_position_x` |  | number |
+| `display_position_y` |  | number |
 | `faction` |  | FACTION_SCRIPT_INTERFACE |
 | `family_member` |  | FAMILY_MEMBER_SCRIPT_INTERFACE |
 | `father` |  | FAMILY_MEMBER_SCRIPT_INTERFACE |
-| `forename` |  | boolean |
+| `forename` | string | boolean |
 | `fought_in_battle` |  | boolean |
-| `garrison_residence` |  |  |
+| `garrison_residence` |  | GARRISON_RESIDENCE_SCRIPT_INTERFACE, NULL_SCRIPT_INTERFACE |
 | `get_forename` |  | string |
 | `get_surname` |  | string |
 | `gravitas` |  | number (uint) |
-| `has_ancillary` |  | boolean |
+| `has_ancillary` | string | boolean |
 | `has_father` |  | boolean |
 | `has_garrison_residence` |  | boolean |
 | `has_military_force` |  | boolean |
@@ -112,7 +108,7 @@ _Method table not found in the binary yet, names only._
 | `has_recruited_mercenaries` |  | boolean |
 | `has_region` |  | boolean |
 | `has_skill` | string | boolean |
-| `has_trait` |  | boolean |
+| `has_trait` | string | boolean |
 | `in_port` |  | boolean |
 | `in_settlement` |  | boolean |
 | `is_ambushing` |  | boolean |
@@ -129,7 +125,7 @@ _Method table not found in the binary yet, names only._
 | `logical_position_x` |  | number (uint) |
 | `logical_position_y` |  | number (uint) |
 | `loyalty` |  | number (uint) |
-| `military_force` |  |  |
+| `military_force` |  | MILITARY_FORCE_SCRIPT_INTERFACE, NULL_SCRIPT_INTERFACE |
 | `model` |  | MODEL_SCRIPT_INTERFACE |
 | `mother` |  | FAMILY_MEMBER_SCRIPT_INTERFACE |
 | `new` |  |  |
@@ -142,14 +138,14 @@ _Method table not found in the binary yet, names only._
 | `offensive_naval_battles_won` |  | number (uint) |
 | `offensive_sieges_fought` |  | number (uint) |
 | `offensive_sieges_won` |  | number (uint) |
-| `percentage_of_own_alliance_killed` |  | number (float) |
+| `percentage_of_own_alliance_killed` |  | number |
 | `performed_action_this_turn` |  | boolean |
 | `rank` |  | number (int) |
-| `region` |  |  |
+| `region` |  | NULL_SCRIPT_INTERFACE, REGION_SCRIPT_INTERFACE |
 | `routed_in_battle` |  | boolean |
-| `surname` |  | boolean |
+| `surname` | string | boolean |
 | `trait_level` | string | number (int) |
-| `trait_points` |  | number (int) |
+| `trait_points` | string | number (int) |
 | `turns_at_sea` |  | number (uint) |
 | `turns_in_enemy_regions` |  | number (uint) |
 | `turns_in_own_regions` |  | number (uint) |
@@ -167,11 +163,9 @@ _Method table not found in the binary yet, names only._
 
 ## CampaignSettlement
 
-_Method table not found in the binary yet, names only._
-
 | Method | Arguments | Returns |
 |---|---|---|
-| `LabelDetails` |  |  |
+| `LabelDetails` |  | boolean, number (int), number (uint), string, table |
 | `ListDetails` |  |  |
 | `Release` |  |  |
 | `Settlement` |  |  |
@@ -184,68 +178,66 @@ _Method table not found in the binary yet, names only._
 | `DistanceToBL` |  | number (int) |
 | `Mode` |  | number (int) |
 | `ModeString` |  |  |
-| `Modes` |  |  |
+| `Modes` |  | table |
 | `SetMode` | string, boolean |  |
 | `new` |  |  |
 
 ## FACTION_LIST_SCRIPT_INTERFACE
 
-_Method table not found in the binary yet, names only._
-
 | Method | Arguments | Returns |
 |---|---|---|
-| `is_empty` |  |  |
-| `item_at` |  |  |
+| `is_empty` |  | boolean |
+| `item_at` | number | FACTION_SCRIPT_INTERFACE |
 | `new` |  |  |
-| `num_items` |  |  |
+| `num_items` |  | number (uint) |
 
 ## FACTION_SCRIPT_INTERFACE
 
 | Method | Arguments | Returns |
 |---|---|---|
-| `allied_with` |  | boolean |
-| `ancillary_exists` |  | boolean |
+| `allied_with` | FACTION_SCRIPT_INTERFACE | boolean |
+| `ancillary_exists` | string | boolean |
 | `at_war` |  | boolean |
-| `at_war_with` |  | boolean |
-| `character_list` |  |  |
+| `at_war_with` | FACTION_SCRIPT_INTERFACE | boolean |
+| `character_list` |  | CHARACTER_LIST_SCRIPT_INTERFACE |
 | `command_queue_index` |  | number (uint) |
 | `culture` |  | string |
 | `ended_war_this_turn` |  | boolean |
-| `faction_leader` |  | CHARACTER_SCRIPT_INTERFACE |
+| `faction_leader` |  | CHARACTER_SCRIPT_INTERFACE, NULL_SCRIPT_INTERFACE |
 | `has_faction_leader` |  | boolean |
 | `has_food_shortage` |  | boolean |
 | `has_home_region` |  | boolean |
-| `has_technology` |  | boolean |
-| `home_region` |  |  |
+| `has_technology` | string | boolean |
+| `home_region` |  | NULL_SCRIPT_INTERFACE, REGION_SCRIPT_INTERFACE |
 | `imperium_level` |  | number (uint) |
 | `is_horde` |  | boolean |
 | `is_human` |  | boolean |
 | `is_null_interface` |  |  |
-| `is_trading_with` |  | boolean |
+| `is_trading_with` | FACTION_SCRIPT_INTERFACE | boolean |
 | `losing_money` |  | boolean |
-| `military_force_list` |  |  |
+| `military_force_list` |  | MILITARY_FORCE_LIST_SCRIPT_INTERFACE |
 | `model` |  | MODEL_SCRIPT_INTERFACE |
 | `name` |  | string |
 | `new` |  |  |
 | `num_allies` |  | number (int) |
 | `num_generals` |  | number (int) |
-| `region_list` |  |  |
+| `region_list` |  | REGION_LIST_SCRIPT_INTERFACE |
 | `research_queue_idle` |  | boolean |
 | `sea_trade_route_raided` |  | boolean |
 | `started_war_this_turn` |  | boolean |
 | `state_religion` |  | string |
-| `state_religion_percentage` |  | number (float) |
+| `state_religion_percentage` |  | number |
 | `subculture` |  | string |
 | `tax_level` |  | number (int) |
-| `trade_resource_exists` |  | boolean |
+| `trade_resource_exists` | string | boolean |
 | `trade_route_limit_reached` |  | boolean |
 | `trade_ship_not_in_trade_node` |  | boolean |
 | `trade_value` |  | number (uint) |
-| `trade_value_percent` |  | number (float) |
+| `trade_value_percent` |  | number |
 | `treasury` |  | number (int) |
-| `treasury_percent` |  | number (float) |
+| `treasury_percent` |  | number |
 | `unused_international_trade_route` |  | boolean |
-| `upkeep_expenditure_percent` |  | number (float) |
+| `upkeep_expenditure_percent` |  | number |
 
 ## FAMILY_MEMBER_SCRIPT_INTERFACE
 
@@ -264,8 +256,8 @@ _Method table not found in the binary yet, names only._
 
 | Method | Arguments | Returns |
 |---|---|---|
-| `army` |  |  |
-| `buildings` |  |  |
+| `army` |  | MILITARY_FORCE_SCRIPT_INTERFACE, NULL_SCRIPT_INTERFACE |
+| `buildings` |  | BUILDING_LIST_SCRIPT_INTERFACE |
 | `can_assault` |  | boolean |
 | `faction` |  | FACTION_SCRIPT_INTERFACE |
 | `has_army` |  | boolean |
@@ -275,23 +267,21 @@ _Method table not found in the binary yet, names only._
 | `is_slot` |  | boolean |
 | `is_under_siege` |  | boolean |
 | `model` |  | MODEL_SCRIPT_INTERFACE |
-| `navy` |  |  |
+| `navy` |  | MILITARY_FORCE_SCRIPT_INTERFACE, NULL_SCRIPT_INTERFACE |
 | `new` |  |  |
 | `region` |  | REGION_SCRIPT_INTERFACE |
-| `settlement_interface` |  | SETTLEMENT_SCRIPT_INTERFACE |
-| `slot_interface` |  | SLOT_SCRIPT_INTERFACE |
+| `settlement_interface` |  | NULL_SCRIPT_INTERFACE, SETTLEMENT_SCRIPT_INTERFACE |
+| `slot_interface` |  | NULL_SCRIPT_INTERFACE, SLOT_SCRIPT_INTERFACE |
 | `unit_count` |  | number (uint) |
 
 ## MILITARY_FORCE_LIST_SCRIPT_INTERFACE
 
-_Method table not found in the binary yet, names only._
-
 | Method | Arguments | Returns |
 |---|---|---|
-| `is_empty` |  |  |
-| `item_at` |  |  |
+| `is_empty` |  | boolean |
+| `item_at` | number | MILITARY_FORCE_SCRIPT_INTERFACE |
 | `new` |  |  |
-| `num_items` |  |  |
+| `num_items` |  | number (uint) |
 
 ## MILITARY_FORCE_SCRIPT_INTERFACE
 
@@ -299,14 +289,14 @@ _Method table not found in the binary yet, names only._
 |---|---|---|
 | `active_stance` |  | string |
 | `building_exists` | string | boolean |
-| `buildings` |  |  |
+| `buildings` |  | MILITARY_FORCE_BUILDING_LIST_SCRIPT_INTERFACE |
 | `can_activate_stance` | string | boolean |
-| `character_list` |  |  |
+| `character_list` |  | CHARACTER_LIST_SCRIPT_INTERFACE |
 | `command_queue_index` |  | number (uint) |
 | `contains_mercenaries` |  | boolean |
 | `faction` |  | FACTION_SCRIPT_INTERFACE |
-| `garrison_residence` |  |  |
-| `general_character` |  |  |
+| `garrison_residence` |  | GARRISON_RESIDENCE_SCRIPT_INTERFACE, NULL_SCRIPT_INTERFACE |
+| `general_character` |  | CHARACTER_SCRIPT_INTERFACE, NULL_SCRIPT_INTERFACE |
 | `has_garrison_residence` |  | boolean |
 | `has_general` |  | boolean |
 | `is_army` |  | boolean |
@@ -315,30 +305,30 @@ _Method table not found in the binary yet, names only._
 | `is_null_interface` |  |  |
 | `model` |  | MODEL_SCRIPT_INTERFACE |
 | `new` |  |  |
-| `unit_list` |  |  |
+| `unit_list` |  | UNIT_LIST_SCRIPT_INTERFACE |
 | `upkeep` |  | number (uint) |
 
 ## MODEL_SCRIPT_INTERFACE
 
 | Method | Arguments | Returns |
 |---|---|---|
-| `campaign_ai` |  | object: CAMPAIGN_AI_SCRIPT_INTERFACE (wraps ?) |
-| `campaign_name` |  | boolean |
+| `campaign_ai` |  | CAMPAIGN_AI_SCRIPT_INTERFACE |
+| `campaign_name` | string | boolean |
 | `campaign_type` |  | number (uint) |
-| `character_can_reach_character` | 2 values | boolean |
-| `character_for_command_queue_index` |  | CHARACTER_SCRIPT_INTERFACE |
+| `character_can_reach_character` | CHARACTER_SCRIPT_INTERFACE, CHARACTER_SCRIPT_INTERFACE | boolean |
+| `character_for_command_queue_index` |  | CHARACTER_SCRIPT_INTERFACE, NULL_SCRIPT_INTERFACE |
 | `date_and_week_in_range` |  | boolean |
 | `date_in_range` | number, number | boolean |
 | `difficulty_level` |  | number (int) |
-| `faction_for_command_queue_index` |  | FACTION_SCRIPT_INTERFACE |
-| `faction_is_local` |  | boolean |
+| `faction_for_command_queue_index` |  | FACTION_SCRIPT_INTERFACE, NULL_SCRIPT_INTERFACE |
+| `faction_is_local` | string | boolean |
 | `has_character_command_queue_index` |  | boolean |
 | `has_faction_command_queue_index` |  | boolean |
 | `has_military_force_command_queue_index` |  | boolean |
 | `is_multiplayer` |  | boolean |
 | `is_null_interface` |  |  |
 | `is_player_turn` |  | boolean |
-| `military_force_for_command_queue_index` |  | MILITARY_FORCE_SCRIPT_INTERFACE |
+| `military_force_for_command_queue_index` |  | MILITARY_FORCE_SCRIPT_INTERFACE, NULL_SCRIPT_INTERFACE |
 | `new` |  |  |
 | `pending_battle` |  | PENDING_BATTLE_SCRIPT_INTERFACE |
 | `player_steam_id_is_odd` |  | boolean |
@@ -349,13 +339,11 @@ _Method table not found in the binary yet, names only._
 
 ## MPAvatar
 
-_Method table not found in the binary yet, names only._
-
 | Method | Arguments | Returns |
 |---|---|---|
 | `Free` |  |  |
-| `SetComponentTexture` |  |  |
-| `Valid` |  |  |
+| `SetComponentTexture` | userdata, number (int), boolean |  |
+| `Valid` |  | boolean |
 | `new` |  |  |
 
 ## NULL_SCRIPT_INTERFACE
@@ -372,19 +360,19 @@ _Method table not found in the binary yet, names only._
 | Method | Arguments | Returns |
 |---|---|---|
 | `ambush_battle` |  | boolean |
-| `attacker` |  |  |
+| `attacker` |  | CHARACTER_SCRIPT_INTERFACE, NULL_SCRIPT_INTERFACE |
 | `attacker_battle_result` |  | string |
 | `attacker_commander_fought_in_battle` |  | boolean |
 | `attacker_commander_fought_in_melee` |  | boolean |
 | `attacker_is_stronger` |  | boolean |
-| `attacker_strength` |  | number (float) |
+| `attacker_strength` |  | number |
 | `battle_type` |  | string |
-| `contested_garrison` |  |  |
-| `defender` |  |  |
+| `contested_garrison` |  | GARRISON_RESIDENCE_SCRIPT_INTERFACE, NULL_SCRIPT_INTERFACE |
+| `defender` |  | CHARACTER_SCRIPT_INTERFACE, NULL_SCRIPT_INTERFACE |
 | `defender_battle_result` |  | string |
 | `defender_commander_fought_in_battle` |  | boolean |
 | `defender_commander_fought_in_melee` |  | boolean |
-| `defender_strength` |  | number (float) |
+| `defender_strength` |  | number |
 | `failed_ambush_battle` |  | boolean |
 | `has_attacker` |  | boolean |
 | `has_contested_garrison` |  | boolean |
@@ -395,42 +383,40 @@ _Method table not found in the binary yet, names only._
 | `naval_battle` |  | boolean |
 | `new` |  |  |
 | `night_battle` |  | boolean |
-| `percentage_of_attacker_killed` |  | number (float) |
-| `percentage_of_attacker_routed` |  | number (float) |
-| `percentage_of_defender_killed` |  | number (float) |
-| `percentage_of_defender_routed` |  | number (float) |
+| `percentage_of_attacker_killed` |  | number |
+| `percentage_of_attacker_routed` |  | number |
+| `percentage_of_defender_killed` |  | number |
+| `percentage_of_defender_routed` |  | number |
 | `seige_battle` |  | boolean |
 
 ## REGION_LIST_SCRIPT_INTERFACE
 
-_Method table not found in the binary yet, names only._
-
 | Method | Arguments | Returns |
 |---|---|---|
-| `is_empty` |  |  |
-| `item_at` |  |  |
+| `is_empty` |  | boolean |
+| `item_at` | number | REGION_SCRIPT_INTERFACE |
 | `new` |  |  |
-| `num_items` |  |  |
+| `num_items` |  | number (uint) |
 
 ## REGION_MANAGER_SCRIPT_INTERFACE
 
 | Method | Arguments | Returns |
 |---|---|---|
-| `faction_region_list` | 1 values |  |
+| `faction_region_list` | 1 values | REGION_LIST_SCRIPT_INTERFACE |
 | `is_null_interface` |  |  |
 | `model` |  | MODEL_SCRIPT_INTERFACE |
 | `new` |  |  |
-| `region_by_key` | string |  |
-| `region_list` |  |  |
-| `resource_exists_anywhere` |  | boolean |
-| `settlement_by_key` | string |  |
-| `slot_by_key` | string |  |
+| `region_by_key` | string | NULL_SCRIPT_INTERFACE, REGION_SCRIPT_INTERFACE |
+| `region_list` |  | REGION_LIST_SCRIPT_INTERFACE |
+| `resource_exists_anywhere` | string | boolean |
+| `settlement_by_key` | string | NULL_SCRIPT_INTERFACE, SETTLEMENT_SCRIPT_INTERFACE |
+| `slot_by_key` | string | NULL_SCRIPT_INTERFACE, SLOT_SCRIPT_INTERFACE |
 
 ## REGION_SCRIPT_INTERFACE
 
 | Method | Arguments | Returns |
 |---|---|---|
-| `adjacent_region_list` |  |  |
+| `adjacent_region_list` |  | REGION_LIST_SCRIPT_INTERFACE |
 | `building_exists` | string | boolean |
 | `building_superchain_exists` | string | boolean |
 | `garrison_residence` |  | GARRISON_RESIDENCE_SCRIPT_INTERFACE |
@@ -439,18 +425,18 @@ _Method table not found in the binary yet, names only._
 | `is_null_interface` |  |  |
 | `last_building_constructed_key` |  | string |
 | `majority_religion` |  | string |
-| `majority_religion_percentage` |  | number (float) |
+| `majority_religion_percentage` |  | number |
 | `model` |  | MODEL_SCRIPT_INTERFACE |
 | `name` |  | string |
 | `new` |  |  |
 | `num_buildings` |  | number (uint) |
 | `owning_faction` |  | FACTION_SCRIPT_INTERFACE |
 | `public_order` |  | number (int) |
-| `region_wealth_change_percent` |  | number (float) |
+| `region_wealth_change_percent` |  | number |
 | `resource_exists` | string | boolean |
 | `sanitation` |  | number (uint) |
 | `settlement` |  | SETTLEMENT_SCRIPT_INTERFACE |
-| `slot_list` |  |  |
+| `slot_list` |  | SLOT_LIST_SCRIPT_INTERFACE |
 | `slot_type_exists` | string | boolean |
 | `squalor` |  | number (uint) |
 | `town_wealth_growth` |  | number (int) |
@@ -459,9 +445,9 @@ _Method table not found in the binary yet, names only._
 
 | Method | Arguments | Returns |
 |---|---|---|
-| `commander` |  |  |
-| `display_position_x` |  | number (float) |
-| `display_position_y` |  | number (float) |
+| `commander` |  | CHARACTER_SCRIPT_INTERFACE, NULL_SCRIPT_INTERFACE |
+| `display_position_x` |  | number |
+| `display_position_y` |  | number |
 | `faction` |  | FACTION_SCRIPT_INTERFACE |
 | `has_commander` |  | boolean |
 | `is_null_interface` |  |  |
@@ -470,26 +456,24 @@ _Method table not found in the binary yet, names only._
 | `model` |  | MODEL_SCRIPT_INTERFACE |
 | `new` |  |  |
 | `region` |  | REGION_SCRIPT_INTERFACE |
-| `slot_list` |  |  |
+| `slot_list` |  | SLOT_LIST_SCRIPT_INTERFACE |
 
 ## SLOT_LIST_SCRIPT_INTERFACE
 
-_Method table not found in the binary yet, names only._
-
 | Method | Arguments | Returns |
 |---|---|---|
-| `buliding_type_exists` |  |  |
-| `is_empty` |  |  |
-| `item_at` |  |  |
+| `buliding_type_exists` | string | boolean |
+| `is_empty` |  | boolean |
+| `item_at` | number | SLOT_SCRIPT_INTERFACE |
 | `new` |  |  |
-| `num_items` |  |  |
-| `slot_type_exists` |  |  |
+| `num_items` |  | number (uint) |
+| `slot_type_exists` | string | boolean |
 
 ## SLOT_SCRIPT_INTERFACE
 
 | Method | Arguments | Returns |
 |---|---|---|
-| `building` |  |  |
+| `building` |  | BUILDING_SCRIPT_INTERFACE, NULL_SCRIPT_INTERFACE |
 | `faction` |  | FACTION_SCRIPT_INTERFACE |
 | `has_building` |  | boolean |
 | `is_null_interface` |  |  |
@@ -511,118 +495,114 @@ _Method table not found in the binary yet, names only._
 
 ## UIComponent
 
-_Method table not found in the binary yet, names only._
-
 | Method | Arguments | Returns |
 |---|---|---|
-| `Address` |  |  |
-| `Adopt` |  |  |
-| `AttachCustomControl` |  |  |
-| `Bounds` |  |  |
-| `CallbackId` |  |  |
-| `ChildCount` |  |  |
+| `Address` |  | Pointer<Component> |
+| `Adopt` | userdata, number (int) |  |
+| `AttachCustomControl` | userdata |  |
+| `Bounds` |  | number |
+| `CallbackId` |  | string |
+| `ChildCount` |  | number (int) |
 | `ClearSound` |  |  |
-| `CreateComponent` |  |  |
+| `CreateComponent` | string, string | Pointer<Component> |
 | `CurrentAnimationId` |  |  |
 | `CurrentState` |  |  |
 | `CurrentStateUI` |  |  |
 | `DestroyChildren` |  |  |
-| `Dimensions` |  |  |
-| `Divorce` |  |  |
-| `DockingPoint` |  |  |
-| `Find` |  |  |
-| `FindPositionIntoCurrentText` |  |  |
-| `FindTextSnapPosition` |  |  |
+| `Dimensions` |  | number |
+| `Divorce` | userdata | number (int) |
+| `DockingPoint` |  | number (int) |
+| `Find` | number (int), string, boolean | Pointer<Component> |
+| `FindPositionIntoCurrentText` | string, number (int) | number (int) |
+| `FindTextSnapPosition` | string, number (int) | number (int) |
 | `ForceEvent` |  |  |
-| `GetProperty` |  |  |
-| `GetStateText` |  |  |
+| `GetProperty` | string | string |
+| `GetStateText` |  | number (uint), string |
 | `GetStateTextDetails` |  |  |
-| `GetTooltipText` |  |  |
+| `GetTooltipText` |  | string |
 | `GlobalExists` |  |  |
-| `HasInterface` |  |  |
-| `Height` |  |  |
-| `Highlight` |  |  |
-| `Id` |  |  |
+| `HasInterface` |  | boolean |
+| `Height` |  | number |
+| `Highlight` | boolean |  |
+| `Id` |  | string |
 | `InterfaceFunction` |  |  |
-| `IsCharPrintable` |  |  |
-| `IsDragged` |  |  |
-| `IsInteractive` |  |  |
-| `IsMouseOverChildren` |  |  |
-| `IsMoveable` |  |  |
+| `IsCharPrintable` | string | boolean |
+| `IsDragged` |  | boolean |
+| `IsInteractive` |  | boolean |
+| `IsMouseOverChildren` |  | boolean |
+| `IsMoveable` |  | boolean |
 | `Layout` |  |  |
-| `LockPriority` |  |  |
+| `LockPriority` | number (int) |  |
 | `LuaCall` |  |  |
-| `MoveTo` |  |  |
-| `Opacity` |  |  |
-| `Parent` |  |  |
-| `PopulateTextures` |  |  |
-| `Position` |  |  |
-| `Priority` |  |  |
-| `PropagateImageColour` |  |  |
-| `PropagateOpacity` |  |  |
-| `PropagatePriority` |  |  |
-| `PropagateVisibility` |  |  |
-| `ReorderChildren` |  |  |
-| `Resize` |  |  |
-| `RestoreUIHeirarchy` |  |  |
+| `MoveTo` | number, number |  |
+| `Opacity` |  | number (uint) |
+| `Parent` | number (int), string, boolean | Pointer<Component> |
+| `PopulateTextures` | boolean |  |
+| `Position` |  | number |
+| `Priority` |  | number (int) |
+| `PropagateImageColour` | number (int), number (int), number (int), number (int) | boolean |
+| `PropagateOpacity` | boolean, number (int) | boolean |
+| `PropagatePriority` | number (int) | number (int) |
+| `PropagateVisibility` | boolean |  |
+| `ReorderChildren` | userdata, table | boolean |
+| `Resize` | number, number, boolean, boolean |  |
+| `RestoreUIHeirarchy` | table | number (int), string, table |
 | `RunScript` |  |  |
 | `SaveUIHeirarchy` |  |  |
-| `SequentialFind` |  |  |
-| `SetDisabled` |  |  |
-| `SetDockingPoint` |  |  |
+| `SequentialFind` | string | string, Pointer<Component>, UIComponent |
+| `SetDisabled` | boolean |  |
+| `SetDockingPoint` | number (int), number (int) |  |
 | `SetDragged` |  |  |
 | `SetEventCallback` |  |  |
 | `SetGlobal` |  |  |
-| `SetImageColour` |  |  |
-| `SetImageRotation` |  |  |
-| `SetInteractive` |  |  |
-| `SetMoveable` |  |  |
-| `SetOpacity` |  |  |
+| `SetImageColour` | boolean, number (int), number (int), number (int), number (int), number (int) | boolean |
+| `SetImageRotation` | number (int), number, number, number, number (int), number |  |
+| `SetInteractive` | boolean |  |
+| `SetMoveable` | boolean |  |
+| `SetOpacity` | boolean, number (int) | boolean |
 | `SetProperty` |  |  |
-| `SetState` |  |  |
-| `SetStateColours` |  |  |
-| `SetStateText` |  |  |
+| `SetState` | string, boolean | boolean |
+| `SetStateColours` | number (int), number (int), number (int), number (int) |  |
+| `SetStateText` | string, boolean, number (int) | number (int), number (uint) |
 | `SetStateTextDetails` |  |  |
 | `SetStateTextXOffset` |  |  |
-| `SetTooltipText` |  |  |
-| `SetTooltipTextWithRLSKey` |  |  |
-| `SetVisible` |  |  |
-| `ShaderTechniqueGet` |  |  |
-| `ShaderTechniqueSet` |  |  |
-| `ShaderVarsGet` |  |  |
-| `ShaderVarsSet` |  |  |
+| `SetTooltipText` | string, boolean |  |
+| `SetTooltipTextWithRLSKey` | string, boolean |  |
+| `SetVisible` | boolean |  |
+| `ShaderTechniqueGet` |  | number (uint) |
+| `ShaderTechniqueSet` | number (int), string, boolean, boolean |  |
+| `ShaderVarsGet` |  | number |
+| `ShaderVarsSet` | number, number, number, number, boolean, boolean |  |
 | `SimulateClick` |  |  |
-| `SimulateKey` |  |  |
-| `SimulateLClick` |  |  |
-| `SimulateMouseMove` |  |  |
+| `SimulateKey` | string |  |
+| `SimulateLClick` | number, number | boolean |
+| `SimulateMouseMove` | number, number |  |
 | `SimulateMouseOff` |  |  |
 | `SimulateMouseOn` |  |  |
-| `SimulateRClick` |  |  |
-| `StealInputFocus` |  |  |
-| `StealShortcutKey` |  |  |
-| `TextDimensions` |  |  |
-| `TextShaderTechniqueSet` |  |  |
-| `TextShaderVarsGet` |  |  |
-| `TextShaderVarsSet` |  |  |
-| `TriggerAnimation` |  |  |
-| `TriggerShortcut` |  |  |
+| `SimulateRClick` | number, number | boolean |
+| `StealInputFocus` | boolean |  |
+| `StealShortcutKey` | boolean, string | boolean |
+| `TextDimensions` |  | number (uint) |
+| `TextShaderTechniqueSet` | number (int), string, boolean |  |
+| `TextShaderVarsGet` |  | number |
+| `TextShaderVarsSet` | number, number, number, number, boolean |  |
+| `TriggerAnimation` | string | boolean |
+| `TriggerShortcut` | string |  |
 | `UnLockPriority` |  |  |
-| `Visible` |  |  |
-| `Width` |  |  |
-| `WidthOfTextLine` |  |  |
+| `Visible` | boolean | boolean |
+| `Width` |  | number |
+| `WidthOfTextLine` | string | number (uint) |
 | `new` |  |  |
 
 ## UNIT_LIST_SCRIPT_INTERFACE
 
-_Method table not found in the binary yet, names only._
-
 | Method | Arguments | Returns |
 |---|---|---|
-| `has_unit` |  |  |
-| `is_empty` |  |  |
-| `item_at` |  |  |
+| `has_unit` | string | boolean |
+| `is_empty` |  | boolean |
+| `item_at` | number | UNIT_SCRIPT_INTERFACE |
 | `new` |  |  |
-| `num_items` |  |  |
+| `num_items` |  | number (uint) |
 
 ## UNIT_SCRIPT_INTERFACE
 
@@ -631,7 +611,7 @@ _Method table not found in the binary yet, names only._
 | `can_upgrade_unit` |  | boolean |
 | `can_upgrade_unit_equipment` |  | boolean |
 | `faction` |  | FACTION_SCRIPT_INTERFACE |
-| `force_commander` |  |  |
+| `force_commander` |  | CHARACTER_SCRIPT_INTERFACE, NULL_SCRIPT_INTERFACE |
 | `has_force_commander` |  | boolean |
 | `has_unit_commander` |  | boolean |
 | `is_land_unit` |  | boolean |
@@ -640,21 +620,21 @@ _Method table not found in the binary yet, names only._
 | `military_force` |  | MILITARY_FORCE_SCRIPT_INTERFACE |
 | `model` |  | MODEL_SCRIPT_INTERFACE |
 | `new` |  |  |
-| `percentage_proportion_of_full_strength` |  | number (float) |
+| `percentage_proportion_of_full_strength` |  | number |
 | `unit_category` |  | string |
 | `unit_class` |  | string |
-| `unit_commander` |  |  |
+| `unit_commander` |  | CHARACTER_SCRIPT_INTERFACE, NULL_SCRIPT_INTERFACE |
 | `unit_key` |  | string |
 
 ## WORLD_SCRIPT_INTERFACE
 
 | Method | Arguments | Returns |
 |---|---|---|
-| `ancillary_exists` |  | boolean |
+| `ancillary_exists` | string | boolean |
 | `climate_phase_index` |  | number (int) |
-| `faction_by_key` |  |  |
-| `faction_exists` |  | boolean |
-| `faction_list` |  |  |
+| `faction_by_key` | string | FACTION_SCRIPT_INTERFACE, NULL_SCRIPT_INTERFACE |
+| `faction_exists` | string | boolean |
+| `faction_list` |  | FACTION_LIST_SCRIPT_INTERFACE |
 | `is_null_interface` |  |  |
 | `model` |  | MODEL_SCRIPT_INTERFACE |
 | `new` |  |  |

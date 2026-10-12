@@ -2,19 +2,19 @@
  "build": "Feral 1.6.1 RC2 (Mac), LC_UUID 392D6F66-9183-329E-8A98-8C90FC828326",
  "classes": {
   "BUILDING_LIST_SCRIPT_INTERFACE": {
-   "method_table": null,
+   "method_table": "0x104f846f8",
    "methods": [
     {
      "args": "",
-     "handler": null,
+     "handler": "0x101d340bc",
      "name": "is_empty",
-     "returns": ""
+     "returns": "boolean"
     },
     {
-     "args": "",
-     "handler": null,
+     "args": "number",
+     "handler": "0x101d34024",
      "name": "item_at",
-     "returns": ""
+     "returns": "BUILDING_SCRIPT_INTERFACE"
     },
     {
      "args": "",
@@ -24,14 +24,14 @@
     },
     {
      "args": "",
-     "handler": null,
+     "handler": "0x101d33ff4",
      "name": "num_items",
-     "returns": ""
+     "returns": "number (uint)"
     }
    ]
   },
   "BUILDING_SCRIPT_INTERFACE": {
-   "method_table": "0x104f84620",
+   "method_table": "0x104f84608",
    "methods": [
     {
      "args": "",
@@ -96,7 +96,7 @@
    ]
   },
   "CAMPAIGN_AI_SCRIPT_INTERFACE": {
-   "method_table": "0x104f85040",
+   "method_table": "0x104f85028",
    "methods": [
     {
      "args": "",
@@ -123,37 +123,37 @@
      "returns": "boolean"
     },
     {
-     "args": "",
+     "args": "3 values",
      "handler": "0x101d373ec",
      "name": "strategic_stance_between_factions_is_being_blocked",
      "returns": "boolean"
     },
     {
-     "args": "",
+     "args": "3 values",
      "handler": "0x101d374d4",
      "name": "strategic_stance_between_factions_is_being_blocked_until",
      "returns": "number (uint)"
     },
     {
-     "args": "",
+     "args": "3 values",
      "handler": "0x101d36f4c",
      "name": "strategic_stance_between_factions_promotion_current_level",
-     "returns": "number (float)"
+     "returns": "number"
     },
     {
-     "args": "",
+     "args": "3 values",
      "handler": "0x101d372fc",
      "name": "strategic_stance_between_factions_promotion_end_level",
-     "returns": "number (float)"
+     "returns": "number"
     },
     {
-     "args": "",
+     "args": "3 values",
      "handler": "0x101d37214",
      "name": "strategic_stance_between_factions_promotion_end_round",
      "returns": "number (uint)"
     },
     {
-     "args": "",
+     "args": "3 values",
      "handler": "0x101d36e64",
      "name": "strategic_stance_between_factions_promotion_is_active",
      "returns": "boolean"
@@ -165,13 +165,13 @@
      "returns": "boolean"
     },
     {
-     "args": "",
+     "args": "3 values",
      "handler": "0x101d37124",
      "name": "strategic_stance_between_factions_promotion_start_level",
-     "returns": "number (float)"
+     "returns": "number"
     },
     {
-     "args": "",
+     "args": "3 values",
      "handler": "0x101d3703c",
      "name": "strategic_stance_between_factions_promotion_start_round",
      "returns": "number (uint)"
@@ -179,7 +179,7 @@
    ]
   },
   "CAMPAIGN_MISSION_SCRIPT_INTERFACE": {
-   "method_table": "0x104f84fb0",
+   "method_table": "0x104f84f98",
    "methods": [
     {
      "args": "",
@@ -220,19 +220,19 @@
    ]
   },
   "CHARACTER_LIST_SCRIPT_INTERFACE": {
-   "method_table": null,
+   "method_table": "0x104f83d50",
    "methods": [
     {
      "args": "",
-     "handler": null,
+     "handler": "0x101d2fcb8",
      "name": "is_empty",
-     "returns": ""
+     "returns": "boolean"
     },
     {
-     "args": "",
-     "handler": null,
+     "args": "number",
+     "handler": "0x101d2fc20",
      "name": "item_at",
-     "returns": ""
+     "returns": "CHARACTER_SCRIPT_INTERFACE"
     },
     {
      "args": "",
@@ -242,14 +242,14 @@
     },
     {
      "args": "",
-     "handler": null,
+     "handler": "0x101d2fbf0",
      "name": "num_items",
-     "returns": ""
+     "returns": "number (uint)"
     }
    ]
   },
   "CHARACTER_SCRIPT_INTERFACE": {
-   "method_table": "0x104f83618",
+   "method_table": "0x104f83600",
    "methods": [
     {
      "args": "",
@@ -261,7 +261,7 @@
      "args": "",
      "handler": "0x101d2e09c",
      "name": "action_points_remaining_percent",
-     "returns": "number (float)"
+     "returns": "number"
     },
     {
      "args": "",
@@ -285,10 +285,10 @@
      "args": "",
      "handler": "0x101d2f378",
      "name": "body_guard_casulties",
-     "returns": "number (float)"
+     "returns": "number"
     },
     {
-     "args": "",
+     "args": "string",
      "handler": "0x101d2daac",
      "name": "character_type",
      "returns": "boolean"
@@ -357,13 +357,13 @@
      "args": "",
      "handler": "0x101d2e950",
      "name": "display_position_x",
-     "returns": "number (float)"
+     "returns": "number"
     },
     {
      "args": "",
      "handler": "0x101d2e9ac",
      "name": "display_position_y",
-     "returns": "number (float)"
+     "returns": "number"
     },
     {
      "args": "",
@@ -384,7 +384,7 @@
      "returns": "FAMILY_MEMBER_SCRIPT_INTERFACE"
     },
     {
-     "args": "",
+     "args": "string",
      "handler": "0x101d2d5b0",
      "name": "forename",
      "returns": "boolean"
@@ -399,7 +399,7 @@
      "args": "",
      "handler": "0x101d2d378",
      "name": "garrison_residence",
-     "returns": ""
+     "returns": "GARRISON_RESIDENCE_SCRIPT_INTERFACE, NULL_SCRIPT_INTERFACE"
     },
     {
      "args": "",
@@ -420,7 +420,7 @@
      "returns": "number (uint)"
     },
     {
-     "args": "",
+     "args": "string",
      "handler": "0x101d2debc",
      "name": "has_ancillary",
      "returns": "boolean"
@@ -468,7 +468,7 @@
      "returns": "boolean"
     },
     {
-     "args": "",
+     "args": "string",
      "handler": "0x101d2db6c",
      "name": "has_trait",
      "returns": "boolean"
@@ -573,7 +573,7 @@
      "args": "",
      "handler": "0x101d2d518",
      "name": "military_force",
-     "returns": ""
+     "returns": "MILITARY_FORCE_SCRIPT_INTERFACE, NULL_SCRIPT_INTERFACE"
     },
     {
      "args": "",
@@ -651,7 +651,7 @@
      "args": "",
      "handler": "0x101d2e7c0",
      "name": "percentage_of_own_alliance_killed",
-     "returns": "number (float)"
+     "returns": "number"
     },
     {
      "args": "",
@@ -669,7 +669,7 @@
      "args": "",
      "handler": "0x101d2d488",
      "name": "region",
-     "returns": ""
+     "returns": "NULL_SCRIPT_INTERFACE, REGION_SCRIPT_INTERFACE"
     },
     {
      "args": "",
@@ -678,7 +678,7 @@
      "returns": "boolean"
     },
     {
-     "args": "",
+     "args": "string",
      "handler": "0x101d2d694",
      "name": "surname",
      "returns": "boolean"
@@ -690,7 +690,7 @@
      "returns": "number (int)"
     },
     {
-     "args": "",
+     "args": "string",
      "handler": "0x101d2dd14",
      "name": "trait_points",
      "returns": "number (int)"
@@ -745,29 +745,29 @@
    ]
   },
   "CampaignSettlement": {
-   "method_table": null,
+   "method_table": "0x105002618",
    "methods": [
     {
      "args": "",
-     "handler": null,
+     "handler": "0x1036c0904",
      "name": "LabelDetails",
-     "returns": ""
+     "returns": "boolean, number (int), number (uint), string, table"
     },
     {
      "args": "",
-     "handler": null,
+     "handler": "0x1036c137c",
      "name": "ListDetails",
      "returns": ""
     },
     {
      "args": "",
-     "handler": null,
+     "handler": "0x1036c1384",
      "name": "Release",
      "returns": ""
     },
     {
      "args": "",
-     "handler": null,
+     "handler": "0x1036c08bc",
      "name": "Settlement",
      "returns": ""
     },
@@ -780,7 +780,7 @@
    ]
   },
   "Cursor": {
-   "method_table": "0x104ff1c08",
+   "method_table": "0x104ff1bf0",
    "methods": [
     {
      "args": "",
@@ -804,7 +804,7 @@
      "args": "",
      "handler": "0x102c459f8",
      "name": "Modes",
-     "returns": ""
+     "returns": "table"
     },
     {
      "args": "string, boolean",
@@ -821,19 +821,19 @@
    ]
   },
   "FACTION_LIST_SCRIPT_INTERFACE": {
-   "method_table": null,
+   "method_table": "0x104f835a0",
    "methods": [
     {
      "args": "",
-     "handler": null,
+     "handler": "0x101d2d12c",
      "name": "is_empty",
-     "returns": ""
+     "returns": "boolean"
     },
     {
-     "args": "",
-     "handler": null,
+     "args": "number",
+     "handler": "0x101d2d094",
      "name": "item_at",
-     "returns": ""
+     "returns": "FACTION_SCRIPT_INTERFACE"
     },
     {
      "args": "",
@@ -843,23 +843,23 @@
     },
     {
      "args": "",
-     "handler": null,
+     "handler": "0x101d2d064",
      "name": "num_items",
-     "returns": ""
+     "returns": "number (uint)"
     }
    ]
   },
   "FACTION_SCRIPT_INTERFACE": {
-   "method_table": "0x104f831b0",
+   "method_table": "0x104f83198",
    "methods": [
     {
-     "args": "",
+     "args": "FACTION_SCRIPT_INTERFACE",
      "handler": "0x101d2b344",
      "name": "allied_with",
      "returns": "boolean"
     },
     {
-     "args": "",
+     "args": "string",
      "handler": "0x101d2aeac",
      "name": "ancillary_exists",
      "returns": "boolean"
@@ -871,7 +871,7 @@
      "returns": "boolean"
     },
     {
-     "args": "",
+     "args": "FACTION_SCRIPT_INTERFACE",
      "handler": "0x101d2b4d8",
      "name": "at_war_with",
      "returns": "boolean"
@@ -880,7 +880,7 @@
      "args": "",
      "handler": "0x101d2a79c",
      "name": "character_list",
-     "returns": ""
+     "returns": "CHARACTER_LIST_SCRIPT_INTERFACE"
     },
     {
      "args": "",
@@ -904,7 +904,7 @@
      "args": "",
      "handler": "0x101d2ac70",
      "name": "faction_leader",
-     "returns": "CHARACTER_SCRIPT_INTERFACE"
+     "returns": "CHARACTER_SCRIPT_INTERFACE, NULL_SCRIPT_INTERFACE"
     },
     {
      "args": "",
@@ -925,7 +925,7 @@
      "returns": "boolean"
     },
     {
-     "args": "",
+     "args": "string",
      "handler": "0x101d2c824",
      "name": "has_technology",
      "returns": "boolean"
@@ -934,7 +934,7 @@
      "args": "",
      "handler": "0x101d2abe8",
      "name": "home_region",
-     "returns": ""
+     "returns": "NULL_SCRIPT_INTERFACE, REGION_SCRIPT_INTERFACE"
     },
     {
      "args": "",
@@ -961,7 +961,7 @@
      "returns": ""
     },
     {
-     "args": "",
+     "args": "FACTION_SCRIPT_INTERFACE",
      "handler": "0x101d2ce18",
      "name": "is_trading_with",
      "returns": "boolean"
@@ -976,7 +976,7 @@
      "args": "",
      "handler": "0x101d2a924",
      "name": "military_force_list",
-     "returns": ""
+     "returns": "MILITARY_FORCE_LIST_SCRIPT_INTERFACE"
     },
     {
      "args": "",
@@ -1012,7 +1012,7 @@
      "args": "",
      "handler": "0x101d2a614",
      "name": "region_list",
-     "returns": ""
+     "returns": "REGION_LIST_SCRIPT_INTERFACE"
     },
     {
      "args": "",
@@ -1042,7 +1042,7 @@
      "args": "",
      "handler": "0x101d2ca60",
      "name": "state_religion_percentage",
-     "returns": "number (float)"
+     "returns": "number"
     },
     {
      "args": "",
@@ -1057,7 +1057,7 @@
      "returns": "number (int)"
     },
     {
-     "args": "",
+     "args": "string",
      "handler": "0x101d2b594",
      "name": "trade_resource_exists",
      "returns": "boolean"
@@ -1084,7 +1084,7 @@
      "args": "",
      "handler": "0x101d2bb80",
      "name": "trade_value_percent",
-     "returns": "number (float)"
+     "returns": "number"
     },
     {
      "args": "",
@@ -1096,7 +1096,7 @@
      "args": "",
      "handler": "0x101d2c3d0",
      "name": "treasury_percent",
-     "returns": "number (float)"
+     "returns": "number"
     },
     {
      "args": "",
@@ -1108,12 +1108,12 @@
      "args": "",
      "handler": "0x101d2c6c0",
      "name": "upkeep_expenditure_percent",
-     "returns": "number (float)"
+     "returns": "number"
     }
    ]
   },
   "FAMILY_MEMBER_SCRIPT_INTERFACE": {
-   "method_table": "0x104f83dc8",
+   "method_table": "0x104f83db0",
    "methods": [
     {
      "args": "",
@@ -1169,7 +1169,7 @@
    "method_table": "0x104f89b48",
    "methods": [
     {
-     "args": "string",
+     "args": "string, number (int)",
      "handler": "0x102166ddc",
      "name": "add_agent_experience",
      "returns": ""
@@ -1193,13 +1193,13 @@
      "returns": ""
     },
     {
-     "args": "string, number, number, number, boolean, string, string, string, boolean, boolean",
+     "args": "string, number, number, number, boolean, string, string, string, number (int), boolean, boolean",
      "handler": "0x102161ef0",
      "name": "add_custom_battlefield",
      "returns": ""
     },
     {
-     "args": "string",
+     "args": "string, number (int)",
      "handler": "0x10216d5ec",
      "name": "add_development_points_to_region",
      "returns": ""
@@ -1247,13 +1247,13 @@
      "returns": ""
     },
     {
-     "args": "string, string, boolean, boolean, boolean, number, number",
+     "args": "string, string, boolean, boolean, boolean, number, number, table",
      "handler": "0x10216a4f4",
      "name": "add_outline_area_trigger",
      "returns": ""
     },
     {
-     "args": "string, string",
+     "args": "string, string, number (int)",
      "handler": "0x10216f5d8",
      "name": "add_prestige",
      "returns": ""
@@ -1289,7 +1289,7 @@
      "returns": ""
     },
     {
-     "args": "string",
+     "args": "string, number (int)",
      "handler": "0x10216f154",
      "name": "add_unit_to_force",
      "returns": ""
@@ -1310,28 +1310,28 @@
      "args": "boolean",
      "handler": "0x10216c770",
      "name": "allow_player_to_embark_navies",
-     "returns": " + unidentified push sub_1038b23d0"
+     "returns": ""
     },
     {
-     "args": "string, string",
+     "args": "string, string, number (int)",
      "handler": "0x10216a894",
      "name": "apply_effect_bundle",
      "returns": ""
     },
     {
-     "args": "string, boolean",
+     "args": "string, number (int), number (int), boolean",
      "handler": "0x10216b09c",
      "name": "apply_effect_bundle_to_characters_force",
      "returns": ""
     },
     {
-     "args": "string",
+     "args": "string, number (int), number (int)",
      "handler": "0x10216ac60",
      "name": "apply_effect_bundle_to_force",
      "returns": ""
     },
     {
-     "args": "string, string",
+     "args": "string, string, number (int)",
      "handler": "0x10216b5a8",
      "name": "apply_effect_bundle_to_region",
      "returns": ""
@@ -1355,14 +1355,14 @@
      "returns": ""
     },
     {
-     "args": "string",
+     "args": "string, number (int)",
      "handler": "0x102166f14",
      "name": "award_experience_level",
      "returns": ""
     },
     {
-     "args": "",
-     "handler": null,
+     "args": "string, string, string",
+     "handler": "0x10216d694",
      "name": "cai_strategic_stance_manager_block_all_stances_but_that_specified_towards_target_faction",
      "returns": ""
     },
@@ -1373,43 +1373,43 @@
      "returns": ""
     },
     {
-     "args": "",
-     "handler": null,
+     "args": "string, string",
+     "handler": "0x10216db8c",
      "name": "cai_strategic_stance_manager_clear_all_promotions_between_factions",
      "returns": ""
     },
     {
-     "args": "",
-     "handler": null,
+     "args": "string, string, string",
+     "handler": "0x10216d944",
      "name": "cai_strategic_stance_manager_force_stance_update_between_factions",
      "returns": ""
     },
     {
-     "args": "",
-     "handler": null,
+     "args": "string, string, string",
+     "handler": "0x10216d788",
      "name": "cai_strategic_stance_manager_promote_specified_stance_towards_target_faction",
      "returns": ""
     },
     {
-     "args": "",
-     "handler": null,
+     "args": "string, string, number (int)",
+     "handler": "0x10216d87c",
      "name": "cai_strategic_stance_manager_promote_specified_stance_towards_target_faction_by_number",
      "returns": ""
     },
     {
-     "args": "",
-     "handler": null,
+     "args": "string, string, number (int), number (int)",
+     "handler": "0x10216dc40",
      "name": "cai_strategic_stance_manager_set_stance_blocking_between_factions_for_a_given_stance",
      "returns": ""
     },
     {
-     "args": "",
-     "handler": null,
+     "args": "string, string, number (int), number (int), number, number (int), number",
+     "handler": "0x10216da6c",
      "name": "cai_strategic_stance_manager_set_stance_promotion_between_factions_for_a_given_stance",
      "returns": ""
     },
     {
-     "args": "",
+     "args": "userdata",
      "handler": "0x1021639f4",
      "name": "cancel_actions_for",
      "returns": ""
@@ -1421,7 +1421,7 @@
      "returns": ""
     },
     {
-     "args": "string",
+     "args": "userdata, string",
      "handler": "0x102163a60",
      "name": "compare_localised_string",
      "returns": "boolean"
@@ -1442,7 +1442,7 @@
      "args": "boolean",
      "handler": "0x102162458",
      "name": "disable_elections",
-     "returns": " + unidentified push sub_1038b23d0"
+     "returns": ""
     },
     {
      "args": "boolean",
@@ -1451,7 +1451,7 @@
      "returns": ""
     },
     {
-     "args": "string, string",
+     "args": "string, string, userdata",
      "handler": "0x1021638bc",
      "name": "disable_movement_for_ai_under_shroud",
      "returns": ""
@@ -1469,7 +1469,7 @@
      "returns": ""
     },
     {
-     "args": "",
+     "args": "number (int)",
      "handler": "0x10216de74",
      "name": "disable_pathfinding_restriction",
      "returns": ""
@@ -1490,7 +1490,7 @@
      "args": "boolean",
      "handler": "0x1021665fc",
      "name": "disable_shopping_for_ai_under_shroud",
-     "returns": " + unidentified push sub_1038b23d0"
+     "returns": ""
     },
     {
      "args": "string, string, boolean",
@@ -1508,19 +1508,19 @@
      "args": "boolean",
      "handler": "0x10216a794",
      "name": "dismiss_advice_at_end_turn",
-     "returns": " + unidentified push sub_1038b23d0"
+     "returns": ""
     },
     {
      "args": "boolean",
      "handler": "0x102165e8c",
      "name": "display_turns",
-     "returns": " + unidentified push sub_1038b23d0"
+     "returns": ""
     },
     {
      "args": "boolean",
      "handler": "0x102166ffc",
      "name": "enable_auto_generated_missions",
-     "returns": " + unidentified push sub_1038b23d0"
+     "returns": ""
     },
     {
      "args": "string",
@@ -1559,7 +1559,7 @@
      "returns": ""
     },
     {
-     "args": "number",
+     "args": "number, number (int), number (int)",
      "handler": "0x10216e96c",
      "name": "fade_volume",
      "returns": ""
@@ -1667,13 +1667,13 @@
      "returns": ""
     },
     {
-     "args": "string, string, boolean",
+     "args": "string, number (int), string, number (int), number (int), boolean",
      "handler": "0x1021683f0",
      "name": "force_rebellion_in_region",
      "returns": ""
     },
     {
-     "args": "string, string",
+     "args": "string, string, number (int), number (int), userdata",
      "handler": "0x1021633c8",
      "name": "grant_faction_handover",
      "returns": ""
@@ -1703,7 +1703,7 @@
      "returns": ""
     },
     {
-     "args": "string, string",
+     "args": "string, string, number (int)",
      "handler": "0x10216c628",
      "name": "instant_set_building_health_percent",
      "returns": ""
@@ -1745,7 +1745,7 @@
      "returns": ""
     },
     {
-     "args": "string, boolean, string, string, string",
+     "args": "string, boolean, string, number (int), string, string, userdata",
      "handler": "0x102166278",
      "name": "load_named_value",
      "returns": "boolean, number (int), string"
@@ -1811,7 +1811,7 @@
      "returns": ""
     },
     {
-     "args": "string, boolean",
+     "args": "string, number (int), number (int), boolean",
      "handler": "0x102168db4",
      "name": "move_to",
      "returns": ""
@@ -1913,13 +1913,13 @@
      "returns": ""
     },
     {
-     "args": "string",
+     "args": "string, number (int)",
      "handler": "0x10216b3a8",
      "name": "remove_effect_bundle_from_characters_force",
      "returns": ""
     },
     {
-     "args": "string",
+     "args": "string, number (int)",
      "handler": "0x10216aeb0",
      "name": "remove_effect_bundle_from_force",
      "returns": ""
@@ -1997,7 +1997,7 @@
      "returns": ""
     },
     {
-     "args": "string, string, number",
+     "args": "string, string, number (int), number (int), number",
      "handler": "0x10216d004",
      "name": "render_campaign_to_file",
      "returns": ""
@@ -2015,19 +2015,19 @@
      "returns": ""
     },
     {
-     "args": "string, boolean, string, string, string",
+     "args": "string, boolean, string, number (int), string, string, userdata",
      "handler": "0x102165f64",
      "name": "save_named_value",
      "returns": ""
     },
     {
-     "args": "number, number, number, number, number, number, number, number, number, number, number",
+     "args": "number, number, number, number, number, table, number, number, number, table, number, number, number, table",
      "handler": "0x102163bb0",
      "name": "scroll_camera",
      "returns": ""
     },
     {
-     "args": "number, number, number, number, number, number, number, number, number, number, number, number, number, number",
+     "args": "number, number, number, number, number, number, table, number, number, number, number, table, number, number, number, number, table",
      "handler": "0x102164460",
      "name": "scroll_camera_with_direction",
      "returns": ""
@@ -2042,17 +2042,17 @@
      "args": "boolean",
      "handler": "0x10216d2c4",
      "name": "set_ai_uses_human_display_speed",
-     "returns": " + unidentified push sub_1038b23d0"
+     "returns": ""
     },
     {
-     "args": "",
-     "handler": null,
+     "args": "boolean",
+     "handler": "0x102163618",
      "name": "set_campaign_ai_force_all_factions_boardering_human_vassals_to_have_invasion_behaviour",
      "returns": ""
     },
     {
-     "args": "",
-     "handler": null,
+     "args": "boolean",
+     "handler": "0x1021635d0",
      "name": "set_campaign_ai_force_all_factions_boardering_humans_to_have_invasion_behaviour",
      "returns": ""
     },
@@ -2060,7 +2060,7 @@
      "args": "boolean",
      "handler": "0x10216c9a0",
      "name": "set_character_experience_disabled",
-     "returns": " + unidentified push sub_1038b23d0"
+     "returns": ""
     },
     {
      "args": "string, boolean",
@@ -2069,7 +2069,7 @@
      "returns": ""
     },
     {
-     "args": "",
+     "args": "number (int)",
      "handler": "0x10216c9e8",
      "name": "set_character_skill_tier_limit",
      "returns": ""
@@ -2078,7 +2078,7 @@
      "args": "boolean",
      "handler": "0x10216ca30",
      "name": "set_event_generation_enabled",
-     "returns": " + unidentified push sub_1038b23d0"
+     "returns": ""
     },
     {
      "args": "string, string",
@@ -2096,19 +2096,19 @@
      "args": "boolean",
      "handler": "0x10216c5e0",
      "name": "set_general_offered_dilemma_permitted",
-     "returns": " + unidentified push sub_1038b23d0"
+     "returns": ""
     },
     {
      "args": "boolean",
      "handler": "0x10216c958",
      "name": "set_ignore_end_of_turn_public_order",
-     "returns": " + unidentified push sub_1038b23d0"
+     "returns": ""
     },
     {
      "args": "boolean",
      "handler": "0x10216e1d4",
      "name": "set_imperium_level_change_disabled",
-     "returns": " + unidentified push sub_1038b23d0"
+     "returns": ""
     },
     {
      "args": "boolean",
@@ -2138,7 +2138,7 @@
      "args": "boolean",
      "handler": "0x10216e18c",
      "name": "set_only_allow_basic_recruit_stance",
-     "returns": " + unidentified push sub_1038b23d0"
+     "returns": ""
     },
     {
      "args": "string, boolean",
@@ -2147,7 +2147,7 @@
      "returns": ""
     },
     {
-     "args": "string",
+     "args": "string, number (int)",
      "handler": "0x10216d30c",
      "name": "set_public_order_of_province_for_region",
      "returns": ""
@@ -2165,7 +2165,7 @@
      "returns": ""
     },
     {
-     "args": "string",
+     "args": "string, number (int)",
      "handler": "0x102167e98",
      "name": "set_tax_rate",
      "returns": ""
@@ -2183,7 +2183,7 @@
      "returns": ""
     },
     {
-     "args": "",
+     "args": "number (int), number (int)",
      "handler": "0x10216e900",
      "name": "set_volume",
      "returns": ""
@@ -2195,13 +2195,13 @@
      "returns": ""
     },
     {
-     "args": "string, string, string, string, boolean",
+     "args": "string, string, string, string, boolean, number (int)",
      "handler": "0x1021675e8",
      "name": "show_message_event",
      "returns": ""
     },
     {
-     "args": "string, string, string, string, boolean",
+     "args": "string, string, string, string, number (int), number (int), boolean, number (int)",
      "handler": "0x102167900",
      "name": "show_message_event_located",
      "returns": ""
@@ -2210,7 +2210,7 @@
      "args": "boolean",
      "handler": "0x102165230",
      "name": "show_shroud",
-     "returns": " + unidentified push sub_1038b23d0"
+     "returns": ""
     },
     {
      "args": "",
@@ -2225,7 +2225,7 @@
      "returns": ""
     },
     {
-     "args": "string, string, string, string, string, boolean, string, string, boolean, string, boolean, boolean",
+     "args": "string, string, string, string, string, number (int), boolean, string, string, boolean, string, boolean, boolean",
      "handler": "0x10216df60",
      "name": "spawn_character_into_family_tree",
      "returns": ""
@@ -2240,7 +2240,7 @@
      "args": "boolean",
      "handler": "0x102165f1c",
      "name": "steal_user_input",
-     "returns": " + unidentified push sub_1038b23d0"
+     "returns": ""
     },
     {
      "args": "",
@@ -2258,7 +2258,7 @@
      "args": "boolean",
      "handler": "0x102165ed4",
      "name": "stop_user_input",
-     "returns": " + unidentified push sub_1038b23d0"
+     "returns": ""
     },
     {
      "args": "",
@@ -2291,7 +2291,7 @@
      "returns": ""
     },
     {
-     "args": "string",
+     "args": "string, number (int)",
      "handler": "0x10216bd78",
      "name": "treasury_mod",
      "returns": ""
@@ -2327,7 +2327,7 @@
      "returns": ""
     },
     {
-     "args": "string, boolean",
+     "args": "string, number (int), number (int), boolean",
      "handler": "0x10216a1e0",
      "name": "unhide_character",
      "returns": ""
@@ -2353,19 +2353,19 @@
    ]
   },
   "GARRISON_RESIDENCE_SCRIPT_INTERFACE": {
-   "method_table": "0x104f84200",
+   "method_table": "0x104f841e8",
    "methods": [
     {
      "args": "",
      "handler": "0x101d322e0",
      "name": "army",
-     "returns": ""
+     "returns": "MILITARY_FORCE_SCRIPT_INTERFACE, NULL_SCRIPT_INTERFACE"
     },
     {
      "args": "",
      "handler": "0x101d32494",
      "name": "buildings",
-     "returns": ""
+     "returns": "BUILDING_LIST_SCRIPT_INTERFACE"
     },
     {
      "args": "",
@@ -2425,7 +2425,7 @@
      "args": "",
      "handler": "0x101d32374",
      "name": "navy",
-     "returns": ""
+     "returns": "MILITARY_FORCE_SCRIPT_INTERFACE, NULL_SCRIPT_INTERFACE"
     },
     {
      "args": "",
@@ -2443,13 +2443,13 @@
      "args": "",
      "handler": "0x101d3278c",
      "name": "settlement_interface",
-     "returns": "SETTLEMENT_SCRIPT_INTERFACE"
+     "returns": "NULL_SCRIPT_INTERFACE, SETTLEMENT_SCRIPT_INTERFACE"
     },
     {
      "args": "",
      "handler": "0x101d32868",
      "name": "slot_interface",
-     "returns": "SLOT_SCRIPT_INTERFACE"
+     "returns": "NULL_SCRIPT_INTERFACE, SLOT_SCRIPT_INTERFACE"
     },
     {
      "args": "",
@@ -2460,19 +2460,19 @@
    ]
   },
   "MILITARY_FORCE_LIST_SCRIPT_INTERFACE": {
-   "method_table": null,
+   "method_table": "0x104f84938",
    "methods": [
     {
      "args": "",
-     "handler": null,
+     "handler": "0x101d34e50",
      "name": "is_empty",
-     "returns": ""
+     "returns": "boolean"
     },
     {
-     "args": "",
-     "handler": null,
+     "args": "number",
+     "handler": "0x101d34db8",
      "name": "item_at",
-     "returns": ""
+     "returns": "MILITARY_FORCE_SCRIPT_INTERFACE"
     },
     {
      "args": "",
@@ -2482,14 +2482,14 @@
     },
     {
      "args": "",
-     "handler": null,
+     "handler": "0x101d34d88",
      "name": "num_items",
-     "returns": ""
+     "returns": "number (uint)"
     }
    ]
   },
   "MILITARY_FORCE_SCRIPT_INTERFACE": {
-   "method_table": "0x104f84770",
+   "method_table": "0x104f84758",
    "methods": [
     {
      "args": "",
@@ -2507,7 +2507,7 @@
      "args": "",
      "handler": "0x101d34bb4",
      "name": "buildings",
-     "returns": ""
+     "returns": "MILITARY_FORCE_BUILDING_LIST_SCRIPT_INTERFACE"
     },
     {
      "args": "string",
@@ -2519,7 +2519,7 @@
      "args": "",
      "handler": "0x101d343cc",
      "name": "character_list",
-     "returns": ""
+     "returns": "CHARACTER_LIST_SCRIPT_INTERFACE"
     },
     {
      "args": "",
@@ -2543,13 +2543,13 @@
      "args": "",
      "handler": "0x101d34680",
      "name": "garrison_residence",
-     "returns": ""
+     "returns": "GARRISON_RESIDENCE_SCRIPT_INTERFACE, NULL_SCRIPT_INTERFACE"
     },
     {
      "args": "",
      "handler": "0x101d34514",
      "name": "general_character",
-     "returns": ""
+     "returns": "CHARACTER_SCRIPT_INTERFACE, NULL_SCRIPT_INTERFACE"
     },
     {
      "args": "",
@@ -2603,7 +2603,7 @@
      "args": "",
      "handler": "0x101d34280",
      "name": "unit_list",
-     "returns": ""
+     "returns": "UNIT_LIST_SCRIPT_INTERFACE"
     },
     {
      "args": "",
@@ -2614,16 +2614,16 @@
    ]
   },
   "MODEL_SCRIPT_INTERFACE": {
-   "method_table": "0x104f82f70",
+   "method_table": "0x104f82f58",
    "methods": [
     {
      "args": "",
      "handler": "0x101d29df0",
      "name": "campaign_ai",
-     "returns": "object: CAMPAIGN_AI_SCRIPT_INTERFACE (wraps ?)"
+     "returns": "CAMPAIGN_AI_SCRIPT_INTERFACE"
     },
     {
-     "args": "",
+     "args": "string",
      "handler": "0x101d29858",
      "name": "campaign_name",
      "returns": "boolean"
@@ -2635,7 +2635,7 @@
      "returns": "number (uint)"
     },
     {
-     "args": "2 values",
+     "args": "CHARACTER_SCRIPT_INTERFACE, CHARACTER_SCRIPT_INTERFACE",
      "handler": "0x101d29af0",
      "name": "character_can_reach_character",
      "returns": "boolean"
@@ -2644,7 +2644,7 @@
      "args": "",
      "handler": "0x101d29f30",
      "name": "character_for_command_queue_index",
-     "returns": "CHARACTER_SCRIPT_INTERFACE"
+     "returns": "CHARACTER_SCRIPT_INTERFACE, NULL_SCRIPT_INTERFACE"
     },
     {
      "args": "",
@@ -2668,10 +2668,10 @@
      "args": "",
      "handler": "0x101d2a088",
      "name": "faction_for_command_queue_index",
-     "returns": "FACTION_SCRIPT_INTERFACE"
+     "returns": "FACTION_SCRIPT_INTERFACE, NULL_SCRIPT_INTERFACE"
     },
     {
-     "args": "",
+     "args": "string",
      "handler": "0x101d29c7c",
      "name": "faction_is_local",
      "returns": "boolean"
@@ -2716,7 +2716,7 @@
      "args": "",
      "handler": "0x101d29fdc",
      "name": "military_force_for_command_queue_index",
-     "returns": "MILITARY_FORCE_SCRIPT_INTERFACE"
+     "returns": "MILITARY_FORCE_SCRIPT_INTERFACE, NULL_SCRIPT_INTERFACE"
     },
     {
      "args": "",
@@ -2763,25 +2763,25 @@
    ]
   },
   "MPAvatar": {
-   "method_table": null,
+   "method_table": "0x1050023b8",
    "methods": [
     {
      "args": "",
-     "handler": null,
+     "handler": "0x103647d1c",
      "name": "Free",
      "returns": ""
     },
     {
-     "args": "",
-     "handler": null,
+     "args": "userdata, number (int), boolean",
+     "handler": "0x103647aa8",
      "name": "SetComponentTexture",
      "returns": ""
     },
     {
      "args": "",
-     "handler": null,
+     "handler": "0x103647d4c",
      "name": "Valid",
-     "returns": ""
+     "returns": "boolean"
     },
     {
      "args": "",
@@ -2809,7 +2809,7 @@
    ]
   },
   "PENDING_BATTLE_SCRIPT_INTERFACE": {
-   "method_table": "0x104f84cf8",
+   "method_table": "0x104f84ce0",
    "methods": [
     {
      "args": "",
@@ -2821,7 +2821,7 @@
      "args": "",
      "handler": "0x101d35de4",
      "name": "attacker",
-     "returns": ""
+     "returns": "CHARACTER_SCRIPT_INTERFACE, NULL_SCRIPT_INTERFACE"
     },
     {
      "args": "",
@@ -2851,7 +2851,7 @@
      "args": "",
      "handler": "0x101d3684c",
      "name": "attacker_strength",
-     "returns": "number (float)"
+     "returns": "number"
     },
     {
      "args": "",
@@ -2863,13 +2863,13 @@
      "args": "",
      "handler": "0x101d35efc",
      "name": "contested_garrison",
-     "returns": ""
+     "returns": "GARRISON_RESIDENCE_SCRIPT_INTERFACE, NULL_SCRIPT_INTERFACE"
     },
     {
      "args": "",
      "handler": "0x101d35e70",
      "name": "defender",
-     "returns": ""
+     "returns": "CHARACTER_SCRIPT_INTERFACE, NULL_SCRIPT_INTERFACE"
     },
     {
      "args": "",
@@ -2893,7 +2893,7 @@
      "args": "",
      "handler": "0x101d368ac",
      "name": "defender_strength",
-     "returns": "number (float)"
+     "returns": "number"
     },
     {
      "args": "",
@@ -2959,25 +2959,25 @@
      "args": "",
      "handler": "0x101d36068",
      "name": "percentage_of_attacker_killed",
-     "returns": "number (float)"
+     "returns": "number"
     },
     {
      "args": "",
      "handler": "0x101d36180",
      "name": "percentage_of_attacker_routed",
-     "returns": "number (float)"
+     "returns": "number"
     },
     {
      "args": "",
      "handler": "0x101d360f4",
      "name": "percentage_of_defender_killed",
-     "returns": "number (float)"
+     "returns": "number"
     },
     {
      "args": "",
      "handler": "0x101d36204",
      "name": "percentage_of_defender_routed",
-     "returns": "number (float)"
+     "returns": "number"
     },
     {
      "args": "",
@@ -2988,19 +2988,19 @@
    ]
   },
   "REGION_LIST_SCRIPT_INTERFACE": {
-   "method_table": null,
+   "method_table": "0x104f84188",
    "methods": [
     {
      "args": "",
-     "handler": null,
+     "handler": "0x101d320d0",
      "name": "is_empty",
-     "returns": ""
+     "returns": "boolean"
     },
     {
-     "args": "",
-     "handler": null,
+     "args": "number",
+     "handler": "0x101d32038",
      "name": "item_at",
-     "returns": ""
+     "returns": "REGION_SCRIPT_INTERFACE"
     },
     {
      "args": "",
@@ -3010,20 +3010,20 @@
     },
     {
      "args": "",
-     "handler": null,
+     "handler": "0x101d32008",
      "name": "num_items",
-     "returns": ""
+     "returns": "number (uint)"
     }
    ]
   },
   "REGION_MANAGER_SCRIPT_INTERFACE": {
-   "method_table": "0x104f83e88",
+   "method_table": "0x104f83e70",
    "methods": [
     {
      "args": "1 values",
      "handler": "0x101d3016c",
      "name": "faction_region_list",
-     "returns": ""
+     "returns": "REGION_LIST_SCRIPT_INTERFACE"
     },
     {
      "args": "",
@@ -3047,16 +3047,16 @@
      "args": "string",
      "handler": "0x101d30358",
      "name": "region_by_key",
-     "returns": ""
+     "returns": "NULL_SCRIPT_INTERFACE, REGION_SCRIPT_INTERFACE"
     },
     {
      "args": "",
      "handler": "0x101d30124",
      "name": "region_list",
-     "returns": ""
+     "returns": "REGION_LIST_SCRIPT_INTERFACE"
     },
     {
-     "args": "",
+     "args": "string",
      "handler": "0x101d308b0",
      "name": "resource_exists_anywhere",
      "returns": "boolean"
@@ -3065,24 +3065,24 @@
      "args": "string",
      "handler": "0x101d30520",
      "name": "settlement_by_key",
-     "returns": ""
+     "returns": "NULL_SCRIPT_INTERFACE, SETTLEMENT_SCRIPT_INTERFACE"
     },
     {
      "args": "string",
      "handler": "0x101d306e8",
      "name": "slot_by_key",
-     "returns": ""
+     "returns": "NULL_SCRIPT_INTERFACE, SLOT_SCRIPT_INTERFACE"
     }
    ]
   },
   "REGION_SCRIPT_INTERFACE": {
-   "method_table": "0x104f83f60",
+   "method_table": "0x104f83f48",
    "methods": [
     {
      "args": "",
      "handler": "0x101d3171c",
      "name": "adjacent_region_list",
-     "returns": ""
+     "returns": "REGION_LIST_SCRIPT_INTERFACE"
     },
     {
      "args": "string",
@@ -3136,7 +3136,7 @@
      "args": "",
      "handler": "0x101d317f8",
      "name": "majority_religion_percentage",
-     "returns": "number (float)"
+     "returns": "number"
     },
     {
      "args": "",
@@ -3178,7 +3178,7 @@
      "args": "",
      "handler": "0x101d31868",
      "name": "region_wealth_change_percent",
-     "returns": "number (float)"
+     "returns": "number"
     },
     {
      "args": "string",
@@ -3202,7 +3202,7 @@
      "args": "",
      "handler": "0x101d30f44",
      "name": "slot_list",
-     "returns": ""
+     "returns": "SLOT_LIST_SCRIPT_INTERFACE"
     },
     {
      "args": "string",
@@ -3225,25 +3225,25 @@
    ]
   },
   "SETTLEMENT_SCRIPT_INTERFACE": {
-   "method_table": "0x104f84398",
+   "method_table": "0x104f84380",
    "methods": [
     {
      "args": "",
      "handler": "0x101d32ea8",
      "name": "commander",
-     "returns": ""
+     "returns": "CHARACTER_SCRIPT_INTERFACE, NULL_SCRIPT_INTERFACE"
     },
     {
      "args": "",
      "handler": "0x101d32d54",
      "name": "display_position_x",
-     "returns": "number (float)"
+     "returns": "number"
     },
     {
      "args": "",
      "handler": "0x101d32db8",
      "name": "display_position_y",
-     "returns": "number (float)"
+     "returns": "number"
     },
     {
      "args": "",
@@ -3297,30 +3297,30 @@
      "args": "",
      "handler": "0x101d3307c",
      "name": "slot_list",
-     "returns": ""
+     "returns": "SLOT_LIST_SCRIPT_INTERFACE"
     }
    ]
   },
   "SLOT_LIST_SCRIPT_INTERFACE": {
-   "method_table": null,
+   "method_table": "0x104f84578",
    "methods": [
     {
-     "args": "",
-     "handler": null,
+     "args": "string",
+     "handler": "0x101d33a18",
      "name": "buliding_type_exists",
-     "returns": ""
+     "returns": "boolean"
     },
     {
      "args": "",
-     "handler": null,
+     "handler": "0x101d338ac",
      "name": "is_empty",
-     "returns": ""
+     "returns": "boolean"
     },
     {
-     "args": "",
-     "handler": null,
+     "args": "number",
+     "handler": "0x101d33814",
      "name": "item_at",
-     "returns": ""
+     "returns": "SLOT_SCRIPT_INTERFACE"
     },
     {
      "args": "",
@@ -3330,26 +3330,26 @@
     },
     {
      "args": "",
-     "handler": null,
+     "handler": "0x101d337e4",
      "name": "num_items",
-     "returns": ""
+     "returns": "number (uint)"
     },
     {
-     "args": "",
-     "handler": null,
+     "args": "string",
+     "handler": "0x101d338e4",
      "name": "slot_type_exists",
-     "returns": ""
+     "returns": "boolean"
     }
    ]
   },
   "SLOT_SCRIPT_INTERFACE": {
-   "method_table": "0x104f844b8",
+   "method_table": "0x104f844a0",
    "methods": [
     {
      "args": "",
      "handler": "0x101d33534",
      "name": "building",
-     "returns": ""
+     "returns": "BUILDING_SCRIPT_INTERFACE, NULL_SCRIPT_INTERFACE"
     },
     {
      "args": "",
@@ -3425,577 +3425,577 @@
    ]
   },
   "UIComponent": {
-   "method_table": null,
+   "method_table": "0x105001290",
    "methods": [
     {
      "args": "",
-     "handler": null,
+     "handler": "0x1032f9668",
      "name": "Address",
-     "returns": ""
+     "returns": "Pointer<Component>"
     },
     {
-     "args": "",
-     "handler": null,
+     "args": "userdata, number (int)",
+     "handler": "0x1032f9430",
      "name": "Adopt",
      "returns": ""
     },
     {
-     "args": "",
-     "handler": null,
+     "args": "userdata",
+     "handler": "0x1032fb860",
      "name": "AttachCustomControl",
      "returns": ""
     },
     {
      "args": "",
-     "handler": null,
+     "handler": "0x1032f8908",
      "name": "Bounds",
-     "returns": ""
+     "returns": "number"
     },
     {
      "args": "",
-     "handler": null,
+     "handler": "0x1032f97b8",
      "name": "CallbackId",
-     "returns": ""
+     "returns": "string"
     },
     {
      "args": "",
-     "handler": null,
+     "handler": "0x1032f8f90",
      "name": "ChildCount",
-     "returns": ""
+     "returns": "number (int)"
     },
     {
      "args": "",
-     "handler": null,
+     "handler": "0x1032fd334",
      "name": "ClearSound",
      "returns": ""
     },
     {
-     "args": "",
-     "handler": null,
+     "args": "string, string",
+     "handler": "0x1032fd3ac",
      "name": "CreateComponent",
-     "returns": ""
+     "returns": "Pointer<Component>"
     },
     {
      "args": "",
-     "handler": null,
+     "handler": "0x1032fd288",
      "name": "CurrentAnimationId",
      "returns": ""
     },
     {
      "args": "",
-     "handler": null,
+     "handler": "0x1032f8fd4",
      "name": "CurrentState",
      "returns": ""
     },
     {
      "args": "",
-     "handler": null,
+     "handler": "0x1032fc808",
      "name": "CurrentStateUI",
      "returns": ""
     },
     {
      "args": "",
-     "handler": null,
+     "handler": "0x1032f912c",
      "name": "DestroyChildren",
      "returns": ""
     },
     {
      "args": "",
-     "handler": null,
+     "handler": "0x1032f9c80",
      "name": "Dimensions",
-     "returns": ""
+     "returns": "number"
     },
     {
-     "args": "",
-     "handler": null,
+     "args": "userdata",
+     "handler": "0x1032f94d4",
      "name": "Divorce",
-     "returns": ""
+     "returns": "number (int)"
     },
     {
      "args": "",
-     "handler": null,
+     "handler": "0x1032fc5bc",
      "name": "DockingPoint",
-     "returns": ""
+     "returns": "number (int)"
     },
     {
-     "args": "",
-     "handler": null,
+     "args": "number (int), string, boolean",
+     "handler": "0x1032fab1c",
      "name": "Find",
-     "returns": ""
+     "returns": "Pointer<Component>"
     },
     {
-     "args": "",
-     "handler": null,
+     "args": "string, number (int)",
+     "handler": "0x1032fbe04",
      "name": "FindPositionIntoCurrentText",
-     "returns": ""
+     "returns": "number (int)"
     },
     {
-     "args": "",
-     "handler": null,
+     "args": "string, number (int)",
+     "handler": "0x1032fbef8",
      "name": "FindTextSnapPosition",
-     "returns": ""
+     "returns": "number (int)"
     },
     {
      "args": "",
-     "handler": null,
+     "handler": "0x1032fc810",
      "name": "ForceEvent",
      "returns": ""
     },
     {
-     "args": "",
-     "handler": null,
+     "args": "string",
+     "handler": "0x1032f8df0",
      "name": "GetProperty",
-     "returns": ""
+     "returns": "string"
     },
     {
      "args": "",
-     "handler": null,
+     "handler": "0x1032f8d18",
      "name": "GetStateText",
-     "returns": ""
+     "returns": "number (uint), string"
     },
     {
      "args": "",
-     "handler": null,
+     "handler": "0x1032fbfec",
      "name": "GetStateTextDetails",
      "returns": ""
     },
     {
      "args": "",
-     "handler": null,
+     "handler": "0x1032f9384",
      "name": "GetTooltipText",
-     "returns": ""
+     "returns": "string"
     },
     {
      "args": "",
-     "handler": null,
+     "handler": "0x1032fb850",
      "name": "GlobalExists",
      "returns": ""
     },
     {
      "args": "",
-     "handler": null,
+     "handler": "0x1032fc95c",
      "name": "HasInterface",
-     "returns": ""
+     "returns": "boolean"
     },
     {
      "args": "",
-     "handler": null,
+     "handler": "0x1032f88a4",
      "name": "Height",
-     "returns": ""
+     "returns": "number"
     },
     {
-     "args": "",
-     "handler": null,
+     "args": "boolean",
+     "handler": "0x1032fbda0",
      "name": "Highlight",
      "returns": ""
     },
     {
      "args": "",
-     "handler": null,
+     "handler": "0x1032f9774",
      "name": "Id",
-     "returns": ""
+     "returns": "string"
     },
     {
      "args": "",
-     "handler": null,
+     "handler": "0x1032fc8b0",
      "name": "InterfaceFunction",
      "returns": ""
     },
     {
-     "args": "",
-     "handler": null,
+     "args": "string",
+     "handler": "0x1032fc464",
      "name": "IsCharPrintable",
-     "returns": ""
+     "returns": "boolean"
     },
     {
      "args": "",
-     "handler": null,
+     "handler": "0x1032f9be4",
      "name": "IsDragged",
-     "returns": ""
+     "returns": "boolean"
     },
     {
      "args": "",
-     "handler": null,
+     "handler": "0x1032fba88",
      "name": "IsInteractive",
-     "returns": ""
+     "returns": "boolean"
     },
     {
      "args": "",
-     "handler": null,
+     "handler": "0x1032fc7c0",
      "name": "IsMouseOverChildren",
-     "returns": ""
+     "returns": "boolean"
     },
     {
      "args": "",
-     "handler": null,
+     "handler": "0x1032fbc60",
      "name": "IsMoveable",
-     "returns": ""
+     "returns": "boolean"
     },
     {
      "args": "",
-     "handler": null,
+     "handler": "0x1032faf5c",
      "name": "Layout",
      "returns": ""
     },
     {
-     "args": "",
-     "handler": null,
+     "args": "number (int)",
+     "handler": "0x1032fc9a8",
      "name": "LockPriority",
      "returns": ""
     },
     {
      "args": "",
-     "handler": null,
+     "handler": "0x1032f8f88",
      "name": "LuaCall",
      "returns": ""
     },
     {
-     "args": "",
-     "handler": null,
+     "args": "number, number",
+     "handler": "0x1032f8f24",
      "name": "MoveTo",
      "returns": ""
     },
     {
      "args": "",
-     "handler": null,
+     "handler": "0x1032fd4e8",
      "name": "Opacity",
-     "returns": ""
+     "returns": "number (uint)"
     },
     {
-     "args": "",
-     "handler": null,
+     "args": "number (int), string, boolean",
+     "handler": "0x1032fafcc",
      "name": "Parent",
-     "returns": ""
+     "returns": "Pointer<Component>"
     },
     {
-     "args": "",
-     "handler": null,
+     "args": "boolean",
+     "handler": "0x1032fbd2c",
      "name": "PopulateTextures",
      "returns": ""
     },
     {
      "args": "",
-     "handler": null,
+     "handler": "0x1032f8ecc",
      "name": "Position",
-     "returns": ""
+     "returns": "number"
     },
     {
      "args": "",
-     "handler": null,
+     "handler": "0x1032f9570",
      "name": "Priority",
-     "returns": ""
+     "returns": "number (int)"
     },
     {
-     "args": "",
-     "handler": null,
+     "args": "number (int), number (int), number (int), number (int)",
+     "handler": "0x1032fb4f4",
      "name": "PropagateImageColour",
-     "returns": ""
+     "returns": "boolean"
     },
     {
-     "args": "",
-     "handler": null,
+     "args": "boolean, number (int)",
+     "handler": "0x1032fb794",
      "name": "PropagateOpacity",
-     "returns": ""
+     "returns": "boolean"
     },
     {
-     "args": "",
-     "handler": null,
+     "args": "number (int)",
+     "handler": "0x1032f9078",
      "name": "PropagatePriority",
-     "returns": ""
+     "returns": "number (int)"
     },
     {
-     "args": "",
-     "handler": null,
+     "args": "boolean",
+     "handler": "0x1032f902c",
      "name": "PropagateVisibility",
      "returns": ""
     },
     {
-     "args": "",
-     "handler": null,
+     "args": "userdata, table",
+     "handler": "0x1032f97fc",
      "name": "ReorderChildren",
-     "returns": ""
+     "returns": "boolean"
     },
     {
-     "args": "",
-     "handler": null,
+     "args": "number, number, boolean, boolean",
+     "handler": "0x1032f96b0",
      "name": "Resize",
      "returns": ""
     },
     {
-     "args": "",
-     "handler": null,
+     "args": "table",
+     "handler": "0x1032fc024",
      "name": "RestoreUIHeirarchy",
-     "returns": ""
+     "returns": "number (int), string, table"
     },
     {
      "args": "",
-     "handler": null,
+     "handler": "0x1032fbd7c",
      "name": "RunScript",
      "returns": ""
     },
     {
      "args": "",
-     "handler": null,
+     "handler": "0x1032fbff4",
      "name": "SaveUIHeirarchy",
      "returns": ""
     },
     {
-     "args": "",
-     "handler": null,
+     "args": "string",
+     "handler": "0x1032fad54",
      "name": "SequentialFind",
-     "returns": ""
+     "returns": "string, Pointer<Component>, UIComponent"
     },
     {
-     "args": "",
-     "handler": null,
+     "args": "boolean",
+     "handler": "0x1032fb9d0",
      "name": "SetDisabled",
      "returns": ""
     },
     {
-     "args": "",
-     "handler": null,
+     "args": "number (int), number (int)",
+     "handler": "0x1032fc628",
      "name": "SetDockingPoint",
      "returns": ""
     },
     {
      "args": "",
-     "handler": null,
+     "handler": "0x1032f9c78",
      "name": "SetDragged",
      "returns": ""
     },
     {
      "args": "",
-     "handler": null,
+     "handler": "0x1032fbad0",
      "name": "SetEventCallback",
      "returns": ""
     },
     {
      "args": "",
-     "handler": null,
+     "handler": "0x1032fb858",
      "name": "SetGlobal",
      "returns": ""
     },
     {
-     "args": "",
-     "handler": null,
+     "args": "boolean, number (int), number (int), number (int), number (int), number (int)",
+     "handler": "0x1032fb298",
      "name": "SetImageColour",
-     "returns": ""
+     "returns": "boolean"
     },
     {
-     "args": "",
-     "handler": null,
+     "args": "number (int), number, number, number, number (int), number",
+     "handler": "0x1032fb17c",
      "name": "SetImageRotation",
      "returns": ""
     },
     {
-     "args": "",
-     "handler": null,
+     "args": "boolean",
+     "handler": "0x1032fb984",
      "name": "SetInteractive",
      "returns": ""
     },
     {
-     "args": "",
-     "handler": null,
+     "args": "boolean",
+     "handler": "0x1032fbc14",
      "name": "SetMoveable",
      "returns": ""
     },
     {
-     "args": "",
-     "handler": null,
+     "args": "boolean, number (int)",
+     "handler": "0x1032fb5a0",
      "name": "SetOpacity",
-     "returns": ""
+     "returns": "boolean"
     },
     {
      "args": "",
-     "handler": null,
+     "handler": "0x1032f8ec4",
      "name": "SetProperty",
      "returns": ""
     },
     {
-     "args": "",
-     "handler": null,
+     "args": "string, boolean",
+     "handler": "0x1032f89f0",
      "name": "SetState",
-     "returns": ""
+     "returns": "boolean"
     },
     {
-     "args": "",
-     "handler": null,
+     "args": "number (int), number (int), number (int), number (int)",
+     "handler": "0x1032fccbc",
      "name": "SetStateColours",
      "returns": ""
     },
     {
-     "args": "",
-     "handler": null,
+     "args": "string, boolean, number (int)",
+     "handler": "0x1032f8b0c",
      "name": "SetStateText",
-     "returns": ""
+     "returns": "number (int), number (uint)"
     },
     {
      "args": "",
-     "handler": null,
+     "handler": "0x1032fbdf4",
      "name": "SetStateTextDetails",
      "returns": ""
     },
     {
      "args": "",
-     "handler": null,
+     "handler": "0x1032fbdfc",
      "name": "SetStateTextXOffset",
      "returns": ""
     },
     {
-     "args": "",
-     "handler": null,
+     "args": "string, boolean",
+     "handler": "0x1032f9188",
      "name": "SetTooltipText",
      "returns": ""
     },
     {
-     "args": "",
-     "handler": null,
+     "args": "string, boolean",
+     "handler": "0x1032f927c",
      "name": "SetTooltipTextWithRLSKey",
      "returns": ""
     },
     {
-     "args": "",
-     "handler": null,
+     "args": "boolean",
+     "handler": "0x1032f90e0",
      "name": "SetVisible",
      "returns": ""
     },
     {
      "args": "",
-     "handler": null,
+     "handler": "0x1032f9f08",
      "name": "ShaderTechniqueGet",
-     "returns": ""
+     "returns": "number (uint)"
     },
     {
-     "args": "",
-     "handler": null,
+     "args": "number (int), string, boolean, boolean",
+     "handler": "0x1032f9cf4",
      "name": "ShaderTechniqueSet",
      "returns": ""
     },
     {
      "args": "",
-     "handler": null,
+     "handler": "0x1032fa444",
      "name": "ShaderVarsGet",
-     "returns": ""
+     "returns": "number"
     },
     {
-     "args": "",
-     "handler": null,
+     "args": "number, number, number, number, boolean, boolean",
+     "handler": "0x1032fa01c",
      "name": "ShaderVarsSet",
      "returns": ""
     },
     {
      "args": "",
-     "handler": null,
+     "handler": "0x1032fcda4",
      "name": "SimulateClick",
      "returns": ""
     },
     {
-     "args": "",
-     "handler": null,
+     "args": "string",
+     "handler": "0x1032fcf9c",
      "name": "SimulateKey",
      "returns": ""
     },
     {
-     "args": "",
-     "handler": null,
+     "args": "number, number",
+     "handler": "0x1032fcdbc",
      "name": "SimulateLClick",
-     "returns": ""
+     "returns": "boolean"
     },
     {
-     "args": "",
-     "handler": null,
+     "args": "number, number",
+     "handler": "0x1032fd164",
      "name": "SimulateMouseMove",
      "returns": ""
     },
     {
      "args": "",
-     "handler": null,
+     "handler": "0x1032fd108",
      "name": "SimulateMouseOff",
      "returns": ""
     },
     {
      "args": "",
-     "handler": null,
+     "handler": "0x1032fd0b8",
      "name": "SimulateMouseOn",
      "returns": ""
     },
     {
-     "args": "",
-     "handler": null,
+     "args": "number, number",
+     "handler": "0x1032fceac",
      "name": "SimulateRClick",
-     "returns": ""
+     "returns": "boolean"
     },
     {
-     "args": "",
-     "handler": null,
+     "args": "boolean",
+     "handler": "0x1032fbca4",
      "name": "StealInputFocus",
      "returns": ""
     },
     {
-     "args": "",
-     "handler": null,
+     "args": "boolean, string",
+     "handler": "0x1032fbad8",
      "name": "StealShortcutKey",
-     "returns": ""
+     "returns": "boolean"
     },
     {
      "args": "",
-     "handler": null,
+     "handler": "0x1032fcc44",
      "name": "TextDimensions",
-     "returns": ""
+     "returns": "number (uint)"
     },
     {
-     "args": "",
-     "handler": null,
+     "args": "number (int), string, boolean",
+     "handler": "0x1032fa574",
      "name": "TextShaderTechniqueSet",
      "returns": ""
     },
     {
      "args": "",
-     "handler": null,
+     "handler": "0x1032faa14",
      "name": "TextShaderVarsGet",
-     "returns": ""
+     "returns": "number"
     },
     {
-     "args": "",
-     "handler": null,
+     "args": "number, number, number, number, boolean",
+     "handler": "0x1032fa794",
      "name": "TextShaderVarsSet",
      "returns": ""
     },
     {
-     "args": "",
-     "handler": null,
+     "args": "string",
+     "handler": "0x1032fc818",
      "name": "TriggerAnimation",
-     "returns": ""
+     "returns": "boolean"
     },
     {
-     "args": "",
-     "handler": null,
+     "args": "string",
+     "handler": "0x1032fd1fc",
      "name": "TriggerShortcut",
      "returns": ""
     },
     {
      "args": "",
-     "handler": null,
+     "handler": "0x1032fcb24",
      "name": "UnLockPriority",
      "returns": ""
     },
     {
-     "args": "",
-     "handler": null,
+     "args": "boolean",
+     "handler": "0x1032f95b4",
      "name": "Visible",
-     "returns": ""
+     "returns": "boolean"
     },
     {
      "args": "",
-     "handler": null,
+     "handler": "0x1032f8840",
      "name": "Width",
-     "returns": ""
+     "returns": "number"
     },
     {
-     "args": "",
-     "handler": null,
+     "args": "string",
+     "handler": "0x1032fc6e0",
      "name": "WidthOfTextLine",
-     "returns": ""
+     "returns": "number (uint)"
     },
     {
      "args": "",
@@ -4006,25 +4006,25 @@
    ]
   },
   "UNIT_LIST_SCRIPT_INTERFACE": {
-   "method_table": null,
+   "method_table": "0x104f84c68",
    "methods": [
     {
-     "args": "",
-     "handler": null,
+     "args": "string",
+     "handler": "0x101d35b18",
      "name": "has_unit",
-     "returns": ""
+     "returns": "boolean"
     },
     {
      "args": "",
-     "handler": null,
+     "handler": "0x101d35ae0",
      "name": "is_empty",
-     "returns": ""
+     "returns": "boolean"
     },
     {
-     "args": "",
-     "handler": null,
+     "args": "number",
+     "handler": "0x101d35a48",
      "name": "item_at",
-     "returns": ""
+     "returns": "UNIT_SCRIPT_INTERFACE"
     },
     {
      "args": "",
@@ -4034,14 +4034,14 @@
     },
     {
      "args": "",
-     "handler": null,
+     "handler": "0x101d35a18",
      "name": "num_items",
-     "returns": ""
+     "returns": "number (uint)"
     }
    ]
   },
   "UNIT_SCRIPT_INTERFACE": {
-   "method_table": "0x104f84ae8",
+   "method_table": "0x104f84ad0",
    "methods": [
     {
      "args": "",
@@ -4065,7 +4065,7 @@
      "args": "",
      "handler": "0x101d35584",
      "name": "force_commander",
-     "returns": ""
+     "returns": "CHARACTER_SCRIPT_INTERFACE, NULL_SCRIPT_INTERFACE"
     },
     {
      "args": "",
@@ -4119,7 +4119,7 @@
      "args": "",
      "handler": "0x101d358a8",
      "name": "percentage_proportion_of_full_strength",
-     "returns": "number (float)"
+     "returns": "number"
     },
     {
      "args": "",
@@ -4137,7 +4137,7 @@
      "args": "",
      "handler": "0x101d35610",
      "name": "unit_commander",
-     "returns": ""
+     "returns": "CHARACTER_SCRIPT_INTERFACE, NULL_SCRIPT_INTERFACE"
     },
     {
      "args": "",
@@ -4148,10 +4148,10 @@
    ]
   },
   "WORLD_SCRIPT_INTERFACE": {
-   "method_table": "0x104f82e98",
+   "method_table": "0x104f82e80",
    "methods": [
     {
-     "args": "",
+     "args": "string",
      "handler": "0x101d29074",
      "name": "ancillary_exists",
      "returns": "boolean"
@@ -4163,13 +4163,13 @@
      "returns": "number (int)"
     },
     {
-     "args": "",
+     "args": "string",
      "handler": "0x101d28eb4",
      "name": "faction_by_key",
-     "returns": ""
+     "returns": "FACTION_SCRIPT_INTERFACE, NULL_SCRIPT_INTERFACE"
     },
     {
-     "args": "",
+     "args": "string",
      "handler": "0x101d28fb4",
      "name": "faction_exists",
      "returns": "boolean"
@@ -4178,7 +4178,7 @@
      "args": "",
      "handler": "0x101d28d5c",
      "name": "faction_list",
-     "returns": ""
+     "returns": "FACTION_LIST_SCRIPT_INTERFACE"
     },
     {
      "args": "",

@@ -10,4 +10,4 @@ Generated from a dump of the game's Lua in a campaign, the script interfaces' me
 - [Events](events.md): 260 events
 - [attila-api.json](attila-api.json): all of it as data
 
-442 of the 675 engine methods have an argument or return type so far. To regenerate: see `tools/apigen/README.md`.
+583 of the 675 engine methods have an argument or return type so far. To regenerate: see `tools/apigen/README.md`.
