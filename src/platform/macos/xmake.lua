@@ -23,7 +23,6 @@ target("twase")
             add_files(path.join(dir, "*.mm"), {mxflags = "-fobjc-arc"})
         end
     end
-    add_includedirs("dylib")
 
     -- ImGui Metal backend (not built by the imgui package), manual reference counting
     add_files("thirdparty/imgui_backends/*.mm")
@@ -35,6 +34,11 @@ target("twase")
         add_files(path.join(dir, "*.cpp"))
         add_headerfiles(path.join(dir, "*.hpp"))
     end
+
+    -- shared core (src/core), it includes this platform's headers by name: App.hpp, Hooks/..., Attila/... from the sdk
+    add_files("../../core/*.cpp", "../../core/UI/*.cpp")
+    add_headerfiles("../../core/*.hpp", "../../core/UI/*.hpp")
+    add_includedirs("../../core", "dylib", "sdk")
 
     -- precompiled header
     set_pcxxheader("dylib/stdafx.hpp")

@@ -1,8 +1,8 @@
 #include "RunStartupPath.hpp"
 
 #include "../App.hpp"
-#include "../Config.hpp"
-#include "../UI/LuaConsole.hpp"
+#include "Config.hpp"
+#include "UI/LuaConsole.hpp"
 #include "../Hooking/Hook.hpp"
 
 #include "../../sdk/Attila/Lua/LuaRuntime.hpp"

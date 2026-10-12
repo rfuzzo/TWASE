@@ -5,7 +5,7 @@
 #include <cmath>
 
 #include "../App.hpp"
-#include "../Config.hpp"
+#include "Config.hpp"
 #include "../Image.hpp"
 #include "../Utils.hpp"
 #include "../Hooking/Hook.hpp"

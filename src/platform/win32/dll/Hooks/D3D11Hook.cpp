@@ -1,6 +1,6 @@
 #include "D3D11Hook.hpp"
 
-#include "../UI/LuaConsole.hpp"
+#include "UI/LuaConsole.hpp"
 
 #include <d3d11.h>
 #include <dxgi.h>
@@ -117,6 +117,9 @@ static HRESULT WINAPI HookedPresent(IDXGISwapChain* pSwapChain, UINT SyncInterva
             spdlog::info("ImGui initialized on game window");
         }
     }
+
+    // run the commands typed into the console, Windows has always run them from Present
+    LuaConsole::Get().ProcessPending();
 
     if (g_imguiInitialized)
     {

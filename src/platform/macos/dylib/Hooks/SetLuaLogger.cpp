@@ -3,10 +3,10 @@
 #include "SetLuaLogger.hpp"
 
 #include "../App.hpp"
-#include "../Config.hpp"
+#include "Config.hpp"
 #include "../Image.hpp"
 #include "../Hooking/Memory.hpp"
-#include "../UI/LuaConsole.hpp"
+#include "UI/LuaConsole.hpp"
 
 #include "../../sdk/Attila/Addresses.hpp"
 

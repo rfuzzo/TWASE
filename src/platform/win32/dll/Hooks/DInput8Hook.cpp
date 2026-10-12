@@ -1,5 +1,5 @@
 #include "DInput8Hook.hpp"
-#include "../UI/LuaConsole.hpp"
+#include "UI/LuaConsole.hpp"
 
 #include <initguid.h>
 #define DIRECTINPUT_VERSION 0x0800

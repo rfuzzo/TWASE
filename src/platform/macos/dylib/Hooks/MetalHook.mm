@@ -4,7 +4,7 @@
 #include "InputHook.hpp"
 
 #include "../App.hpp"
-#include "../UI/LuaConsole.hpp"
+#include "UI/LuaConsole.hpp"
 
 #import <Metal/Metal.h>
 #import <QuartzCore/CAMetalLayer.h>

@@ -6,7 +6,7 @@ public:
     Paths();
     ~Paths() = default;
 
-    // the folder containing "Total War ATTILA.app"
+    // the game folder (on Mac the folder containing "Total War ATTILA.app")
     std::filesystem::path GetRootDir() const;
 
     std::filesystem::path GetExe() const;

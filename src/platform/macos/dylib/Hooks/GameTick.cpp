@@ -3,7 +3,7 @@
 #include "GameTick.hpp"
 
 #include "../Hooking/Hook.hpp"
-#include "../UI/LuaConsole.hpp"
+#include "UI/LuaConsole.hpp"
 
 #include "../../sdk/Attila/Addresses.hpp"
 
