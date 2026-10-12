@@ -121,6 +121,14 @@ bool IsSettledPair(const void* human, const void* other)
     return IsHuman(human) && other && !IsHuman(other) && !IsHorde(human) && !IsHorde(other);
 }
 
+// a settled human and an AI horde that can own land: vanilla's Gift Region (only regions where its army stands), which
+// we also offer at war (the entries then wait for peace in the deal, as with everyone) and add Region for Troops to
+bool IsHordePair(const void* human, const void* other)
+{
+    return IsHuman(human) && other && !IsHuman(other) && !IsHorde(human) && IsHorde(other) &&
+           static_cast<const uint8_t*>(other)[Addresses::Faction_CanOwnLand] != 0;
+}
+
 RegionList GiftableRegions(void* from, void* to)
 {
     if (isEnabled && to && (IsSettledPair(from, to) || IsSettledPair(to, from)))
@@ -142,11 +150,13 @@ bool RegionTradePossible(void* a, void* b)
     }
     void* human = IsHuman(a) ? a : (IsHuman(b) ? b : nullptr);
     void* other = human == a ? b : a;
-    if (!human || !IsSettledPair(human, other))
+    const bool horde = human && IsHordePair(human, other);
+    if (!human || !(horde || IsSettledPair(human, other)))
     {
         return false;
     }
-    RegionList regions = GiftableRegions_fnc(human, nullptr);
+    // a horde: the regions where its army stands (vanilla's list), any region of yours otherwise
+    RegionList regions = GiftableRegions_fnc(human, horde ? other : nullptr);
     const bool possible = regions.count > 0;
     if (regions.data)
     {
@@ -687,13 +697,17 @@ void* Root(void* panel)
     return panel ? *reinterpret_cast<void**>(static_cast<uint8_t*>(panel) + Addresses::TradeRegionsPanel_Component) : nullptr;
 }
 
+bool troopsMode = false;
+
 bool IsWidenedPanel(void* panel)
 {
-    return isEnabled && panel && IsSettledPair(LocalFaction(), OtherFaction(panel));
+    // with a horde only in troops mode (Trade Regions stays vanilla's gift: a horde has no land to demand)
+    return isEnabled && panel &&
+           (IsSettledPair(LocalFaction(), OtherFaction(panel)) || (troopsMode && IsHordePair(LocalFaction(), OtherFaction(panel))));
 }
 
-// before Populate has set the panel's faction
-bool IsWidenedAction(void* action)
+// before Populate has set the panel's faction: a settled pair (aHorde: or a horde pair)
+bool IsWidenedAction(void* action, bool aHorde = false)
 {
     if (!isEnabled || !action)
     {
@@ -706,7 +720,7 @@ bool IsWidenedAction(void* action)
     {
         other = reinterpret_cast<Faction_t>(Slid(Addresses::DiplomaticAction_FactionB))(action);
     }
-    return IsSettledPair(local, other);
+    return IsSettledPair(local, other) || (aHorde && IsHordePair(local, other));
 }
 
 std::span<void*> Children(void* component)
@@ -749,7 +763,6 @@ bool HasId(void* component, const char* id)
 }
 
 // REGION FOR TROOPS state: the open panel's mode, the negotiation whose region term is "for troops"
-bool troopsMode = false;
 int pendingMode = -1; // set by a click on an action button: 1 troops, 0 gift; -1 none (the panel was opened otherwise)
 void UpdateTroopsList(void* panel);
 
@@ -975,7 +988,7 @@ int64_t MakeActionButtons(void* dropdown)
     {
         uint8_t* action = entries()[i].action;
         if (action && *reinterpret_cast<int32_t*>(action + Addresses::DiplomaticAction_Type) == Addresses::DiplomaticAction_TradeRegions &&
-            IsWidenedAction(action))
+            IsWidenedAction(action, true))
         {
             regionEntry = static_cast<int>(i);
         }
@@ -1293,11 +1306,12 @@ void ListButtonSetup(void* button, void* root, void* entry, void* context)
 void* PopulatePanel(void* panel, void* action)
 {
     void* root = Root(panel);
-    const bool widened = IsWidenedAction(action);
     // the mode: the button that opened the panel, else the deal's region term (reopened from the deal list)
     void* negotiation = action ? *reinterpret_cast<void**>(static_cast<uint8_t*>(action) + Addresses::DiplomaticAction_Negotiation) : nullptr;
-    troopsMode = widened && (pendingMode >= 0 ? pendingMode == 1 : negotiation && negotiation == troopsNegotiation);
+    troopsMode = IsWidenedAction(action, true) && (pendingMode >= 0 ? pendingMode == 1 : negotiation && negotiation == troopsNegotiation);
     pendingMode = -1;
+    // with a horde, Trade Regions stays vanilla's panel
+    const bool widened = IsWidenedAction(action) || troopsMode;
     if (widened && root)
     {
         // before populating: the engine only fills visible lists, and the layout hides the demands
