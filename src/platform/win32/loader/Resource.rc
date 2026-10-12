@@ -2,7 +2,7 @@
 //
 #undef WINVER
 #include "Resource.hpp"
-#include "../dll/Version.hpp"
+#include "../../../core/Version.hpp"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////

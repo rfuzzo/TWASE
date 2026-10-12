@@ -9,7 +9,7 @@
 #include "../Image.hpp"
 #include "../Hooks/DiplomacyLikelihood.hpp"
 #include "../Hooks/NativeRegionTrading.hpp"
-#include "../Version.hpp"
+#include "Version.hpp"
 
 #include "../../sdk/Attila/Addresses.hpp"
 #include "../../sdk/Attila/Lua/LuaRuntime.hpp"

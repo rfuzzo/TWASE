@@ -3,7 +3,7 @@
 #include "RunStartupPath.hpp"
 
 #include "../App.hpp"
-#include "../Config.hpp"
+#include "Config.hpp"
 #include "../Hooking/Hook.hpp"
 #include "../Scripting/LuaApi.hpp"
 

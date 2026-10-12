@@ -96,6 +96,11 @@ target("twase")
         end
     end
 
+    -- shared core (src/core), it includes this platform's headers by name: App.hpp, Hooks/..., Attila/... from the sdk
+    add_files("../../core/*.cpp", "../../core/UI/*.cpp")
+    add_headerfiles("../../core/*.hpp", "../../core/UI/*.hpp")
+    add_includedirs("../../core", "dll", "sdk")
+
     -- precompiled header
     set_pcxxheader("dll/stdafx.hpp")
 

@@ -3,7 +3,7 @@
 #include <cmath>
 
 #include "../App.hpp"
-#include "../Config.hpp"
+#include "Config.hpp"
 #include "../Hooking/Hook.hpp"
 
 #include "../../sdk/Attila/Addresses.hpp"

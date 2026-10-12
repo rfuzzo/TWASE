@@ -2,7 +2,7 @@
 
 #include "InputHook.hpp"
 
-#include "../UI/LuaConsole.hpp"
+#include "UI/LuaConsole.hpp"
 
 #import <AppKit/AppKit.h>
 #import <Carbon/Carbon.h>

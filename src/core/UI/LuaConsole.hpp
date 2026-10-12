@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../sdk/Attila/Lua/LuaDefs.hpp"
+#include "Attila/Lua/LuaDefs.hpp"
 
 #include <atomic>
 #include <mutex>
@@ -14,18 +14,18 @@ public:
 
     static LuaConsole& Get();
 
-    // thread-safe, the input handler runs on the main thread and the overlay on the render thread
+    // thread-safe, input and the overlay may run on other threads than the game (on Mac: main thread and render thread)
     void Toggle();
     bool IsOpen() const { return m_open; }
 
-    /// Call from the ImGui render loop (inside the Metal present hook)
+    /// Call from the ImGui render loop (inside the present hook)
     void Draw();
 
     /// Thread-safe: push a log line with an explicit level
     void AddLog(LogLevel level, const char* fmt, ...);
 
-    /// Game thread (GameTick hook): runs the queued commands and refreshes the context list.
-    /// Lua is only touched here, the overlay runs on the render thread.
+    /// Game thread (Mac: GameTick hook, Windows: Present hook): runs the queued commands and refreshes the context list.
+    /// Lua is only touched here, never from Draw().
     void ProcessPending();
 
 private:

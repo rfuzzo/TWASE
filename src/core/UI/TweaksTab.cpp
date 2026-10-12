@@ -1,9 +1,9 @@
 #include "stdafx.hpp"
 
 #include "LuaConsole.hpp"
-#include "../App.hpp"
-#include "../Config.hpp"
-#include "../Hooks/DiplomacyLikelihood.hpp"
+#include "App.hpp"
+#include "Config.hpp"
+#include "Hooks/DiplomacyLikelihood.hpp"
 
 #include <imgui.h>
 

@@ -2,8 +2,8 @@
 
 #include "LuaConsole.hpp"
 
-#include "../../sdk/Attila/Lua/LuaRuntime.hpp"
-#include "../../sdk/Attila/Lua/LuaGameEnvironment.hpp"
+#include "Attila/Lua/LuaRuntime.hpp"
+#include "Attila/Lua/LuaGameEnvironment.hpp"
 
 bool LuaConsole::tryHandleCommand(const std::string& input)
 {

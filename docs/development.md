@@ -4,13 +4,14 @@
 
 ```text
 xmake.lua                    shared settings, includes the platform of the build
+src/core/                    shared by both platforms: Config, Paths.hpp, Version.hpp, the console (UI/), Platform.hpp
 src/platform/win32/          Windows: TWASE.dll (dll/), the winmm.dll proxy loader (loader/), sdk/ (32-bit Attila.exe)
 src/platform/macos/          Mac: libTWASE.dylib (dylib/), twase-launch.command (launcher/), sdk/ (arm64 Feral port)
 docs/macos/                  history of the macOS port and its addresses
 patches/                     binary patches
 ```
 
-Each platform has its own sources for now; the shared parts (config, console, mod loader, Lua API) move to a common core next.
+The core is compiled into each platform's library. It includes the platform's headers by name (`App.hpp`, `Hooks/...`, `Attila/...` from the platform's `sdk/`), so both platforms provide them with the same interface, and it calls the platform only through `Platform.hpp` (message boxes, exit), which each platform implements in its `Platform.cpp`. Everything bound to the game binary (addresses, struct layouts, hooks) and to the OS (injection, renderer and input hooks) stays in the platform folders.
 
 ## Building
 

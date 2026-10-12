@@ -1,6 +1,7 @@
 #include "stdafx.hpp"
+
 #include "Config.hpp"
-#include "Utils.hpp"
+#include "Platform.hpp"
 
 #define DEFAULT_TOML_EXCEPTION_MSG "An exception occured while parsing the config file:\n\n{}\n\nFile: {}"
 
@@ -20,25 +21,23 @@ Config::Config(const Paths& aPaths)
     }
     else if (err)
     {
-        auto errVal = err.value();
-        const auto& category = err.category();
-        auto msg = category.message(errVal);
-
-        SHOW_MESSAGE_BOX_AND_EXIT_FILE_LINE(L"An error occured while checking config file existence:\n{}\n\nFile: {}", Utils::Widen(msg));
+        TWASE_MESSAGE_BOX_AND_EXIT_FILE_LINE("An error occured while checking config file existence:\n{}\n\nFile: {}",
+                                             err.message(), Platform::ToUtf8(file));
     }
     else
     {
+        std::filesystem::create_directories(file.parent_path(), err);
+
         std::string error;
         if (!Save(file, error))
         {
-            SHOW_MESSAGE_BOX_FILE_LINE(MB_ICONWARNING | MB_OK,
-                                       "An exception occured while saving the config file:\n\n{}\n\nFile: {}",
-                                       Utils::Widen(error), file.c_str());
+            TWASE_MESSAGE_BOX_FILE_LINE("An exception occured while saving the config file:\n\n{}\n\nFile: {}", error,
+                                        Platform::ToUtf8(file));
         }
     }
 }
 
-const size_t Config::GetVersion() const
+size_t Config::GetVersion() const
 {
     return m_version;
 }
@@ -90,21 +89,22 @@ void Config::Load(const std::filesystem::path& aFile)
             }
             default:
             {
-                SHOW_MESSAGE_BOX_AND_EXIT_FILE_LINE(
+                TWASE_MESSAGE_BOX_AND_EXIT_FILE_LINE(
                     "Config version '{}' is not supported (version < {} or version > {}).\n\nFile: {}", version,
-                    MinSupportedVersion, MaxSupportedVersion, aFile.c_str());
+                    MinSupportedVersion, MaxSupportedVersion, Platform::ToUtf8(aFile));
                 break;
             }
             }
         }
         else
         {
-            SHOW_MESSAGE_BOX_AND_EXIT_FILE_LINE("The config file does not have a version.\n\nFile: {}", aFile.c_str());
+            TWASE_MESSAGE_BOX_AND_EXIT_FILE_LINE("The config file does not have a version.\n\nFile: {}",
+                                                 Platform::ToUtf8(aFile));
         }
     }
     catch (const std::exception& e)
     {
-        SHOW_MESSAGE_BOX_AND_EXIT_FILE_LINE(DEFAULT_TOML_EXCEPTION_MSG, Utils::Widen(e.what()), aFile.c_str());
+        TWASE_MESSAGE_BOX_AND_EXIT_FILE_LINE(DEFAULT_TOML_EXCEPTION_MSG, e.what(), Platform::ToUtf8(aFile));
     }
 }
 
@@ -148,11 +148,11 @@ bool Config::Save()
     std::string error;
     if (!Save(m_file, error))
     {
-        spdlog::error("Could not save the config file '{}': {}", m_file.string(), error);
+        spdlog::error("Could not save the config file '{}': {}", Platform::ToUtf8(m_file), error);
         return false;
     }
 
-    spdlog::info("Saved the config file '{}'", m_file.string());
+    spdlog::info("Saved the config file '{}'", Platform::ToUtf8(m_file));
     return true;
 }
 
@@ -200,12 +200,16 @@ bool Config::Save(const std::filesystem::path& aFile, std::string& aError)
         }
 
         auto& dev = GetSection(config, "dev");
-        SetValue(dev, "console", m_dev.hasConsole);
+        SetValue(dev, "console", m_dev.hasConsole, "Mirror the log to stdout (visible when started from a terminal)");
         SetValue(dev, "wait_for_debugger", m_dev.waitForDebugger);
+        SetValue(dev, "trace_lua_loads", m_dev.traceLuaLoads,
+                 "Log every Lua chunk the game loads (needs logging.level = \"trace\")");
+        SetValue(dev, "lua_dev_functions", m_dev.luaDevFunctions,
+                 "Add the twase.dev_* probes for reverse engineering to the Lua API");
 
         // write to a temporary file first so a failed write doesn't destroy the config
         auto tempFile = aFile;
-        tempFile += L".tmp";
+        tempFile += ".tmp";
         {
             std::ofstream file(tempFile, std::ios::out | std::ios::trunc);
             file.exceptions(std::ostream::badbit | std::ostream::failbit);
@@ -237,6 +241,8 @@ void Config::DevConfig::LoadV0(const toml::value& aConfig)
 {
     hasConsole = toml::find_or(aConfig, "dev", "console", hasConsole);
     waitForDebugger = toml::find_or(aConfig, "dev", "wait_for_debugger", waitForDebugger);
+    traceLuaLoads = toml::find_or(aConfig, "dev", "trace_lua_loads", traceLuaLoads);
+    luaDevFunctions = toml::find_or(aConfig, "dev", "lua_dev_functions", luaDevFunctions);
 }
 
 void Config::ScriptConfig::LoadV0(const toml::value& aConfig)
@@ -301,8 +307,5 @@ void Config::PluginsConfig::LoadV0(const toml::value& aConfig)
     std::vector<std::string> ignoredPlugins;
     ignoredPlugins = toml::find_or(aConfig, "plugins", "ignored", ignoredPlugins);
 
-    for (const auto& plugin : ignoredPlugins)
-    {
-        ignored.emplace(Utils::Widen(plugin));
-    }
+    ignored.insert(ignoredPlugins.begin(), ignoredPlugins.end());
 }
