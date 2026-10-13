@@ -7,6 +7,7 @@
 #include "Patches/Patches.hpp"
 
 #include "Hooks/DiplomacyLikelihood.hpp"
+#include "Hooks/FeralModOrder.hpp"
 #include "Hooks/NativeRegionTrading.hpp"
 #include "Hooks/GameTick.hpp"
 #include "Hooks/LuaLoadTrace.hpp"
@@ -185,6 +186,7 @@ bool App::AttachHooks()
     success &= Hooks::RunStartupPathHook::Attach();
     success &= Hooks::DiplomacyLikelihoodHook::Attach();
     success &= Hooks::NativeRegionTradingHook::Attach();
+    success &= Hooks::FeralModOrderHook::Attach();
 
     // the console is optional, TWASE still works without it
     if (!Hooks::MetalHook::Attach())
