@@ -1,0 +1,6633 @@
+{
+ "0x104d494c0": [
+  {
+   "method": "entity_selection_marker",
+   "handler": "0x1048f9d8f",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "entity_mouse_over_marker",
+   "handler": "0x1048f9dd2",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "indicator_arrow",
+   "handler": "0x1048f9e17",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "ship_selected_marker_ellipse",
+   "handler": "0x1048f9e48",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "ship_mouse_over_marker_rear",
+   "handler": "0x1048f9e8b",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "ship_mouse_over_marker_front",
+   "handler": "0x1048f9ed5",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "ship_selected_marker_capsule",
+   "handler": "0x1048f9f20",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "ship_proxy_centre",
+   "handler": "0x1048f9f67",
+   "args": "",
+   "returns": ""
+  }
+ ],
+ "0x104dba810": [
+  {
+   "method": "O",
+   "handler": "0x100000010",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "O",
+   "handler": "0x100000010",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "O",
+   "handler": "0x100000010",
+   "args": "",
+   "returns": ""
+  }
+ ],
+ "0x104dbdf68": [
+  {
+   "method": "O",
+   "handler": "0x100000010",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "O",
+   "handler": "0x100000010",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "O",
+   "handler": "0x100000010",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "O",
+   "handler": "0x100000010",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "O",
+   "handler": "0x100000010",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "O",
+   "handler": "0x100000010",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "O",
+   "handler": null,
+   "vtable_offset": "0xf",
+   "args": "",
+   "returns": ""
+  }
+ ],
+ "0x104eac758": [
+  {
+   "method": "O",
+   "handler": "0x10000000f",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "O",
+   "handler": null,
+   "vtable_offset": "0x10",
+   "args": "",
+   "returns": ""
+  }
+ ],
+ "0x104ead020": [
+  {
+   "method": "O",
+   "handler": null,
+   "vtable_offset": "0x11",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "O",
+   "handler": null,
+   "vtable_offset": "0x0",
+   "args": "",
+   "returns": ""
+  }
+ ],
+ "0x104eb3320": [
+  {
+   "method": "O",
+   "handler": "0x100000010",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "O",
+   "handler": "0x100000011",
+   "args": "",
+   "returns": ""
+  }
+ ],
+ "0x104eb9620": [
+  {
+   "method": "O",
+   "handler": "0x100000010",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "O",
+   "handler": "0x100000011",
+   "args": "",
+   "returns": ""
+  }
+ ],
+ "0x104ebc440": [
+  {
+   "method": "O",
+   "handler": null,
+   "vtable_offset": "0x10",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "O",
+   "handler": "0x100000010",
+   "args": "",
+   "returns": ""
+  }
+ ],
+ "0x104ebc5c8": [
+  {
+   "method": "O",
+   "handler": null,
+   "vtable_offset": "0x14",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "O",
+   "handler": "0x100000012",
+   "args": "",
+   "returns": ""
+  }
+ ],
+ "0x104ecd5c8": [
+  {
+   "method": "O",
+   "handler": null,
+   "vtable_offset": "0xe",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "O",
+   "handler": "0x100000012",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "O",
+   "handler": "0x100000013",
+   "args": "",
+   "returns": ""
+  }
+ ],
+ "0x104ed4148": [
+  {
+   "method": "O",
+   "handler": null,
+   "vtable_offset": "0x13",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "O",
+   "handler": "0x100000012",
+   "args": "",
+   "returns": ""
+  }
+ ],
+ "0x104eda9f0": [
+  {
+   "method": "O",
+   "handler": null,
+   "vtable_offset": "0x10",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "O",
+   "handler": "0x100000010",
+   "args": "",
+   "returns": ""
+  }
+ ],
+ "0x104edaab8": [
+  {
+   "method": "O",
+   "handler": null,
+   "vtable_offset": "0xf",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "O",
+   "handler": null,
+   "vtable_offset": "0x10",
+   "args": "",
+   "returns": ""
+  }
+ ],
+ "0x104edac48": [
+  {
+   "method": "O",
+   "handler": null,
+   "vtable_offset": "0x11",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "O",
+   "handler": "0x100000010",
+   "args": "",
+   "returns": ""
+  }
+ ],
+ "0x104edb100": [
+  {
+   "method": "O",
+   "handler": null,
+   "vtable_offset": "0xf",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "O",
+   "handler": null,
+   "vtable_offset": "0x12",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "O",
+   "handler": "0x100000012",
+   "args": "",
+   "returns": ""
+  }
+ ],
+ "0x104edb1c0": [
+  {
+   "method": "O",
+   "handler": null,
+   "vtable_offset": "0x0",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "O",
+   "handler": "0x100000012",
+   "args": "",
+   "returns": ""
+  }
+ ],
+ "0x104f7a340": [
+  {
+   "method": "add_units",
+   "handler": "0x101428a7c",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "remove_units",
+   "handler": "0x101428be4",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "defend_position",
+   "handler": "0x101428df0",
+   "args": "2 values",
+   "returns": ""
+  },
+  {
+   "method": "attack_unit",
+   "handler": "0x101428ed4",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "move_to_position",
+   "handler": "0x101428f9c",
+   "args": "1 values",
+   "returns": ""
+  },
+  {
+   "method": "clear_objective",
+   "handler": "0x10142906c",
+   "args": "",
+   "returns": ""
+  }
+ ],
+ "0x104f7a7d0": [
+  {
+   "method": "set_position",
+   "handler": "0x101479248",
+   "args": "userdata",
+   "returns": ""
+  },
+  {
+   "method": "get_position",
+   "handler": "0x101479498",
+   "args": "3 values",
+   "returns": "battle_vector"
+  }
+ ],
+ "0x104f7a818": [
+  {
+   "method": "clear_weather",
+   "handler": "0x101479698",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "add_rain",
+   "handler": "0x1014798c4",
+   "args": "3 values",
+   "returns": ""
+  },
+  {
+   "method": "add_snow",
+   "handler": "0x101479e00",
+   "args": "3 values",
+   "returns": ""
+  },
+  {
+   "method": "add_dust",
+   "handler": "0x101479b84",
+   "args": "3 values",
+   "returns": ""
+  },
+  {
+   "method": "change_lighting",
+   "handler": "0x10147a07c",
+   "args": "1 values",
+   "returns": ""
+  },
+  {
+   "method": "enable_random_lightning",
+   "handler": "0x10147a164",
+   "args": "1 values",
+   "returns": ""
+  },
+  {
+   "method": "trigger_lightning_sheet",
+   "handler": "0x10147a7bc",
+   "args": "1 values",
+   "returns": ""
+  },
+  {
+   "method": "trigger_lightning_strike",
+   "handler": "0x10147a3ac",
+   "args": "1 values",
+   "returns": ""
+  }
+ ],
+ "0x104f7ab40": [
+  {
+   "method": "look_at",
+   "handler": "0x10147aa6c",
+   "args": "userdata",
+   "returns": ""
+  },
+  {
+   "method": "move_to",
+   "handler": "0x10147aea8",
+   "args": "userdata",
+   "returns": ""
+  },
+  {
+   "method": "position",
+   "handler": "0x10147b378",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "target",
+   "handler": "0x10147b43c",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "enable_functionality",
+   "handler": "0x10147b5cc",
+   "args": "1 values",
+   "returns": ""
+  },
+  {
+   "method": "disable_functionality",
+   "handler": "0x10147b850",
+   "args": "1 values",
+   "returns": ""
+  },
+  {
+   "method": "change_depth_of_field",
+   "handler": "0x10147bad4",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "fade",
+   "handler": "0x10147bd78",
+   "args": "2 values",
+   "returns": ""
+  },
+  {
+   "method": "change_height_range",
+   "handler": "0x10147c014",
+   "args": "2 values",
+   "returns": ""
+  },
+  {
+   "method": "enable_shake",
+   "handler": "0x10147c26c",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "disable_shake",
+   "handler": "0x10147c2cc",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "enable_anchor_to_army",
+   "handler": "0x10147c328",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "disable_anchor_to_army",
+   "handler": "0x10147c390",
+   "args": "",
+   "returns": ""
+  }
+ ],
+ "0x104f7ac90": [
+  {
+   "method": "position",
+   "handler": "0x10147c540",
+   "args": "3 values",
+   "returns": "battle_vector"
+  },
+  {
+   "method": "central_position",
+   "handler": "0x10147c5e4",
+   "args": "3 values",
+   "returns": "battle_vector"
+  },
+  {
+   "method": "alliance_owner_id",
+   "handler": "0x10147c6b0",
+   "args": "",
+   "returns": "number (int)"
+  },
+  {
+   "method": "name",
+   "handler": "0x10147c72c",
+   "args": "",
+   "returns": "string"
+  },
+  {
+   "method": "hide",
+   "handler": "0x10147c794",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "show",
+   "handler": "0x10147c9c8",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "change_on_fire",
+   "handler": "0x10147cbfc",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "change_immune_to_fire_damage",
+   "handler": "0x10147d0bc",
+   "args": "1 values",
+   "returns": ""
+  },
+  {
+   "method": "change_immune_to_catching_fire",
+   "handler": "0x10147ce6c",
+   "args": "1 values",
+   "returns": ""
+  },
+  {
+   "method": "change_is_destructible",
+   "handler": "0x10147d30c",
+   "args": "1 values",
+   "returns": ""
+  },
+  {
+   "method": "destroy",
+   "handler": "0x10147d55c",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "is_garrisoned",
+   "handler": "0x10147d790",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "currently_garrisoned",
+   "handler": "0x10147d80c",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "health",
+   "handler": "0x10147d798",
+   "args": "",
+   "returns": "number"
+  },
+  {
+   "method": "capacity",
+   "handler": "0x10147d814",
+   "args": "",
+   "returns": ""
+  }
+ ],
+ "0x104f7ae10": [
+  {
+   "method": "load",
+   "handler": "0x10147d874",
+   "args": "string",
+   "returns": ""
+  },
+  {
+   "method": "play3D",
+   "handler": "0x10147db30",
+   "args": "1 values",
+   "returns": ""
+  },
+  {
+   "method": "is_playing",
+   "handler": "0x10147e034",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "stop",
+   "handler": "0x10147ddfc",
+   "args": "",
+   "returns": ""
+  }
+ ],
+ "0x104f7ae88": [
+  {
+   "method": "item",
+   "handler": "0x10147e1e8",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "count",
+   "handler": "0x10147e18c",
+   "args": "",
+   "returns": "number (uint)"
+  },
+  {
+   "method": "garrisonable_item",
+   "handler": "0x10147e2ec",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "garrisonable_count",
+   "handler": "0x10147e290",
+   "args": "",
+   "returns": "number (uint)"
+  }
+ ],
+ "0x104f7af00": [
+  {
+   "method": "name",
+   "handler": "0x10147e640",
+   "args": "",
+   "returns": "string"
+  },
+  {
+   "method": "type",
+   "handler": "0x10147e7d8",
+   "args": "",
+   "returns": "string"
+  },
+  {
+   "method": "position",
+   "handler": "0x10147e848",
+   "args": "3 values",
+   "returns": "battle_vector"
+  },
+  {
+   "method": "bearing",
+   "handler": "0x10147e8f8",
+   "args": "",
+   "returns": "number"
+  },
+  {
+   "method": "ship_in_range",
+   "handler": "0x10147e9e4",
+   "args": "userdata",
+   "returns": "boolean"
+  },
+  {
+   "method": "hull_damage",
+   "handler": "0x10147eb3c",
+   "args": "",
+   "returns": "number"
+  },
+  {
+   "method": "sail_damage",
+   "handler": "0x10147ebd8",
+   "args": "",
+   "returns": "number"
+  },
+  {
+   "method": "deploy_reinforcement",
+   "handler": "0x10147ed84",
+   "args": "1 values",
+   "returns": ""
+  },
+  {
+   "method": "is_routing",
+   "handler": "0x10147ec34",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "is_surrendered",
+   "handler": "0x10147eca4",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "number_of_men_alive",
+   "handler": "0x10147ed08",
+   "args": "",
+   "returns": "number (uint)"
+  }
+ ],
+ "0x104f7b020": [
+  {
+   "method": "name",
+   "handler": "0x10147f0a4",
+   "args": "",
+   "returns": "string"
+  },
+  {
+   "method": "type",
+   "handler": "0x10147f23c",
+   "args": "",
+   "returns": "string"
+  },
+  {
+   "method": "position",
+   "handler": "0x10147f2b0",
+   "args": "3 values",
+   "returns": "battle_vector"
+  },
+  {
+   "method": "ordered_position",
+   "handler": "0x10147f368",
+   "args": "3 values",
+   "returns": "battle_vector"
+  },
+  {
+   "method": "bearing",
+   "handler": "0x10147f500",
+   "args": "",
+   "returns": "number"
+  },
+  {
+   "method": "ordered_width",
+   "handler": "0x10147f5b4",
+   "args": "",
+   "returns": "number"
+  },
+  {
+   "method": "is_moving",
+   "handler": "0x10147f614",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "is_moving_fast",
+   "handler": "0x10147f67c",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "is_hidden",
+   "handler": "0x10147f6e4",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "is_visible_to_alliance",
+   "handler": "0x10147f744",
+   "args": "1 values",
+   "returns": "boolean"
+  },
+  {
+   "method": "is_under_missile_attack",
+   "handler": "0x10147f8d0",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "is_idle",
+   "handler": "0x10147f938",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "unit_in_range",
+   "handler": "0x10147f9a0",
+   "args": "userdata",
+   "returns": "boolean"
+  },
+  {
+   "method": "initial_number_of_men",
+   "handler": "0x10147fc64",
+   "args": "",
+   "returns": "number (uint)"
+  },
+  {
+   "method": "number_of_men_alive",
+   "handler": "0x10147fcc0",
+   "args": "",
+   "returns": "number (uint)"
+  },
+  {
+   "method": "unary_of_men_alive",
+   "handler": "0x10147fd1c",
+   "args": "",
+   "returns": "number"
+  },
+  {
+   "method": "number_of_enemies_killed",
+   "handler": "0x10147fd88",
+   "args": "",
+   "returns": "number (uint)"
+  },
+  {
+   "method": "play_anim_for_captain",
+   "handler": "0x10147fde8",
+   "args": "2 values",
+   "returns": ""
+  },
+  {
+   "method": "kill_number_of_men",
+   "handler": "0x101480114",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "position_of_officer",
+   "handler": "0x1014803bc",
+   "args": "3 values",
+   "returns": "battle_vector"
+  },
+  {
+   "method": "is_leaving_battle",
+   "handler": "0x1014804e4",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "is_routing",
+   "handler": "0x101480548",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "is_shattered",
+   "handler": "0x1014805b8",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "is_valid_target",
+   "handler": "0x10148061c",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "missile_range",
+   "handler": "0x101480684",
+   "args": "",
+   "returns": "number"
+  },
+  {
+   "method": "ammo_left",
+   "handler": "0x1014806e8",
+   "args": "",
+   "returns": "number (uint)"
+  },
+  {
+   "method": "starting_ammo",
+   "handler": "0x101480748",
+   "args": "",
+   "returns": "number (uint)"
+  },
+  {
+   "method": "set_current_ammo_unary",
+   "handler": "0x1014807a4",
+   "args": "number",
+   "returns": ""
+  },
+  {
+   "method": "is_cavalry",
+   "handler": "0x101480a08",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "is_infantry",
+   "handler": "0x101480a70",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "has_ships",
+   "handler": "0x101480ad8",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "is_dismounted_ships",
+   "handler": "0x101480b40",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "is_artillery",
+   "handler": "0x101480ba8",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "unit_distance",
+   "handler": "0x10147faf8",
+   "args": "userdata",
+   "returns": "number"
+  },
+  {
+   "method": "is_limbered_artillery",
+   "handler": "0x101480c10",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "unit_class",
+   "handler": "0x101480c78",
+   "args": "",
+   "returns": "string"
+  },
+  {
+   "method": "is_currently_garrisoned",
+   "handler": "0x101480d0c",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "can_perform_special_ability",
+   "handler": "0x101480d78",
+   "args": "1 values",
+   "returns": "boolean"
+  },
+  {
+   "method": "current_special_ability",
+   "handler": "0x101480f10",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "is_behaviour_active",
+   "handler": "0x101480f78",
+   "args": "1 values",
+   "returns": "boolean"
+  },
+  {
+   "method": "deploy_reinforcement",
+   "handler": "0x10148103c",
+   "args": "1 values",
+   "returns": ""
+  },
+  {
+   "method": "trigger_sound_charge",
+   "handler": "0x10148128c",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "trigger_sound_warcry",
+   "handler": "0x1014814c0",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "trigger_sound_taunt",
+   "handler": "0x101481700",
+   "args": "",
+   "returns": ""
+  }
+ ],
+ "0x104f7b458": [
+  {
+   "method": "item",
+   "handler": "0x1014817ec",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "mountable_artillery_item",
+   "handler": "0x1014819cc",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "count",
+   "handler": "0x101481ba4",
+   "args": "",
+   "returns": "number (uint)"
+  },
+  {
+   "method": "kill_commander",
+   "handler": "0x101481c00",
+   "args": "",
+   "returns": ""
+  }
+ ],
+ "0x104f7b4d0": [
+  {
+   "method": "item",
+   "handler": "0x101481eb8",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "count",
+   "handler": "0x101482098",
+   "args": "",
+   "returns": "number (uint)"
+  }
+ ],
+ "0x104f7b518": [
+  {
+   "method": "add_group",
+   "handler": "0x101483880",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "add_units",
+   "handler": "0x10148342c",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "take_control",
+   "handler": "0x1014841f8",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "release_control",
+   "handler": "0x1014842f4",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "clear_all",
+   "handler": "0x101482a78",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "halt",
+   "handler": "0x1014843b4",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "withdraw",
+   "handler": "0x101484d58",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "withdraw_q",
+   "handler": "0x101484ee4",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "add_all_units",
+   "handler": "0x101483048",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "fire_at_will",
+   "handler": "0x101487474",
+   "args": "1 values",
+   "returns": ""
+  },
+  {
+   "method": "kill",
+   "handler": "0x10148ca4c",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "attack_unit",
+   "handler": "0x1014883b4",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "attack_unit_q",
+   "handler": "0x1014885b4",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "rotate",
+   "handler": "0x10148c80c",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "rotate_q",
+   "handler": "0x10148ca30",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "step_forward",
+   "handler": "0x1014850b4",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "step_backward",
+   "handler": "0x101485204",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "change_move_speed",
+   "handler": "0x101487164",
+   "args": "1 values",
+   "returns": ""
+  },
+  {
+   "method": "increment_formation_width",
+   "handler": "0x101485354",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "decrement_formation_width",
+   "handler": "0x10148564c",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "change_current_walk_speed",
+   "handler": "0x101487788",
+   "args": "1 values",
+   "returns": ""
+  },
+  {
+   "method": "change_behaviour_active",
+   "handler": "0x101487a30",
+   "args": "2 values",
+   "returns": ""
+  },
+  {
+   "method": "change_group_formation",
+   "handler": "0x101487ee4",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "change_group_formation_q",
+   "handler": "0x1014881e4",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "perform_special_ability",
+   "handler": "0x101485d7c",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "perform_special_ability_q",
+   "handler": "0x1014862e4",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "change_fatigue_amount",
+   "handler": "0x101486900",
+   "args": "1 values",
+   "returns": ""
+  },
+  {
+   "method": "change_shot_type",
+   "handler": "0x101486c14",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "change_shot_type_q",
+   "handler": "0x101486f94",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "melee",
+   "handler": "0x101487bd4",
+   "args": "1 values",
+   "returns": ""
+  },
+  {
+   "method": "goto_location",
+   "handler": "0x101488784",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "goto_location_q",
+   "handler": "0x101488934",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "attack_location",
+   "handler": "0x10148c0dc",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "attack_location_q",
+   "handler": "0x10148c27c",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "defend_building",
+   "handler": "0x10148b9d0",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "defend_building_q",
+   "handler": "0x10148bc18",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "attack_building",
+   "handler": "0x10148a5f0",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "attack_building_q",
+   "handler": "0x10148a890",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "occupy_vehicle",
+   "handler": "0x10148aa60",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "occupy_vehicle_q",
+   "handler": "0x10148abcc",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "occupy_zone",
+   "handler": "0x10148ad9c",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "occupy_zone_q",
+   "handler": "0x10148afb4",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "interact_with_deployable",
+   "handler": "0x10148b170",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "interact_with_deployable_q",
+   "handler": "0x10148b3a8",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "climb_building",
+   "handler": "0x10148b564",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "climb_building_q",
+   "handler": "0x10148b800",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "leave_building",
+   "handler": "0x10148bde8",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "attack_line",
+   "handler": "0x10148c44c",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "attack_line_q",
+   "handler": "0x10148c63c",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "goto_location_angle_width",
+   "handler": "0x101488b04",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "goto_location_angle_width_q",
+   "handler": "0x101488d38",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "teleport_to_location",
+   "handler": "0x101488f08",
+   "args": "3 values",
+   "returns": ""
+  },
+  {
+   "method": "start_celebrating",
+   "handler": "0x10148a2ac",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "start_taunting",
+   "handler": "0x10148a528",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "morale_behavior_default",
+   "handler": "0x1014846f8",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "morale_behavior_fearless",
+   "handler": "0x101484818",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "morale_behavior_rout",
+   "handler": "0x10148493c",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "set_invincible",
+   "handler": "0x101484c60",
+   "args": "1 values",
+   "returns": ""
+  },
+  {
+   "method": "set_invisible_to_all",
+   "handler": "0x10148928c",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "set_always_visible_to_all",
+   "handler": "0x101489714",
+   "args": "1 values",
+   "returns": ""
+  },
+  {
+   "method": "change_enabled",
+   "handler": "0x101489a5c",
+   "args": "1 values",
+   "returns": ""
+  },
+  {
+   "method": "update_card_existance_on_HUD",
+   "handler": "0x101489da4",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "select_deployable_object",
+   "handler": "0x1014864b4",
+   "args": "1 values",
+   "returns": ""
+  },
+  {
+   "method": "highlight",
+   "handler": "0x10148ce54",
+   "args": "1 values",
+   "returns": ""
+  },
+  {
+   "method": "hide_unit_card",
+   "handler": "0x10148a028",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "trigger_sound_vo",
+   "handler": "0x10148cb20",
+   "args": "1 values",
+   "returns": ""
+  }
+ ],
+ "0x104f7bb60": [
+  {
+   "method": "units",
+   "handler": "0x10148dcc4",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT18BATTLE_SCRIPT_ARMY5unitsEP9lua_State",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "ships",
+   "handler": "0x10148dd24",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT18BATTLE_SCRIPT_ARMY5shipsEP9lua_State",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "create_unit_controller",
+   "handler": "0x10148d190",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "is_commander_alive",
+   "handler": "0x10148d270",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "is_commander_invincible",
+   "handler": "0x10148d2cc",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "army_handicap",
+   "handler": "0x10148d340",
+   "args": "",
+   "returns": "number (int)"
+  },
+  {
+   "method": "get_reinforcement_units",
+   "handler": "0x10148d39c",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "get_reinforcement_ships",
+   "handler": "0x10148d47c",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "change_faction",
+   "handler": "0x10148d55c",
+   "args": "1 values",
+   "returns": ""
+  },
+  {
+   "method": "enable_army_destruction_morale_effect",
+   "handler": "0x10148d838",
+   "args": "1 values",
+   "returns": ""
+  },
+  {
+   "method": "quit_battle",
+   "handler": "0x10148da7c",
+   "args": "",
+   "returns": ""
+  }
+ ],
+ "0x104f7bc80": [
+  {
+   "method": "item",
+   "handler": "0x10148dd84",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "count",
+   "handler": "0x10148de30",
+   "args": "",
+   "returns": "number (uint)"
+  }
+ ],
+ "0x104f7bcc8": [
+  {
+   "method": "armies",
+   "handler": "0x10148deec",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "force_ai_plan_type_attack",
+   "handler": "0x10148df70",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "force_ai_plan_type_defend",
+   "handler": "0x10148e40c",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "force_snap_ai_to_hint_lines",
+   "handler": "0x10148e1c0",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "create_ai_unit_planner",
+   "handler": "0x10148e4b0",
+   "args": "",
+   "returns": ""
+  }
+ ],
+ "0x104f7bd58": [
+  {
+   "method": "item",
+   "handler": "0x10148e5f8",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "count",
+   "handler": "0x10148e6a4",
+   "args": "",
+   "returns": "number (uint)"
+  }
+ ],
+ "0x104f7bda0": [
+  {
+   "method": "out",
+   "handler": "0x10148e760",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL3outEP9lua_State",
+   "args": "1 values",
+   "returns": ""
+  },
+  {
+   "method": "alliances",
+   "handler": "0x10148e8d4",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL9alliancesEP9lua_State",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "buildings",
+   "handler": "0x10148e930",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL9buildingsEP9lua_State",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "assault_equipment",
+   "handler": "0x10148e984",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL17assault_equipmentEP9lua_State",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "debug_drawing",
+   "handler": "0x10148e9f8",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL13debug_drawingEP9lua_State",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "camera",
+   "handler": "0x10148ea5c",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL6cameraEP9lua_State",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "weather",
+   "handler": "0x10148eaa0",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL7weatherEP9lua_State",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "subtitles",
+   "handler": "0x10148eae4",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL9subtitlesEP9lua_State",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "register_input_handler",
+   "handler": "0x10148eb44",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL22register_input_handlerEP9lua_State",
+   "args": "1 values",
+   "returns": ""
+  },
+  {
+   "method": "unregister_input_handler",
+   "handler": "0x10148ebac",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL24unregister_input_handlerEP9lua_State",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "register_unit_selection_handler",
+   "handler": "0x10148ec04",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL31register_unit_selection_handlerEP9lua_State",
+   "args": "1 values",
+   "returns": ""
+  },
+  {
+   "method": "unregister_unit_selection_handler",
+   "handler": "0x10148ec60",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL33unregister_unit_selection_handlerEP9lua_State",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "register_command_handler",
+   "handler": "0x10148ecb8",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL24register_command_handlerEP9lua_State",
+   "args": "1 values",
+   "returns": ""
+  },
+  {
+   "method": "unregister_command_handler",
+   "handler": "0x10148ed20",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL26unregister_command_handlerEP9lua_State",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "register_battle_phase_handler",
+   "handler": "0x10148ed78",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL29register_battle_phase_handlerEP9lua_State",
+   "args": "1 values",
+   "returns": ""
+  },
+  {
+   "method": "unregister_battle_phase_handler",
+   "handler": "0x10148ede0",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL31unregister_battle_phase_handlerEP9lua_State",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "register_singleshot_timer",
+   "handler": "0x10148ee38",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL25register_singleshot_timerEP9lua_State",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "register_repeating_timer",
+   "handler": "0x10148ee5c",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL24register_repeating_timerEP9lua_State",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "unregister_timer",
+   "handler": "0x10148ee80",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL16unregister_timerEP9lua_State",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "cindy_playback",
+   "handler": "0x10148eea0",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL14cindy_playbackEP9lua_State",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "stop_cindy_playback",
+   "handler": "0x10148eeb8",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL19stop_cindy_playbackEP9lua_State",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "cindy_playback_no_camera",
+   "handler": "0x10148eed0",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL24cindy_playback_no_cameraEP9lua_State",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "stop_cindy_playback_no_camera",
+   "handler": "0x10148eee8",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL29stop_cindy_playback_no_cameraEP9lua_State",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "suspend_contextual_advice",
+   "handler": "0x10148ef00",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL25suspend_contextual_adviceEP9lua_State",
+   "args": "1 values",
+   "returns": ""
+  },
+  {
+   "method": "close_advisor",
+   "handler": "0x10148ef88",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL13close_advisorEP9lua_State",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "advice_finished",
+   "handler": "0x10148efc0",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL15advice_finishedEP9lua_State",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "vo_finished",
+   "handler": "0x10148f04c",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL11vo_finishedEP9lua_State",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "place_naval_mine",
+   "handler": "0x10148f0a0",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL16place_naval_mineEP9lua_State",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "trigger_projectile_launch",
+   "handler": "0x10148f0a4",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL25trigger_projectile_launchEP9lua_State",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "start_terrain_effect",
+   "handler": "0x10148f0b0",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL20start_terrain_effectEP9lua_State",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "start_lighting_environment_cross_fade",
+   "handler": "0x10148f0d0",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL37start_lighting_environment_cross_fadeEP9lua_State",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "stop_terrain_effect",
+   "handler": "0x10148f0f0",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL19stop_terrain_effectEP9lua_State",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "enable_cinematic_ui",
+   "handler": "0x10148f110",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL19enable_cinematic_uiEP9lua_State",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "enable_cinematic_camera",
+   "handler": "0x10148f130",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL23enable_cinematic_cameraEP9lua_State",
+   "args": "1 values",
+   "returns": ""
+  },
+  {
+   "method": "enable_tooltips",
+   "handler": "0x10148f1b0",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL15enable_tooltipsEP9lua_State",
+   "args": "1 values",
+   "returns": ""
+  },
+  {
+   "method": "random_number",
+   "handler": "0x10148f238",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL13random_numberEP9lua_State",
+   "args": "",
+   "returns": "number"
+  },
+  {
+   "method": "ui_component",
+   "handler": "0x10148f2c8",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL12ui_componentEP9lua_State",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "suppress_unit_voices",
+   "handler": "0x10148f2d4",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL20suppress_unit_voicesEP9lua_State",
+   "args": "1 values",
+   "returns": ""
+  },
+  {
+   "method": "suppress_unit_musicians",
+   "handler": "0x10148f344",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL23suppress_unit_musiciansEP9lua_State",
+   "args": "1 values",
+   "returns": ""
+  },
+  {
+   "method": "remaining_conflict_time",
+   "handler": "0x10148f3b4",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL23remaining_conflict_timeEP9lua_State",
+   "args": "",
+   "returns": "number"
+  },
+  {
+   "method": "modify_battle_speed",
+   "handler": "0x10148f434",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL19modify_battle_speedEP9lua_State",
+   "args": "1 values",
+   "returns": ""
+  },
+  {
+   "method": "restore_battle_speed",
+   "handler": "0x10148f4b4",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL20restore_battle_speedEP9lua_State",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "change_conflict_time_update_overridden",
+   "handler": "0x10148f508",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL38change_conflict_time_update_overriddenEP9lua_State",
+   "args": "1 values",
+   "returns": ""
+  },
+  {
+   "method": "change_victory_countdown_limit",
+   "handler": "0x10148f59c",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL30change_victory_countdown_limitEP9lua_State",
+   "args": "1 values",
+   "returns": ""
+  },
+  {
+   "method": "set_music_auto_playback",
+   "handler": "0x10148f628",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL23set_music_auto_playbackEP9lua_State",
+   "args": "1 values",
+   "returns": ""
+  },
+  {
+   "method": "set_music_loop",
+   "handler": "0x10148f6b4",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL14set_music_loopEP9lua_State",
+   "args": "1 values",
+   "returns": ""
+  },
+  {
+   "method": "play_music",
+   "handler": "0x10148f740",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL10play_musicEP9lua_State",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "play_music_custom_fade",
+   "handler": "0x10148f758",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL22play_music_custom_fadeEP9lua_State",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "stop_music",
+   "handler": "0x10148f770",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL10stop_musicEP9lua_State",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "stop_music_custom_fade",
+   "handler": "0x10148f7e8",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL22stop_music_custom_fadeEP9lua_State",
+   "args": "1 values",
+   "returns": ""
+  },
+  {
+   "method": "is_music_playing",
+   "handler": "0x10148f86c",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL16is_music_playingEP9lua_State",
+   "args": "1 values",
+   "returns": "boolean"
+  },
+  {
+   "method": "set_volume",
+   "handler": "0x10148f8d4",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL10set_volumeEP9lua_State",
+   "args": "2 values",
+   "returns": ""
+  },
+  {
+   "method": "fade_volume",
+   "handler": "0x10148f970",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL11fade_volumeEP9lua_State",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "get_volume",
+   "handler": "0x10148f988",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL10get_volumeEP9lua_State",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "unlock_achievement",
+   "handler": "0x10148f9a8",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL18unlock_achievementEP9lua_State",
+   "args": "1 values",
+   "returns": ""
+  },
+  {
+   "method": "steal_escape_key",
+   "handler": "0x10148fa30",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL16steal_escape_keyEP9lua_State",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "release_escape_key",
+   "handler": "0x10148fa70",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL18release_escape_keyEP9lua_State",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "steal_input_focus",
+   "handler": "0x10148fab0",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL17steal_input_focusEP9lua_State",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "release_input_focus",
+   "handler": "0x10148fad0",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL19release_input_focusEP9lua_State",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "disable_shortcut",
+   "handler": "0x10148faf0",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL16disable_shortcutEP9lua_State",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "error",
+   "handler": "0x10148fb10",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL5errorEP9lua_State",
+   "args": "1 values",
+   "returns": ""
+  },
+  {
+   "method": "add_ping_icon",
+   "handler": "0x10148fb74",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL13add_ping_iconEP9lua_State",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "remove_ping_icon",
+   "handler": "0x10148fb94",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL16remove_ping_iconEP9lua_State",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "show_objective",
+   "handler": "0x10148fbb4",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL14show_objectiveEP9lua_State",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "set_banners_enabled",
+   "handler": "0x10148fbd4",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL19set_banners_enabledEP9lua_State",
+   "args": "1 values",
+   "returns": ""
+  },
+  {
+   "method": "highlight_component",
+   "handler": "0x10148fc5c",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL19highlight_componentEP9lua_State",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "is_battle_over",
+   "handler": "0x10148fc74",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL14is_battle_overEP9lua_State",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "play_movie",
+   "handler": "0x10148fcc0",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL10play_movieEP9lua_State",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "is_movie_playing",
+   "handler": "0x10148fcd8",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL16is_movie_playingEP9lua_State",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "end_current_battle_phase",
+   "handler": "0x10148fd58",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL24end_current_battle_phaseEP9lua_State",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "local_alliance",
+   "handler": "0x10148fdb0",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL14local_allianceEP9lua_State",
+   "args": "",
+   "returns": "number (uint)"
+  },
+  {
+   "method": "local_army",
+   "handler": "0x10148fe28",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL10local_armyEP9lua_State",
+   "args": "",
+   "returns": "number (uint)"
+  },
+  {
+   "method": "is_benchmarking_mode",
+   "handler": "0x10148fea0",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL20is_benchmarking_modeEP9lua_State",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "end_benchmark",
+   "handler": "0x10148fee0",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL13end_benchmarkEP9lua_State",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "create_ui_attack_group",
+   "handler": "0x10148ff68",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL22create_ui_attack_groupEP9lua_State",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "create_ui_defend_group",
+   "handler": "0x10148ff80",
+   "symbol": "__ZN12EMPIREBATTLE13BATTLE_SCRIPT20BATTLE_SCRIPT_GLOBAL22create_ui_defend_groupEP9lua_State",
+   "args": "",
+   "returns": ""
+  }
+ ],
+ "0x104f7c4d8": [
+  {
+   "method": "read_subtitles_file",
+   "handler": "0x1014900d8",
+   "args": "1 values",
+   "returns": "boolean"
+  },
+  {
+   "method": "begin",
+   "handler": "0x10149016c",
+   "args": "1 values",
+   "returns": ""
+  },
+  {
+   "method": "end_subtitles",
+   "handler": "0x101490580",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "clear",
+   "handler": "0x101490660",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "push_back_subtitle_entry",
+   "handler": "0x101490b60",
+   "args": "3 values",
+   "returns": ""
+  },
+  {
+   "method": "push_back_subtitle",
+   "handler": "0x101490ba4",
+   "args": "3 values",
+   "returns": ""
+  },
+  {
+   "method": "change_if_borders_drawn",
+   "handler": "0x101490d80",
+   "args": "1 values",
+   "returns": ""
+  },
+  {
+   "method": "change_if_top_border_drawn",
+   "handler": "0x101490dec",
+   "args": "1 values",
+   "returns": ""
+  },
+  {
+   "method": "set_text",
+   "handler": "0x101490680",
+   "args": "1 values",
+   "returns": ""
+  },
+  {
+   "method": "set_alignment",
+   "handler": "0x101490830",
+   "args": "1 values",
+   "returns": ""
+  }
+ ],
+ "0x104f7c5e0": [
+  {
+   "method": "get_name",
+   "handler": "0x101490ebc",
+   "args": "",
+   "returns": "string"
+  },
+  {
+   "method": "get_bool1",
+   "handler": "0x101490f14",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "get_position",
+   "handler": "0x101490f6c",
+   "args": "3 values",
+   "returns": "battle_vector"
+  },
+  {
+   "method": "get_unit",
+   "handler": "0x10149100c",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "get_string1",
+   "handler": "0x1014910b0",
+   "args": "",
+   "returns": "string"
+  },
+  {
+   "method": "get_building",
+   "handler": "0x101491108",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "get_ship",
+   "handler": "0x1014911a4",
+   "args": "",
+   "returns": ""
+  }
+ ],
+ "0x104f7c7b0": [
+  {
+   "method": "get_x",
+   "handler": "0x1014a4358",
+   "args": "",
+   "returns": "number"
+  },
+  {
+   "method": "get_y",
+   "handler": "0x1014a43bc",
+   "args": "",
+   "returns": "number"
+  },
+  {
+   "method": "get_z",
+   "handler": "0x1014a4420",
+   "args": "",
+   "returns": "number"
+  },
+  {
+   "method": "set_x",
+   "handler": "0x1014a457c",
+   "args": "number",
+   "returns": ""
+  },
+  {
+   "method": "set_y",
+   "handler": "0x1014a45e4",
+   "args": "number",
+   "returns": ""
+  },
+  {
+   "method": "set_z",
+   "handler": "0x1014a464c",
+   "args": "number",
+   "returns": ""
+  },
+  {
+   "method": "set",
+   "handler": "0x1014a40ac",
+   "args": "userdata",
+   "returns": ""
+  },
+  {
+   "method": "distance",
+   "handler": "0x1014a46b4",
+   "args": "userdata",
+   "returns": "number"
+  },
+  {
+   "method": "length",
+   "handler": "0x1014a4484",
+   "args": "",
+   "returns": "number"
+  },
+  {
+   "method": "length_xz",
+   "handler": "0x1014a4504",
+   "args": "",
+   "returns": "number"
+  },
+  {
+   "method": "distance_xz",
+   "handler": "0x1014a47dc",
+   "args": "userdata",
+   "returns": "number"
+  }
+ ],
+ "0x104f808e8": [
+  {
+   "method": "draw_white_circle_on_terrain",
+   "handler": "0x10192a288",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "draw_white_line_on_terrain",
+   "handler": "0x10192a318",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "draw_white_peg_on_terrain",
+   "handler": "0x10192a3b8",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "draw_circle_on_terrain",
+   "handler": "0x10192a42c",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "draw_line_on_terrain",
+   "handler": "0x10192a4d4",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "draw_peg_on_terrain",
+   "handler": "0x10192a594",
+   "args": "",
+   "returns": ""
+  }
+ ],
+ "0x104f809c0": [
+  {
+   "method": "vehicle_item",
+   "handler": "0x10192a804",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "vehicle_count",
+   "handler": "0x10192a7d0",
+   "args": "",
+   "returns": "number (uint)"
+  }
+ ],
+ "0x104f82e80": [
+  {
+   "method": "is_null_interface",
+   "handler": null,
+   "vtable_offset": "0x38",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "faction_list",
+   "handler": "0x101d28d5c",
+   "args": "",
+   "returns": "FACTION_LIST_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "region_manager",
+   "handler": "0x101d28da4",
+   "args": "",
+   "returns": "REGION_MANAGER_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "model",
+   "handler": "0x101d28e28",
+   "args": "",
+   "returns": "MODEL_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "faction_by_key",
+   "handler": "0x101d28eb4",
+   "args": "string",
+   "returns": "FACTION_SCRIPT_INTERFACE, NULL_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "faction_exists",
+   "handler": "0x101d28fb4",
+   "args": "string",
+   "returns": "boolean"
+  },
+  {
+   "method": "ancillary_exists",
+   "handler": "0x101d29074",
+   "args": "string",
+   "returns": "boolean"
+  },
+  {
+   "method": "climate_phase_index",
+   "handler": "0x101d29134",
+   "args": "",
+   "returns": "number (int)"
+  }
+ ],
+ "0x104f82f58": [
+  {
+   "method": "is_null_interface",
+   "handler": null,
+   "vtable_offset": "0x38",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "world",
+   "handler": "0x101d29578",
+   "args": "",
+   "returns": "WORLD_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "pending_battle",
+   "handler": "0x101d295fc",
+   "args": "",
+   "returns": "PENDING_BATTLE_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "date_in_range",
+   "handler": "0x101d2967c",
+   "args": "number, number",
+   "returns": "boolean"
+  },
+  {
+   "method": "date_and_week_in_range",
+   "handler": "0x101d29738",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "turn_number",
+   "handler": "0x101d29804",
+   "args": "",
+   "returns": "number (uint)"
+  },
+  {
+   "method": "campaign_name",
+   "handler": "0x101d29858",
+   "args": "string",
+   "returns": "boolean"
+  },
+  {
+   "method": "random_percent",
+   "handler": "0x101d29920",
+   "args": "number",
+   "returns": "boolean"
+  },
+  {
+   "method": "is_multiplayer",
+   "handler": "0x101d29a04",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "is_player_turn",
+   "handler": "0x101d29a64",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "character_can_reach_character",
+   "handler": "0x101d29af0",
+   "args": "CHARACTER_SCRIPT_INTERFACE, CHARACTER_SCRIPT_INTERFACE",
+   "returns": "boolean"
+  },
+  {
+   "method": "difficulty_level",
+   "handler": "0x101d29bd4",
+   "args": "",
+   "returns": "number (int)"
+  },
+  {
+   "method": "faction_is_local",
+   "handler": "0x101d29c7c",
+   "args": "string",
+   "returns": "boolean"
+  },
+  {
+   "method": "player_steam_id_is_odd",
+   "handler": "0x101d29d74",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "campaign_ai",
+   "handler": "0x101d29df0",
+   "args": "",
+   "returns": "CAMPAIGN_AI_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "campaign_type",
+   "handler": "0x101d29e74",
+   "args": "",
+   "returns": "number (uint)"
+  },
+  {
+   "method": "season",
+   "handler": "0x101d29ed0",
+   "args": "",
+   "returns": "number (uint)"
+  },
+  {
+   "method": "character_for_command_queue_index",
+   "handler": "0x101d29f30",
+   "args": "",
+   "returns": "CHARACTER_SCRIPT_INTERFACE, NULL_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "military_force_for_command_queue_index",
+   "handler": "0x101d29fdc",
+   "args": "",
+   "returns": "MILITARY_FORCE_SCRIPT_INTERFACE, NULL_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "faction_for_command_queue_index",
+   "handler": "0x101d2a088",
+   "args": "",
+   "returns": "FACTION_SCRIPT_INTERFACE, NULL_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "has_character_command_queue_index",
+   "handler": "0x101d2a134",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "has_military_force_command_queue_index",
+   "handler": "0x101d2a178",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "has_faction_command_queue_index",
+   "handler": "0x101d2a1bc",
+   "args": "",
+   "returns": "boolean"
+  }
+ ],
+ "0x104f83198": [
+  {
+   "method": "is_null_interface",
+   "handler": null,
+   "vtable_offset": "0x38",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "region_list",
+   "handler": "0x101d2a614",
+   "args": "",
+   "returns": "REGION_LIST_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "character_list",
+   "handler": "0x101d2a79c",
+   "args": "",
+   "returns": "CHARACTER_LIST_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "military_force_list",
+   "handler": "0x101d2a924",
+   "args": "",
+   "returns": "MILITARY_FORCE_LIST_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "model",
+   "handler": "0x101d2aab8",
+   "args": "",
+   "returns": "MODEL_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "is_human",
+   "handler": "0x101d2ab44",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "name",
+   "handler": "0x101d2ab94",
+   "args": "",
+   "returns": "string"
+  },
+  {
+   "method": "home_region",
+   "handler": "0x101d2abe8",
+   "args": "",
+   "returns": "NULL_SCRIPT_INTERFACE, REGION_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "faction_leader",
+   "handler": "0x101d2ac70",
+   "args": "",
+   "returns": "CHARACTER_SCRIPT_INTERFACE, NULL_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "has_faction_leader",
+   "handler": "0x101d2ad48",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "has_home_region",
+   "handler": "0x101d2adb4",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "started_war_this_turn",
+   "handler": "0x101d2ae0c",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "ended_war_this_turn",
+   "handler": "0x101d2ae5c",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "ancillary_exists",
+   "handler": "0x101d2aeac",
+   "args": "string",
+   "returns": "boolean"
+  },
+  {
+   "method": "num_allies",
+   "handler": "0x101d2af6c",
+   "args": "",
+   "returns": "number (int)"
+  },
+  {
+   "method": "at_war",
+   "handler": "0x101d2b15c",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "allied_with",
+   "handler": "0x101d2b344",
+   "args": "FACTION_SCRIPT_INTERFACE",
+   "returns": "boolean"
+  },
+  {
+   "method": "at_war_with",
+   "handler": "0x101d2b4d8",
+   "args": "FACTION_SCRIPT_INTERFACE",
+   "returns": "boolean"
+  },
+  {
+   "method": "trade_resource_exists",
+   "handler": "0x101d2b594",
+   "args": "string",
+   "returns": "boolean"
+  },
+  {
+   "method": "trade_value",
+   "handler": "0x101d2b980",
+   "args": "",
+   "returns": "number (uint)"
+  },
+  {
+   "method": "trade_value_percent",
+   "handler": "0x101d2bb80",
+   "args": "",
+   "returns": "number"
+  },
+  {
+   "method": "unused_international_trade_route",
+   "handler": "0x101d2bd48",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "trade_route_limit_reached",
+   "handler": "0x101d2bfdc",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "sea_trade_route_raided",
+   "handler": "0x101d2c270",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "trade_ship_not_in_trade_node",
+   "handler": "0x101d2c2b4",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "treasury",
+   "handler": "0x101d2c380",
+   "args": "",
+   "returns": "number (int)"
+  },
+  {
+   "method": "treasury_percent",
+   "handler": "0x101d2c3d0",
+   "args": "",
+   "returns": "number"
+  },
+  {
+   "method": "losing_money",
+   "handler": "0x101d2c52c",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "tax_level",
+   "handler": "0x101d2c5e0",
+   "args": "",
+   "returns": "number (int)"
+  },
+  {
+   "method": "upkeep_expenditure_percent",
+   "handler": "0x101d2c6c0",
+   "args": "",
+   "returns": "number"
+  },
+  {
+   "method": "research_queue_idle",
+   "handler": "0x101d2c7cc",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "has_technology",
+   "handler": "0x101d2c824",
+   "args": "string",
+   "returns": "boolean"
+  },
+  {
+   "method": "state_religion",
+   "handler": "0x101d2c9c8",
+   "args": "",
+   "returns": "string"
+  },
+  {
+   "method": "state_religion_percentage",
+   "handler": "0x101d2ca60",
+   "args": "",
+   "returns": "number"
+  },
+  {
+   "method": "num_generals",
+   "handler": "0x101d2caf4",
+   "args": "",
+   "returns": "number (int)"
+  },
+  {
+   "method": "culture",
+   "handler": "0x101d2cb80",
+   "args": "",
+   "returns": "string"
+  },
+  {
+   "method": "subculture",
+   "handler": "0x101d2cc20",
+   "args": "",
+   "returns": "string"
+  },
+  {
+   "method": "has_food_shortage",
+   "handler": "0x101d2ccc0",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "imperium_level",
+   "handler": "0x101d2cd24",
+   "args": "",
+   "returns": "number (uint)"
+  },
+  {
+   "method": "is_horde",
+   "handler": "0x101d2cd74",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "command_queue_index",
+   "handler": "0x101d2cdc8",
+   "args": "",
+   "returns": "number (uint)"
+  },
+  {
+   "method": "is_trading_with",
+   "handler": "0x101d2ce18",
+   "args": "FACTION_SCRIPT_INTERFACE",
+   "returns": "boolean"
+  }
+ ],
+ "0x104f835a0": [
+  {
+   "method": "num_items",
+   "handler": "0x101d2d064",
+   "symbol": "__ZN14EMPIRECAMPAIGN18CAMPAIGN_SCRIPTING21LIST_SCRIPT_INTERFACEINS0_29FACTION_LIST_SCRIPT_INTERFACEENS0_24FACTION_SCRIPT_INTERFACEENS_7FACTIONEE9num_itemsEP9lua_State",
+   "args": "",
+   "returns": "number (uint)"
+  },
+  {
+   "method": "item_at",
+   "handler": "0x101d2d094",
+   "symbol": "__ZN14EMPIRECAMPAIGN18CAMPAIGN_SCRIPTING21LIST_SCRIPT_INTERFACEINS0_29FACTION_LIST_SCRIPT_INTERFACEENS0_24FACTION_SCRIPT_INTERFACEENS_7FACTIONEE7item_atEP9lua_State",
+   "args": "number",
+   "returns": "FACTION_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "is_empty",
+   "handler": "0x101d2d12c",
+   "symbol": "__ZN14EMPIRECAMPAIGN18CAMPAIGN_SCRIPTING21LIST_SCRIPT_INTERFACEINS0_29FACTION_LIST_SCRIPT_INTERFACEENS0_24FACTION_SCRIPT_INTERFACEENS_7FACTIONEE8is_emptyEP9lua_State",
+   "args": "",
+   "returns": "boolean"
+  }
+ ],
+ "0x104f83600": [
+  {
+   "method": "is_null_interface",
+   "handler": null,
+   "vtable_offset": "0x38",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "has_garrison_residence",
+   "handler": "0x101d2d198",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "has_region",
+   "handler": "0x101d2d1f0",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "has_military_force",
+   "handler": "0x101d2d284",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "model",
+   "handler": "0x101d2d2ec",
+   "args": "",
+   "returns": "MODEL_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "garrison_residence",
+   "handler": "0x101d2d378",
+   "args": "",
+   "returns": "GARRISON_RESIDENCE_SCRIPT_INTERFACE, NULL_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "faction",
+   "handler": "0x101d2d404",
+   "args": "",
+   "returns": "FACTION_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "region",
+   "handler": "0x101d2d488",
+   "args": "",
+   "returns": "NULL_SCRIPT_INTERFACE, REGION_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "military_force",
+   "handler": "0x101d2d518",
+   "args": "",
+   "returns": "MILITARY_FORCE_SCRIPT_INTERFACE, NULL_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "forename",
+   "handler": "0x101d2d5b0",
+   "args": "string",
+   "returns": "boolean"
+  },
+  {
+   "method": "surname",
+   "handler": "0x101d2d694",
+   "args": "string",
+   "returns": "boolean"
+  },
+  {
+   "method": "get_forename",
+   "handler": "0x101d2d778",
+   "args": "",
+   "returns": "string"
+  },
+  {
+   "method": "get_surname",
+   "handler": "0x101d2d80c",
+   "args": "",
+   "returns": "string"
+  },
+  {
+   "method": "in_settlement",
+   "handler": "0x101d2d8a0",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "in_port",
+   "handler": "0x101d2d918",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "is_besieging",
+   "handler": "0x101d2d994",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "is_blockading",
+   "handler": "0x101d2d9e8",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "is_carrying_troops",
+   "handler": "0x101d2da3c",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "character_type",
+   "handler": "0x101d2daac",
+   "args": "string",
+   "returns": "boolean"
+  },
+  {
+   "method": "has_trait",
+   "handler": "0x101d2db6c",
+   "args": "string",
+   "returns": "boolean"
+  },
+  {
+   "method": "trait_points",
+   "handler": "0x101d2dd14",
+   "args": "string",
+   "returns": "number (int)"
+  },
+  {
+   "method": "has_ancillary",
+   "handler": "0x101d2debc",
+   "args": "string",
+   "returns": "boolean"
+  },
+  {
+   "method": "battles_fought",
+   "handler": "0x101d2e04c",
+   "args": "",
+   "returns": "number (uint)"
+  },
+  {
+   "method": "action_points_remaining_percent",
+   "handler": "0x101d2e09c",
+   "args": "",
+   "returns": "number"
+  },
+  {
+   "method": "action_points_per_turn",
+   "handler": "0x101d2e170",
+   "args": "",
+   "returns": "number (int)"
+  },
+  {
+   "method": "is_male",
+   "handler": "0x101d2e1cc",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "age",
+   "handler": "0x101d2e224",
+   "args": "",
+   "returns": "number (int)"
+  },
+  {
+   "method": "performed_action_this_turn",
+   "handler": "0x101d2e278",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "is_ambushing",
+   "handler": "0x101d2e2c8",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "turns_at_sea",
+   "handler": "0x101d2e31c",
+   "args": "",
+   "returns": "number (uint)"
+  },
+  {
+   "method": "turns_in_own_regions",
+   "handler": "0x101d2e36c",
+   "args": "",
+   "returns": "number (uint)"
+  },
+  {
+   "method": "turns_in_enemy_regions",
+   "handler": "0x101d2e3bc",
+   "args": "",
+   "returns": "number (uint)"
+  },
+  {
+   "method": "is_faction_leader",
+   "handler": "0x101d2e40c",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "rank",
+   "handler": "0x101d2e464",
+   "args": "",
+   "returns": "number (int)"
+  },
+  {
+   "method": "defensive_sieges_fought",
+   "handler": "0x101d2e4b8",
+   "args": "",
+   "returns": "number (uint)"
+  },
+  {
+   "method": "defensive_sieges_won",
+   "handler": "0x101d2e508",
+   "args": "",
+   "returns": "number (uint)"
+  },
+  {
+   "method": "offensive_sieges_fought",
+   "handler": "0x101d2e558",
+   "args": "",
+   "returns": "number (uint)"
+  },
+  {
+   "method": "offensive_sieges_won",
+   "handler": "0x101d2e5a8",
+   "args": "",
+   "returns": "number (uint)"
+  },
+  {
+   "method": "fought_in_battle",
+   "handler": "0x101d2e5f8",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "won_battle",
+   "handler": "0x101d2e728",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "percentage_of_own_alliance_killed",
+   "handler": "0x101d2e7c0",
+   "args": "",
+   "returns": "number"
+  },
+  {
+   "method": "logical_position_x",
+   "handler": "0x101d2e8a8",
+   "args": "",
+   "returns": "number (uint)"
+  },
+  {
+   "method": "logical_position_y",
+   "handler": "0x101d2e8fc",
+   "args": "",
+   "returns": "number (uint)"
+  },
+  {
+   "method": "display_position_x",
+   "handler": "0x101d2e950",
+   "args": "",
+   "returns": "number"
+  },
+  {
+   "method": "display_position_y",
+   "handler": "0x101d2e9ac",
+   "args": "",
+   "returns": "number"
+  },
+  {
+   "method": "battles_won",
+   "handler": "0x101d2ea08",
+   "args": "",
+   "returns": "number (uint)"
+  },
+  {
+   "method": "offensive_battles_won",
+   "handler": "0x101d2ea58",
+   "args": "",
+   "returns": "number (uint)"
+  },
+  {
+   "method": "offensive_battles_fought",
+   "handler": "0x101d2eaa8",
+   "args": "",
+   "returns": "number (uint)"
+  },
+  {
+   "method": "defensive_battles_won",
+   "handler": "0x101d2eaf8",
+   "args": "",
+   "returns": "number (uint)"
+  },
+  {
+   "method": "defensive_battles_fought",
+   "handler": "0x101d2eb48",
+   "args": "",
+   "returns": "number (uint)"
+  },
+  {
+   "method": "offensive_naval_battles_won",
+   "handler": "0x101d2eb98",
+   "args": "",
+   "returns": "number (uint)"
+  },
+  {
+   "method": "offensive_naval_battles_fought",
+   "handler": "0x101d2ebe8",
+   "args": "",
+   "returns": "number (uint)"
+  },
+  {
+   "method": "defensive_naval_battles_won",
+   "handler": "0x101d2ec38",
+   "args": "",
+   "returns": "number (uint)"
+  },
+  {
+   "method": "defensive_naval_battles_fought",
+   "handler": "0x101d2ec88",
+   "args": "",
+   "returns": "number (uint)"
+  },
+  {
+   "method": "offensive_ambush_battles_won",
+   "handler": "0x101d2ecd8",
+   "args": "",
+   "returns": "number (uint)"
+  },
+  {
+   "method": "offensive_ambush_battles_fought",
+   "handler": "0x101d2ed28",
+   "args": "",
+   "returns": "number (uint)"
+  },
+  {
+   "method": "defensive_ambush_battles_won",
+   "handler": "0x101d2ed78",
+   "args": "",
+   "returns": "number (uint)"
+  },
+  {
+   "method": "defensive_ambush_battles_fought",
+   "handler": "0x101d2edc8",
+   "args": "",
+   "returns": "number (uint)"
+  },
+  {
+   "method": "cqi",
+   "handler": "0x101d2ee18",
+   "args": "",
+   "returns": "number (uint)"
+  },
+  {
+   "method": "is_embedded_in_military_force",
+   "handler": "0x101d2ee68",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "has_skill",
+   "handler": "0x101d2eed0",
+   "args": "string",
+   "returns": "boolean"
+  },
+  {
+   "method": "is_hidden",
+   "handler": "0x101d2f054",
+   "args": "string",
+   "returns": "boolean"
+  },
+  {
+   "method": "is_deployed",
+   "handler": "0x101d2f18c",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "has_recruited_mercenaries",
+   "handler": "0x101d2f1dc",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "routed_in_battle",
+   "handler": "0x101d2f234",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "body_guard_casulties",
+   "handler": "0x101d2f378",
+   "args": "",
+   "returns": "number"
+  },
+  {
+   "method": "number_of_traits",
+   "handler": "0x101d2f4e4",
+   "args": "",
+   "returns": "number (uint)"
+  },
+  {
+   "method": "trait_level",
+   "handler": "0x101d2f524",
+   "args": "string",
+   "returns": "number (int)"
+  },
+  {
+   "method": "is_politician",
+   "handler": "0x101d2f6ec",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "gravitas",
+   "handler": "0x101d2f740",
+   "args": "",
+   "returns": "number (uint)"
+  },
+  {
+   "method": "loyalty",
+   "handler": "0x101d2f798",
+   "args": "",
+   "returns": "number (uint)"
+  },
+  {
+   "method": "has_father",
+   "handler": "0x101d2f7ec",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "has_mother",
+   "handler": "0x101d2f848",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "father",
+   "handler": "0x101d2f8a4",
+   "args": "",
+   "returns": "FAMILY_MEMBER_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "mother",
+   "handler": "0x101d2f928",
+   "args": "",
+   "returns": "FAMILY_MEMBER_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "family_member",
+   "handler": "0x101d2f9ac",
+   "args": "",
+   "returns": "FAMILY_MEMBER_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "command_queue_index",
+   "handler": "0x101d2fa2c",
+   "args": "",
+   "returns": "number (uint)"
+  }
+ ],
+ "0x104f83d50": [
+  {
+   "method": "num_items",
+   "handler": "0x101d2fbf0",
+   "symbol": "__ZN14EMPIRECAMPAIGN18CAMPAIGN_SCRIPTING21LIST_SCRIPT_INTERFACEINS0_31CHARACTER_LIST_SCRIPT_INTERFACEENS0_26CHARACTER_SCRIPT_INTERFACEENS_9CHARACTEREE9num_itemsEP9lua_State",
+   "args": "",
+   "returns": "number (uint)"
+  },
+  {
+   "method": "item_at",
+   "handler": "0x101d2fc20",
+   "symbol": "__ZN14EMPIRECAMPAIGN18CAMPAIGN_SCRIPTING21LIST_SCRIPT_INTERFACEINS0_31CHARACTER_LIST_SCRIPT_INTERFACEENS0_26CHARACTER_SCRIPT_INTERFACEENS_9CHARACTEREE7item_atEP9lua_State",
+   "args": "number",
+   "returns": "CHARACTER_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "is_empty",
+   "handler": "0x101d2fcb8",
+   "symbol": "__ZN14EMPIRECAMPAIGN18CAMPAIGN_SCRIPTING21LIST_SCRIPT_INTERFACEINS0_31CHARACTER_LIST_SCRIPT_INTERFACEENS0_26CHARACTER_SCRIPT_INTERFACEENS_9CHARACTEREE8is_emptyEP9lua_State",
+   "args": "",
+   "returns": "boolean"
+  }
+ ],
+ "0x104f83db0": [
+  {
+   "method": "is_null_interface",
+   "handler": null,
+   "vtable_offset": "0x38",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "has_father",
+   "handler": "0x101d2fcf0",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "has_mother",
+   "handler": "0x101d2fd48",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "father",
+   "handler": "0x101d2fda0",
+   "args": "",
+   "returns": "FAMILY_MEMBER_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "mother",
+   "handler": "0x101d2fe20",
+   "args": "",
+   "returns": "FAMILY_MEMBER_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "has_trait",
+   "handler": "0x101d2fea0",
+   "args": "string",
+   "returns": "boolean"
+  },
+  {
+   "method": "come_of_age",
+   "handler": "0x101d3004c",
+   "args": "",
+   "returns": "boolean"
+  }
+ ],
+ "0x104f83e70": [
+  {
+   "method": "is_null_interface",
+   "handler": null,
+   "vtable_offset": "0x38",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "model",
+   "handler": "0x101d3009c",
+   "args": "",
+   "returns": "MODEL_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "region_list",
+   "handler": "0x101d30124",
+   "args": "",
+   "returns": "REGION_LIST_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "faction_region_list",
+   "handler": "0x101d3016c",
+   "args": "1 values",
+   "returns": "REGION_LIST_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "region_by_key",
+   "handler": "0x101d30358",
+   "args": "string",
+   "returns": "NULL_SCRIPT_INTERFACE, REGION_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "settlement_by_key",
+   "handler": "0x101d30520",
+   "args": "string",
+   "returns": "NULL_SCRIPT_INTERFACE, SETTLEMENT_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "slot_by_key",
+   "handler": "0x101d306e8",
+   "args": "string",
+   "returns": "NULL_SCRIPT_INTERFACE, SLOT_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "resource_exists_anywhere",
+   "handler": "0x101d308b0",
+   "args": "string",
+   "returns": "boolean"
+  }
+ ],
+ "0x104f83f48": [
+  {
+   "method": "is_null_interface",
+   "handler": null,
+   "vtable_offset": "0x38",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "model",
+   "handler": "0x101d30e34",
+   "args": "",
+   "returns": "MODEL_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "owning_faction",
+   "handler": "0x101d30ec0",
+   "args": "",
+   "returns": "FACTION_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "slot_list",
+   "handler": "0x101d30f44",
+   "args": "",
+   "returns": "SLOT_LIST_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "settlement",
+   "handler": "0x101d30f90",
+   "args": "",
+   "returns": "SETTLEMENT_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "garrison_residence",
+   "handler": "0x101d31010",
+   "args": "",
+   "returns": "GARRISON_RESIDENCE_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "name",
+   "handler": "0x101d31090",
+   "args": "",
+   "returns": "string"
+  },
+  {
+   "method": "public_order",
+   "handler": "0x101d3110c",
+   "args": "",
+   "returns": "number (int)"
+  },
+  {
+   "method": "num_buildings",
+   "handler": "0x101d31168",
+   "args": "",
+   "returns": "number (uint)"
+  },
+  {
+   "method": "slot_type_exists",
+   "handler": "0x101d311f8",
+   "args": "string",
+   "returns": "boolean"
+  },
+  {
+   "method": "building_exists",
+   "handler": "0x101d3132c",
+   "args": "string",
+   "returns": "boolean"
+  },
+  {
+   "method": "last_building_constructed_key",
+   "handler": "0x101d3147c",
+   "args": "",
+   "returns": "string"
+  },
+  {
+   "method": "resource_exists",
+   "handler": "0x101d314f8",
+   "args": "string",
+   "returns": "boolean"
+  },
+  {
+   "method": "town_wealth_growth",
+   "handler": "0x101d316cc",
+   "args": "",
+   "returns": "number (int)"
+  },
+  {
+   "method": "adjacent_region_list",
+   "handler": "0x101d3171c",
+   "args": "",
+   "returns": "REGION_LIST_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "majority_religion",
+   "handler": "0x101d31764",
+   "args": "",
+   "returns": "string"
+  },
+  {
+   "method": "majority_religion_percentage",
+   "handler": "0x101d317f8",
+   "args": "",
+   "returns": "number"
+  },
+  {
+   "method": "region_wealth_change_percent",
+   "handler": "0x101d31868",
+   "args": "",
+   "returns": "number"
+  },
+  {
+   "method": "building_superchain_exists",
+   "handler": "0x101d318c0",
+   "args": "string",
+   "returns": "boolean"
+  },
+  {
+   "method": "has_governor",
+   "handler": "0x101d31a18",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "governor",
+   "handler": "0x101d31a84",
+   "args": "",
+   "returns": "CHARACTER_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "squalor",
+   "handler": "0x101d31b0c",
+   "args": "",
+   "returns": "number (uint)"
+  },
+  {
+   "method": "sanitation",
+   "handler": "0x101d31b70",
+   "args": "",
+   "returns": "number (uint)"
+  }
+ ],
+ "0x104f84188": [
+  {
+   "method": "num_items",
+   "handler": "0x101d32008",
+   "symbol": "__ZN14EMPIRECAMPAIGN18CAMPAIGN_SCRIPTING21LIST_SCRIPT_INTERFACEINS0_28REGION_LIST_SCRIPT_INTERFACEENS0_23REGION_SCRIPT_INTERFACEENS_6REGIONEE9num_itemsEP9lua_State",
+   "args": "",
+   "returns": "number (uint)"
+  },
+  {
+   "method": "item_at",
+   "handler": "0x101d32038",
+   "symbol": "__ZN14EMPIRECAMPAIGN18CAMPAIGN_SCRIPTING21LIST_SCRIPT_INTERFACEINS0_28REGION_LIST_SCRIPT_INTERFACEENS0_23REGION_SCRIPT_INTERFACEENS_6REGIONEE7item_atEP9lua_State",
+   "args": "number",
+   "returns": "REGION_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "is_empty",
+   "handler": "0x101d320d0",
+   "symbol": "__ZN14EMPIRECAMPAIGN18CAMPAIGN_SCRIPTING21LIST_SCRIPT_INTERFACEINS0_28REGION_LIST_SCRIPT_INTERFACEENS0_23REGION_SCRIPT_INTERFACEENS_6REGIONEE8is_emptyEP9lua_State",
+   "args": "",
+   "returns": "boolean"
+  }
+ ],
+ "0x104f841e8": [
+  {
+   "method": "is_null_interface",
+   "handler": null,
+   "vtable_offset": "0x38",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "has_army",
+   "handler": "0x101d32108",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "has_navy",
+   "handler": "0x101d32168",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "model",
+   "handler": "0x101d321c8",
+   "args": "",
+   "returns": "MODEL_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "faction",
+   "handler": "0x101d32254",
+   "args": "",
+   "returns": "FACTION_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "army",
+   "handler": "0x101d322e0",
+   "args": "",
+   "returns": "MILITARY_FORCE_SCRIPT_INTERFACE, NULL_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "navy",
+   "handler": "0x101d32374",
+   "args": "",
+   "returns": "MILITARY_FORCE_SCRIPT_INTERFACE, NULL_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "region",
+   "handler": "0x101d32408",
+   "args": "",
+   "returns": "REGION_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "buildings",
+   "handler": "0x101d32494",
+   "args": "",
+   "returns": "BUILDING_LIST_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "unit_count",
+   "handler": "0x101d325ec",
+   "args": "",
+   "returns": "number (uint)"
+  },
+  {
+   "method": "is_under_siege",
+   "handler": "0x101d32664",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "is_settlement",
+   "handler": "0x101d326cc",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "is_slot",
+   "handler": "0x101d3272c",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "settlement_interface",
+   "handler": "0x101d3278c",
+   "args": "",
+   "returns": "NULL_SCRIPT_INTERFACE, SETTLEMENT_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "slot_interface",
+   "handler": "0x101d32868",
+   "args": "",
+   "returns": "NULL_SCRIPT_INTERFACE, SLOT_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "can_assault",
+   "handler": "0x101d32944",
+   "args": "",
+   "returns": "boolean"
+  }
+ ],
+ "0x104f84380": [
+  {
+   "method": "is_null_interface",
+   "handler": null,
+   "vtable_offset": "0x38",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "has_commander",
+   "handler": "0x101d32c14",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "logical_position_x",
+   "handler": "0x101d32c9c",
+   "args": "",
+   "returns": "number (uint)"
+  },
+  {
+   "method": "logical_position_y",
+   "handler": "0x101d32cf8",
+   "args": "",
+   "returns": "number (uint)"
+  },
+  {
+   "method": "display_position_x",
+   "handler": "0x101d32d54",
+   "args": "",
+   "returns": "number"
+  },
+  {
+   "method": "display_position_y",
+   "handler": "0x101d32db8",
+   "args": "",
+   "returns": "number"
+  },
+  {
+   "method": "model",
+   "handler": "0x101d32e1c",
+   "args": "",
+   "returns": "MODEL_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "commander",
+   "handler": "0x101d32ea8",
+   "args": "",
+   "returns": "CHARACTER_SCRIPT_INTERFACE, NULL_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "faction",
+   "handler": "0x101d32f64",
+   "args": "",
+   "returns": "FACTION_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "region",
+   "handler": "0x101d32ff0",
+   "args": "",
+   "returns": "REGION_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "slot_list",
+   "handler": "0x101d3307c",
+   "args": "",
+   "returns": "SLOT_LIST_SCRIPT_INTERFACE"
+  }
+ ],
+ "0x104f844a0": [
+  {
+   "method": "is_null_interface",
+   "handler": null,
+   "vtable_offset": "0x38",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "has_building",
+   "handler": "0x101d333c0",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "model",
+   "handler": "0x101d3341c",
+   "args": "",
+   "returns": "MODEL_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "region",
+   "handler": "0x101d334a8",
+   "args": "",
+   "returns": "REGION_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "building",
+   "handler": "0x101d33534",
+   "args": "",
+   "returns": "BUILDING_SCRIPT_INTERFACE, NULL_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "faction",
+   "handler": "0x101d335c4",
+   "args": "",
+   "returns": "FACTION_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "type",
+   "handler": "0x101d33650",
+   "args": "",
+   "returns": "string"
+  },
+  {
+   "method": "name",
+   "handler": "0x101d336a4",
+   "args": "",
+   "returns": "string"
+  }
+ ],
+ "0x104f84578": [
+  {
+   "method": "num_items",
+   "handler": "0x101d337e4",
+   "symbol": "__ZN14EMPIRECAMPAIGN18CAMPAIGN_SCRIPTING21LIST_SCRIPT_INTERFACEINS0_26SLOT_LIST_SCRIPT_INTERFACEENS0_21SLOT_SCRIPT_INTERFACEENS_11REGION_SLOTEE9num_itemsEP9lua_State",
+   "args": "",
+   "returns": "number (uint)"
+  },
+  {
+   "method": "item_at",
+   "handler": "0x101d33814",
+   "symbol": "__ZN14EMPIRECAMPAIGN18CAMPAIGN_SCRIPTING21LIST_SCRIPT_INTERFACEINS0_26SLOT_LIST_SCRIPT_INTERFACEENS0_21SLOT_SCRIPT_INTERFACEENS_11REGION_SLOTEE7item_atEP9lua_State",
+   "args": "number",
+   "returns": "SLOT_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "is_empty",
+   "handler": "0x101d338ac",
+   "symbol": "__ZN14EMPIRECAMPAIGN18CAMPAIGN_SCRIPTING21LIST_SCRIPT_INTERFACEINS0_26SLOT_LIST_SCRIPT_INTERFACEENS0_21SLOT_SCRIPT_INTERFACEENS_11REGION_SLOTEE8is_emptyEP9lua_State",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "slot_type_exists",
+   "handler": "0x101d338e4",
+   "args": "string",
+   "returns": "boolean"
+  },
+  {
+   "method": "buliding_type_exists",
+   "handler": "0x101d33a18",
+   "args": "string",
+   "returns": "boolean"
+  }
+ ],
+ "0x104f84608": [
+  {
+   "method": "is_null_interface",
+   "handler": null,
+   "vtable_offset": "0x38",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "model",
+   "handler": "0x101d33b68",
+   "args": "",
+   "returns": "MODEL_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "faction",
+   "handler": "0x101d33bf4",
+   "args": "",
+   "returns": "FACTION_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "region",
+   "handler": "0x101d33c8c",
+   "args": "",
+   "returns": "REGION_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "slot",
+   "handler": "0x101d33d10",
+   "args": "",
+   "returns": "SLOT_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "name",
+   "handler": "0x101d33d94",
+   "args": "",
+   "returns": "string"
+  },
+  {
+   "method": "chain",
+   "handler": "0x101d33e1c",
+   "args": "",
+   "returns": "string"
+  },
+  {
+   "method": "superchain",
+   "handler": "0x101d33eac",
+   "args": "",
+   "returns": "string"
+  },
+  {
+   "method": "percent_health",
+   "handler": "0x101d33f44",
+   "args": "",
+   "returns": "number (int)"
+  }
+ ],
+ "0x104f846f8": [
+  {
+   "method": "num_items",
+   "handler": "0x101d33ff4",
+   "symbol": "__ZN14EMPIRECAMPAIGN18CAMPAIGN_SCRIPTING21LIST_SCRIPT_INTERFACEINS0_30BUILDING_LIST_SCRIPT_INTERFACEENS0_25BUILDING_SCRIPT_INTERFACEENS_15REGION_BUILDINGEE9num_itemsEP9lua_State",
+   "args": "",
+   "returns": "number (uint)"
+  },
+  {
+   "method": "item_at",
+   "handler": "0x101d34024",
+   "symbol": "__ZN14EMPIRECAMPAIGN18CAMPAIGN_SCRIPTING21LIST_SCRIPT_INTERFACEINS0_30BUILDING_LIST_SCRIPT_INTERFACEENS0_25BUILDING_SCRIPT_INTERFACEENS_15REGION_BUILDINGEE7item_atEP9lua_State",
+   "args": "number",
+   "returns": "BUILDING_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "is_empty",
+   "handler": "0x101d340bc",
+   "symbol": "__ZN14EMPIRECAMPAIGN18CAMPAIGN_SCRIPTING21LIST_SCRIPT_INTERFACEINS0_30BUILDING_LIST_SCRIPT_INTERFACEENS0_25BUILDING_SCRIPT_INTERFACEENS_15REGION_BUILDINGEE8is_emptyEP9lua_State",
+   "args": "",
+   "returns": "boolean"
+  }
+ ],
+ "0x104f84758": [
+  {
+   "method": "is_null_interface",
+   "handler": null,
+   "vtable_offset": "0x38",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "has_general",
+   "handler": "0x101d340f4",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "is_army",
+   "handler": "0x101d34150",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "is_navy",
+   "handler": "0x101d341a4",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "model",
+   "handler": "0x101d341f4",
+   "args": "",
+   "returns": "MODEL_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "unit_list",
+   "handler": "0x101d34280",
+   "args": "",
+   "returns": "UNIT_LIST_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "character_list",
+   "handler": "0x101d343cc",
+   "args": "",
+   "returns": "CHARACTER_LIST_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "general_character",
+   "handler": "0x101d34514",
+   "args": "",
+   "returns": "CHARACTER_SCRIPT_INTERFACE, NULL_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "faction",
+   "handler": "0x101d345a4",
+   "args": "",
+   "returns": "FACTION_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "has_garrison_residence",
+   "handler": "0x101d34628",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "garrison_residence",
+   "handler": "0x101d34680",
+   "args": "",
+   "returns": "GARRISON_RESIDENCE_SCRIPT_INTERFACE, NULL_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "contains_mercenaries",
+   "handler": "0x101d3470c",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "upkeep",
+   "handler": "0x101d34790",
+   "args": "",
+   "returns": "number (uint)"
+  },
+  {
+   "method": "active_stance",
+   "handler": "0x101d347e8",
+   "args": "",
+   "returns": "string"
+  },
+  {
+   "method": "can_activate_stance",
+   "handler": "0x101d34868",
+   "args": "string",
+   "returns": "boolean"
+  },
+  {
+   "method": "command_queue_index",
+   "handler": "0x101d34970",
+   "args": "",
+   "returns": "number (uint)"
+  },
+  {
+   "method": "is_horde",
+   "handler": "0x101d349c0",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "building_exists",
+   "handler": "0x101d34a18",
+   "args": "string",
+   "returns": "boolean"
+  },
+  {
+   "method": "buildings",
+   "handler": "0x101d34bb4",
+   "args": "",
+   "returns": "MILITARY_FORCE_BUILDING_LIST_SCRIPT_INTERFACE"
+  }
+ ],
+ "0x104f84938": [
+  {
+   "method": "num_items",
+   "handler": "0x101d34d88",
+   "symbol": "__ZN14EMPIRECAMPAIGN18CAMPAIGN_SCRIPTING21LIST_SCRIPT_INTERFACEINS0_36MILITARY_FORCE_LIST_SCRIPT_INTERFACEENS0_31MILITARY_FORCE_SCRIPT_INTERFACEENS_14MILITARY_FORCEEE9num_itemsEP9lua_State",
+   "args": "",
+   "returns": "number (uint)"
+  },
+  {
+   "method": "item_at",
+   "handler": "0x101d34db8",
+   "symbol": "__ZN14EMPIRECAMPAIGN18CAMPAIGN_SCRIPTING21LIST_SCRIPT_INTERFACEINS0_36MILITARY_FORCE_LIST_SCRIPT_INTERFACEENS0_31MILITARY_FORCE_SCRIPT_INTERFACEENS_14MILITARY_FORCEEE7item_atEP9lua_State",
+   "args": "number",
+   "returns": "MILITARY_FORCE_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "is_empty",
+   "handler": "0x101d34e50",
+   "symbol": "__ZN14EMPIRECAMPAIGN18CAMPAIGN_SCRIPTING21LIST_SCRIPT_INTERFACEINS0_36MILITARY_FORCE_LIST_SCRIPT_INTERFACEENS0_31MILITARY_FORCE_SCRIPT_INTERFACEENS_14MILITARY_FORCEEE8is_emptyEP9lua_State",
+   "args": "",
+   "returns": "boolean"
+  }
+ ],
+ "0x104f84998": [
+  {
+   "method": "is_null_interface",
+   "handler": null,
+   "vtable_offset": "0x38",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "model",
+   "handler": "0x101d34e88",
+   "args": "",
+   "returns": "MODEL_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "faction",
+   "handler": "0x101d34f14",
+   "args": "",
+   "returns": "FACTION_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "military_force",
+   "handler": "0x101d34fac",
+   "args": "",
+   "returns": "MILITARY_FORCE_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "name",
+   "handler": "0x101d35030",
+   "args": "",
+   "returns": "string"
+  },
+  {
+   "method": "chain",
+   "handler": "0x101d350b8",
+   "args": "",
+   "returns": "string"
+  },
+  {
+   "method": "superchain",
+   "handler": "0x101d35148",
+   "args": "",
+   "returns": "string"
+  },
+  {
+   "method": "percent_health",
+   "handler": "0x101d351e0",
+   "args": "",
+   "returns": "number (int)"
+  }
+ ],
+ "0x104f84a70": [
+  {
+   "method": "num_items",
+   "handler": "0x101d35290",
+   "symbol": "__ZN14EMPIRECAMPAIGN18CAMPAIGN_SCRIPTING21LIST_SCRIPT_INTERFACEINS0_45MILITARY_FORCE_BUILDING_LIST_SCRIPT_INTERFACEENS0_40MILITARY_FORCE_BUILDING_SCRIPT_INTERFACEENS_23MILITARY_FORCE_BUILDINGEE9num_itemsEP9lua_State",
+   "args": "",
+   "returns": "number (uint)"
+  },
+  {
+   "method": "item_at",
+   "handler": "0x101d352c0",
+   "symbol": "__ZN14EMPIRECAMPAIGN18CAMPAIGN_SCRIPTING21LIST_SCRIPT_INTERFACEINS0_45MILITARY_FORCE_BUILDING_LIST_SCRIPT_INTERFACEENS0_40MILITARY_FORCE_BUILDING_SCRIPT_INTERFACEENS_23MILITARY_FORCE_BUILDINGEE7item_atEP9lua_State",
+   "args": "number",
+   "returns": "MILITARY_FORCE_BUILDING_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "is_empty",
+   "handler": "0x101d35358",
+   "symbol": "__ZN14EMPIRECAMPAIGN18CAMPAIGN_SCRIPTING21LIST_SCRIPT_INTERFACEINS0_45MILITARY_FORCE_BUILDING_LIST_SCRIPT_INTERFACEENS0_40MILITARY_FORCE_BUILDING_SCRIPT_INTERFACEENS_23MILITARY_FORCE_BUILDINGEE8is_emptyEP9lua_State",
+   "args": "",
+   "returns": "boolean"
+  }
+ ],
+ "0x104f84ad0": [
+  {
+   "method": "is_null_interface",
+   "handler": null,
+   "vtable_offset": "0x38",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "has_force_commander",
+   "handler": "0x101d35390",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "has_unit_commander",
+   "handler": "0x101d353e8",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "is_land_unit",
+   "handler": "0x101d35450",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "is_naval_unit",
+   "handler": "0x101d354a4",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "model",
+   "handler": "0x101d354f8",
+   "args": "",
+   "returns": "MODEL_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "force_commander",
+   "handler": "0x101d35584",
+   "args": "",
+   "returns": "CHARACTER_SCRIPT_INTERFACE, NULL_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "unit_commander",
+   "handler": "0x101d35610",
+   "args": "",
+   "returns": "CHARACTER_SCRIPT_INTERFACE, NULL_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "military_force",
+   "handler": "0x101d356a8",
+   "args": "",
+   "returns": "MILITARY_FORCE_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "unit_key",
+   "handler": "0x101d35730",
+   "args": "",
+   "returns": "string"
+  },
+  {
+   "method": "unit_category",
+   "handler": "0x101d35780",
+   "args": "",
+   "returns": "string"
+  },
+  {
+   "method": "unit_class",
+   "handler": "0x101d357d4",
+   "args": "",
+   "returns": "string"
+  },
+  {
+   "method": "faction",
+   "handler": "0x101d35828",
+   "args": "",
+   "returns": "FACTION_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "percentage_proportion_of_full_strength",
+   "handler": "0x101d358a8",
+   "args": "",
+   "returns": "number"
+  },
+  {
+   "method": "can_upgrade_unit_equipment",
+   "handler": "0x101d3590c",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "can_upgrade_unit",
+   "handler": "0x101d35994",
+   "args": "",
+   "returns": "boolean"
+  }
+ ],
+ "0x104f84c68": [
+  {
+   "method": "num_items",
+   "handler": "0x101d35a18",
+   "symbol": "__ZN14EMPIRECAMPAIGN18CAMPAIGN_SCRIPTING21LIST_SCRIPT_INTERFACEINS0_26UNIT_LIST_SCRIPT_INTERFACEENS0_21UNIT_SCRIPT_INTERFACEENS_4UNITEE9num_itemsEP9lua_State",
+   "args": "",
+   "returns": "number (uint)"
+  },
+  {
+   "method": "item_at",
+   "handler": "0x101d35a48",
+   "symbol": "__ZN14EMPIRECAMPAIGN18CAMPAIGN_SCRIPTING21LIST_SCRIPT_INTERFACEINS0_26UNIT_LIST_SCRIPT_INTERFACEENS0_21UNIT_SCRIPT_INTERFACEENS_4UNITEE7item_atEP9lua_State",
+   "args": "number",
+   "returns": "UNIT_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "is_empty",
+   "handler": "0x101d35ae0",
+   "symbol": "__ZN14EMPIRECAMPAIGN18CAMPAIGN_SCRIPTING21LIST_SCRIPT_INTERFACEINS0_26UNIT_LIST_SCRIPT_INTERFACEENS0_21UNIT_SCRIPT_INTERFACEENS_4UNITEE8is_emptyEP9lua_State",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "has_unit",
+   "handler": "0x101d35b18",
+   "args": "string",
+   "returns": "boolean"
+  }
+ ],
+ "0x104f84ce0": [
+  {
+   "method": "is_null_interface",
+   "handler": null,
+   "vtable_offset": "0x38",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "has_attacker",
+   "handler": "0x101d35c50",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "has_defender",
+   "handler": "0x101d35ca8",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "has_contested_garrison",
+   "handler": "0x101d35d00",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "model",
+   "handler": "0x101d35d58",
+   "args": "",
+   "returns": "MODEL_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "attacker",
+   "handler": "0x101d35de4",
+   "args": "",
+   "returns": "CHARACTER_SCRIPT_INTERFACE, NULL_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "defender",
+   "handler": "0x101d35e70",
+   "args": "",
+   "returns": "CHARACTER_SCRIPT_INTERFACE, NULL_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "contested_garrison",
+   "handler": "0x101d35efc",
+   "args": "",
+   "returns": "GARRISON_RESIDENCE_SCRIPT_INTERFACE, NULL_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "is_active",
+   "handler": "0x101d35f84",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "attacker_is_stronger",
+   "handler": "0x101d35ff4",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "percentage_of_attacker_killed",
+   "handler": "0x101d36068",
+   "args": "",
+   "returns": "number"
+  },
+  {
+   "method": "percentage_of_defender_killed",
+   "handler": "0x101d360f4",
+   "args": "",
+   "returns": "number"
+  },
+  {
+   "method": "percentage_of_attacker_routed",
+   "handler": "0x101d36180",
+   "args": "",
+   "returns": "number"
+  },
+  {
+   "method": "percentage_of_defender_routed",
+   "handler": "0x101d36204",
+   "args": "",
+   "returns": "number"
+  },
+  {
+   "method": "attacker_commander_fought_in_battle",
+   "handler": "0x101d36288",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "defender_commander_fought_in_battle",
+   "handler": "0x101d36304",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "attacker_commander_fought_in_melee",
+   "handler": "0x101d36380",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "defender_commander_fought_in_melee",
+   "handler": "0x101d363ec",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "attacker_battle_result",
+   "handler": "0x101d36458",
+   "args": "",
+   "returns": "string"
+  },
+  {
+   "method": "defender_battle_result",
+   "handler": "0x101d364ec",
+   "args": "",
+   "returns": "string"
+  },
+  {
+   "method": "naval_battle",
+   "handler": "0x101d36580",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "seige_battle",
+   "handler": "0x101d36684",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "ambush_battle",
+   "handler": "0x101d366e0",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "failed_ambush_battle",
+   "handler": "0x101d36730",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "night_battle",
+   "handler": "0x101d36780",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "battle_type",
+   "handler": "0x101d367d0",
+   "args": "",
+   "returns": "string"
+  },
+  {
+   "method": "attacker_strength",
+   "handler": "0x101d3684c",
+   "args": "",
+   "returns": "number"
+  },
+  {
+   "method": "defender_strength",
+   "handler": "0x101d368ac",
+   "args": "",
+   "returns": "number"
+  }
+ ],
+ "0x104f84f98": [
+  {
+   "method": "is_null_interface",
+   "handler": null,
+   "vtable_offset": "0x38",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "model",
+   "handler": "0x101d36a58",
+   "args": "",
+   "returns": "MODEL_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "faction",
+   "handler": "0x101d36ae8",
+   "args": "",
+   "returns": "FACTION_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "mission_record_key",
+   "handler": "0x101d36b68",
+   "args": "",
+   "returns": "string"
+  },
+  {
+   "method": "mission_issuer_record_key",
+   "handler": "0x101d36bb8",
+   "args": "",
+   "returns": "string"
+  }
+ ],
+ "0x104f85028": [
+  {
+   "method": "is_null_interface",
+   "handler": null,
+   "vtable_offset": "0x38",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "strategic_stance_between_factions",
+   "handler": "0x101d36c24",
+   "args": "",
+   "returns": "number (int)"
+  },
+  {
+   "method": "strategic_stance_between_factions_available",
+   "handler": "0x101d36ce4",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "strategic_stance_between_factions_promotion_or_blocking_is_set",
+   "handler": "0x101d36da4",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "strategic_stance_between_factions_promotion_is_active",
+   "handler": "0x101d36e64",
+   "args": "3 values",
+   "returns": "boolean"
+  },
+  {
+   "method": "strategic_stance_between_factions_promotion_current_level",
+   "handler": "0x101d36f4c",
+   "args": "3 values",
+   "returns": "number"
+  },
+  {
+   "method": "strategic_stance_between_factions_promotion_start_round",
+   "handler": "0x101d3703c",
+   "args": "3 values",
+   "returns": "number (uint)"
+  },
+  {
+   "method": "strategic_stance_between_factions_promotion_start_level",
+   "handler": "0x101d37124",
+   "args": "3 values",
+   "returns": "number"
+  },
+  {
+   "method": "strategic_stance_between_factions_promotion_end_round",
+   "handler": "0x101d37214",
+   "args": "3 values",
+   "returns": "number (uint)"
+  },
+  {
+   "method": "strategic_stance_between_factions_promotion_end_level",
+   "handler": "0x101d372fc",
+   "args": "3 values",
+   "returns": "number"
+  },
+  {
+   "method": "strategic_stance_between_factions_is_being_blocked",
+   "handler": "0x101d373ec",
+   "args": "3 values",
+   "returns": "boolean"
+  },
+  {
+   "method": "strategic_stance_between_factions_is_being_blocked_until",
+   "handler": "0x101d374d4",
+   "args": "3 values",
+   "returns": "number (uint)"
+  }
+ ],
+ "0x104f89b48": [
+  {
+   "method": "add_restricted_building_level_record",
+   "handler": "0x102161c78",
+   "args": "string",
+   "returns": ""
+  },
+  {
+   "method": "remove_restricted_building_level_record",
+   "handler": "0x102161cec",
+   "args": "string",
+   "returns": ""
+  },
+  {
+   "method": "add_restricted_building_level_record_for_faction",
+   "handler": "0x102161d60",
+   "args": "string, string",
+   "returns": ""
+  },
+  {
+   "method": "remove_restricted_building_level_record_for_faction",
+   "handler": "0x102161e28",
+   "args": "string, string",
+   "returns": ""
+  },
+  {
+   "method": "add_custom_battlefield",
+   "handler": "0x102161ef0",
+   "args": "string, number, number, number, boolean, string, string, string, number (int), boolean, boolean",
+   "returns": ""
+  },
+  {
+   "method": "remove_custom_battlefield",
+   "handler": "0x102162088",
+   "args": "string",
+   "returns": ""
+  },
+  {
+   "method": "add_visibility_trigger",
+   "handler": "0x1021620fc",
+   "args": "number, number, string",
+   "returns": ""
+  },
+  {
+   "method": "remove_visibility_trigger",
+   "handler": "0x1021621dc",
+   "args": "number, number, string",
+   "returns": ""
+  },
+  {
+   "method": "add_location_trigger",
+   "handler": "0x102162290",
+   "args": "number, number, number, string",
+   "returns": ""
+  },
+  {
+   "method": "remove_location_trigger",
+   "handler": "0x102162390",
+   "args": "number, number, number, string",
+   "returns": ""
+  },
+  {
+   "method": "disable_elections",
+   "handler": "0x102162458",
+   "args": "boolean",
+   "returns": ""
+  },
+  {
+   "method": "set_zoom_limit",
+   "handler": "0x1021624a0",
+   "args": "number, number",
+   "returns": ""
+  },
+  {
+   "method": "trigger_custom_mission",
+   "handler": "0x1021624fc",
+   "args": "string, string",
+   "returns": ""
+  },
+  {
+   "method": "cancel_custom_mission",
+   "handler": "0x1021625e0",
+   "args": "string, string",
+   "returns": ""
+  },
+  {
+   "method": "override_mission_succeeded_status",
+   "handler": "0x1021627f4",
+   "args": "string, string, boolean",
+   "returns": ""
+  },
+  {
+   "method": "trigger_custom_dilemma",
+   "handler": "0x10216299c",
+   "args": "string, string, string, string",
+   "returns": ""
+  },
+  {
+   "method": "trigger_dilemma",
+   "handler": "0x102162ec4",
+   "args": "string, string",
+   "returns": ""
+  },
+  {
+   "method": "trigger_mission",
+   "handler": "0x102163070",
+   "args": "string, string",
+   "returns": ""
+  },
+  {
+   "method": "trigger_incident",
+   "handler": "0x10216321c",
+   "args": "string, string",
+   "returns": ""
+  },
+  {
+   "method": "grant_faction_handover",
+   "handler": "0x1021633c8",
+   "args": "string, string, number (int), number (int), userdata",
+   "returns": ""
+  },
+  {
+   "method": "set_campaign_ai_force_all_factions_boardering_humans_to_have_invasion_behaviour",
+   "handler": "0x1021635d0",
+   "args": "boolean",
+   "returns": ""
+  },
+  {
+   "method": "set_campaign_ai_force_all_factions_boardering_human_vassals_to_have_invasion_behaviour",
+   "handler": "0x102163618",
+   "args": "boolean",
+   "returns": ""
+  },
+  {
+   "method": "register_movies",
+   "handler": "0x102163660",
+   "args": "string",
+   "returns": ""
+  },
+  {
+   "method": "add_exclusion_zone",
+   "handler": "0x102163758",
+   "args": "number, number, number, number, boolean, boolean, boolean, string",
+   "returns": ""
+  },
+  {
+   "method": "disable_movement_for_ai_under_shroud",
+   "handler": "0x1021638bc",
+   "args": "string, string, userdata",
+   "returns": ""
+  },
+  {
+   "method": "cancel_actions_for",
+   "handler": "0x1021639f4",
+   "args": "userdata",
+   "returns": ""
+  },
+  {
+   "method": "compare_localised_string",
+   "handler": "0x102163a60",
+   "args": "userdata, string",
+   "returns": "boolean"
+  },
+  {
+   "method": "shown_message",
+   "handler": "0x102163b34",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "pending_auto_show_messages",
+   "handler": "0x102163b58",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "scroll_camera",
+   "handler": "0x102163bb0",
+   "args": "number, number, number, number, number, table, number, number, number, table, number, number, number, table",
+   "returns": ""
+  },
+  {
+   "method": "scroll_camera_with_direction",
+   "handler": "0x102164460",
+   "args": "number, number, number, number, number, number, table, number, number, number, number, table, number, number, number, number, table",
+   "returns": ""
+  },
+  {
+   "method": "stop_camera",
+   "handler": "0x102164e3c",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "dismiss_advice",
+   "handler": "0x102164e64",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "advance_to_next_campaign",
+   "handler": "0x102164ea4",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "add_time_trigger",
+   "handler": "0x102164ebc",
+   "args": "string, number",
+   "returns": ""
+  },
+  {
+   "method": "remove_time_trigger",
+   "handler": "0x102164f9c",
+   "args": "string",
+   "returns": ""
+  },
+  {
+   "method": "disable_movement_for_character",
+   "handler": "0x1021650e0",
+   "args": "string",
+   "returns": ""
+  },
+  {
+   "method": "disable_movement_for_faction",
+   "handler": "0x102165178",
+   "args": "string",
+   "returns": ""
+  },
+  {
+   "method": "show_shroud",
+   "handler": "0x102165230",
+   "args": "boolean",
+   "returns": ""
+  },
+  {
+   "method": "take_shroud_snapshot",
+   "handler": "0x1021652b4",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "restore_shroud_from_snapshot",
+   "handler": "0x10216531c",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "make_neighbouring_regions_visible_in_shroud",
+   "handler": "0x10216538c",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "make_neighbouring_regions_seen_in_shroud",
+   "handler": "0x1021653f8",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "make_sea_region_visible_in_shroud",
+   "handler": "0x102165464",
+   "args": "string",
+   "returns": ""
+  },
+  {
+   "method": "make_sea_region_seen_in_shroud",
+   "handler": "0x10216552c",
+   "args": "string",
+   "returns": ""
+  },
+  {
+   "method": "force_diplomacy",
+   "handler": "0x1021655f4",
+   "args": "string, string, string, boolean, boolean",
+   "returns": ""
+  },
+  {
+   "method": "display_turns",
+   "handler": "0x102165e8c",
+   "args": "boolean",
+   "returns": ""
+  },
+  {
+   "method": "stop_user_input",
+   "handler": "0x102165ed4",
+   "args": "boolean",
+   "returns": ""
+  },
+  {
+   "method": "steal_user_input",
+   "handler": "0x102165f1c",
+   "args": "boolean",
+   "returns": ""
+  },
+  {
+   "method": "save_named_value",
+   "handler": "0x102165f64",
+   "args": "string, boolean, string, number (int), string, string, userdata",
+   "returns": ""
+  },
+  {
+   "method": "load_named_value",
+   "handler": "0x102166278",
+   "args": "string, boolean, string, number (int), string, string, userdata",
+   "returns": "boolean, number (int), string"
+  },
+  {
+   "method": "is_new_game",
+   "handler": "0x1021665c4",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "disable_shopping_for_ai_under_shroud",
+   "handler": "0x1021665fc",
+   "args": "boolean",
+   "returns": ""
+  },
+  {
+   "method": "add_settlement_model_override",
+   "handler": "0x102166644",
+   "args": "string, string",
+   "returns": ""
+  },
+  {
+   "method": "add_building_model_override",
+   "handler": "0x10216675c",
+   "args": "string, string, string",
+   "returns": ""
+  },
+  {
+   "method": "remove_settlement_model_override",
+   "handler": "0x102166950",
+   "args": "string",
+   "returns": ""
+  },
+  {
+   "method": "remove_building_model_override",
+   "handler": "0x102166afc",
+   "args": "string, string",
+   "returns": ""
+  },
+  {
+   "method": "optional_extras_for_episodics",
+   "handler": "0x102166d6c",
+   "args": "",
+   "returns": "string"
+  },
+  {
+   "method": "add_agent_experience",
+   "handler": "0x102166ddc",
+   "args": "string, number (int)",
+   "returns": ""
+  },
+  {
+   "method": "award_experience_level",
+   "handler": "0x102166f14",
+   "args": "string, number (int)",
+   "returns": ""
+  },
+  {
+   "method": "enable_auto_generated_missions",
+   "handler": "0x102166ffc",
+   "args": "boolean",
+   "returns": ""
+  },
+  {
+   "method": "enable_ui",
+   "handler": "0x102167044",
+   "args": "boolean",
+   "returns": ""
+  },
+  {
+   "method": "add_unit_model_overrides",
+   "handler": "0x102167098",
+   "args": "string, string",
+   "returns": ""
+  },
+  {
+   "method": "add_attack_of_opportunity_overrides",
+   "handler": "0x1021671ac",
+   "args": "string, boolean",
+   "returns": ""
+  },
+  {
+   "method": "remove_attack_of_opportunity_overrides",
+   "handler": "0x102167274",
+   "args": "string",
+   "returns": ""
+  },
+  {
+   "method": "register_instant_movie",
+   "handler": "0x10216736c",
+   "args": "string",
+   "returns": ""
+  },
+  {
+   "method": "register_outro_movie",
+   "handler": "0x102167458",
+   "args": "string",
+   "returns": ""
+  },
+  {
+   "method": "shutdown",
+   "handler": "0x102167548",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "technology_osmosis_for_playables_enable_all",
+   "handler": "0x102167560",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "technology_osmosis_for_playables_enable_culture",
+   "handler": "0x102167578",
+   "args": "string",
+   "returns": ""
+  },
+  {
+   "method": "show_message_event",
+   "handler": "0x1021675e8",
+   "args": "string, string, string, string, boolean, number (int)",
+   "returns": ""
+  },
+  {
+   "method": "show_message_event_located",
+   "handler": "0x102167900",
+   "args": "string, string, string, string, number (int), number (int), boolean, number (int)",
+   "returns": ""
+  },
+  {
+   "method": "grant_unit",
+   "handler": "0x102167c48",
+   "args": "string, string",
+   "returns": ""
+  },
+  {
+   "method": "force_assassination_success_for_human",
+   "handler": "0x102167e4c",
+   "args": "boolean",
+   "returns": ""
+  },
+  {
+   "method": "set_tax_rate",
+   "handler": "0x102167e98",
+   "args": "string, number (int)",
+   "returns": ""
+  },
+  {
+   "method": "exempt_region_from_tax",
+   "handler": "0x102167fa0",
+   "args": "string, boolean",
+   "returns": ""
+  },
+  {
+   "method": "disable_rebellions_worldwide",
+   "handler": "0x102168094",
+   "args": "boolean",
+   "returns": ""
+  },
+  {
+   "method": "force_garrison_infiltration_success_for_human",
+   "handler": "0x1021680e0",
+   "args": "boolean",
+   "returns": ""
+  },
+  {
+   "method": "force_declare_war",
+   "handler": "0x10216812c",
+   "args": "string, string",
+   "returns": ""
+  },
+  {
+   "method": "force_make_vassal",
+   "handler": "0x102168254",
+   "args": "string, string",
+   "returns": ""
+  },
+  {
+   "method": "force_rebellion_in_region",
+   "handler": "0x1021683f0",
+   "args": "string, number (int), string, number (int), number (int), boolean",
+   "returns": ""
+  },
+  {
+   "method": "force_make_peace",
+   "handler": "0x10216850c",
+   "args": "string, string",
+   "returns": ""
+  },
+  {
+   "method": "force_add_trait",
+   "handler": "0x10216865c",
+   "args": "string, string, boolean",
+   "returns": ""
+  },
+  {
+   "method": "force_add_ancillary",
+   "handler": "0x1021687a4",
+   "args": "string, string",
+   "returns": ""
+  },
+  {
+   "method": "force_add_skill",
+   "handler": "0x102168888",
+   "args": "string, string",
+   "returns": ""
+  },
+  {
+   "method": "add_marker",
+   "handler": "0x102168a74",
+   "args": "string, string, number, number, number",
+   "returns": ""
+  },
+  {
+   "method": "remove_marker",
+   "handler": "0x102168bbc",
+   "args": "string",
+   "returns": ""
+  },
+  {
+   "method": "force_make_trade_agreement",
+   "handler": "0x102168ca4",
+   "args": "string, string",
+   "returns": ""
+  },
+  {
+   "method": "move_to",
+   "handler": "0x102168db4",
+   "args": "string, number (int), number (int), boolean",
+   "returns": ""
+  },
+  {
+   "method": "join_garrison",
+   "handler": "0x10216925c",
+   "args": "string, string",
+   "returns": ""
+  },
+  {
+   "method": "leave_garrison",
+   "handler": "0x1021693c0",
+   "args": "string, number, number",
+   "returns": ""
+  },
+  {
+   "method": "attack",
+   "handler": "0x102169460",
+   "args": "string, string, boolean",
+   "returns": ""
+  },
+  {
+   "method": "seek_exchange",
+   "handler": "0x102169880",
+   "args": "string, string, boolean, boolean",
+   "returns": ""
+  },
+  {
+   "method": "disable_saving_game",
+   "handler": "0x102169a10",
+   "args": "boolean",
+   "returns": ""
+  },
+  {
+   "method": "set_looting_options_disabled_for_human",
+   "handler": "0x102169a5c",
+   "args": "boolean",
+   "returns": ""
+  },
+  {
+   "method": "set_non_scripted_traits_disabled",
+   "handler": "0x102169aa8",
+   "args": "boolean",
+   "returns": ""
+  },
+  {
+   "method": "set_non_scripted_ancillaries_disabled",
+   "handler": "0x102169af4",
+   "args": "boolean",
+   "returns": ""
+  },
+  {
+   "method": "set_technology_research_disabled",
+   "handler": "0x102169b40",
+   "args": "boolean",
+   "returns": ""
+  },
+  {
+   "method": "set_liberation_options_disabled",
+   "handler": "0x102169b8c",
+   "args": "boolean",
+   "returns": ""
+  },
+  {
+   "method": "set_ui_notification_of_victory_disabled",
+   "handler": "0x102169bd8",
+   "args": "boolean",
+   "returns": ""
+  },
+  {
+   "method": "enable_movement_for_character",
+   "handler": "0x102169c24",
+   "args": "string",
+   "returns": ""
+  },
+  {
+   "method": "enable_movement_for_faction",
+   "handler": "0x102169cbc",
+   "args": "string",
+   "returns": ""
+  },
+  {
+   "method": "create_force",
+   "handler": "0x102169d74",
+   "args": "string, string, string, number, number, string, boolean",
+   "returns": ""
+  },
+  {
+   "method": "disable_end_turn",
+   "handler": "0x102169fb4",
+   "args": "boolean",
+   "returns": ""
+  },
+  {
+   "method": "end_turn",
+   "handler": "0x10216a000",
+   "args": "boolean",
+   "returns": ""
+  },
+  {
+   "method": "toggle_speedup",
+   "handler": "0x10216a09c",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "speedup_active",
+   "handler": "0x10216a0b8",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "hide_character",
+   "handler": "0x10216a0f0",
+   "args": "string, boolean",
+   "returns": ""
+  },
+  {
+   "method": "unhide_character",
+   "handler": "0x10216a1e0",
+   "args": "string, number (int), number (int), boolean",
+   "returns": ""
+  },
+  {
+   "method": "add_circle_area_trigger",
+   "handler": "0x10216a2fc",
+   "args": "number, number, number, string, string, boolean, boolean, boolean",
+   "returns": ""
+  },
+  {
+   "method": "add_outline_area_trigger",
+   "handler": "0x10216a4f4",
+   "args": "string, string, boolean, boolean, boolean, number, number, table",
+   "returns": ""
+  },
+  {
+   "method": "remove_area_trigger",
+   "handler": "0x10216a720",
+   "args": "string",
+   "returns": ""
+  },
+  {
+   "method": "dismiss_advice_at_end_turn",
+   "handler": "0x10216a794",
+   "args": "boolean",
+   "returns": ""
+  },
+  {
+   "method": "disable_shortcut",
+   "handler": "0x10216a7dc",
+   "args": "string, string, boolean",
+   "returns": ""
+  },
+  {
+   "method": "apply_effect_bundle",
+   "handler": "0x10216a894",
+   "args": "string, string, number (int)",
+   "returns": ""
+  },
+  {
+   "method": "remove_effect_bundle",
+   "handler": "0x10216aaa8",
+   "args": "string, string",
+   "returns": ""
+  },
+  {
+   "method": "apply_effect_bundle_to_force",
+   "handler": "0x10216ac60",
+   "args": "string, number (int), number (int)",
+   "returns": ""
+  },
+  {
+   "method": "remove_effect_bundle_from_force",
+   "handler": "0x10216aeb0",
+   "args": "string, number (int)",
+   "returns": ""
+  },
+  {
+   "method": "apply_effect_bundle_to_characters_force",
+   "handler": "0x10216b09c",
+   "args": "string, number (int), number (int), boolean",
+   "returns": ""
+  },
+  {
+   "method": "remove_effect_bundle_from_characters_force",
+   "handler": "0x10216b3a8",
+   "args": "string, number (int)",
+   "returns": ""
+  },
+  {
+   "method": "apply_effect_bundle_to_region",
+   "handler": "0x10216b5a8",
+   "args": "string, string, number (int)",
+   "returns": ""
+  },
+  {
+   "method": "remove_effect_bundle_from_region",
+   "handler": "0x10216b78c",
+   "args": "string, string",
+   "returns": ""
+  },
+  {
+   "method": "create_agent",
+   "handler": "0x10216b914",
+   "args": "string, string, number, number, string, boolean",
+   "returns": ""
+  },
+  {
+   "method": "instantly_dismantle_building",
+   "handler": "0x10216bb48",
+   "args": "string",
+   "returns": ""
+  },
+  {
+   "method": "win_next_autoresolve_battle",
+   "handler": "0x10216bbe8",
+   "args": "string",
+   "returns": ""
+  },
+  {
+   "method": "modify_next_autoresolve_battle",
+   "handler": "0x10216bccc",
+   "args": "number, number, number, number, boolean",
+   "returns": ""
+  },
+  {
+   "method": "treasury_mod",
+   "handler": "0x10216bd78",
+   "args": "string, number (int)",
+   "returns": ""
+  },
+  {
+   "method": "replenish_action_points",
+   "handler": "0x10216be7c",
+   "args": "string",
+   "returns": ""
+  },
+  {
+   "method": "zero_action_points",
+   "handler": "0x10216bf14",
+   "args": "string",
+   "returns": ""
+  },
+  {
+   "method": "override_ui",
+   "handler": "0x10216bfa8",
+   "args": "string, boolean",
+   "returns": ""
+  },
+  {
+   "method": "kill_character",
+   "handler": "0x10216c028",
+   "args": "string, boolean, boolean",
+   "returns": ""
+  },
+  {
+   "method": "force_agent_action_success_for_human",
+   "handler": "0x10216c194",
+   "args": "boolean",
+   "returns": ""
+  },
+  {
+   "method": "instantly_repair_building",
+   "handler": "0x10216c1e0",
+   "args": "string",
+   "returns": ""
+  },
+  {
+   "method": "lock_technology",
+   "handler": "0x10216c280",
+   "args": "string, string",
+   "returns": ""
+  },
+  {
+   "method": "unlock_technology",
+   "handler": "0x10216c430",
+   "args": "string, string",
+   "returns": ""
+  },
+  {
+   "method": "set_general_offered_dilemma_permitted",
+   "handler": "0x10216c5e0",
+   "args": "boolean",
+   "returns": ""
+  },
+  {
+   "method": "instant_set_building_health_percent",
+   "handler": "0x10216c628",
+   "args": "string, string, number (int)",
+   "returns": ""
+  },
+  {
+   "method": "make_son_come_of_age",
+   "handler": "0x10216c6e4",
+   "args": "string",
+   "returns": ""
+  },
+  {
+   "method": "allow_player_to_embark_navies",
+   "handler": "0x10216c770",
+   "args": "boolean",
+   "returns": ""
+  },
+  {
+   "method": "force_change_cai_faction_personality",
+   "handler": "0x10216c7b8",
+   "args": "string, string",
+   "returns": ""
+  },
+  {
+   "method": "set_ignore_end_of_turn_public_order",
+   "handler": "0x10216c958",
+   "args": "boolean",
+   "returns": ""
+  },
+  {
+   "method": "set_character_experience_disabled",
+   "handler": "0x10216c9a0",
+   "args": "boolean",
+   "returns": ""
+  },
+  {
+   "method": "set_character_skill_tier_limit",
+   "handler": "0x10216c9e8",
+   "args": "number (int)",
+   "returns": ""
+  },
+  {
+   "method": "set_event_generation_enabled",
+   "handler": "0x10216ca30",
+   "args": "boolean",
+   "returns": ""
+  },
+  {
+   "method": "autosave_at_next_opportunity",
+   "handler": "0x10216ca78",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "add_event_restricted_unit_record",
+   "handler": "0x10216ca9c",
+   "args": "string",
+   "returns": ""
+  },
+  {
+   "method": "remove_event_restricted_unit_record",
+   "handler": "0x10216cb10",
+   "args": "string",
+   "returns": ""
+  },
+  {
+   "method": "add_event_restricted_unit_record_for_faction",
+   "handler": "0x10216cb84",
+   "args": "string, string",
+   "returns": ""
+  },
+  {
+   "method": "remove_event_restricted_unit_record_for_faction",
+   "handler": "0x10216cc64",
+   "args": "string, string",
+   "returns": ""
+  },
+  {
+   "method": "add_event_restricted_building_record",
+   "handler": "0x10216cd44",
+   "args": "string",
+   "returns": ""
+  },
+  {
+   "method": "remove_event_restricted_building_record",
+   "handler": "0x10216cdf0",
+   "args": "string",
+   "returns": ""
+  },
+  {
+   "method": "add_event_restricted_building_record_for_faction",
+   "handler": "0x10216ce9c",
+   "args": "string, string",
+   "returns": ""
+  },
+  {
+   "method": "remove_event_restricted_building_record_for_faction",
+   "handler": "0x10216cf50",
+   "args": "string, string",
+   "returns": ""
+  },
+  {
+   "method": "render_campaign_to_file",
+   "handler": "0x10216d004",
+   "args": "string, string, number (int), number (int), number",
+   "returns": ""
+  },
+  {
+   "method": "force_character_force_into_stance",
+   "handler": "0x10216d14c",
+   "args": "string, string",
+   "returns": ""
+  },
+  {
+   "method": "model",
+   "handler": "0x10216d25c",
+   "args": "",
+   "returns": "MODEL_SCRIPT_INTERFACE"
+  },
+  {
+   "method": "set_ai_uses_human_display_speed",
+   "handler": "0x10216d2c4",
+   "args": "boolean",
+   "returns": ""
+  },
+  {
+   "method": "set_public_order_of_province_for_region",
+   "handler": "0x10216d30c",
+   "args": "string, number (int)",
+   "returns": ""
+  },
+  {
+   "method": "set_public_order_disabled_for_province_for_region",
+   "handler": "0x10216d3b4",
+   "args": "string, boolean",
+   "returns": ""
+  },
+  {
+   "method": "make_region_visible_in_shroud",
+   "handler": "0x10216d45c",
+   "args": "string, string",
+   "returns": ""
+  },
+  {
+   "method": "make_region_seen_in_shroud",
+   "handler": "0x10216d524",
+   "args": "string, string",
+   "returns": ""
+  },
+  {
+   "method": "add_development_points_to_region",
+   "handler": "0x10216d5ec",
+   "args": "string, number (int)",
+   "returns": ""
+  },
+  {
+   "method": "cai_strategic_stance_manager_block_all_stances_but_that_specified_towards_target_faction",
+   "handler": "0x10216d694",
+   "args": "string, string, string",
+   "returns": ""
+  },
+  {
+   "method": "cai_strategic_stance_manager_promote_specified_stance_towards_target_faction",
+   "handler": "0x10216d788",
+   "args": "string, string, string",
+   "returns": ""
+  },
+  {
+   "method": "cai_strategic_stance_manager_promote_specified_stance_towards_target_faction_by_number",
+   "handler": "0x10216d87c",
+   "args": "string, string, number (int)",
+   "returns": ""
+  },
+  {
+   "method": "cai_strategic_stance_manager_force_stance_update_between_factions",
+   "handler": "0x10216d944",
+   "args": "string, string, string",
+   "returns": ""
+  },
+  {
+   "method": "cai_strategic_stance_manager_set_stance_promotion_between_factions_for_a_given_stance",
+   "handler": "0x10216da6c",
+   "args": "string, string, number (int), number (int), number, number (int), number",
+   "returns": ""
+  },
+  {
+   "method": "cai_strategic_stance_manager_clear_all_promotions_between_factions",
+   "handler": "0x10216db8c",
+   "args": "string, string",
+   "returns": ""
+  },
+  {
+   "method": "cai_strategic_stance_manager_set_stance_blocking_between_factions_for_a_given_stance",
+   "handler": "0x10216dc40",
+   "args": "string, string, number (int), number (int)",
+   "returns": ""
+  },
+  {
+   "method": "cai_strategic_stance_manager_clear_all_blocking_between_factions",
+   "handler": "0x10216dd14",
+   "args": "string, string",
+   "returns": ""
+  },
+  {
+   "method": "faction_offers_peace_to_other_faction",
+   "handler": "0x10216ddc8",
+   "args": "string, string",
+   "returns": ""
+  },
+  {
+   "method": "disable_pathfinding_restriction",
+   "handler": "0x10216de74",
+   "args": "number (int)",
+   "returns": ""
+  },
+  {
+   "method": "set_character_immortality",
+   "handler": "0x10216debc",
+   "args": "string, boolean",
+   "returns": ""
+  },
+  {
+   "method": "spawn_character_into_family_tree",
+   "handler": "0x10216df60",
+   "args": "string, string, string, string, string, number (int), boolean, string, string, boolean, string, boolean, boolean",
+   "returns": ""
+  },
+  {
+   "method": "set_only_allow_basic_recruit_stance",
+   "handler": "0x10216e18c",
+   "args": "boolean",
+   "returns": ""
+  },
+  {
+   "method": "set_imperium_level_change_disabled",
+   "handler": "0x10216e1d4",
+   "args": "boolean",
+   "returns": ""
+  },
+  {
+   "method": "appoint_character_to_most_expensive_force",
+   "handler": "0x10216e21c",
+   "args": "string",
+   "returns": ""
+  },
+  {
+   "method": "infect_force_with_plague",
+   "handler": "0x10216e2c8",
+   "args": "string, string",
+   "returns": ""
+  },
+  {
+   "method": "infect_region_with_plague",
+   "handler": "0x10216e4a0",
+   "args": "string, string",
+   "returns": ""
+  },
+  {
+   "method": "play_movie_in_ui",
+   "handler": "0x10216e638",
+   "args": "string",
+   "returns": ""
+  },
+  {
+   "method": "play_sound",
+   "handler": "0x10216e738",
+   "args": "string",
+   "returns": ""
+  },
+  {
+   "method": "stop_sound",
+   "handler": "0x10216e81c",
+   "args": "string",
+   "returns": ""
+  },
+  {
+   "method": "set_volume",
+   "handler": "0x10216e900",
+   "args": "number (int), number (int)",
+   "returns": ""
+  },
+  {
+   "method": "fade_volume",
+   "handler": "0x10216e96c",
+   "args": "number, number (int), number (int)",
+   "returns": ""
+  },
+  {
+   "method": "set_region_abandoned",
+   "handler": "0x10216e9e4",
+   "args": "string",
+   "returns": ""
+  },
+  {
+   "method": "override_attacker_win_chance_prediction",
+   "handler": "0x10216eaa0",
+   "args": "number",
+   "returns": ""
+  },
+  {
+   "method": "force_break_alliance",
+   "handler": "0x10216eb04",
+   "args": "string, string",
+   "returns": ""
+  },
+  {
+   "method": "force_break_defensive_alliance",
+   "handler": "0x10216ec44",
+   "args": "string, string",
+   "returns": ""
+  },
+  {
+   "method": "force_break_military_alliance",
+   "handler": "0x10216ed74",
+   "args": "string, string",
+   "returns": ""
+  },
+  {
+   "method": "force_break_non_aggression_pact",
+   "handler": "0x10216eea4",
+   "args": "string, string",
+   "returns": ""
+  },
+  {
+   "method": "set_faction_name_override",
+   "handler": "0x10216efcc",
+   "args": "string, string",
+   "returns": ""
+  },
+  {
+   "method": "set_faction_summary_override",
+   "handler": "0x10216f090",
+   "args": "string, string",
+   "returns": ""
+  },
+  {
+   "method": "add_unit_to_force",
+   "handler": "0x10216f154",
+   "args": "string, number (int)",
+   "returns": ""
+  },
+  {
+   "method": "add_prestige",
+   "handler": "0x10216f5d8",
+   "args": "string, string, number (int)",
+   "returns": ""
+  },
+  {
+   "method": "transfer_region_to_faction",
+   "handler": "0x10216f6c4",
+   "args": "string, string",
+   "returns": ""
+  },
+  {
+   "method": "set_tax_disabled",
+   "handler": "0x10216f7e0",
+   "symbol": "__ZN14EMPIRECAMPAIGN19SCRIPTING_INTERFACE16set_tax_disabledEP9lua_State",
+   "args": "boolean",
+   "returns": ""
+  }
+ ],
+ "0x104ff1bf0": [
+  {
+   "method": "trade_route",
+   "handler": "0x10489f474",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "SetMode",
+   "handler": "0x102c45918",
+   "args": "string, boolean",
+   "returns": ""
+  },
+  {
+   "method": "Mode",
+   "handler": "0x102c459b8",
+   "args": "",
+   "returns": "number (int)"
+  },
+  {
+   "method": "Modes",
+   "handler": "0x102c459f8",
+   "args": "",
+   "returns": "table"
+  },
+  {
+   "method": "ModeString",
+   "handler": "0x102c45adc",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "DistanceToBL",
+   "handler": "0x102c45b30",
+   "args": "",
+   "returns": "number (int)"
+  }
+ ],
+ "0x1050000f8": [
+  {
+   "method": "abandoned",
+   "handler": "0x1048a896c",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "bel_attila",
+   "handler": "0x1048b2e2e",
+   "args": "",
+   "returns": ""
+  }
+ ],
+ "0x105001290": [
+  {
+   "method": "Width",
+   "handler": "0x1032f8840",
+   "args": "",
+   "returns": "number"
+  },
+  {
+   "method": "Height",
+   "handler": "0x1032f88a4",
+   "args": "",
+   "returns": "number"
+  },
+  {
+   "method": "Bounds",
+   "handler": "0x1032f8908",
+   "args": "",
+   "returns": "number"
+  },
+  {
+   "method": "SetState",
+   "handler": "0x1032f89f0",
+   "args": "string, boolean",
+   "returns": "boolean"
+  },
+  {
+   "method": "SetStateText",
+   "handler": "0x1032f8b0c",
+   "args": "string, boolean, number (int)",
+   "returns": "number (int), number (uint)"
+  },
+  {
+   "method": "GetStateText",
+   "handler": "0x1032f8d18",
+   "args": "",
+   "returns": "number (uint), string"
+  },
+  {
+   "method": "GetProperty",
+   "handler": "0x1032f8df0",
+   "args": "string",
+   "returns": "string"
+  },
+  {
+   "method": "SetProperty",
+   "handler": "0x1032f8ec4",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "Position",
+   "handler": "0x1032f8ecc",
+   "args": "",
+   "returns": "number"
+  },
+  {
+   "method": "MoveTo",
+   "handler": "0x1032f8f24",
+   "args": "number, number",
+   "returns": ""
+  },
+  {
+   "method": "LuaCall",
+   "handler": "0x1032f8f88",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "ChildCount",
+   "handler": "0x1032f8f90",
+   "args": "",
+   "returns": "number (int)"
+  },
+  {
+   "method": "CurrentState",
+   "handler": "0x1032f8fd4",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "PropagateVisibility",
+   "handler": "0x1032f902c",
+   "args": "boolean",
+   "returns": ""
+  },
+  {
+   "method": "PropagatePriority",
+   "handler": "0x1032f9078",
+   "args": "number (int)",
+   "returns": "number (int)"
+  },
+  {
+   "method": "SetVisible",
+   "handler": "0x1032f90e0",
+   "args": "boolean",
+   "returns": ""
+  },
+  {
+   "method": "DestroyChildren",
+   "handler": "0x1032f912c",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "SetTooltipText",
+   "handler": "0x1032f9188",
+   "args": "string, boolean",
+   "returns": ""
+  },
+  {
+   "method": "SetTooltipTextWithRLSKey",
+   "handler": "0x1032f927c",
+   "args": "string, boolean",
+   "returns": ""
+  },
+  {
+   "method": "GetTooltipText",
+   "handler": "0x1032f9384",
+   "args": "",
+   "returns": "string"
+  },
+  {
+   "method": "Adopt",
+   "handler": "0x1032f9430",
+   "args": "userdata, number (int)",
+   "returns": ""
+  },
+  {
+   "method": "Divorce",
+   "handler": "0x1032f94d4",
+   "args": "userdata",
+   "returns": "number (int)"
+  },
+  {
+   "method": "Priority",
+   "handler": "0x1032f9570",
+   "args": "",
+   "returns": "number (int)"
+  },
+  {
+   "method": "Visible",
+   "handler": "0x1032f95b4",
+   "args": "boolean",
+   "returns": "boolean"
+  },
+  {
+   "method": "Address",
+   "handler": "0x1032f9668",
+   "args": "",
+   "returns": "Pointer<Component>"
+  },
+  {
+   "method": "Resize",
+   "handler": "0x1032f96b0",
+   "args": "number, number, boolean, boolean",
+   "returns": ""
+  },
+  {
+   "method": "Id",
+   "handler": "0x1032f9774",
+   "args": "",
+   "returns": "string"
+  },
+  {
+   "method": "CallbackId",
+   "handler": "0x1032f97b8",
+   "args": "",
+   "returns": "string"
+  },
+  {
+   "method": "ReorderChildren",
+   "handler": "0x1032f97fc",
+   "args": "userdata, table",
+   "returns": "boolean"
+  },
+  {
+   "method": "IsDragged",
+   "handler": "0x1032f9be4",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "SetDragged",
+   "handler": "0x1032f9c78",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "Dimensions",
+   "handler": "0x1032f9c80",
+   "args": "",
+   "returns": "number"
+  },
+  {
+   "method": "ShaderTechniqueSet",
+   "handler": "0x1032f9cf4",
+   "args": "number (int), string, boolean, boolean",
+   "returns": ""
+  },
+  {
+   "method": "ShaderTechniqueGet",
+   "handler": "0x1032f9f08",
+   "args": "",
+   "returns": "number (uint)"
+  },
+  {
+   "method": "ShaderVarsSet",
+   "handler": "0x1032fa01c",
+   "args": "number, number, number, number, boolean, boolean",
+   "returns": ""
+  },
+  {
+   "method": "ShaderVarsGet",
+   "handler": "0x1032fa444",
+   "args": "",
+   "returns": "number"
+  },
+  {
+   "method": "TextShaderTechniqueSet",
+   "handler": "0x1032fa574",
+   "args": "number (int), string, boolean",
+   "returns": ""
+  },
+  {
+   "method": "TextShaderVarsSet",
+   "handler": "0x1032fa794",
+   "args": "number, number, number, number, boolean",
+   "returns": ""
+  },
+  {
+   "method": "TextShaderVarsGet",
+   "handler": "0x1032faa14",
+   "args": "",
+   "returns": "number"
+  },
+  {
+   "method": "Find",
+   "handler": "0x1032fab1c",
+   "args": "number (int), string, boolean",
+   "returns": "Pointer<Component>"
+  },
+  {
+   "method": "SequentialFind",
+   "handler": "0x1032fad54",
+   "args": "string",
+   "returns": "Pointer<Component>, string, UIComponent"
+  },
+  {
+   "method": "Layout",
+   "handler": "0x1032faf5c",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "Parent",
+   "handler": "0x1032fafcc",
+   "args": "number (int), string, boolean",
+   "returns": "Pointer<Component>"
+  },
+  {
+   "method": "SetImageRotation",
+   "handler": "0x1032fb17c",
+   "args": "number (int), number, number, number, number (int), number",
+   "returns": ""
+  },
+  {
+   "method": "SetImageColour",
+   "handler": "0x1032fb298",
+   "args": "boolean, number (int), number (int), number (int), number (int), number (int)",
+   "returns": "boolean"
+  },
+  {
+   "method": "PropagateImageColour",
+   "handler": "0x1032fb4f4",
+   "args": "number (int), number (int), number (int), number (int)",
+   "returns": "boolean"
+  },
+  {
+   "method": "SetOpacity",
+   "handler": "0x1032fb5a0",
+   "args": "boolean, number (int)",
+   "returns": "boolean"
+  },
+  {
+   "method": "PropagateOpacity",
+   "handler": "0x1032fb794",
+   "args": "boolean, number (int)",
+   "returns": "boolean"
+  },
+  {
+   "method": "GlobalExists",
+   "handler": "0x1032fb850",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "SetGlobal",
+   "handler": "0x1032fb858",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "AttachCustomControl",
+   "handler": "0x1032fb860",
+   "args": "userdata",
+   "returns": ""
+  },
+  {
+   "method": "SetInteractive",
+   "handler": "0x1032fb984",
+   "args": "boolean",
+   "returns": ""
+  },
+  {
+   "method": "SetDisabled",
+   "handler": "0x1032fb9d0",
+   "args": "boolean",
+   "returns": ""
+  },
+  {
+   "method": "IsInteractive",
+   "handler": "0x1032fba88",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "SetEventCallback",
+   "handler": "0x1032fbad0",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "StealShortcutKey",
+   "handler": "0x1032fbad8",
+   "args": "boolean, string",
+   "returns": "boolean"
+  },
+  {
+   "method": "SetMoveable",
+   "handler": "0x1032fbc14",
+   "args": "boolean",
+   "returns": ""
+  },
+  {
+   "method": "IsMoveable",
+   "handler": "0x1032fbc60",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "StealInputFocus",
+   "handler": "0x1032fbca4",
+   "args": "boolean",
+   "returns": ""
+  },
+  {
+   "method": "PopulateTextures",
+   "handler": "0x1032fbd2c",
+   "args": "boolean",
+   "returns": ""
+  },
+  {
+   "method": "RunScript",
+   "handler": "0x1032fbd7c",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "Highlight",
+   "handler": "0x1032fbda0",
+   "args": "boolean",
+   "returns": ""
+  },
+  {
+   "method": "SetStateTextDetails",
+   "handler": "0x1032fbdf4",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "SetStateTextXOffset",
+   "handler": "0x1032fbdfc",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "FindPositionIntoCurrentText",
+   "handler": "0x1032fbe04",
+   "args": "string, number (int)",
+   "returns": "number (int)"
+  },
+  {
+   "method": "FindTextSnapPosition",
+   "handler": "0x1032fbef8",
+   "args": "string, number (int)",
+   "returns": "number (int)"
+  },
+  {
+   "method": "GetStateTextDetails",
+   "handler": "0x1032fbfec",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "SaveUIHeirarchy",
+   "handler": "0x1032fbff4",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "RestoreUIHeirarchy",
+   "handler": "0x1032fc024",
+   "args": "table",
+   "returns": "Pointer<Component>, number (int), string, table"
+  },
+  {
+   "method": "IsCharPrintable",
+   "handler": "0x1032fc464",
+   "args": "string",
+   "returns": "boolean"
+  },
+  {
+   "method": "DockingPoint",
+   "handler": "0x1032fc5bc",
+   "args": "",
+   "returns": "number (int)"
+  },
+  {
+   "method": "SetDockingPoint",
+   "handler": "0x1032fc628",
+   "args": "number (int), number (int)",
+   "returns": ""
+  },
+  {
+   "method": "WidthOfTextLine",
+   "handler": "0x1032fc6e0",
+   "args": "string",
+   "returns": "number (uint)"
+  },
+  {
+   "method": "IsMouseOverChildren",
+   "handler": "0x1032fc7c0",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "CurrentStateUI",
+   "handler": "0x1032fc808",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "ForceEvent",
+   "handler": "0x1032fc810",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "TriggerAnimation",
+   "handler": "0x1032fc818",
+   "args": "string",
+   "returns": "boolean"
+  },
+  {
+   "method": "InterfaceFunction",
+   "handler": "0x1032fc8b0",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "HasInterface",
+   "handler": "0x1032fc95c",
+   "args": "",
+   "returns": "boolean"
+  },
+  {
+   "method": "LockPriority",
+   "handler": "0x1032fc9a8",
+   "args": "number (int)",
+   "returns": ""
+  },
+  {
+   "method": "UnLockPriority",
+   "handler": "0x1032fcb24",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "TextDimensions",
+   "handler": "0x1032fcc44",
+   "args": "",
+   "returns": "number (uint)"
+  },
+  {
+   "method": "SetStateColours",
+   "handler": "0x1032fccbc",
+   "args": "number (int), number (int), number (int), number (int)",
+   "returns": ""
+  },
+  {
+   "method": "SimulateClick",
+   "handler": "0x1032fcda4",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "SimulateLClick",
+   "handler": "0x1032fcdbc",
+   "args": "number, number",
+   "returns": "boolean"
+  },
+  {
+   "method": "SimulateRClick",
+   "handler": "0x1032fceac",
+   "args": "number, number",
+   "returns": "boolean"
+  },
+  {
+   "method": "SimulateKey",
+   "handler": "0x1032fcf9c",
+   "args": "string",
+   "returns": ""
+  },
+  {
+   "method": "SimulateMouseOn",
+   "handler": "0x1032fd0b8",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "SimulateMouseOff",
+   "handler": "0x1032fd108",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "SimulateMouseMove",
+   "handler": "0x1032fd164",
+   "args": "number, number",
+   "returns": ""
+  },
+  {
+   "method": "TriggerShortcut",
+   "handler": "0x1032fd1fc",
+   "args": "string",
+   "returns": ""
+  },
+  {
+   "method": "CurrentAnimationId",
+   "handler": "0x1032fd288",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "ClearSound",
+   "handler": "0x1032fd334",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "CreateComponent",
+   "handler": "0x1032fd3ac",
+   "args": "string, string",
+   "returns": "Pointer<Component>"
+  },
+  {
+   "method": "Opacity",
+   "handler": "0x1032fd4e8",
+   "args": "",
+   "returns": "number (uint)"
+  }
+ ],
+ "0x105001b90": [
+  {
+   "method": "SaveBool",
+   "handler": "0x1032fec94",
+   "args": "string, boolean",
+   "returns": ""
+  },
+  {
+   "method": "LoadBool",
+   "handler": "0x1032feda4",
+   "args": "string",
+   "returns": "boolean"
+  }
+ ],
+ "0x105001bd8": [
+  {
+   "method": "ManageSelection",
+   "handler": "0x103303a34",
+   "args": "userdata, boolean, boolean, boolean",
+   "returns": "boolean"
+  },
+  {
+   "method": "Add",
+   "handler": "0x103303ae0",
+   "args": "userdata",
+   "returns": ""
+  },
+  {
+   "method": "Remove",
+   "handler": "0x103303b34",
+   "args": "userdata",
+   "returns": ""
+  },
+  {
+   "method": "RemoveAll",
+   "handler": "0x103303d44",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "Selected",
+   "handler": "0x103303d54",
+   "args": "",
+   "returns": "Pointer<Component>, table"
+  },
+  {
+   "method": "DeselectAll",
+   "handler": "0x103303e54",
+   "args": "",
+   "returns": ""
+  }
+ ],
+ "0x105001c80": [
+  {
+   "method": "Release",
+   "handler": "0x103303f18",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "SetComponentTexture",
+   "handler": "0x103303f50",
+   "args": "userdata, number (int), boolean",
+   "returns": ""
+  },
+  {
+   "method": "Query",
+   "handler": "0x103304158",
+   "args": "number (int), number (int)",
+   "returns": "number (int)"
+  },
+  {
+   "method": "SetPaletteEntry",
+   "handler": "0x103304204",
+   "args": "number (int), number (int), number (int), number (int), number (int)",
+   "returns": ""
+  },
+  {
+   "method": "Dimensions",
+   "handler": "0x103304294",
+   "args": "",
+   "returns": "number (int)"
+  }
+ ],
+ "0x105001d10": [
+  {
+   "method": "Release",
+   "handler": "0x1033042e8",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "UnManage",
+   "handler": "0x103304348",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "SetComponentTexture",
+   "handler": "0x103304354",
+   "args": "userdata, number (int), boolean",
+   "returns": ""
+  },
+  {
+   "method": "Dimensions",
+   "handler": "0x103304584",
+   "args": "",
+   "returns": "number (int)"
+  },
+  {
+   "method": "SetComponentTextureDetails",
+   "handler": "0x103304600",
+   "args": "userdata, number (int), userdata, number (int), number (int), number, number, number, number",
+   "returns": ""
+  }
+ ],
+ "0x105001e00": [
+  {
+   "method": "SetMax",
+   "handler": "0x10330f400",
+   "args": "number (int)",
+   "returns": ""
+  },
+  {
+   "method": "CheckMax",
+   "handler": "0x10330f448",
+   "args": "number (int)",
+   "returns": "number (int)"
+  },
+  {
+   "method": "CurrentValue",
+   "handler": "0x10330f49c",
+   "args": "",
+   "returns": "number (int)"
+  }
+ ],
+ "0x1050020d8": [
+  {
+   "method": "add_info_text_entry",
+   "handler": "0x103499bf0",
+   "args": "string, boolean",
+   "returns": ""
+  },
+  {
+   "method": "show_text_entry",
+   "handler": "0x103499d58",
+   "args": "string",
+   "returns": ""
+  },
+  {
+   "method": "remove_info_text_entry",
+   "handler": "0x103499e98",
+   "args": "string",
+   "returns": ""
+  },
+  {
+   "method": "clear_all_info_text",
+   "handler": "0x103499f3c",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "update_objective_panel_pos",
+   "handler": "0x103499f6c",
+   "args": "",
+   "returns": ""
+  }
+ ],
+ "0x1050021b0": [
+  {
+   "method": "ClearTooltip",
+   "handler": "0x1034e1808",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "QuitForScript",
+   "handler": "0x1034e1844",
+   "args": "",
+   "returns": ""
+  }
+ ],
+ "0x1050021f8": [
+  {
+   "method": "PickColour",
+   "handler": "0x103503b1c",
+   "args": "number, number",
+   "returns": ""
+  },
+  {
+   "method": "SetLuminosity",
+   "handler": "0x103503b78",
+   "args": "number (int)",
+   "returns": ""
+  }
+ ],
+ "0x105002340": [
+  {
+   "method": "DeleteConfirmed",
+   "handler": "0x103619294",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "DeleteCancelled",
+   "handler": "0x103619764",
+   "args": "",
+   "returns": ""
+  }
+ ],
+ "0x1050023b8": [
+  {
+   "method": "SetComponentTexture",
+   "handler": "0x103647aa8",
+   "args": "userdata, number (int), boolean",
+   "returns": ""
+  },
+  {
+   "method": "Free",
+   "handler": "0x103647d1c",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "Valid",
+   "handler": "0x103647d4c",
+   "args": "",
+   "returns": "boolean"
+  }
+ ],
+ "0x1050024f0": [
+  {
+   "method": "set_objective",
+   "handler": "0x1036a2cac",
+   "args": "string, number (int), number (int), string, number (int), string",
+   "returns": ""
+  },
+  {
+   "method": "set_info_objective",
+   "handler": "0x1036a2d88",
+   "args": "string, number (int), number (int), string, number (int), string",
+   "returns": ""
+  },
+  {
+   "method": "complete_objective",
+   "handler": "0x1036a2e64",
+   "args": "string",
+   "returns": ""
+  },
+  {
+   "method": "fail_objective",
+   "handler": "0x1036a2f78",
+   "args": "string",
+   "returns": ""
+  },
+  {
+   "method": "remove_objective",
+   "handler": "0x1036a3074",
+   "args": "string",
+   "returns": ""
+  }
+ ],
+ "0x1050025d0": [
+  {
+   "method": "ActionPointsRatio",
+   "handler": "0x1036bfa30",
+   "args": "",
+   "returns": "number"
+  },
+  {
+   "method": "Release",
+   "handler": "0x1036bfaac",
+   "args": "",
+   "returns": ""
+  }
+ ],
+ "0x105002618": [
+  {
+   "method": "Settlement",
+   "handler": "0x1036c08bc",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "LabelDetails",
+   "handler": "0x1036c0904",
+   "args": "",
+   "returns": "boolean, number (int), number (uint), string, table"
+  },
+  {
+   "method": "ListDetails",
+   "handler": "0x1036c137c",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "Release",
+   "handler": "0x1036c1384",
+   "args": "",
+   "returns": ""
+  }
+ ],
+ "0x1050027b0": [
+  {
+   "method": "RetrieveDetails",
+   "handler": null,
+   "vtable_offset": "0x0",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "Address",
+   "handler": "0x10372b180",
+   "args": "",
+   "returns": "Pointer<BATTLE_SETUP_INFO>"
+  }
+ ],
+ "0x1050027f8": [
+  {
+   "method": "SetDetails",
+   "handler": "0x10372b5f4",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "RetrieveDetails",
+   "handler": null,
+   "vtable_offset": "0x0",
+   "args": "",
+   "returns": ""
+  },
+  {
+   "method": "Address",
+   "handler": "0x10372b180",
+   "args": "",
+   "returns": "Pointer<BATTLE_SETUP_INFO>"
+  },
+  {
+   "method": "SetFromSetup",
+   "handler": "0x10372b5fc",
+   "args": "userdata, number",
+   "returns": ""
+  }
+ ]
+}

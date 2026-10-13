@@ -5,7 +5,7 @@
 ```text
 xmake.lua                    shared settings, includes the platform of the build
 src/core/                    shared by both platforms: Config, Paths.hpp, Version.hpp, the console (UI/), Platform.hpp
-src/platform/win32/          Windows: TWASE.dll (dll/), the winmm.dll proxy loader (loader/), sdk/ (32-bit Attila.exe)
+src/platform/win32/          Windows: TWASE.dll (dll/), the winmm.dll proxy loader (loader/), sdk/ (32-bit, game code in empire.retail.dll)
 src/platform/macos/          Mac: libTWASE.dylib (dylib/), twase-launch.command (launcher/), sdk/ (arm64 Feral port)
 docs/macos/                  history of the macOS port and its addresses
 patches/                     binary patches

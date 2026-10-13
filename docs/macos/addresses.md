@@ -164,7 +164,7 @@ Tested 2026-10-04 (`twase.*`): `faction_attitude` matches the diplomacy screen (
 
 Tested 2026-10-04: the "Likelihood of success" tooltip shows the deal score (e.g. -12.35 → low, 0.71 → moderate); forced likelihoods (gifts) get no score.
 
-## Lua API for mods (`twase.*`, `src/dylib/Scripting/LuaApi.cpp`)
+## Lua API for mods (`twase.*`, `src/platform/macos/dylib/Scripting/LuaApi.cpp`)
 
 More of the game's Lua 5.1 API, for registering C functions. **The game's `lua_Number` is `float`** (`lua_pushnumber` stores `s0`), not `double`.
 
@@ -200,6 +200,22 @@ The campaign model is bound to Lua with the **Lunar** template (`Lunar<T, LIST_P
 | REGION → wealth breakdown | `0x7a0` | 15 × `{int base, int total, float bonus_percent}`, passed as the data of the `wealth_breakdown_tooltip` (type 4, `0x1034d2444`). Category order = the loc key table `campaign_localised_strings_string_gdp_*` at `0x104bc7590`: subsistence, animal_husbandry, farming, local_trade, land_trade, sea_trade, entertainment, learning, mining, manufacture, other, fertility, fertility_agriculture, fertility_livestock, poor_fertility_bonus |
 
 `REGION_SCRIPT_INTERFACE`'s method table: `0x104f83f60` (`model`) … `0x104f84158` (`sanitation`); `town_wealth_growth` reads `REGION + 0x184`, `region_wealth_change_percent` `REGION + 0x174`. There's no region argument check like the faction one, TWASE does its own (type, registry metatable `"REGION_SCRIPT_INTERFACE"`, `lua_rawequal` `0x103f27b7c`).
+
+### Argument and push helpers (named in the bndb 2026-10-13)
+
+Campaign handlers get a context `ctx = LuaGetLookup(L)` (`ctx[0]` the `lua_State*`, byte at `ctx + 8` still valid) and pop their arguments from the top of the stack (so in reverse order); a type mismatch calls `LuaTypeMismatchError` and clears the valid flag.
+
+| Name | Mac VA | Notes |
+|---|---|---|
+| LuaPopInt / LuaPopInt2 | `0x1038b0a68` / `0x1038b2318` | `(ctx, int32* out)`: number, rounded (two identical copies) |
+| LuaPopTable | `0x1038b251c` | `(ctx, ref)`: checks for a table, keeps `ctx` and the stack top in `ref` |
+| LuaPopLightUserdata | `0x1010de910` | `(ctx, void** out)`: light userdata, nil gives null |
+| LuaPushNewTable | `0x1038b1fa0` | `lua_createtable(L, 0, 0)` into a table reference |
+| FactionScriptInterface_GetArg / CharacterScriptInterface_GetArg | `0x101d5c640` / `0x101d5bd18` | `bool (L, index, T** out)`, by stack index: the only script interface arguments in the campaign classes |
+| LunarPush_`<CLASS>` | 24 functions, e.g. `0x101c217dc` (faction), `0x101d52c44` (region list) | `(L, object, flag)`: nil for null, else a userdata with the metatable `"<CLASS>"` from the registry; flag 0 also marks it "do not trash" |
+| LuaPushComponentPointer | `0x1014a2224` | `State::operator<<(Pointer<TWUI::Component>)`: a UI component's address |
+
+The list classes are one template, `LIST_SCRIPT_INTERFACE<LIST, ITEM, OBJECT>::{num_items, item_at, is_empty}`, with weak definitions: their method table entries are binds to the binary's own symbols, not rebases. Each method table starts with the virtual `is_null_interface` (member function pointer with bit 0 of the adjustment set, vtable offset `0x38`). The tables and types are in `tools/apigen/data/lunar_types_macos.json`.
 
 ## Database (loaded DB tables, game + mods merged)
 

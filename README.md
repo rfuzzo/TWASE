@@ -104,4 +104,4 @@ Delete the `TWASE` folder from the game folder, and `winmm.dll` (Windows) or `tw
 
 ---
 
-Building and releasing: [docs/development.md](docs/development.md).
+Modding docs and the `twase.*` Lua API: [docs](docs/README.md). Building and releasing: [docs/development.md](docs/development.md).
