@@ -17,9 +17,11 @@
 # keys are put back when the game exits. Packs from --mods that aren't in TotalWarAttilaData/data are looked up in the
 # Steam Workshop folder and linked into data for the duration of the launch.
 #
-# Local mods: Feral's mod manager only lists Steam Workshop subscriptions. The packs in TWASE/local_mods.txt (same format
-# as --mods, # starts a comment line) are loaded on top of the mods enabled there, on every launch without --mods; they
-# don't show up in its list. Empty the file (or comment its lines) to switch them off.
+# Local mods: Feral's mod manager lists packs in ~/Library/Application Support/Feral Interactive/Total War ATTILA/
+# VFS/Local/local_mods/<folder>/<name>.pack (one folder per mod, symlinks work) next to the Workshop subscriptions, with
+# the same switch and load order. Optionally, the packs in TWASE/local_mods.txt (same format as --mods, # starts a
+# comment line) are loaded on top of the mods enabled there, on every launch without --mods, without showing up in its
+# list. Empty the file (or comment its lines) to switch them off.
 #
 # Steam's own libraries (overlay) stay injected: macOS strips DYLD_* variables on the way through /bin/sh, so they are
 # taken from STEAM_DYLD_INSERT_LIBRARIES, which Steam sets for exactly that. Each launch is logged to

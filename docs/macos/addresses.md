@@ -90,7 +90,23 @@ Feral builds the engine command line itself; process arguments are not part of i
 
 With mods enabled, Feral links every subscribed Workshop pack into `VFS/Local/mods` (lowercased names) on each launch, which the game sees as `<install>\mods`. With `DisableAllMods = 1` it empties that folder, so `mod` entries from `ExtraCommandLine` only find packs in `TotalWarAttilaData/data` (where `twase-launch.command --mods` links them).
 
-Feral's mod manager (`CModManager`, created at `0x100012024`; entries of 0x26a0 bytes at `+0x18`) lists only Steam Workshop subscriptions, from Steam's item details (`SteamUGCRequestUGCDetailsResult_t`; `0x1000147a0` copies a downloaded `.bin` as `.pack`). Its preferences `Launcher/mods` (`<pack>` = `time|enabled|order`, written from the entries at `0x10001448c`) only keep their state. A pack in `VFS/Local/local_mods` or an added preferences entry doesn't show up (tested 2026-10-13). So `twase-launch.command` adds the packs in `TWASE/local_mods.txt` to every launch without `--mods`, through `ExtraCommandLine`, after the mods enabled there.
+Feral's mod manager (`CModManager`, `Feral Interactive/Total War ATTILA/VFS/Local/…` on disk) lists Steam Workshop subscriptions **and local packs**: `VFS/Local/local_mods/<folder>/<name>.pack`, one folder per mod (a pack directly in `local_mods` is skipped, which is why the first test on 2026-10-13 failed). The entries go into `Launcher/mods` like Workshop items (key `<name>.pack`, time 0), with the on/off switch and the load order; on launch Feral links each into `VFS/Local/mods` and appends `mod <name>.pack;`. `stat` follows symlinks, so the pack (or the folder) can be a link to a build output. Tested 2026-10-13 with `region_trading.pack` and `fireforged_fixes.pack` linked from `TotalWarAttilaData/data`: both enabled from the preferences, linked, on the command line, opened by the game, kept when Feral rewrote its preferences.
+
+| Name | Mac VA | Notes |
+|---|---|---|
+| CModManager_ctor | `0x100012024` | folders: `local_mods` `+0x30`, `mods` `+0x70`, `mods/staging` `+0x90`; entries `std::vector` at `+0x18`/`+0x20`; `+0xb1` preference `AllowMultiplePacksInModFolder`; starts the refresh thread `0x1000154e4` |
+| CModManager_Refresh | `0x100012c60` | clears the entries, then scans `local_mods` (`0x100012d2c`), subscribes to the Workshop items' details (`0x100012ddc`, `ISteamUGC` vtable `+0x208`/`+0x210`/`+0x128`) and reads `Launcher/mods` (`0x1000130bc`, `"%d|%d|%d"` → time, enabled, order) |
+| CModManager_AddFolder | `0x100018e8c` | callback for each child of `local_mods`: must be a folder; takes its `*.pack` files (only the first unless `AllowMultiplePacksInModFolder`), or converts a `*.bin` into `mods/staging`; builds the entry (`0x10001afe0`) and appends it unless one with the same title exists |
+| ModEntry_InitLocal | `0x10001afe0` | `+0x00` file name (preferences key, `mod` line), `+0x10` time 0, `+0x18` title (file stem without leading `@`), `+0x28` description (`Startup.ModManagerErrNoDataAvailable`), `+0x38` full path, `+0x48` parent folder name (several packs in one folder), `+0x58` order (-1), `+0x68` local = 1, `+0x69` enabled |
+| CModManager_OnUGCDetails | `0x1000137dc` | `CCallResult<CModManager, SteamUGCRequestUGCDetailsResult_t>`: Workshop entries (`0x10001af70` from `SteamUGCDetails_t`, `0x1000147a0` `.bin` → `.pack`), `+0x68` = 0 |
+| CModManager_FindByName | `0x1000141c0` | by file name or name + `.pack` (`0x100014084`: by title) |
+| CModManager_SortByOrder | `0x1000146d8` | sorts the entries by order and closes gaps; only the launcher UI calls it (`0x10001e61c`) |
+| CModManager_SavePrefs | `0x10001448c` | writes `Launcher/mods` from the entries |
+| CModManager_LinkPacks | `0x100014b34` | symlinks each entry's pack into `mods/<lowercased name>` if not there yet |
+| FeralAppendModsToCommandLine | `0x100014f1c` | unless `DisableAllMods`: refresh if needed, wait **at most 1 s** for the Workshop details, link, then `mod %s;` for each enabled entry **in vector order** |
+| ModManagerUI_GetProperty | `0x10001b88c` | answers the launcher UI (names are `NString` globals from `0x105017ff8`, e.g. `ModManagerAllModInfo` `0x105018078`); `ModManagerIsWorkshopItem` = `!(entry + 0x68)` |
+
+Without the launcher UI (`--skip-launcher`) nothing sorts the entries, so the `mod` lines come in vector order: local packs first, then the Workshop items in the order Steam answered (not the launcher's order), and Workshop items whose details take longer than 1 s are missing (the "Feral sometimes enables no mods" seen with `--skip-launcher`). `twase-launch.command --mods` (an explicit list with `DisableAllMods`) avoids both. `TWASE/local_mods.txt` (packs added through `ExtraCommandLine` on every launch without `--mods`) is optional now: only for packs that shouldn't appear in the launcher.
 
 ## Patches
 
