@@ -88,6 +88,7 @@ constexpr uint64_t FactionScriptInterface_GetArg = 0x101D5C640;
 // int (*)(CAI_INTERFACE* self, const FACTION& a, const FACTION& b), EMPIRECAMPAIGNAI::CAI_INTERFACE::get_faction_attitude:
 // sums the attitude components, rounded. Found via the RTTI of its lambda (vtable 0x104c12268)
 constexpr uint64_t CAI_GetFactionAttitude = 0x10229D814;
+using FactionAttitudeValue = int;
 
 // Offsets
 constexpr uint64_t FactionScriptInterface_Faction = 0x10;  // FACTION*

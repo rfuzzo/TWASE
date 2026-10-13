@@ -69,4 +69,22 @@ namespace sdk::Attila::Addresses
 	// void (__thiscall*)(WString* this)
 	constexpr uint32_t WString_dtor = 0xE0720;
 
+
+	// FACTIONS (twase.faction_attitude)
+	// bool (__cdecl*)(lua_State* L, int idx, FACTION_SCRIPT_INTERFACE** out): the type check of the faction methods'
+	// arguments, luaL_typerror for other userdata; called by the single argument check used by allied_with etc.
+	constexpr uint32_t FactionScriptInterface_GetArg = 0x80C480;
+
+	// float (__thiscall*)(CAI_INTERFACE* self, FACTION* a, FACTION* b), a's attitude towards b. Found through the attitude
+	// icon of the diplomacy screens (UI_SetAttitudeIcon 0x1608AE0), which truncates it to int like Mac's rounded int
+	constexpr uint32_t CAI_GetFactionAttitude = 0xD38000;
+	using FactionAttitudeValue = float;
+
+	// Offsets
+	constexpr uint32_t FactionScriptInterface_Faction = 0x8;   // FACTION*
+	constexpr uint32_t Faction_ModelHandle = 0x158;            // -> + 0x28 the campaign world (ModelHandle_GetWorld 0x9BCB40)
+	constexpr uint32_t ModelHandle_World = 0x28;
+	constexpr uint32_t World_CAIInterface = 0x1C44;            // CAI_INTERFACE*
+	constexpr uint32_t Faction_AliveMarker = 0x800;            // null once the faction is destroyed (FACTION::is_dead 0x716690)
+
 } // namespace sdk::Attila::Addresses

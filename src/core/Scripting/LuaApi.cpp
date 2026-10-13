@@ -64,7 +64,8 @@ T ReadPtr(const void* aBase, uint64_t aOffset)
 
 #if TWASE_HAS_FACTION_ATTITUDE
 using FactionScriptInterface_GetArg_t = bool (*)(lua_State* L, int idx, void** out);
-using CAI_GetFactionAttitude_t = int(TWASE_THISCALL*)(void* cai, const void* factionA, const void* factionB);
+// int on Mac (rounded), float on Windows (the UI truncates it)
+using CAI_GetFactionAttitude_t = Addr::FactionAttitudeValue(TWASE_THISCALL*)(void* cai, const void* factionA, const void* factionB);
 
 // FACTION* of a faction script interface argument, nullptr if it isn't one or the faction is destroyed.
 // Raises a Lua type error for a userdata of another type, like the game's own methods.
@@ -109,7 +110,7 @@ int FactionAttitude(lua_State* L)
         return LuaRuntime::error(L, "twase.faction_attitude: campaign AI not available");
     }
 
-    LuaRuntime::pushnumber(L, static_cast<lua_Number>(getAttitude(cai, a, b)));
+    LuaRuntime::pushnumber(L, static_cast<lua_Number>(static_cast<int>(getAttitude(cai, a, b))));
     return 1;
 }
 #endif
