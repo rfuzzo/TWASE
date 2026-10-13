@@ -22,7 +22,8 @@ What we found out about the game, independent of the platform. Exact addresses a
 ## Addresses and builds
 
 - Mac (Feral 1.6.1): [addresses](macos/addresses.md), and the [history of the macOS port](macos/PLAN.md)
-- Windows (`Attila.exe`): `src/platform/win32/sdk/Attila/Addresses.hpp`, [patches](../patches/patches.md)
+- Windows (`empire.retail.dll`): `src/platform/win32/sdk/Attila/Addresses.hpp`, [patches](../patches/patches.md)
+- [Windows port of the Mac features](windows-port.md) (plan)
 
 ## Development
 
