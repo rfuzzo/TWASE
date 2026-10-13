@@ -2,6 +2,8 @@
 
 Status 2026-10-13: Windows is at the v1.0.0 features (console, Lua log, mod loader, unit size patch, deal score tweak), plus the shared core from `src/core` (config, console with the command queue). The Mac build has more, all of it needing addresses and struct layouts from the game code, which on Windows is in `empire.retail.dll` (TWASE resolves its addresses relative to that DLL's base, `App::GetEmpireDllAddr()`). This plan is for the PC side (IDA Home, x86).
 
+Progress: steps 1-3 are done (branch `win/port-loose-mods-lua-api`). To port a `twase.*` function: add its addresses to `src/platform/win32/sdk/Attila/Addresses.hpp` under the Mac names, then set its flag in `src/platform/win32/sdk/Attila/Features.hpp` to 1. The engine's member functions are declared `TWASE_THISCALL` in `src/core/Scripting/LuaApi.cpp`; check each one's convention in IDA when porting it.
+
 ## First: test the shared core on Windows
 
 PR #7 moved the config and the console into `src/core` and gave Windows the console's command queue (typed commands now run from the D3D11 Present hook, as before, but through `LuaConsole::ProcessPending()`). It was only compiled on Windows. Test in the game:
@@ -24,15 +26,15 @@ PR #7 moved the config and the console into `src/core` and gave Windows the cons
 | dev probes (`twase.dev_*`) | `LuaApi.cpp` | a safe memory read (Windows: `ReadProcessMemory` on the own process, or SEH) instead of `mach_vm_read_overwrite` |
 | Region trading (`twase.enable_region_trading`) | `Hooks/NativeRegionTrading.cpp` | 84 addresses and offsets: the region action's rules, the trade regions panel, the "Add Offer/Demand" list, deal terms, the evaluator and its components, the transfer |
 
-Every Mac address is in [docs/macos/addresses.md](macos/addresses.md) with how it was found (strings, RTTI, callers); many entries also have the Windows RVA from v1.0.0 for comparison. `src/platform/macos/sdk/Attila/Addresses.hpp` has them all by name, with signatures.
+Every Mac address is in [docs/macos/addresses.md](macos/addresses.md) with how it was found (strings, RTTI, callers); many entries also have the Windows RVA from v1.0.0 for comparison. `src/platform/macos/sdk/Attila/Addresses.hpp` has them all by name (without signatures; the Windows signatures are only on the unmerged `feat/signatures` branch).
 
 ## Order
 
 Each step works and can be tested on its own.
 
-1. **Loose mods** (no RE).
-2. **Lua API**: the 11 functions. They're Lua 5.1 functions, so they're easy to find through `luaopen_base`, the only code that references the base library's `luaL_Reg` table (`"print"`, `"tonumber"`, ...): `luaB_tonumber` calls `lua_tonumber` / `lua_pushnumber`, `luaopen_base` calls `lua_pushcclosure`, `lua_createtable`, `lua_setfield`. Check whether Windows' `lua_Number` is `float` too (`lua_pushnumber` storing a single precision value): on Mac it is, and the API depends on it.
-3. **Move `LuaApi.cpp` to `src/core`**, so both platforms share the `twase.*` code. What it needs from the platform: resolving an address (Mac: `Image::Get()->GetSlide()`, Windows: `empire.retail.dll`'s base, `App::GetEmpireDllAddr()`), the safe read for the dev probes, and the same names in each platform's `Addresses.hpp`. Functions whose addresses Windows doesn't have yet can stay unregistered there (one `#if` or an `available` flag per function).
+1. **Loose mods** (no RE). Done.
+2. **Lua API**: the 11 functions. Done: `lua_Number` is `float` on Windows too. They're Lua 5.1 functions, so they're easy to find through `luaopen_base`, the only code that references the base library's `luaL_Reg` table (`"print"`, `"tonumber"`, ...): `luaB_tonumber` calls `lua_tonumber` / `lua_pushnumber`, `luaopen_base` calls `lua_pushcclosure`, `lua_createtable`, `lua_setfield`. Check whether Windows' `lua_Number` is `float` too (`lua_pushnumber` storing a single precision value): on Mac it is, and the API depends on it.
+3. **Move `LuaApi.cpp` to `src/core`** (done, per-platform `sdk/Attila/Features.hpp` flags), so both platforms share the `twase.*` code. What it needs from the platform: resolving an address (Mac: `Image::Get()->GetSlide()`, Windows: `empire.retail.dll`'s base, `App::GetEmpireDllAddr()`), the safe read for the dev probes, and the same names in each platform's `Addresses.hpp`. Functions whose addresses Windows doesn't have yet can stay unregistered there (one `#if` or an `available` flag per function).
 4. **`twase.faction_attitude`**: `FactionScriptInterface_GetArg` (the faction argument check of methods like `allied_with`) and `CAI_INTERFACE::get_faction_attitude`. On Mac the latter was found through the RTTI of its lambda (`…CAI_INTERFACE20get_faction_attitude…$_0`); MSVC names lambdas `<lambda_…>` without the function, so on Windows go through its callers instead: the diplomacy screen's attitude display, which buckets the value into 5 attitude levels.
 5. **Regions and the database**: offsets change with the pointer size (a `CA::String` is 12 bytes on x86, 16 on arm64), so every record layout has to be found again: turn on `lua_dev_functions` and use `twase.dev_db_fields(table, index)` to dump records, then match them with the TSV export of the table (`twpack db export`).
 6. **`twase.localise`**.
