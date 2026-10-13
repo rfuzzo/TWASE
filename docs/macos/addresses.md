@@ -106,7 +106,7 @@ Feral's mod manager (`CModManager`, `Feral Interactive/Total War ATTILA/VFS/Loca
 | FeralAppendModsToCommandLine | `0x100014f1c` | unless `DisableAllMods`: refresh if needed, wait **at most 1 s** for the Workshop details, link, then `mod %s;` for each enabled entry **in vector order** |
 | ModManagerUI_GetProperty | `0x10001b88c` | answers the launcher UI (names are `NString` globals from `0x105017ff8`, e.g. `ModManagerAllModInfo` `0x105018078`); `ModManagerIsWorkshopItem` = `!(entry + 0x68)` |
 
-Without the launcher UI (`--skip-launcher`) nothing sorts the entries, so the `mod` lines come in vector order: local packs first, then the Workshop items in the order Steam answered (not the launcher's order), and Workshop items whose details take longer than 1 s are missing (the "Feral sometimes enables no mods" seen with `--skip-launcher`). `twase-launch.command --mods` (an explicit list with `DisableAllMods`) avoids both. `TWASE/local_mods.txt` (packs added through `ExtraCommandLine` on every launch without `--mods`) is optional now: only for packs that shouldn't appear in the launcher.
+Without the launcher UI (`--skip-launcher`) nothing sorts the entries, so the `mod` lines come in vector order: local packs first, then the Workshop items in the order Steam answered (not the launcher's order), and Workshop items whose details take longer than 1 s are missing (the "Feral sometimes enables no mods" seen with `--skip-launcher`). `twase-launch.command --mods` (an explicit list with `DisableAllMods`) avoids both. (`TWASE/local_mods.txt`, an earlier workaround that added local packs through `ExtraCommandLine`, is gone.)
 
 ## Patches
 
