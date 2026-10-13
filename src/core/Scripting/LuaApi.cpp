@@ -718,7 +718,7 @@ int DevDiplomacyActions(lua_State* L)
     }
     uintptr_t context = 0, negotiation = 0, actions = 0;
     uint32_t count = 0;
-    const uintptr_t list = Addr::Negotiation_Actions;
+    const uintptr_t list = Addr::Negotiation_ActionList;
     if (!Platform::SafeRead(dropdown + Addr::DiplomacyDropdown_Context, context) ||
         !Platform::SafeRead(context + Addr::DiplomacyContext_Negotiation, negotiation) || !negotiation ||
         !Platform::SafeRead(negotiation + list + Addr::ActionList_Count, count) ||

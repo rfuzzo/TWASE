@@ -157,13 +157,11 @@ constexpr uint64_t MercenaryGroup_Unit = 0x20;             // main_units record*
 
 // the diplomacy screen's actions (twase.dev_diplomacy_actions)
 constexpr uint64_t DiplomacyDropdown_Vtable = 0x104CC6A38; // UIDLL::DiplomacyDropdown (RTTI typeinfo 0x104cc6d38)
-constexpr uint64_t DiplomacyDropdown_Context = 0x200;
-constexpr uint64_t DiplomacyContext_Negotiation = 0xD0;
-constexpr uint64_t Negotiation_Actions = 0x700;            // list: count + 0xc, DIPLOMATIC_ACTION** + 0x10
+// DiplomacyDropdown_Context, DiplomacyContext_Negotiation and DiplomaticAction_Type: see NATIVE REGION TRADING below
+constexpr uint64_t Negotiation_ActionList = 0x700;         // list: count + 0xc, DIPLOMATIC_ACTION** + 0x10 (= Negotiation_ActionCount / _Actions)
 constexpr uint64_t ActionList_Count = 0x0C;
 constexpr uint64_t ActionList_Data = 0x10;
 constexpr uint64_t DiplomaticAction_Side = 0x10;           // int32, 1 offer
-constexpr uint64_t DiplomaticAction_Type = 0x14;           // int32
 constexpr uint64_t DiplomaticAction_Flags = 0x18;          // uint8 available, uint8 blocked
 
 // NATIVE REGION TRADING ("Gift Region", see Hooks/NativeRegionTrading.cpp)
