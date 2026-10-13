@@ -26,6 +26,17 @@ public:
     static lua_type_t           type;
     static lua_getmetatable_t   getmetatable;
     static lua_remove_t         remove;
+    static lua_pushnumber_t     pushnumber;
+    static lua_tonumber_t       tonumber;
+    static lua_pushstring_t     pushstring;
+    static lua_pushboolean_t    pushboolean;
+    static lua_pushcclosure_t   pushcclosure;
+    static lua_createtable_t    createtable;
+    static lua_setfield_t       setfield;
+    static lua_touserdata_t     touserdata;
+    static luaL_error_t         error;
+    static lua_rawequal_t       rawequal;
+    static lua_toboolean_t      toboolean;
 
     static bool istable(lua_State* L, int idx) { return type(L, idx) == LUA_TTABLE; }
     static bool isstring(lua_State* L, int idx) { return type(L, idx) == LUA_TSTRING; }

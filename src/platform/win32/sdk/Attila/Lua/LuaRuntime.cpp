@@ -13,6 +13,17 @@ lua_pushvalue_t     LuaRuntime::pushvalue = nullptr;
 lua_type_t          LuaRuntime::type = nullptr;
 lua_getmetatable_t  LuaRuntime::getmetatable = nullptr;
 lua_remove_t        LuaRuntime::remove = nullptr;
+lua_pushnumber_t    LuaRuntime::pushnumber = nullptr;
+lua_tonumber_t      LuaRuntime::tonumber = nullptr;
+lua_pushstring_t    LuaRuntime::pushstring = nullptr;
+lua_pushboolean_t   LuaRuntime::pushboolean = nullptr;
+lua_pushcclosure_t  LuaRuntime::pushcclosure = nullptr;
+lua_createtable_t   LuaRuntime::createtable = nullptr;
+lua_setfield_t      LuaRuntime::setfield = nullptr;
+lua_touserdata_t    LuaRuntime::touserdata = nullptr;
+luaL_error_t        LuaRuntime::error = nullptr;
+lua_rawequal_t      LuaRuntime::rawequal = nullptr;
+lua_toboolean_t     LuaRuntime::toboolean = nullptr;
 
 
 std::atomic<bool> LuaRuntime::s_ready    = false;
@@ -31,6 +42,17 @@ void LuaRuntime::Init(uint32_t base)
 	type = reinterpret_cast<lua_type_t>         (base + sdk::Attila::Lua::Lua_type);
 	getmetatable = reinterpret_cast<lua_getmetatable_t>(base + sdk::Attila::Lua::Lua_getmetatable);
 	remove = reinterpret_cast<lua_remove_t>     (base + sdk::Attila::Lua::Lua_remove);
+	pushnumber   = reinterpret_cast<lua_pushnumber_t>  (base + sdk::Attila::Lua::Lua_pushnumber);
+	tonumber     = reinterpret_cast<lua_tonumber_t>    (base + sdk::Attila::Lua::Lua_tonumber);
+	pushstring   = reinterpret_cast<lua_pushstring_t>  (base + sdk::Attila::Lua::Lua_pushstring);
+	pushboolean  = reinterpret_cast<lua_pushboolean_t> (base + sdk::Attila::Lua::Lua_pushboolean);
+	pushcclosure = reinterpret_cast<lua_pushcclosure_t>(base + sdk::Attila::Lua::Lua_pushcclosure);
+	createtable  = reinterpret_cast<lua_createtable_t> (base + sdk::Attila::Lua::Lua_createtable);
+	setfield     = reinterpret_cast<lua_setfield_t>    (base + sdk::Attila::Lua::Lua_setfield);
+	touserdata   = reinterpret_cast<lua_touserdata_t>  (base + sdk::Attila::Lua::Lua_touserdata);
+	error        = reinterpret_cast<luaL_error_t>      (base + sdk::Attila::Lua::LuaL_error);
+	rawequal     = reinterpret_cast<lua_rawequal_t>    (base + sdk::Attila::Lua::Lua_rawequal);
+	toboolean    = reinterpret_cast<lua_toboolean_t>   (base + sdk::Attila::Lua::Lua_toboolean);
 
     spdlog::info("LuaRuntime resolved all function pointers");
 
