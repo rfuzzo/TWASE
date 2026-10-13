@@ -48,10 +48,12 @@ namespace sdk::Attila
         char   _pad2[3];
         // Sub-object at +0x18 (0x1C bytes, has its own vtable)
         char   subObject[0x1C];
-        // Script path at +0x34
-        TempString scriptPath;
-        // Folder path at +0x40
+        // +0x34 "campaigns/main_attila", used for the Lua package.path
         TempString folderPath;
+        // +0x40 "campaigns/main_attila/scripting.lua", the file RunStartupPath runs
+        TempString scriptPath;
     };
+    static_assert(offsetof(ScriptingEnv, folderPath) == 0x34);
+    static_assert(offsetof(ScriptingEnv, scriptPath) == 0x40);
 
 } // namespace sdk::Attila
