@@ -9,7 +9,7 @@
 #include "../../sdk/Attila/VFSTypes.hpp"
 
 #include "../../sdk/Attila/Addresses.hpp"
-#include "../Scripting/LuaApi.hpp"
+#include "Scripting/LuaApi.hpp"
 
 // Attila's diplomacy has a "Gift Region" option (diplomatic action type 6, permission "regions"), but only to settle a
 // horde: the action is available when one side is a horde, and only regions where the horde's army stands can be given.

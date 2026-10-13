@@ -211,3 +211,8 @@ bool Hooks::DiplomacyLikelihoodHook::Detach()
     isAttached = result != NO_ERROR;
     return !isAttached;
 }
+
+float Hooks::DiplomacyLikelihoodHook::LastScore()
+{
+    return lastScore;
+}

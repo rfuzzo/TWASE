@@ -142,6 +142,28 @@ constexpr uint64_t MainUnit_RecruitmentCost = 0x68;        // int32 (multiplayer
 constexpr uint64_t MainUnit_UpkeepCost = 0x88;             // int32
 constexpr uint64_t RegionToProvince_Province = 0x00;       // TempString, records are 0x20 apart
 constexpr uint64_t RegionToProvince_Region = 0x10;         // TempString
+// levy pools (twase.levy_pool): references to other tables are record pointers
+constexpr uint64_t MercenarySet_Faction = 0x00;            // faction_to_mercenary_set_junctions: factions record*
+constexpr uint64_t MercenarySet_Pool = 0x08;               // mercenary pool record*
+constexpr uint64_t PoolGroup_Pool = 0x08;                  // mercenary_pool_to_groups_junctions: mercenary pool record*
+constexpr uint64_t PoolGroup_Group = 0x10;                 // mercenary_unit_groups record*
+constexpr uint64_t PoolGroup_InitialCount = 0x18;          // int32 initial_unit_count
+constexpr uint64_t MercenaryGroup_ChanceToReplenish = 0x00; // mercenary_unit_groups: float
+constexpr uint64_t MercenaryGroup_Key = 0x08;              // TempString
+constexpr uint64_t MercenaryGroup_MaxCount = 0x18;         // int32
+constexpr uint64_t MercenaryGroup_MaxReplenishPerTurn = 0x1C; // int32
+constexpr uint64_t MercenaryGroup_Unit = 0x20;             // main_units record*
+
+// the diplomacy screen's actions (twase.dev_diplomacy_actions)
+constexpr uint64_t DiplomacyDropdown_Vtable = 0x104CC6A38; // UIDLL::DiplomacyDropdown (RTTI typeinfo 0x104cc6d38)
+constexpr uint64_t DiplomacyDropdown_Context = 0x200;
+constexpr uint64_t DiplomacyContext_Negotiation = 0xD0;
+constexpr uint64_t Negotiation_Actions = 0x700;            // list: count + 0xc, DIPLOMATIC_ACTION** + 0x10
+constexpr uint64_t ActionList_Count = 0x0C;
+constexpr uint64_t ActionList_Data = 0x10;
+constexpr uint64_t DiplomaticAction_Side = 0x10;           // int32, 1 offer
+constexpr uint64_t DiplomaticAction_Type = 0x14;           // int32
+constexpr uint64_t DiplomaticAction_Flags = 0x18;          // uint8 available, uint8 blocked
 
 // NATIVE REGION TRADING ("Gift Region", see Hooks/NativeRegionTrading.cpp)
 // RegionList (*)(FACTION* from, FACTION* to) through x8: from's regions that can be given, not the capital, no garrisoned

@@ -4,6 +4,7 @@
 #include "Config.hpp"
 #include "UI/LuaConsole.hpp"
 #include "../Hooking/Hook.hpp"
+#include "Scripting/LuaApi.hpp"
 
 #include "../../sdk/Attila/Lua/LuaRuntime.hpp"
 #include "../../sdk/Attila/Lua/LuaGameEnvironment.hpp"
@@ -103,6 +104,13 @@ static std::vector<std::string> EnumerateModFolders(const std::string& campaignF
 int __fastcall RunStartupPath(sdk::Attila::ScriptingEnv* self, void* edx)
 {
     auto result = RunStartupPathHook_fnc(self, edx);
+
+    // the twase table, before the mods so they can use it while loading
+    if (lua_State* L = LuaGameEnvironment::GetLuaState(self))
+    {
+        Scripting::LuaApi::Register(L);
+    }
+
     LoadMods(self);
     return result;
 }
