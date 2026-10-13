@@ -26,7 +26,7 @@ PR #7 moved the config and the console into `src/core` and gave Windows the cons
 | dev probes (`twase.dev_*`) | `LuaApi.cpp` | a safe memory read (Windows: `ReadProcessMemory` on the own process, or SEH) instead of `mach_vm_read_overwrite` |
 | Region trading (`twase.enable_region_trading`) | `Hooks/NativeRegionTrading.cpp` | 84 addresses and offsets: the region action's rules, the trade regions panel, the "Add Offer/Demand" list, deal terms, the evaluator and its components, the transfer |
 
-Every Mac address is in [docs/macos/addresses.md](macos/addresses.md) with how it was found (strings, RTTI, callers); many entries also have the Windows RVA from v1.0.0 for comparison. `src/platform/macos/sdk/Attila/Addresses.hpp` has them all by name (without signatures; the Windows signatures are only on the unmerged `feat/signatures` branch).
+Every Mac address is in [docs/macos/addresses.md](macos/addresses.md) with how it was found (strings, RTTI, callers); many entries also have the Windows RVA from v1.0.0 for comparison. `src/platform/macos/sdk/Attila/Addresses.hpp` has them all by name.
 
 ## Order
 
