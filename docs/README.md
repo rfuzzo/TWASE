@@ -14,6 +14,7 @@ How the game's own campaign scripts work (campaign only).
 - [Architecture](scripting/architecture.md): startup sequence, the campaign manager, events and listeners, saving, timers
 - [Faction starts, cutscenes, modal queue](scripting/starts-and-cutscenes.md)
 - [UI overrides, objectives, messages](scripting/ui-and-objectives.md)
+- [Events and contexts](scripting/events.md): what vanilla listens to, the context accessors, custom events
 
 ## Reference
 
