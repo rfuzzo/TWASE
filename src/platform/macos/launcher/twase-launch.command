@@ -9,7 +9,8 @@
 #                     instead of the mods enabled in Feral's mod manager (and TWASE/local_mods.txt)
 #   --load <save>     load a campaign save on startup, e.g. --load "Saxons 395 AD Spring.save" (implies --skip-launcher)
 #   --extra <text>    append raw statements to the game's command line
-#   <game> [args]     the game to start (the .app or its executable), for Steam's launch options:
+#   <game> [args]     the game to start (the .app or its executable), for Steam's launch options (under Steam it is
+#                     always started as the app bundle, see the end of this script):
 #                     "<game folder>/twase-launch.command" %command%
 #
 # The game ignores its process arguments on macOS, so these options go through Feral's preferences
@@ -242,12 +243,33 @@ log "starting $game with DYLD_INSERT_LIBRARIES=$inject"
 
 cd "$root" || exit 1
 
-if [ -z "$changed_keys" ]; then
-    DYLD_INSERT_LIBRARIES="$inject" exec "$game" "$@"
-fi
+# Steam starts the game as an app bundle. Exec'ing the executable from here instead leaves it with Steam's environment
+# and as a child of steam_osx, and the game then exits by itself after about two minutes. So under Steam the bundle is
+# started through LaunchServices (open), with the Steam variables and the injection passed on.
+if [ -n "$SteamAppId" ]; then
+    app="$root/Total War ATTILA.app"
+    [ -d "$app" ] || die "app bundle not found: $app"
+    set --
+    for name in $(env | grep -E '^(Steam|STEAM_|SDL_)[A-Za-z0-9_]*=' | cut -d= -f1); do
+        eval "value=\$$name"
+        set -- "$@" --env "$name=$value"
+    done
+    set -- "$@" --env "DYLD_INSERT_LIBRARIES=$inject"
 
-DYLD_INSERT_LIBRARIES="$inject" "$game" "$@"
-status=$?
+    if [ -z "$changed_keys" ]; then
+        exec /usr/bin/open -W -n "$@" "$app"
+    fi
+
+    /usr/bin/open -W -n "$@" "$app"
+    status=$?
+else
+    if [ -z "$changed_keys" ]; then
+        DYLD_INSERT_LIBRARIES="$inject" exec "$game" "$@"
+    fi
+
+    DYLD_INSERT_LIBRARIES="$inject" "$game" "$@"
+    status=$?
+fi
 
 # restore and unlink_packs run from the EXIT trap
 exit $status
