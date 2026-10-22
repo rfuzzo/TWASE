@@ -126,4 +126,29 @@ namespace sdk::Attila::Addresses
 	constexpr uint32_t DBTable_Records = 0x0C;                 // RECORD**
 	constexpr uint32_t DBTable_Index = 0x10;                   // StringHashMap key -> record index
 
+	// RECORDS: keys are TempStrings at + 0, references to other tables are record pointers. Checked 2026-10-22 with
+	// twase.dev_db_fields against the TSV export (values of the first record; create_cost differs, a mod changes it)
+	constexpr uint32_t BuildingLevel_Chain = 0x0C;             // building_chains record* (BuildingLevelRecord_ctor 0xF02E40)
+	constexpr uint32_t BuildingLevel_Level = 0x10;             // int32
+	constexpr uint32_t BuildingLevel_CreateTime = 0x14;        // int32
+	constexpr uint32_t BuildingLevel_CreateCost = 0x18;        // int32
+	constexpr uint32_t BuildingLevel_UpkeepCost = 0x1C;        // int32
+	constexpr uint32_t MainUnit_CreateTime = 0x1C;             // int32 (is_naval at 0x20, land_unit* 0x24), 0xD8-byte records
+	constexpr uint32_t MainUnit_NumMen = 0x28;                 // int32
+	constexpr uint32_t MainUnit_RecruitmentCost = 0x48;        // int32 (multiplayer_cost at 0x30)
+	constexpr uint32_t MainUnit_UpkeepCost = 0x5C;             // int32
+	constexpr uint32_t RegionToProvince_Province = 0x00;       // TempString, records are 0x18 apart
+	constexpr uint32_t RegionToProvince_Region = 0x0C;         // TempString
+	// levy pools (twase.levy_pool)
+	constexpr uint32_t MercenarySet_Faction = 0x00;            // faction_to_mercenary_set_junctions: factions record*, 8-byte rows
+	constexpr uint32_t MercenarySet_Pool = 0x04;               // mercenary pool record*
+	constexpr uint32_t PoolGroup_Pool = 0x04;                  // mercenary_pool_to_groups_junctions: mercenary pool record*, 0x1C-byte rows (id at 0)
+	constexpr uint32_t PoolGroup_Group = 0x08;                 // mercenary_unit_groups record*
+	constexpr uint32_t PoolGroup_InitialCount = 0x0C;          // int32 initial_unit_count
+	constexpr uint32_t MercenaryGroup_ChanceToReplenish = 0x00; // mercenary_unit_groups: float, 0x1C-byte records
+	constexpr uint32_t MercenaryGroup_Key = 0x04;              // TempString
+	constexpr uint32_t MercenaryGroup_MaxCount = 0x10;         // int32
+	constexpr uint32_t MercenaryGroup_MaxReplenishPerTurn = 0x14; // int32
+	constexpr uint32_t MercenaryGroup_Unit = 0x18;             // main_units record*
+
 } // namespace sdk::Attila::Addresses
