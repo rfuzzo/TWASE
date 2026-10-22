@@ -577,11 +577,10 @@ float Hooks::NativeRegionTradingHook::Detour::ScoreComponents(ComponentList* lis
     }
     const float delta = (gold > 0 ? -paying : paying);
 
-#if TWASE_HAS_GIFT_SCORE_PARTS
     if (spdlog::should_log(spdlog::level::debug))
     {
-        // The parts the scorer sums for one gift (vtable + 0x10 … + 0x30, see docs/addresses.md); + 0x18 needs the
-        // scorer's context, so it's the rest. The amount part is linear: the amount over the paying AI's GDP, weighted by
+        // The parts the scorer sums for one gift (DealComponentGift_*Slot, see docs/macos/addresses.md); the table
+        // part between base and size needs the scorer's context, so it's the rest. The amount part is linear: the amount over the paying AI's GDP, weighted by
         // its personality (more beyond its budget), capped.
         const float shown = interpolatedFrom > 0.0f ? interpolatedFrom : amount;
         alignas(16) uint8_t gift[Addresses::DealComponentGift_Size] = {};
@@ -590,7 +589,8 @@ float Hooks::NativeRegionTradingHook::Detour::ScoreComponents(ComponentList* lis
         {
             return (*reinterpret_cast<float(TWASE_THISCALL**)(void*)>(*reinterpret_cast<uint8_t**>(gift) + offset))(gift);
         };
-        const float base = slot(0x10), size = slot(0x20), amountPart = slot(0x28), other = slot(0x30);
+        const float base = slot(Addr::DealComponentGift_BaseSlot), size = slot(Addr::DealComponentGift_SizeSlot),
+                    amountPart = slot(Addr::DealComponentGift_AmountSlot), other = slot(Addr::DealComponentGift_OtherSlot);
         const float total = payingScore(shown);
         static const auto gdpOf = Resolve<Addr::FactionGdpValue(TWASE_THISCALL*)(void*)>(Addresses::Faction_Gdp);
         void* evaluator = EvaluatingFaction(*eval);
@@ -601,7 +601,6 @@ float Hooks::NativeRegionTradingHook::Detour::ScoreComponents(ComponentList* lis
                       other, total,
                       interpolatedFrom > 0.0f ? fmt::format(" (below the first step: x {:.0f} / {:.0f} = {:.2f})", amount, shown, paying) : "");
     }
-#endif
     spdlog::debug("[RegionTrading] regions worth {} gold: deal score {} {:+} = {}", gold, score, delta, score + delta);
     return score + delta;
 }

@@ -310,6 +310,11 @@ constexpr uint64_t Diplo_ScoreComponents = 0x101D7E26C;
 // the evaluator builds it for Payments with gold = -(payment amount)
 constexpr uint64_t DealComponentGift_ctor = 0x1024F485C;
 constexpr uint64_t DealComponentGift_Size = 0x30;
+// its score parts, float (*)(GIFT*) virtuals (vtable 0x104c1a2c0; + 0x18, the table part, needs the scorer's context)
+constexpr uint64_t DealComponentGift_BaseSlot = 0x10;
+constexpr uint64_t DealComponentGift_SizeSlot = 0x20;     // the size class, from the economic power
+constexpr uint64_t DealComponentGift_AmountSlot = 0x28;   // linear, over the paying faction's GDP
+constexpr uint64_t DealComponentGift_OtherSlot = 0x30;
 constexpr uint64_t DiplomaticAction_InDealVtableOffset = 0x50; // bool (*)(action): part of the deal
 // trade regions action: regions in list 1 go to negotiation + 0x20, in list 2 to negotiation + 0x28 (its execute 0x1025c8188)
 constexpr uint64_t TradeRegions_List1Count = 0x24;         // REGION** at + 0x28

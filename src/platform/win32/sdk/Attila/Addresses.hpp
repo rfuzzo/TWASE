@@ -213,6 +213,12 @@ namespace sdk::Attila::Addresses
 	// void (__thiscall*)(CAI_DEAL_COMPONENT_GIFT* self, void* aiContext, CAI_FACTION* a, CAI_FACTION* b, int32_t gold), 0x1c bytes
 	constexpr uint32_t DealComponentGift_ctor = 0xBF0FC0;
 	constexpr uint32_t DealComponentGift_Size = 0x1C;
+	// its score parts, float (__thiscall*)(GIFT*) virtuals (vtable 0x1B9929C, one dtor slot: Mac's slots - 0xc; + 0x8, the
+	// table part 0xC804A0, needs the scorer's context)
+	constexpr uint32_t DealComponentGift_BaseSlot = 0x4;      // 0xA7ECB0
+	constexpr uint32_t DealComponentGift_SizeSlot = 0xC;      // 0xC29A80, the size class from the economic power
+	constexpr uint32_t DealComponentGift_AmountSlot = 0x10;   // 0xC2D2E0, linear, over the paying faction's GDP
+	constexpr uint32_t DealComponentGift_OtherSlot = 0x14;    // 0xA81F60
 	// float (__thiscall*)(CAI_FACTION*, int32_t treasuryOffset): clamp(GDP / economic_power_gdp_factor + (treasury + offset)
 	// / economic_power_treasury_factor, min, max); the CAI faction wrapper's FACTION is at + 0xec
 	constexpr uint32_t CaiFaction_EconomicPower = 0x8FC320;

@@ -44,7 +44,7 @@ Each step works and can be tested on its own.
    - rules, evaluation and transfer (together, so the AI never gets regions for free): done, tested 2026-10-22 with region_trading.pack (its loc names the action "Trade Regions"). Vanilla's panel then shows only the offers, one region per deal.
    - the panel (both lists, several regions, OK, the deal list labels): done, tested 2026-10-22. Windows differences: the click handler runs on the panel's listener (panel + 0x30), `UIComponent_FindChild` is cdecl, the virtual Resize takes (width, height, bool, bool) (`Engine::Resize` in the hooks file), and the "deal" the OK button's `DiplomacyContext_SetRegion` applies the terms to is the trade regions action itself.
    - Region for Troops (`TWASE_HAS_REGION_FOR_TROOPS`): done, tested 2026-10-22. The "Add Offer/Demand" entries are 0x14 bytes on x86 and their vector's push is inlined (`Engine::PushActionEntry` rebuilds it with the engine's allocator and WString copy), the action button's click handler runs on the dropdown + 0x40 and has no thunk.
-   - the debug log's breakdown of the gift score (`TWASE_HAS_GIFT_SCORE_PARTS`): the gift component's vtable slots differ on Windows.
+   - the debug log's breakdown of the gift score: done, the gift component's score parts are Mac's vtable slots - 0xc on Windows (`DealComponentGift_*Slot`).
 
 ## Finding things in `empire.retail.dll`
 
