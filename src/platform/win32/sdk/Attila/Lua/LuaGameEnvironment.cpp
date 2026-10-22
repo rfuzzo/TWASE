@@ -2,6 +2,8 @@
 #include "../Addresses.hpp"
 #include "LuaRuntime.hpp"
 
+#include <algorithm>
+
 #include <spdlog/spdlog.h>
 
 using namespace sdk::Attila;
@@ -15,6 +17,15 @@ lua_State *LuaGameEnvironment::s_activeL = nullptr;
 std::string LuaGameEnvironment::s_activeContextName;
 
 LuaGameEnvironment::GetLuaState_t LuaGameEnvironment::s_GetLuaState = nullptr;
+
+namespace
+{
+// the campaign scripts' state (decoda_name set by RunStartupPath), where get_cm and the twase table live
+constexpr const char* kCampaignContextName = "EpisodicScriptingEnv";
+
+// whether the user picked the context (.switch or the console's list), until that state goes away
+bool s_userSelected = false;
+} // namespace
 
 void LuaGameEnvironment::Init(uint32_t base)
 {
@@ -74,14 +85,25 @@ std::vector<LuaContext> LuaGameEnvironment::GetActiveContexts()
         {
             s_activeL = nullptr;
             s_activeContextName = "none";
+            s_userSelected = false;
         }
     }
 
-    // Auto-select if nothing active
-    if (s_activeL == nullptr && !contexts.empty())
+    // Auto-select: the campaign scripts' state when there is one, else the first, unless the user picked one
+    if (!s_userSelected && !contexts.empty())
     {
-        s_activeL = contexts[0].L;
-        s_activeContextName = contexts[0].name;
+        const auto campaign = std::find_if(contexts.begin(), contexts.end(),
+                                           [](const LuaContext& aContext) { return aContext.name == kCampaignContextName; });
+        if (campaign != contexts.end())
+        {
+            s_activeL = campaign->L;
+            s_activeContextName = campaign->name;
+        }
+        else if (s_activeL == nullptr)
+        {
+            s_activeL = contexts[0].L;
+            s_activeContextName = contexts[0].name;
+        }
     }
 
     return contexts;
@@ -105,6 +127,7 @@ bool LuaGameEnvironment::SelectContext(size_t index)
 
     s_activeL = contexts[index].L;
     s_activeContextName = contexts[index].name;
+    s_userSelected = true;
     return true;
 }
 
