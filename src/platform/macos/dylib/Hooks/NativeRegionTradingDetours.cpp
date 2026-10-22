@@ -111,6 +111,12 @@ void RT::Original::OnActionButtonThunk(void* dropdown, void* event)
     OnActionButtonThunk_fnc(dropdown, event);
 }
 
+void RT::Engine::Resize(void* component, float width, float height)
+{
+    auto resize = *reinterpret_cast<void (**)(void*, bool, bool, float, float)>(*static_cast<uint8_t**>(component) + 0xa8);
+    resize(component, true, true, width, height);
+}
+
 bool Hooks::NativeRegionTradingHook::Attach()
 {
     auto result = GiftableRegions_fnc.Attach();

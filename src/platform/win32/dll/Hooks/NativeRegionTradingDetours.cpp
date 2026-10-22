@@ -18,6 +18,11 @@ bool isAttached = false;
 // returns the list through a hidden pointer (the first stack argument)
 RT::RegionList* __fastcall GiftableRegions(void* from, void* edx, RT::RegionList* out, void* to);
 void __fastcall Execute(void* action, void* edx);
+void* __fastcall PopulatePanel(void* panel, void* edx, void* action);
+// the panel's click listener, at panel + TradeRegionsPanel_ClickListener
+uintptr_t __fastcall OnClick(void* listener, void* edx, void** event);
+void __fastcall SetRegion(void* context, void* edx, int32_t regionId, void* demandedFrom, void* deal);
+void __fastcall ListButtonSetup(void* button, void* edx, void* root, void* entry, void* context);
 
 Hook<decltype(&GiftableRegions)> GiftableRegions_fnc(Addresses::Faction_GiftableRegions, &GiftableRegions);
 Hook<decltype(&RT::Detour::RegionTradePossible)> RegionTradePossible_fnc(Addresses::DiplomaticAction_RegionTradePossible,
@@ -25,6 +30,10 @@ Hook<decltype(&RT::Detour::RegionTradePossible)> RegionTradePossible_fnc(Address
 Hook<decltype(&Execute)> Execute_fnc(Addresses::TradeRegions_Execute, &Execute);
 Hook<decltype(&RT::Detour::EvaluateDeal)> EvaluateDeal_fnc(Addresses::Diplo_EvaluateDeal, &RT::Detour::EvaluateDeal);
 Hook<decltype(&RT::Detour::ScoreComponents)> ScoreComponents_fnc(Addresses::Diplo_ScoreComponents, &RT::Detour::ScoreComponents);
+Hook<decltype(&PopulatePanel)> PopulatePanel_fnc(Addresses::TradeRegionsPanel_Populate, &PopulatePanel);
+Hook<decltype(&OnClick)> OnClick_fnc(Addresses::TradeRegionsPanel_OnClick, &OnClick);
+Hook<decltype(&SetRegion)> SetRegion_fnc(Addresses::DiplomacyContext_SetRegion, &SetRegion);
+Hook<decltype(&ListButtonSetup)> ListButtonSetup_fnc(Addresses::DiplomacyListTradeRegionsButton_Setup, &ListButtonSetup);
 
 RT::RegionList* __fastcall GiftableRegions(void* from, void*, RT::RegionList* out, void* to)
 {
@@ -35,6 +44,26 @@ RT::RegionList* __fastcall GiftableRegions(void* from, void*, RT::RegionList* ou
 void __fastcall Execute(void* action, void*)
 {
     RT::Detour::Execute(action);
+}
+
+void* __fastcall PopulatePanel(void* panel, void*, void* action)
+{
+    return RT::Detour::PopulatePanel(panel, action);
+}
+
+uintptr_t __fastcall OnClick(void* listener, void*, void** event)
+{
+    return RT::Detour::OnClick(static_cast<uint8_t*>(listener) - Addresses::TradeRegionsPanel_ClickListener, event);
+}
+
+void __fastcall SetRegion(void* context, void*, int32_t regionId, void* demandedFrom, void* deal)
+{
+    RT::Detour::SetRegion(context, regionId, demandedFrom, deal);
+}
+
+void __fastcall ListButtonSetup(void* button, void*, void* root, void* entry, void* context)
+{
+    RT::Detour::ListButtonSetup(button, root, entry, context);
 }
 } // namespace
 
@@ -65,6 +94,33 @@ float RT::Original::ScoreComponents(ComponentList* list, void* aiContext, void* 
     return ScoreComponents_fnc(list, aiContext, a, a4, a5, a6, a7);
 }
 
+void* RT::Original::PopulatePanel(void* panel, void* action)
+{
+    return PopulatePanel_fnc(panel, nullptr, action);
+}
+
+uintptr_t RT::Original::OnClick(void* panel, void** event)
+{
+    return OnClick_fnc(static_cast<uint8_t*>(panel) + Addresses::TradeRegionsPanel_ClickListener, nullptr, event);
+}
+
+void RT::Original::SetRegion(void* context, int32_t regionId, void* demandedFrom, void* deal)
+{
+    SetRegion_fnc(context, nullptr, regionId, demandedFrom, deal);
+}
+
+void RT::Original::ListButtonSetup(void* button, void* root, void* entry, void* context)
+{
+    ListButtonSetup_fnc(button, nullptr, root, entry, context);
+}
+
+void RT::Engine::Resize(void* component, float width, float height)
+{
+    using Resize_t = void(__thiscall*)(void*, float, float, bool, bool);
+    auto resize = *reinterpret_cast<Resize_t*>(*static_cast<uint8_t**>(component) + Addresses::UIComponent_ResizeVtableOffset);
+    resize(component, width, height, true, true);
+}
+
 // called inside the App's DetourTransaction
 bool Hooks::NativeRegionTradingHook::Attach()
 {
@@ -77,6 +133,14 @@ bool Hooks::NativeRegionTradingHook::Attach()
         result = EvaluateDeal_fnc.Attach();
     if (result == NO_ERROR)
         result = ScoreComponents_fnc.Attach();
+    if (result == NO_ERROR)
+        result = PopulatePanel_fnc.Attach();
+    if (result == NO_ERROR)
+        result = OnClick_fnc.Attach();
+    if (result == NO_ERROR)
+        result = SetRegion_fnc.Attach();
+    if (result == NO_ERROR)
+        result = ListButtonSetup_fnc.Attach();
     if (result != NO_ERROR)
     {
         spdlog::error("Could not attach the native region trading hooks. Detours error code: {}", result);
@@ -95,7 +159,15 @@ bool Hooks::NativeRegionTradingHook::Detach()
     {
         return false;
     }
-    auto result = ScoreComponents_fnc.Detach();
+    auto result = ListButtonSetup_fnc.Detach();
+    if (result == NO_ERROR)
+        result = SetRegion_fnc.Detach();
+    if (result == NO_ERROR)
+        result = OnClick_fnc.Detach();
+    if (result == NO_ERROR)
+        result = PopulatePanel_fnc.Detach();
+    if (result == NO_ERROR)
+        result = ScoreComponents_fnc.Detach();
     if (result == NO_ERROR)
         result = EvaluateDeal_fnc.Detach();
     if (result == NO_ERROR)

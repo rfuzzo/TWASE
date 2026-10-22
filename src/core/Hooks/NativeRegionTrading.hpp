@@ -8,7 +8,7 @@ struct lua_State;
 
 // The logic is shared (NativeRegionTrading.cpp). Each platform hooks the engine functions in its
 // Hooks/NativeRegionTradingDetours.cpp: its hooks call the Detour functions, and it implements Original (its
-// trampolines) and Attach / Detach. The signatures leave out the platform's calling conventions.
+// trampolines), Engine and Attach / Detach. The signatures leave out the platform's calling conventions.
 namespace Hooks::NativeRegionTradingHook
 {
 bool Attach();
@@ -50,12 +50,15 @@ struct ComponentList
     float EvaluateDeal(void* negotiation, void* aiContext, void* a, void* b, int32_t* out5, char* out6);               \
     float ScoreComponents(ComponentList* list, void* aiContext, void* a, void* a4, int32_t* a5, char* a6, uintptr_t a7);
 
-// the region panel, the deal list and Region for Troops
+// the region panel and the deal list
 #define TWASE_REGION_TRADING_PANEL_FUNCTIONS                                                                           \
     void* PopulatePanel(void* panel, void* action);                                                                    \
     uintptr_t OnClick(void* panel, void** event);                                                                      \
     void SetRegion(void* context, int32_t regionId, void* demandedFrom, void* deal);                                   \
-    void ListButtonSetup(void* button, void* root, void* entry, void* context);                                        \
+    void ListButtonSetup(void* button, void* root, void* entry, void* context);
+
+// Region for Troops
+#define TWASE_REGION_FOR_TROOPS_FUNCTIONS                                                                              \
     intptr_t MakeActionButtons(void* dropdown);                                                                        \
     void OnActionButton(void* dropdown, void* event);                                                                  \
     void OnActionButtonThunk(void* dropdown, void* event);
@@ -66,6 +69,9 @@ TWASE_REGION_TRADING_FUNCTIONS
 #if TWASE_HAS_REGION_TRADING_PANEL
 TWASE_REGION_TRADING_PANEL_FUNCTIONS
 #endif
+#if TWASE_HAS_REGION_FOR_TROOPS
+TWASE_REGION_FOR_TROOPS_FUNCTIONS
+#endif
 } // namespace Detour
 
 namespace Original
@@ -74,8 +80,21 @@ TWASE_REGION_TRADING_FUNCTIONS
 #if TWASE_HAS_REGION_TRADING_PANEL
 TWASE_REGION_TRADING_PANEL_FUNCTIONS
 #endif
+#if TWASE_HAS_REGION_FOR_TROOPS
+TWASE_REGION_FOR_TROOPS_FUNCTIONS
+#endif
 } // namespace Original
+
+#if TWASE_HAS_REGION_TRADING_PANEL
+// engine calls whose arguments differ per platform, also implemented by the platform
+namespace Engine
+{
+// UIComponent's virtual Resize, the way the Lua Resize calls it
+void Resize(void* component, float width, float height);
+} // namespace Engine
+#endif
 
 #undef TWASE_REGION_TRADING_FUNCTIONS
 #undef TWASE_REGION_TRADING_PANEL_FUNCTIONS
+#undef TWASE_REGION_FOR_TROOPS_FUNCTIONS
 } // namespace Hooks::NativeRegionTradingHook

@@ -58,7 +58,7 @@ struct EvalContext
 thread_local EvalContext* currentEval = nullptr;
 
 using GiftCtor_t = void(TWASE_THISCALL*)(void* self, void* aiContext, void* a, void* b, int32_t gold);
-using FindChild_t = void*(TWASE_THISCALL*)(void* parent, const TempString* name, bool recursive);
+using FindChild_t = void* (*)(void* parent, const TempString* name, bool recursive);
 using SetVisible_t = void(TWASE_THISCALL*)(void* component, bool visible);
 using StringCtor_t = TempString*(TWASE_THISCALL*)(TempString* self, const char* utf8);
 using StringDtor_t = void(TWASE_THISCALL*)(TempString* self);
@@ -628,41 +628,41 @@ void* FindChild(void* parent, const char* name)
     return child;
 }
 
-// UIComponent geometry: position at + 0x128 / + 0x12c, size in the current state (+ 0x140) at + 0x40 / + 0x44,
-// MoveTo is virtual + 0xc8 with {x, y}, all floats (the Lua bindings Position, Dimensions and MoveTo)
+// UIComponent geometry: position, size in the current state, MoveTo (virtual, {x, y}), all floats (the Lua bindings
+// Position, Dimensions and MoveTo)
 std::pair<float, float> Position(void* component)
 {
     auto* c = static_cast<uint8_t*>(component);
-    return {*reinterpret_cast<float*>(c + 0x128), *reinterpret_cast<float*>(c + 0x12c)};
+    return {*reinterpret_cast<float*>(c + Addr::UIComponent_PositionX), *reinterpret_cast<float*>(c + Addr::UIComponent_PositionX + 4)};
 }
 
 float Width(void* component)
 {
-    auto* state = *reinterpret_cast<uint8_t**>(static_cast<uint8_t*>(component) + 0x140);
-    return state ? *reinterpret_cast<float*>(state + 0x40) : 0.0f;
+    auto* state = *reinterpret_cast<uint8_t**>(static_cast<uint8_t*>(component) + Addr::UIComponent_State);
+    return state ? *reinterpret_cast<float*>(state + Addr::UIState_Width) : 0.0f;
 }
 
 void MoveTo(void* component, float x, float y)
 {
     float position[2] = {x, y};
-    auto moveTo = *reinterpret_cast<void(TWASE_THISCALL**)(void*, float*)>(*reinterpret_cast<uint8_t**>(component) + 0xc8);
+    auto moveTo = *reinterpret_cast<void(TWASE_THISCALL**)(void*, float*)>(*reinterpret_cast<uint8_t**>(component) +
+                                                                           Addr::UIComponent_MoveToVtableOffset);
     moveTo(component, position);
 }
 
 float Height(void* component)
 {
-    auto* state = *reinterpret_cast<uint8_t**>(static_cast<uint8_t*>(component) + 0x140);
-    return state ? *reinterpret_cast<float*>(state + 0x44) : 0.0f;
+    auto* state = *reinterpret_cast<uint8_t**>(static_cast<uint8_t*>(component) + Addr::UIComponent_State);
+    return state ? *reinterpret_cast<float*>(state + Addr::UIState_Width + 4) : 0.0f;
 }
 
-// virtual + 0xa8 (the Lua Resize); a component only changes the width / height it may resize (flags + 0x190 / + 0x191),
-// so we allow both first
+// the Lua Resize (the platform's: its virtual's arguments differ); a component only changes the width / height it may
+// resize (two flags), so we allow both first
 void Resize(void* component, float width, float height)
 {
-    static_cast<uint8_t*>(component)[0x190] = 1;
-    static_cast<uint8_t*>(component)[0x191] = 1;
-    auto resize = *reinterpret_cast<void(TWASE_THISCALL**)(void*, bool, bool, float, float)>(*reinterpret_cast<uint8_t**>(component) + 0xa8);
-    resize(component, true, true, width, height);
+    static_cast<uint8_t*>(component)[Addr::UIComponent_CanResize] = 1;
+    static_cast<uint8_t*>(component)[Addr::UIComponent_CanResize + 1] = 1;
+    Engine::Resize(component, width, height);
 }
 
 // MULTIPLE SELECTION
@@ -752,7 +752,9 @@ bool HasId(void* component, const char* id)
 
 // REGION FOR TROOPS state: the open panel's mode, the negotiation whose region term is "for troops"
 int pendingMode = -1; // set by a click on an action button: 1 troops, 0 gift; -1 none (the panel was opened otherwise)
+#if TWASE_HAS_REGION_FOR_TROOPS
 void UpdateTroopsList(void* panel);
+#endif
 
 // A click on a list row: the engine selects the row when its checkbox was ticked and nothing when it was unticked (one
 // selection). We keep every ticked row of both lists; the last one stays the engine's selection (for the OK button's
@@ -796,10 +798,12 @@ uintptr_t Hooks::NativeRegionTradingHook::Detour::OnClick(void* panel, void** ev
     {
         SetChecked(selected, true);
     }
+#if TWASE_HAS_REGION_FOR_TROOPS
     if (troopsMode)
     {
         UpdateTroopsList(panel);
     }
+#endif
     return 0;
 }
 
@@ -876,7 +880,8 @@ void Hooks::NativeRegionTradingHook::Detour::SetRegion(void* context, int32_t re
     spdlog::debug("[RegionTrading] deal regions: {} offered, {} demanded{}", offered.size(), demanded.size(), troopsMode ? ", for troops" : "");
 
     auto* c = static_cast<uint8_t*>(context);
-    void* x = *reinterpret_cast<void**>(*reinterpret_cast<uint8_t**>(*reinterpret_cast<uint8_t**>(c + 0xc0) + 0x30) + 0x50);
+    void* x = *reinterpret_cast<void**>(*reinterpret_cast<uint8_t**>(*reinterpret_cast<uint8_t**>(c + Addr::DiplomacyContext_Campaign) +
+                                                                   Addr::Campaign_Handle) + Addr::ModelHandle_DealTermsContext);
     alignas(16) uint8_t terms[0x200];
     reinterpret_cast<void(TWASE_THISCALL*)(void*)>(Slid(Addresses::DealTerms_ctor))(terms);
     PointerList offeredList{static_cast<uint32_t>(offered.size()), static_cast<uint32_t>(offered.size()), offered.data()};
@@ -886,6 +891,7 @@ void Hooks::NativeRegionTradingHook::Detour::SetRegion(void* context, int32_t re
     reinterpret_cast<void(TWASE_THISCALL*)(void*, void*, void*)>(Slid(Addresses::Deal_ApplyTerms))(deal, x, terms);
     reinterpret_cast<void(TWASE_THISCALL*)(void*)>(Slid(Addresses::DealTerms_dtor))(terms);
 
+#if TWASE_HAS_REGION_FOR_TROOPS
     // a foedus comes with peace (at war) and the tributary status: the native terms, where available. At war the
     // engine offers the tributary status once peace is in the deal (the region entries need that) but updates the flag
     // later; and it only offers it to a faction with land, which a landless people only gets with this deal. So the
@@ -914,9 +920,10 @@ void Hooks::NativeRegionTradingHook::Detour::SetRegion(void* context, int32_t re
             }
         }
     }
+#endif
 }
 
-// REGION FOR TROOPS
+// TEXT
 
 namespace
 {
@@ -957,7 +964,13 @@ void SetText(void* component, const std::string& aText, bool aTooltip)
         Slid(aTooltip ? Addresses::UIComponent_SetTooltipText : Addresses::UIComponent_SetText))(component, uni, aTooltip);
     reinterpret_cast<void(TWASE_THISCALL*)(void*)>(Slid(Addresses::UniString_dtor))(uni);
 }
+} // namespace
 
+// REGION FOR TROOPS
+
+#if TWASE_HAS_REGION_FOR_TROOPS
+namespace
+{
 void* troopsButton = nullptr; // the "Region for Troops" button in the open "Add Offer/Demand" list
 
 // an "Add Offer/Demand" list entry (DiplomacyDropdown + 0x1c0)
@@ -1242,20 +1255,21 @@ void UpdateTroopsList(void* panel)
     reinterpret_cast<void(TWASE_THISCALL*)(void*)>(Slid(Addresses::ListBox_Layout))(box);
 }
 } // namespace
+#endif
 
 // DEAL LIST: a trade regions row shows the demanded regions if there are any, else the offered ones, in both columns.
 // With both (a swap) we show each column its own: in "your_offers" the regions you own, in the other the AI's.
 void Hooks::NativeRegionTradingHook::Detour::ListButtonSetup(void* button, void* root, void* entry, void* context)
 {
     Original::ListButtonSetup(button, root, entry, context);
-    auto* action = entry ? *reinterpret_cast<uint8_t**>(static_cast<uint8_t*>(entry) + 0x18) : nullptr;
+    auto* action = entry ? *reinterpret_cast<uint8_t**>(static_cast<uint8_t*>(entry) + Addr::ActionEntry_Action) : nullptr;
     if (!isEnabled || !action || !button || !root)
     {
         return;
     }
     const auto count1 = *reinterpret_cast<uint32_t*>(action + Addresses::TradeRegions_List1Count);
     const auto count2 = *reinterpret_cast<uint32_t*>(action + Addresses::TradeRegions_List2Count);
-    void* row = *reinterpret_cast<void**>(static_cast<uint8_t*>(button) + 8);
+    void* row = *reinterpret_cast<void**>(static_cast<uint8_t*>(button) + Addr::ListButton_Row);
     void* names = row ? FindChild(row, "region_names") : nullptr;
 
     // a region term for troops is labelled so (the heading is the action's name, "Gift Region")
@@ -1408,10 +1422,12 @@ void* Hooks::NativeRegionTradingHook::Detour::PopulatePanel(void* panel, void* a
             SetText(component, text, false);
         }
     }
+#if TWASE_HAS_REGION_FOR_TROOPS
     if (troopsMode)
     {
         UpdateTroopsList(panel);
     }
+#endif
     return result;
 }
 #endif

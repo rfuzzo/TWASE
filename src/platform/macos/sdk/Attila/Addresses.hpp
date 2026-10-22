@@ -253,6 +253,8 @@ constexpr uint64_t Region_Settlement = 0x1A8;              // SETTLEMENT*
 // void (*)(BUTTON* self, UIComponent* dropdownRoot, ENTRY* entry, void* context); entry + 0x18 = the action.
 // It shows the demanded regions if there are any, else the offered ones, in "region_names".
 constexpr uint64_t DiplomacyListTradeRegionsButton_Setup = 0x1035A6EEC;
+constexpr uint64_t ActionEntry_Action = 0x18;              // the entry's DIPLOMATIC_ACTION*
+constexpr uint64_t ListButton_Row = 0x8;                   // the button's row UIComponent*
 constexpr uint64_t Region_Owner = 0x1A0;                   // **(region + 0x1a0) = owning FACTION* (the Lua owning_faction)
 constexpr uint64_t Region_LocalisedName = 0x101C57700;     // const UniString* (*)(REGION*)
 // UniString (UTF-16, 0x10 bytes): ctor from a u"" literal, append, append literal, non-empty, set component text
@@ -269,6 +271,17 @@ constexpr uint64_t UIComponent_Id = 0xF8;
 constexpr uint64_t UIComponent_ChildCount = 0x114;
 constexpr uint64_t UIComponent_Children = 0x118;
 constexpr uint64_t UIComponent_Checkbox = 0x258;
+// geometry (the Lua bindings Position, Dimensions, MoveTo, Resize): position x, y floats; the current state, its width
+// and height floats; MoveTo virtual (float[2]); the flags that let Resize change the width / height. Resize is the
+// virtual + 0xa8 (bool, bool, width, height), see Hooks/NativeRegionTradingDetours.cpp
+constexpr uint64_t UIComponent_PositionX = 0x128;
+constexpr uint64_t UIComponent_State = 0x140;
+constexpr uint64_t UIState_Width = 0x40;
+constexpr uint64_t UIComponent_MoveToVtableOffset = 0xC8;
+constexpr uint64_t UIComponent_CanResize = 0x190;
+// SetRegion's deal terms argument: *(*(*(context + 0xc0) + Campaign_Handle) + 0x50)
+constexpr uint64_t DiplomacyContext_Campaign = 0xC0;
+constexpr uint64_t ModelHandle_DealTermsContext = 0x50;
 constexpr uint64_t Checkbox_SetChecked = 0x1033090C0;      // void (*)(CHECKBOX*, bool, bool, bool)
 
 // Gift sizes: float (*)(CAI_FACTION*, int32_t treasuryOffset) = clamp(GDP / economic_power_gdp_factor + (treasury +

@@ -223,4 +223,77 @@ namespace sdk::Attila::Addresses
 	constexpr uint32_t Faction_Gdp = 0x7107E0;
 	using FactionGdpValue = uint32_t;
 
+	// The region panel (DiplomacyTradeRegionsPanel, layout diplomacy_hud "trade_regions", set up by 0x15E6490)
+	// void (__thiscall*)(PANEL* self, DIPLOMATIC_ACTION* action): fills list_offers (player -> AI) and list_demands (AI ->
+	// player), the fill 0x1603DF0 skips invisible lists
+	constexpr uint32_t TradeRegionsPanel_Populate = 0x15FDB80;
+	constexpr uint32_t TradeRegionsPanel_Component = 0x4;      // UIComponent*
+	constexpr uint32_t TradeRegionsPanel_RowTemplate = 0x44;   // "template_region_list_item" (+ 0x40 the DiplomacyDropdown)
+	constexpr uint32_t TradeRegionsPanel_Selected = 0x48;      // UIComponent* row
+	constexpr uint32_t TradeRegionsPanel_OtherFaction = 0x4C;  // FACTION* of the AI, set by Populate
+	// void (__thiscall*)(PANEL* self, UIComponent* row): unticks every row, ticks `row` (may be null) as the one
+	// selection, sets ok_trade_regions active / inactive and pans the camera to the row's region
+	constexpr uint32_t TradeRegionsPanel_SelectRow = 0x1606DC0;
+	// void (__thiscall*)(LISTENER* self = panel + 0x30, void** event): event[0] the clicked component (a row's checkbox:
+	// its row at + 0x88), the byte at event + 4 is 1 if it's now ticked; also the OK and cancel buttons
+	constexpr uint32_t TradeRegionsPanel_OnClick = 0x15E6590;
+	constexpr uint32_t TradeRegionsPanel_ClickListener = 0x30;
+	// UIComponent* (__cdecl*)(UIComponent* parent, const TempString* name, bool recursive)
+	constexpr uint32_t UIComponent_FindChild = 0x139FEB0;
+	// void (__thiscall*)(UIComponent*, bool), the Lua SetVisible
+	constexpr uint32_t UIComponent_SetVisible = 0x13B6840;
+	constexpr uint32_t UIComponent_ClickedRow = 0x88;
+	// UIComponent: id TempString at + 0x7c, children count + 0x90 / UIComponent** + 0x94, checkbox state at + 0x184
+	constexpr uint32_t UIComponent_Id = 0x7C;
+	constexpr uint32_t UIComponent_ChildCount = 0x90;
+	constexpr uint32_t UIComponent_Children = 0x94;
+	constexpr uint32_t UIComponent_Checkbox = 0x184;
+	constexpr uint32_t Checkbox_SetChecked = 0x13B6140;        // void (__thiscall*)(CHECKBOX*, bool, bool, bool)
+	// geometry (the Lua bindings Position 0x1385210, Dimensions 0x1385BF0, MoveTo 0x1385260, Resize 0x1385790): position
+	// x, y floats; the current state, its width and height floats; MoveTo virtual (float[2]); the flags that let Resize
+	// change the width / height. Resize is the virtual + 0x4c (width, height, bool, bool), 0x13B13F0
+	constexpr uint32_t UIComponent_PositionX = 0xA0;
+	constexpr uint32_t UIComponent_State = 0xB4;
+	constexpr uint32_t UIState_Width = 0x28;
+	constexpr uint32_t UIComponent_MoveToVtableOffset = 0x58;
+	constexpr uint32_t UIComponent_ResizeVtableOffset = 0x4C;
+	constexpr uint32_t UIComponent_CanResize = 0xE8;
+	// FACTION* (__thiscall*)(DIPLOMATIC_ACTION*): the action's two factions (the negotiation's A and B)
+	constexpr uint32_t DiplomaticAction_FactionA = 0x523EA0;
+	constexpr uint32_t DiplomaticAction_FactionB = 0xC70910;
+	// FACTION* (__thiscall*)(CAMPAIGN* = *g_Campaign), CampaignUI_GetLocalPlayerFaction
+	constexpr uint32_t Campaign_LocalFaction = 0x1521C30;
+	constexpr uint32_t TempString_ToInt = 0xF2D10;             // bool (__thiscall*)(const TempString*, int32_t* out)
+	constexpr uint32_t Region_Id = 0x4;                        // int32, the panel's row ids ("%d")
+
+	// void (__thiscall*)(DIPLOMACY_CONTEXT*, int32_t regionId, FACTION* demandedFrom (null: offered), DIPLOMATIC_ACTION* deal):
+	// the OK button (through 0x14F5C30, the context = DiplomacyDropdown + 0x184); fills deal terms with the one region
+	// and applies them to the action
+	constexpr uint32_t DiplomacyContext_SetRegion = 0x1522850;
+	constexpr uint32_t DiplomacyContext_Negotiation = 0x80;
+	// the deal terms argument: *(*(*(context + 0x78) + Campaign_Handle) + 0x2c)
+	constexpr uint32_t DiplomacyContext_Campaign = 0x78;
+	constexpr uint32_t ModelHandle_DealTermsContext = 0x2C;
+	constexpr uint32_t DealTerms_ctor = 0xBFC030;              // void (__thiscall*)(TERMS*), 0x14c bytes
+	constexpr uint32_t DealTerms_dtor = 0x6DB220;
+	constexpr uint32_t DealTerms_SetDemandedRegions = 0xC27E40; // void (__thiscall*)(TERMS*, const List*), copied to + 0x10
+	constexpr uint32_t DealTerms_SetOfferedRegions = 0xC58B90;  // void (__thiscall*)(TERMS*, const List*), copied to + 0x1c
+	// void (__thiscall*)(DIPLOMATIC_ACTION*, void* x, TERMS*), a thunk to the action's virtual + 0x38
+	constexpr uint32_t Deal_ApplyTerms = 0xC685F0;
+
+	// The deal list row of a trade regions action (DiplomacyListTradeRegionsButton, made by 0x15E2470):
+	// void (__thiscall*)(BUTTON* self, UIComponent* dropdownRoot, ENTRY* entry, void* context), retn 0xc; it shows the
+	// demanded regions if there are any, else the offered ones, in "region_names"
+	constexpr uint32_t DiplomacyListTradeRegionsButton_Setup = 0x15E2340;
+	constexpr uint32_t ActionEntry_Action = 0x10;              // the entry's DIPLOMATIC_ACTION* (after a 12-byte WString and flags)
+	constexpr uint32_t ListButton_Row = 0x4;                   // the button's row UIComponent*
+	constexpr uint32_t Region_Owner = 0x124;                   // **(region + 0x124) = owning FACTION* (the Lua owning_faction 0x8560A0)
+	constexpr uint32_t Region_LocalisedName = 0x94AE50;        // const WString* (__thiscall*)(REGION*)
+	// WString (UTF-16, 12 bytes): ctor from a literal, append, append literal, non-empty, dtor
+	constexpr uint32_t UniString_ctor = 0xDFEF0;
+	constexpr uint32_t UniString_Append = 0xE1210;
+	constexpr uint32_t UniString_AppendLiteral = 0xE12D0;
+	constexpr uint32_t UniString_NotEmpty = 0xEF750;
+	constexpr uint32_t UniString_dtor = 0xE0720;
+
 } // namespace sdk::Attila::Addresses
