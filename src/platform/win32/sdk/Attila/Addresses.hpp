@@ -121,6 +121,12 @@ namespace sdk::Attila::Addresses
 	constexpr uint32_t String_ctor = 0xDFCD0;
 	constexpr uint32_t String_dtor = 0xE06F0;
 
+	// LOCALISATION (twase.localise): the loc manager at container + 0x1694 (DB_GetLocalisation 0xE0D270); its virtual
+	// + 0x0 is the lookup const WString* (loc, const TempString* key, int), callers pass 1 (ProvinceRecord_SetOnscreenName
+	// 0x10737A0 with "provinces_onscreen_<key>")
+	constexpr uint32_t Database_Localisation = 0x1694;
+	constexpr uint32_t Localisation_LookupVtableOffset = 0x0;
+
 	// DATABASE_TABLE
 	constexpr uint32_t DBTable_Count = 0x08;                   // uint32
 	constexpr uint32_t DBTable_Records = 0x0C;                 // RECORD**
