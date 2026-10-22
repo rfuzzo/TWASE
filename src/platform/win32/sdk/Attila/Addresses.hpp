@@ -87,4 +87,43 @@ namespace sdk::Attila::Addresses
 	constexpr uint32_t World_CAIInterface = 0x1C44;            // CAI_INTERFACE*
 	constexpr uint32_t Faction_AliveMarker = 0x800;            // null once the faction is destroyed (FACTION::is_dead 0x716690)
 
+
+	// REGIONS (twase.region_wealth), from REGION_SCRIPT_INTERFACE's methods (table 0x1D2D7B8) and the province panel
+	// (ProvincePanel_Update 0x145E540)
+	constexpr uint32_t RegionScriptInterface_Region = 0x8;     // REGION*
+	constexpr uint32_t Region_Record = 0x50;                   // regions record (key TempString at + 0), the Lua name()
+	constexpr uint32_t Region_Wealth = 0xF4;                   // int, the province panel's "wealth" (region_wealth_change_percent + 0xFC, town_wealth_growth + 0x10C)
+	constexpr uint32_t Region_WealthBreakdown = 0x570;         // RegionWealthCategory[15], the wealth_breakdown_tooltip's data (CampaignTooltip_SetWealthBreakdown 0x1457F90)
+	constexpr int RegionWealthCategoryCount = 15;              // loc keys campaign_localised_strings_string_gdp_* at 0x1D2C64C, the Mac order
+
+
+	// DATABASE (the loaded DB tables), world = *(*(*g_Campaign + 0xA54) + 0x28) like the UI (UI_SetAttitudeIcon)
+	constexpr uint32_t g_Campaign = 0x28D52B0;
+	constexpr uint32_t Campaign_Handle = 0xA54;
+	constexpr uint32_t World_Database = 0x10F0;                // DB_GetContainer(world + 0x10f0)
+
+	// void* (__thiscall*)(void* worldDatabaseField): *(*(*field + 0x30) + 0x10)
+	constexpr uint32_t DB_GetContainer = 0x9D09F0;
+
+	// DATABASE_TABLE* (__thiscall*)(void* container), lazy, the only code referencing "<table>_table"
+	constexpr uint32_t DB_BuildingLevels = 0xE1B690;
+	constexpr uint32_t DB_RegionToProvinceJunctions = 0xE39470;
+	constexpr uint32_t DB_Provinces = 0xE389E0;
+	constexpr uint32_t DB_MainUnits = 0xE33D00;
+	constexpr uint32_t DB_FactionToMercenarySetJunctions = 0xE30210;
+	constexpr uint32_t DB_MercenaryPoolToGroupsJunctions = 0xE34170;
+	constexpr uint32_t DB_MercenaryUnitGroups = 0xE34520;
+
+	// int* (__thiscall*)(StringHashMap* map, const TempString* key), the record index or null (DBTable_GetRecordByKey 0x19AA20)
+	constexpr uint32_t StringHashMap_Find = 0xCF7C0;
+
+	// TempString* (__thiscall*)(TempString* self, const char* utf8) / void (__thiscall*)(TempString* self)
+	constexpr uint32_t String_ctor = 0xDFCD0;
+	constexpr uint32_t String_dtor = 0xE06F0;
+
+	// DATABASE_TABLE
+	constexpr uint32_t DBTable_Count = 0x08;                   // uint32
+	constexpr uint32_t DBTable_Records = 0x0C;                 // RECORD**
+	constexpr uint32_t DBTable_Index = 0x10;                   // StringHashMap key -> record index
+
 } // namespace sdk::Attila::Addresses
