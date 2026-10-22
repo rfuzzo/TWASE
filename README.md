@@ -7,6 +7,8 @@ A script extender for **Total War: ATTILA** on Windows and Mac, similar to and h
 - In-game Lua console (toggle with the key below `Esc`, e.g. `~` on US or `^` on German keyboards)
 - Captures the game's Lua log output and writes it to the console and to log files
 - Auto-loads script mods from `<campaign folder>/mods/*/scripting.lua`
+- A `twase` Lua table for script mods: faction attitudes, region wealth, DB records (building levels, units, levy pools, provinces), localised texts ([API](docs/modding/lua-api.md))
+- Region trading for mods (`twase.enable_region_trading`): the engine's "Gift Region" between the player and any settled faction, giving and demanding several regions in one deal, valued by the mod, and "Region for Troops"
 - Fixes the crash when too many units are spawned (e.g. with Fireforged Empire)
 - Optional tweak: shows the AI's deal score in the diplomacy "Likelihood of success" tooltip. The AI accepts deals with a score of 0 or higher.
 - Mac: start the game directly with a mod list or straight into a save
@@ -55,7 +57,7 @@ The launcher can also start the game directly, without Feral's launcher window. 
 
 ## Console
 
-Press the key below `Esc` to open or close the console. Type Lua code to run it in the selected Lua context, or one of these commands:
+Press the key below `Esc` to open or close the console. Type Lua code to run it in the selected Lua context (in a campaign, the campaign scripts' context `EpisodicScriptingEnv` is selected on its own, where `get_cm()` and `twase` are), or one of these commands:
 
 | Command | Description |
 | --- | --- |
