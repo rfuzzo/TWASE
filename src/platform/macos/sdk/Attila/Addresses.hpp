@@ -176,6 +176,7 @@ constexpr uint64_t Faction_IsHuman = 0x970;                // bool (the Lua is_h
 constexpr uint64_t Faction_RegionCount = 0xA4C;            // u32, the regions at +0xa50 (the Lua region_list 0x101d2a614)
 constexpr uint64_t Faction_CanOwnLand = 0x1751;            // bool, 0 for hordes that can't settle (0x101bec634; needed by vanilla's Gift Region to a horde and transfer_region_to_faction)
 constexpr uint64_t Faction_IsHorde = 0x101B521EC;          // void* (*)(FACTION*), non-null for hordes (the Lua is_horde)
+using FactionIsHordeValue = void*;
 
 // The native region panel (UIDLL::DiplomacyTradeRegionsPanel, layout diplomacy_hud "trade_regions")
 // void (*)(PANEL* self, DIPLOMATIC_ACTION* action): fills list_offers (player -> AI) and list_demands (AI -> player)
@@ -217,6 +218,10 @@ constexpr uint64_t UniString_Copy = 0x10104A138;           // void (*)(UniString
 // then 0x1035f5044(dropdown, 0, action) opens the action's panel (type 6: the region panel, 0x1035f6b88). 0x1035f5290 is
 // the same through the dropdown's other base (this = dropdown + 0x68).
 constexpr uint64_t DiplomacyDropdown_OnActionButton = 0x1035F4FE8;
+constexpr uint64_t ActionButtonEvent_Button = 0x8;         // the event's button UIComponent*
+constexpr uint64_t ActionButtonEvent_Clicked = 0x10;       // uint8, 1 for a click
+constexpr uint64_t ActionButtonController_Action = 0x50;   // the button's controller (+ UIComponent_Checkbox): its action
+constexpr uint64_t UniString_Size = 0x10;
 constexpr uint64_t DiplomacyDropdown_OnActionButtonThunk = 0x1035F5290;
 // void (*)(DIPLOMACY_CONTEXT*, DIPLOMATIC_ACTION*): puts an action into the deal with empty terms (the dispatcher's way
 // for simple terms); used for peace and tributary
@@ -252,6 +257,8 @@ constexpr uint64_t Region_Settlement = 0x1A8;              // SETTLEMENT*
 // void (*)(BUTTON* self, UIComponent* dropdownRoot, ENTRY* entry, void* context); entry + 0x18 = the action.
 // It shows the demanded regions if there are any, else the offered ones, in "region_names".
 constexpr uint64_t DiplomacyListTradeRegionsButton_Setup = 0x1035A6EEC;
+constexpr uint64_t ActionEntry_Action = 0x18;              // the entry's DIPLOMATIC_ACTION*
+constexpr uint64_t ListButton_Row = 0x8;                   // the button's row UIComponent*
 constexpr uint64_t Region_Owner = 0x1A0;                   // **(region + 0x1a0) = owning FACTION* (the Lua owning_faction)
 constexpr uint64_t Region_LocalisedName = 0x101C57700;     // const UniString* (*)(REGION*)
 // UniString (UTF-16, 0x10 bytes): ctor from a u"" literal, append, append literal, non-empty, set component text
@@ -268,6 +275,17 @@ constexpr uint64_t UIComponent_Id = 0xF8;
 constexpr uint64_t UIComponent_ChildCount = 0x114;
 constexpr uint64_t UIComponent_Children = 0x118;
 constexpr uint64_t UIComponent_Checkbox = 0x258;
+// geometry (the Lua bindings Position, Dimensions, MoveTo, Resize): position x, y floats; the current state, its width
+// and height floats; MoveTo virtual (float[2]); the flags that let Resize change the width / height. Resize is the
+// virtual + 0xa8 (bool, bool, width, height), see Hooks/NativeRegionTradingDetours.cpp
+constexpr uint64_t UIComponent_PositionX = 0x128;
+constexpr uint64_t UIComponent_State = 0x140;
+constexpr uint64_t UIState_Width = 0x40;
+constexpr uint64_t UIComponent_MoveToVtableOffset = 0xC8;
+constexpr uint64_t UIComponent_CanResize = 0x190;
+// SetRegion's deal terms argument: *(*(*(context + 0xc0) + Campaign_Handle) + 0x50)
+constexpr uint64_t DiplomacyContext_Campaign = 0xC0;
+constexpr uint64_t ModelHandle_DealTermsContext = 0x50;
 constexpr uint64_t Checkbox_SetChecked = 0x1033090C0;      // void (*)(CHECKBOX*, bool, bool, bool)
 
 // Gift sizes: float (*)(CAI_FACTION*, int32_t treasuryOffset) = clamp(GDP / economic_power_gdp_factor + (treasury +
@@ -279,6 +297,7 @@ constexpr uint64_t Treasury_Get = 0x101CB57F4;             // int32_t (*)(TREASU
 // float (*)(FACTION*): the faction's GDP per turn. The gift's linear score part (vtable + 0x28, 0x101d76bb4) is the
 // amount within / beyond the AI's budget, weighted by its personality, over the paying faction's GDP, capped.
 constexpr uint64_t Faction_Gdp = 0x101B70018;
+using FactionGdpValue = float;
 constexpr uint64_t Faction_Treasury = 0x250;
 
 // Region value in the AI's deal evaluation
@@ -305,6 +324,21 @@ constexpr uint64_t Negotiation_ActionCount = 0x70C;        // uint32
 constexpr uint64_t Negotiation_Actions = 0x710;            // DIPLOMATIC_ACTION**, only the campaign's types (not indexed by type)
 constexpr int DiplomaticAction_TradeRegions = 6;           // permission 4 "regions" (type -> permission table 0x10466c5a0)
 constexpr uint64_t DiplomaticAction_Type = 0x14;           // int32; + 0x10 side (1 offer), + 0x18 available, + 0x19 blocked
+
+// FERAL MOD MANAGER (CModManager, see docs/macos/addresses.md)
+// uint64_t (*)(CModManager*), links the entries' packs into VFS/Local/mods; only FeralAppendModsToCommandLine
+// (0x100014f1c) calls it, after the DisableAllMods check and its 1 s wait for the Workshop details
+constexpr uint64_t CModManager_LinkPacks = 0x100014B34;
+// void* (*)(CModManager*), sorts the entries (enabled first, then by order) and closes gaps in the order
+constexpr uint64_t CModManager_SortByOrder = 0x1000146D8;
+// const char* (*)(const NString*), UTF-8 (encoding 1, cached in the string)
+constexpr uint64_t NString_CStr = 0x1002D404C;
+constexpr uint64_t CModManager_Refreshing = 0x09;   // bool, until all Workshop details (and their preferences) are in
+constexpr uint64_t CModManager_EntriesBegin = 0x18; // entries of CModManager_EntrySize bytes
+constexpr uint64_t CModManager_EntriesEnd = 0x20;
+constexpr uint64_t CModManager_EntrySize = 0x26A0;  // + 0x00 NString file name, + 0x58 int32 order, + 0x69 bool enabled
+constexpr uint64_t ModEntry_Order = 0x58;
+constexpr uint64_t ModEntry_Enabled = 0x69;
 
 // PATCHES
 constexpr uint64_t BitSetCrashAddr = 0x101A51C58;

@@ -252,6 +252,9 @@ const void* RecordAt(const void* aTable, uint32_t aIndex)
     return aIndex < RecordCount(aTable) ? ReadPtr<void* const*>(aTable, Addr::DBTable_Records)[aIndex] : nullptr;
 }
 
+#if TWASE_HAS_DB_RECORDS
+// The record layouts (the field offsets the functions below read), checked with the dev_db_* dumps
+
 void SetNumber(lua_State* L, const char* aField, const void* aRecord, uint64_t aOffset)
 {
     LuaRuntime::pushnumber(L, static_cast<lua_Number>(ReadPtr<int32_t>(aRecord, aOffset)));
@@ -419,6 +422,7 @@ int LevyPool(lua_State* L)
     }
     return 1;
 }
+#endif // TWASE_HAS_DB_RECORDS
 
 // twase.dev_db_record(table, key_or_index, bytes) -> hex string, record count
 // Development helper for finding record layouts: the first `bytes` bytes of the record as hex.
@@ -694,8 +698,8 @@ int DevTransferRegion(lua_State* L)
     {
         return LuaRuntime::error(L, "twase.dev_transfer_region(region, faction, flag): expects a region and a faction");
     }
-    const auto flag = static_cast<int64_t>(LuaRuntime::tonumber(L, 3));
-    using Transfer_t = void(TWASE_THISCALL*)(void* settlement, const void* faction, int64_t flag, int32_t arg4);
+    const auto flag = static_cast<intptr_t>(LuaRuntime::tonumber(L, 3));
+    using Transfer_t = void(TWASE_THISCALL*)(void* settlement, const void* faction, intptr_t flag, int32_t arg4);
     Resolve<Transfer_t>(Addr::Settlement_DiplomaticTransfer)(ReadPtr<void*>(region, Addr::Region_Settlement), faction, flag, 0);
     return 0;
 }
@@ -781,7 +785,7 @@ void Scripting::LuaApi::Register(lua_State* L)
 #if TWASE_HAS_REGION
     SetFunction(L, "region_wealth", &RegionWealth);
 #endif
-#if TWASE_HAS_DATABASE
+#if TWASE_HAS_DATABASE && TWASE_HAS_DB_RECORDS
     SetFunction(L, "building_level", &BuildingLevel);
     SetFunction(L, "unit", &Unit);
     SetFunction(L, "levy_pool", &LevyPool);
