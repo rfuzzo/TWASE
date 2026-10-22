@@ -20,6 +20,22 @@ using lua_type_t		= int(__cdecl*)(lua_State* L, int idx);
 using lua_getmetatable_t = int(__cdecl*)(lua_State* L, int idx);
 using lua_remove_t		= void(__cdecl*)(lua_State* L, int idx);
 
+// The game's Lua is built with LUA_NUMBER = float (lua_pushnumber stores 4 bytes, lua_tonumber returns a float)
+using lua_Number = float;
+using lua_CFunction = int(__cdecl*)(lua_State* L);
+
+using lua_pushnumber_t   = void(__cdecl*)(lua_State* L, lua_Number n);
+using lua_tonumber_t     = lua_Number(__cdecl*)(lua_State* L, int idx);
+using lua_pushstring_t   = void(__cdecl*)(lua_State* L, const char* s);
+using lua_pushboolean_t  = void(__cdecl*)(lua_State* L, int b);
+using lua_pushcclosure_t = void(__cdecl*)(lua_State* L, lua_CFunction fn, int n);
+using lua_createtable_t  = void(__cdecl*)(lua_State* L, int narr, int nrec);
+using lua_setfield_t     = void(__cdecl*)(lua_State* L, int idx, const char* k);
+using lua_touserdata_t   = void*(__cdecl*)(lua_State* L, int idx);
+using luaL_error_t       = int(__cdecl*)(lua_State* L, const char* fmt, ...);
+using lua_rawequal_t     = int(__cdecl*)(lua_State* L, int idx1, int idx2);
+using lua_toboolean_t    = int(__cdecl*)(lua_State* L, int idx);
+
 
 #define LUA_OK           0
 #define LUA_ERRRUN       2

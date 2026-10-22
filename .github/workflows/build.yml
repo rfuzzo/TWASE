@@ -24,10 +24,10 @@ jobs:
         shell: pwsh
         run: |
           $tag = "${{ github.ref_name }}".Substring(1)
-          $match = Select-String -Path src/platform/win32/dll/Version.hpp -Pattern '#define TWASE_VERSION_STR "(.+)"'
+          $match = Select-String -Path src/core/Version.hpp -Pattern '#define TWASE_VERSION_STR "(.+)"'
           $version = $match.Matches[0].Groups[1].Value
           if ($version -ne $tag) {
-            Write-Error "Tag ${{ github.ref_name }} does not match TWASE_VERSION_STR '$version' in src/platform/win32/dll/Version.hpp"
+            Write-Error "Tag ${{ github.ref_name }} does not match TWASE_VERSION_STR '$version' in src/core/Version.hpp"
             exit 1
           }
 
@@ -69,9 +69,9 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/v')
         run: |
           tag="${GITHUB_REF_NAME#v}"
-          version=$(sed -n 's/#define TWASE_VERSION_STR "\(.*\)"/\1/p' src/platform/macos/dylib/Version.hpp)
+          version=$(sed -n 's/#define TWASE_VERSION_STR "\(.*\)"/\1/p' src/core/Version.hpp)
           if [ "$version" != "$tag" ]; then
-            echo "::error::Tag $GITHUB_REF_NAME does not match TWASE_VERSION_STR '$version' in src/platform/macos/dylib/Version.hpp"
+            echo "::error::Tag $GITHUB_REF_NAME does not match TWASE_VERSION_STR '$version' in src/core/Version.hpp"
             exit 1
           fi
 

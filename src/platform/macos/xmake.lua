@@ -36,8 +36,8 @@ target("twase")
     end
 
     -- shared core (src/core), it includes this platform's headers by name: App.hpp, Hooks/..., Attila/... from the sdk
-    add_files("../../core/*.cpp", "../../core/UI/*.cpp")
-    add_headerfiles("../../core/*.hpp", "../../core/UI/*.hpp")
+    add_files("../../core/*.cpp", "../../core/Hooks/*.cpp", "../../core/UI/*.cpp", "../../core/Scripting/*.cpp")
+    add_headerfiles("../../core/*.hpp", "../../core/Hooks/*.hpp", "../../core/UI/*.hpp", "../../core/Scripting/*.hpp")
     add_includedirs("../../core", "dylib", "sdk")
 
     -- precompiled header

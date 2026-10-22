@@ -5,7 +5,7 @@
 #include "../App.hpp"
 #include "Config.hpp"
 #include "../Hooking/Hook.hpp"
-#include "../Scripting/LuaApi.hpp"
+#include "Scripting/LuaApi.hpp"
 
 #include "../../sdk/Attila/Addresses.hpp"
 #include "../../sdk/Attila/ScriptInterface.hpp"

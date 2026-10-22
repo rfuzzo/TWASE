@@ -88,6 +88,7 @@ constexpr uint64_t FactionScriptInterface_GetArg = 0x101D5C640;
 // int (*)(CAI_INTERFACE* self, const FACTION& a, const FACTION& b), EMPIRECAMPAIGNAI::CAI_INTERFACE::get_faction_attitude:
 // sums the attitude components, rounded. Found via the RTTI of its lambda (vtable 0x104c12268)
 constexpr uint64_t CAI_GetFactionAttitude = 0x10229D814;
+using FactionAttitudeValue = int;
 
 // Offsets
 constexpr uint64_t FactionScriptInterface_Faction = 0x10;  // FACTION*
@@ -142,6 +143,26 @@ constexpr uint64_t MainUnit_RecruitmentCost = 0x68;        // int32 (multiplayer
 constexpr uint64_t MainUnit_UpkeepCost = 0x88;             // int32
 constexpr uint64_t RegionToProvince_Province = 0x00;       // TempString, records are 0x20 apart
 constexpr uint64_t RegionToProvince_Region = 0x10;         // TempString
+// levy pools (twase.levy_pool): references to other tables are record pointers
+constexpr uint64_t MercenarySet_Faction = 0x00;            // faction_to_mercenary_set_junctions: factions record*
+constexpr uint64_t MercenarySet_Pool = 0x08;               // mercenary pool record*
+constexpr uint64_t PoolGroup_Pool = 0x08;                  // mercenary_pool_to_groups_junctions: mercenary pool record*
+constexpr uint64_t PoolGroup_Group = 0x10;                 // mercenary_unit_groups record*
+constexpr uint64_t PoolGroup_InitialCount = 0x18;          // int32 initial_unit_count
+constexpr uint64_t MercenaryGroup_ChanceToReplenish = 0x00; // mercenary_unit_groups: float
+constexpr uint64_t MercenaryGroup_Key = 0x08;              // TempString
+constexpr uint64_t MercenaryGroup_MaxCount = 0x18;         // int32
+constexpr uint64_t MercenaryGroup_MaxReplenishPerTurn = 0x1C; // int32
+constexpr uint64_t MercenaryGroup_Unit = 0x20;             // main_units record*
+
+// the diplomacy screen's actions (twase.dev_diplomacy_actions)
+constexpr uint64_t DiplomacyDropdown_Vtable = 0x104CC6A38; // UIDLL::DiplomacyDropdown (RTTI typeinfo 0x104cc6d38)
+// DiplomacyDropdown_Context, DiplomacyContext_Negotiation and DiplomaticAction_Type: see NATIVE REGION TRADING below
+constexpr uint64_t Negotiation_ActionList = 0x700;         // list: count + 0xc, DIPLOMATIC_ACTION** + 0x10 (= Negotiation_ActionCount / _Actions)
+constexpr uint64_t ActionList_Count = 0x0C;
+constexpr uint64_t ActionList_Data = 0x10;
+constexpr uint64_t DiplomaticAction_Side = 0x10;           // int32, 1 offer
+constexpr uint64_t DiplomaticAction_Flags = 0x18;          // uint8 available, uint8 blocked
 
 // NATIVE REGION TRADING ("Gift Region", see Hooks/NativeRegionTrading.cpp)
 // RegionList (*)(FACTION* from, FACTION* to) through x8: from's regions that can be given, not the capital, no garrisoned
@@ -155,6 +176,7 @@ constexpr uint64_t Faction_IsHuman = 0x970;                // bool (the Lua is_h
 constexpr uint64_t Faction_RegionCount = 0xA4C;            // u32, the regions at +0xa50 (the Lua region_list 0x101d2a614)
 constexpr uint64_t Faction_CanOwnLand = 0x1751;            // bool, 0 for hordes that can't settle (0x101bec634; needed by vanilla's Gift Region to a horde and transfer_region_to_faction)
 constexpr uint64_t Faction_IsHorde = 0x101B521EC;          // void* (*)(FACTION*), non-null for hordes (the Lua is_horde)
+using FactionIsHordeValue = void*;
 
 // The native region panel (UIDLL::DiplomacyTradeRegionsPanel, layout diplomacy_hud "trade_regions")
 // void (*)(PANEL* self, DIPLOMATIC_ACTION* action): fills list_offers (player -> AI) and list_demands (AI -> player)
@@ -196,6 +218,10 @@ constexpr uint64_t UniString_Copy = 0x10104A138;           // void (*)(UniString
 // then 0x1035f5044(dropdown, 0, action) opens the action's panel (type 6: the region panel, 0x1035f6b88). 0x1035f5290 is
 // the same through the dropdown's other base (this = dropdown + 0x68).
 constexpr uint64_t DiplomacyDropdown_OnActionButton = 0x1035F4FE8;
+constexpr uint64_t ActionButtonEvent_Button = 0x8;         // the event's button UIComponent*
+constexpr uint64_t ActionButtonEvent_Clicked = 0x10;       // uint8, 1 for a click
+constexpr uint64_t ActionButtonController_Action = 0x50;   // the button's controller (+ UIComponent_Checkbox): its action
+constexpr uint64_t UniString_Size = 0x10;
 constexpr uint64_t DiplomacyDropdown_OnActionButtonThunk = 0x1035F5290;
 // void (*)(DIPLOMACY_CONTEXT*, DIPLOMATIC_ACTION*): puts an action into the deal with empty terms (the dispatcher's way
 // for simple terms); used for peace and tributary
@@ -231,6 +257,8 @@ constexpr uint64_t Region_Settlement = 0x1A8;              // SETTLEMENT*
 // void (*)(BUTTON* self, UIComponent* dropdownRoot, ENTRY* entry, void* context); entry + 0x18 = the action.
 // It shows the demanded regions if there are any, else the offered ones, in "region_names".
 constexpr uint64_t DiplomacyListTradeRegionsButton_Setup = 0x1035A6EEC;
+constexpr uint64_t ActionEntry_Action = 0x18;              // the entry's DIPLOMATIC_ACTION*
+constexpr uint64_t ListButton_Row = 0x8;                   // the button's row UIComponent*
 constexpr uint64_t Region_Owner = 0x1A0;                   // **(region + 0x1a0) = owning FACTION* (the Lua owning_faction)
 constexpr uint64_t Region_LocalisedName = 0x101C57700;     // const UniString* (*)(REGION*)
 // UniString (UTF-16, 0x10 bytes): ctor from a u"" literal, append, append literal, non-empty, set component text
@@ -247,6 +275,17 @@ constexpr uint64_t UIComponent_Id = 0xF8;
 constexpr uint64_t UIComponent_ChildCount = 0x114;
 constexpr uint64_t UIComponent_Children = 0x118;
 constexpr uint64_t UIComponent_Checkbox = 0x258;
+// geometry (the Lua bindings Position, Dimensions, MoveTo, Resize): position x, y floats; the current state, its width
+// and height floats; MoveTo virtual (float[2]); the flags that let Resize change the width / height. Resize is the
+// virtual + 0xa8 (bool, bool, width, height), see Hooks/NativeRegionTradingDetours.cpp
+constexpr uint64_t UIComponent_PositionX = 0x128;
+constexpr uint64_t UIComponent_State = 0x140;
+constexpr uint64_t UIState_Width = 0x40;
+constexpr uint64_t UIComponent_MoveToVtableOffset = 0xC8;
+constexpr uint64_t UIComponent_CanResize = 0x190;
+// SetRegion's deal terms argument: *(*(*(context + 0xc0) + Campaign_Handle) + 0x50)
+constexpr uint64_t DiplomacyContext_Campaign = 0xC0;
+constexpr uint64_t ModelHandle_DealTermsContext = 0x50;
 constexpr uint64_t Checkbox_SetChecked = 0x1033090C0;      // void (*)(CHECKBOX*, bool, bool, bool)
 
 // Gift sizes: float (*)(CAI_FACTION*, int32_t treasuryOffset) = clamp(GDP / economic_power_gdp_factor + (treasury +
@@ -258,6 +297,7 @@ constexpr uint64_t Treasury_Get = 0x101CB57F4;             // int32_t (*)(TREASU
 // float (*)(FACTION*): the faction's GDP per turn. The gift's linear score part (vtable + 0x28, 0x101d76bb4) is the
 // amount within / beyond the AI's budget, weighted by its personality, over the paying faction's GDP, capped.
 constexpr uint64_t Faction_Gdp = 0x101B70018;
+using FactionGdpValue = float;
 constexpr uint64_t Faction_Treasury = 0x250;
 
 // Region value in the AI's deal evaluation
@@ -270,6 +310,11 @@ constexpr uint64_t Diplo_ScoreComponents = 0x101D7E26C;
 // the evaluator builds it for Payments with gold = -(payment amount)
 constexpr uint64_t DealComponentGift_ctor = 0x1024F485C;
 constexpr uint64_t DealComponentGift_Size = 0x30;
+// its score parts, float (*)(GIFT*) virtuals (vtable 0x104c1a2c0; + 0x18, the table part, needs the scorer's context)
+constexpr uint64_t DealComponentGift_BaseSlot = 0x10;
+constexpr uint64_t DealComponentGift_SizeSlot = 0x20;     // the size class, from the economic power
+constexpr uint64_t DealComponentGift_AmountSlot = 0x28;   // linear, over the paying faction's GDP
+constexpr uint64_t DealComponentGift_OtherSlot = 0x30;
 constexpr uint64_t DiplomaticAction_InDealVtableOffset = 0x50; // bool (*)(action): part of the deal
 // trade regions action: regions in list 1 go to negotiation + 0x20, in list 2 to negotiation + 0x28 (its execute 0x1025c8188)
 constexpr uint64_t TradeRegions_List1Count = 0x24;         // REGION** at + 0x28

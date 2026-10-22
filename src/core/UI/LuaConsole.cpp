@@ -9,8 +9,10 @@
 
 LuaConsole& LuaConsole::Get()
 {
-    static LuaConsole instance;
-    return instance;
+    // never destroyed: the game calls exit() on its main thread while the game thread still ticks, and a destroyed mutex
+    // makes the next lock() throw (std::system_error -> abort)
+    static LuaConsole* instance = new LuaConsole();
+    return *instance;
 }
 
 void LuaConsole::Toggle()
