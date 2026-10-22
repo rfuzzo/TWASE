@@ -117,6 +117,11 @@ void RT::Engine::Resize(void* component, float width, float height)
     resize(component, true, true, width, height);
 }
 
+void RT::Engine::PushActionEntry(void* vector, const void* entry)
+{
+    reinterpret_cast<void (*)(void*, const void*)>(Image::Get()->Resolve(Addresses::Vector_PushActionEntry))(vector, entry);
+}
+
 bool Hooks::NativeRegionTradingHook::Attach()
 {
     auto result = GiftableRegions_fnc.Attach();

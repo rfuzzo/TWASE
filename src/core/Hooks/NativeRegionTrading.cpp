@@ -973,14 +973,15 @@ namespace
 {
 void* troopsButton = nullptr; // the "Region for Troops" button in the open "Add Offer/Demand" list
 
-// an "Add Offer/Demand" list entry (DiplomacyDropdown + 0x1c0)
+// an "Add Offer/Demand" list entry (DiplomacyDropdown_ActionEntries): the tooltip, two flags, the action (0x20 bytes on
+// arm64, 0x14 on x86)
 struct ActionEntry
 {
-    uint8_t text[16]; // UniString
-    uint8_t flags[8];
+    uint8_t text[Addr::UniString_Size];
+    uint8_t flags[Addr::ActionEntry_Action - Addr::UniString_Size];
     uint8_t* action;
 };
-static_assert(sizeof(ActionEntry) == 0x20);
+static_assert(offsetof(ActionEntry, action) == Addr::ActionEntry_Action);
 } // namespace
 
 // The list gets a second button for the region action, "Region for Troops": we add a copy of the region action's
@@ -1034,7 +1035,7 @@ intptr_t Hooks::NativeRegionTradingHook::Detour::MakeActionButtons(void* dropdow
     reinterpret_cast<void(TWASE_THISCALL*)(void*, const void*)>(Slid(Addresses::UniString_Copy))(copy.text, entries()[regionEntry].text);
     std::memcpy(copy.flags, entries()[regionEntry].flags, sizeof(copy.flags));
     copy.action = entries()[regionEntry].action;
-    reinterpret_cast<void(TWASE_THISCALL*)(void*, const ActionEntry*)>(Slid(Addresses::Vector_PushActionEntry))(vector, &copy);
+    Engine::PushActionEntry(vector, &copy);
     reinterpret_cast<void(TWASE_THISCALL*)(void*)>(Slid(Addresses::UniString_dtor))(copy.text);
 
     const intptr_t result = Original::MakeActionButtons(dropdown);
@@ -1067,19 +1068,19 @@ intptr_t Hooks::NativeRegionTradingHook::Detour::MakeActionButtons(void* dropdow
 
 namespace
 {
-// Which button opened the region panel. Only clicks (+ 0x10 == 1, as the engine checks) count, and only the region
-// buttons set a mode: any other button (e.g. Payments) clears it, so the region panel reopened from the deal list later
-// follows the deal.
+// Which button opened the region panel. Only clicks (the event's flag == 1, as the engine checks) count, and only the
+// region buttons set a mode: any other button (e.g. Payments) clears it, so the region panel reopened from the deal
+// list later follows the deal.
 void NoteActionButton(void* event)
 {
     auto* e = static_cast<uint8_t*>(event);
-    auto* button = e ? *reinterpret_cast<uint8_t**>(e + 8) : nullptr;
-    if (!button || e[0x10] != 1)
+    auto* button = e ? *reinterpret_cast<uint8_t**>(e + Addr::ActionButtonEvent_Button) : nullptr;
+    if (!button || e[Addr::ActionButtonEvent_Clicked] != 1)
     {
         return;
     }
     auto* controller = *reinterpret_cast<uint8_t**>(button + Addresses::UIComponent_Checkbox);
-    auto* action = controller ? *reinterpret_cast<uint8_t**>(controller + 0x50) : nullptr;
+    auto* action = controller ? *reinterpret_cast<uint8_t**>(controller + Addr::ActionButtonController_Action) : nullptr;
     const bool region = action && *reinterpret_cast<int32_t*>(action + Addresses::DiplomaticAction_Type) == Addresses::DiplomaticAction_TradeRegions;
     pendingMode = !region ? -1 : (troopsButton && button == troopsButton ? 1 : 0);
 }
@@ -1229,7 +1230,7 @@ void UpdateTroopsList(void* panel)
         lines = Wrap(offer.reason, 30);
     }
 
-    using CreateRow_t = void*(TWASE_THISCALL*)(void*, void*, const TempString*, void*, void*, int32_t, int32_t, void*, bool, void*);
+    using CreateRow_t = void* (*)(void*, void*, const TempString*, void*, void*, int32_t, int32_t, void*, bool, void*);
     static const auto createRow = Resolve<CreateRow_t>(Addresses::UIComponent_CreateListRow);
     static const auto stringCtor = Resolve<StringCtor_t>(Addresses::String_ctor);
     static const auto stringDtor = Resolve<StringDtor_t>(Addresses::String_dtor);

@@ -23,6 +23,9 @@ void* __fastcall PopulatePanel(void* panel, void* edx, void* action);
 uintptr_t __fastcall OnClick(void* listener, void* edx, void** event);
 void __fastcall SetRegion(void* context, void* edx, int32_t regionId, void* demandedFrom, void* deal);
 void __fastcall ListButtonSetup(void* button, void* edx, void* root, void* entry, void* context);
+void __fastcall MakeActionButtons(void* dropdown, void* edx);
+// the dropdown's listener, at dropdown + DiplomacyDropdown_ActionButtonListener
+void __fastcall OnActionButton(void* listener, void* edx, void* event);
 
 Hook<decltype(&GiftableRegions)> GiftableRegions_fnc(Addresses::Faction_GiftableRegions, &GiftableRegions);
 Hook<decltype(&RT::Detour::RegionTradePossible)> RegionTradePossible_fnc(Addresses::DiplomaticAction_RegionTradePossible,
@@ -34,6 +37,8 @@ Hook<decltype(&PopulatePanel)> PopulatePanel_fnc(Addresses::TradeRegionsPanel_Po
 Hook<decltype(&OnClick)> OnClick_fnc(Addresses::TradeRegionsPanel_OnClick, &OnClick);
 Hook<decltype(&SetRegion)> SetRegion_fnc(Addresses::DiplomacyContext_SetRegion, &SetRegion);
 Hook<decltype(&ListButtonSetup)> ListButtonSetup_fnc(Addresses::DiplomacyListTradeRegionsButton_Setup, &ListButtonSetup);
+Hook<decltype(&MakeActionButtons)> MakeActionButtons_fnc(Addresses::DiplomacyDropdown_MakeActionButtons, &MakeActionButtons);
+Hook<decltype(&OnActionButton)> OnActionButton_fnc(Addresses::DiplomacyDropdown_OnActionButton, &OnActionButton);
 
 RT::RegionList* __fastcall GiftableRegions(void* from, void*, RT::RegionList* out, void* to)
 {
@@ -64,6 +69,16 @@ void __fastcall SetRegion(void* context, void*, int32_t regionId, void* demanded
 void __fastcall ListButtonSetup(void* button, void*, void* root, void* entry, void* context)
 {
     RT::Detour::ListButtonSetup(button, root, entry, context);
+}
+
+void __fastcall MakeActionButtons(void* dropdown, void*)
+{
+    RT::Detour::MakeActionButtons(dropdown);
+}
+
+void __fastcall OnActionButton(void* listener, void*, void* event)
+{
+    RT::Detour::OnActionButton(static_cast<uint8_t*>(listener) - Addresses::DiplomacyDropdown_ActionButtonListener, event);
 }
 } // namespace
 
@@ -114,6 +129,55 @@ void RT::Original::ListButtonSetup(void* button, void* root, void* entry, void* 
     ListButtonSetup_fnc(button, nullptr, root, entry, context);
 }
 
+intptr_t RT::Original::MakeActionButtons(void* dropdown)
+{
+    MakeActionButtons_fnc(dropdown, nullptr);
+    return 0;
+}
+
+void RT::Original::OnActionButton(void* dropdown, void* event)
+{
+    OnActionButton_fnc(static_cast<uint8_t*>(dropdown) + Addresses::DiplomacyDropdown_ActionButtonListener, nullptr, event);
+}
+
+// Windows has one click handler (Mac also has a thunk through another base); not hooked
+void RT::Original::OnActionButtonThunk(void* dropdown, void* event)
+{
+    Original::OnActionButton(dropdown, event);
+}
+
+// the engine's inlined push (0x14ED890): doubles the capacity when full, WStrings move by copying their bytes
+void RT::Engine::PushActionEntry(void* vector, const void* entry)
+{
+    struct Vector
+    {
+        uint32_t capacity;
+        uint32_t count;
+        uint8_t* data;
+    };
+    constexpr uint32_t size = Addresses::ActionEntry_Action + sizeof(void*);
+    auto* v = static_cast<Vector*>(vector);
+    if (v->count >= v->capacity)
+    {
+        const uint32_t capacity = v->capacity ? 2 * v->capacity : 1;
+        const auto alloc = reinterpret_cast<uint8_t* (*)(int32_t)>(App::Get()->GetEmpireDllAddr() + Addresses::ActionEntry_Alloc);
+        uint8_t* data = alloc(static_cast<int32_t>(capacity));
+        if (v->data)
+        {
+            std::memcpy(data, v->data, v->count * size);
+            reinterpret_cast<void (*)(void*)>(App::Get()->GetEmpireDllAddr() + Addresses::tw_free)(v->data);
+        }
+        v->data = data;
+        v->capacity = capacity;
+    }
+    uint8_t* slot = v->data + v->count * size;
+    const auto* source = static_cast<const uint8_t*>(entry);
+    using Copy_t = void(__thiscall*)(void* self, const void* other);
+    reinterpret_cast<Copy_t>(App::Get()->GetEmpireDllAddr() + Addresses::UniString_Copy)(slot, source);
+    std::memcpy(slot + Addresses::UniString_Size, source + Addresses::UniString_Size, size - Addresses::UniString_Size);
+    v->count++;
+}
+
 void RT::Engine::Resize(void* component, float width, float height)
 {
     using Resize_t = void(__thiscall*)(void*, float, float, bool, bool);
@@ -141,6 +205,10 @@ bool Hooks::NativeRegionTradingHook::Attach()
         result = SetRegion_fnc.Attach();
     if (result == NO_ERROR)
         result = ListButtonSetup_fnc.Attach();
+    if (result == NO_ERROR)
+        result = MakeActionButtons_fnc.Attach();
+    if (result == NO_ERROR)
+        result = OnActionButton_fnc.Attach();
     if (result != NO_ERROR)
     {
         spdlog::error("Could not attach the native region trading hooks. Detours error code: {}", result);
@@ -159,7 +227,11 @@ bool Hooks::NativeRegionTradingHook::Detach()
     {
         return false;
     }
-    auto result = ListButtonSetup_fnc.Detach();
+    auto result = OnActionButton_fnc.Detach();
+    if (result == NO_ERROR)
+        result = MakeActionButtons_fnc.Detach();
+    if (result == NO_ERROR)
+        result = ListButtonSetup_fnc.Detach();
     if (result == NO_ERROR)
         result = SetRegion_fnc.Detach();
     if (result == NO_ERROR)

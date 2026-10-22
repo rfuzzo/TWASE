@@ -183,7 +183,7 @@ namespace sdk::Attila::Addresses
 	// the types (the same as Mac's: the ctors 0xBFCC00 and 0xBFC900 pass 6 and 12)
 	constexpr int DiplomaticAction_TradeRegions = 6;
 	constexpr int DiplomaticAction_Peace = 12;
-	constexpr int DiplomaticAction_MakeTributary = 25;         // Mac's value, not checked here
+	constexpr int DiplomaticAction_MakeTributary = 25;         // the dispatcher 0x14E9370 adds its term with 0x1522260
 
 	// NEGOTIATION (ctor 0x8E2C40): the factions, its 28 actions (embedded, not indexed by type: trade regions is the
 	// 5th) in a list { vtable, capacity, count, DIPLOMATIC_ACTION** } at + 0x508
@@ -295,5 +295,38 @@ namespace sdk::Attila::Addresses
 	constexpr uint32_t UniString_AppendLiteral = 0xE12D0;
 	constexpr uint32_t UniString_NotEmpty = 0xEF750;
 	constexpr uint32_t UniString_dtor = 0xE0720;
+	constexpr uint32_t UniString_Copy = 0xDFDF0;               // void (__thiscall*)(WString* self, const WString* other)
+	constexpr uint32_t UniString_Size = 0xC;
+
+	// REGION FOR TROOPS
+	// The diplomacy's "Add Offer/Demand" list (DiplomacyDropdown, the controller at its component + 0x184): entries in a
+	// vector at + 0xf8 ({ capacity, count, ENTRY* }, 0x14-byte entries: WString tooltip, two flags at + 0xc / + 0xd, the
+	// action at + 0x10), rebuilt by 0x14ED890 (its push is inlined: ActionEntry_Alloc, WString copy, tw_free).
+	// void (__thiscall*)(DROPDOWN*) 0x14F6E90 makes a button "diplomac_action_possible_<type>" in the list box at + 0x98
+	// (template + 0x9c) for each entry whose action isn't in the deal, and hands it the entry (0x15FE4C0: the action at
+	// controller + 0x34, label "row_tx" from the action's name, tooltip from the entry)
+	constexpr uint32_t DiplomacyDropdown_MakeActionButtons = 0x14F6E90;
+	constexpr uint32_t DiplomacyDropdown_ActionEntries = 0xF8;
+	constexpr uint32_t DiplomacyDropdown_ActionButtonParent = 0x98;
+	constexpr uint32_t DiplomacyDropdown_Context = 0x128;      // DIPLOMACY_CONTEXT*, its negotiation at + 0x80; + 0x138 the open action
+	constexpr uint32_t ActionEntry_Alloc = 0xBE440;            // ENTRY* (__cdecl*)(int32_t count), tw_malloc
+	// A click on an action button: void (__thiscall*)(LISTENER* = dropdown + 0x40, EVENT*), the event's button at + 4
+	// (its controller + 0x34 the action), a click when + 8 is 1; then 0x14E9370(dropdown, 0, action) opens the action's
+	// panel (type 6: the region panel, 0x14DE560). There's no second entry like Mac's thunk.
+	constexpr uint32_t DiplomacyDropdown_OnActionButton = 0x14A54E0;
+	constexpr uint32_t DiplomacyDropdown_ActionButtonListener = 0x40;
+	constexpr uint32_t ActionButtonEvent_Button = 0x4;
+	constexpr uint32_t ActionButtonEvent_Clicked = 0x8;
+	constexpr uint32_t ActionButtonController_Action = 0x34;
+	// void (__thiscall*)(DIPLOMACY_CONTEXT*, DIPLOMATIC_ACTION*): puts an action into the deal with empty terms (the
+	// dispatcher 0x14E9370's way for simple terms); the tributary term the way the "Make Tributary State" button adds it
+	constexpr uint32_t DiplomacyContext_AddTerm = 0x15221C0;
+	constexpr uint32_t DiplomacyContext_AddTributaryTerm = 0x1522260;
+	// The troops list's rows: UIComponent* (__cdecl*)(UIComponent* listBox, void* rowTemplate, const TempString* id, void*,
+	// void*, int32_t, int32_t, void*, bool, void*), as the panel's fill calls it; void (__thiscall*)(listBox) removes all
+	// rows / lays the list out again
+	constexpr uint32_t UIComponent_CreateListRow = 0x13A05C0;
+	constexpr uint32_t ListBox_Clear = 0x13A0FB0;
+	constexpr uint32_t ListBox_Layout = 0x139F120;
 
 } // namespace sdk::Attila::Addresses

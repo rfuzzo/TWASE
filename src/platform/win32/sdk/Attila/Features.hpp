@@ -9,6 +9,6 @@
 #define TWASE_HAS_LOCALISATION 1        // twase.localise
 #define TWASE_HAS_REGION_TRADING 1      // twase.enable_region_trading, dev_transfer_region: rules, evaluation, transfer
 #define TWASE_HAS_REGION_TRADING_PANEL 1 // its panel (both lists, multi-select), deal list labels
-#define TWASE_HAS_REGION_FOR_TROOPS 0   // Region for Troops (needs the panel)
+#define TWASE_HAS_REGION_FOR_TROOPS 1   // Region for Troops (needs the panel)
 #define TWASE_HAS_GIFT_SCORE_PARTS 0    // the debug log's breakdown of the gift score (the gift component's vtable)
 #define TWASE_HAS_DIPLOMACY_ACTIONS 0   // dev_diplomacy_actions

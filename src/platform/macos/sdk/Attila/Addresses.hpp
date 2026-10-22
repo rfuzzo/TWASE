@@ -218,6 +218,10 @@ constexpr uint64_t UniString_Copy = 0x10104A138;           // void (*)(UniString
 // then 0x1035f5044(dropdown, 0, action) opens the action's panel (type 6: the region panel, 0x1035f6b88). 0x1035f5290 is
 // the same through the dropdown's other base (this = dropdown + 0x68).
 constexpr uint64_t DiplomacyDropdown_OnActionButton = 0x1035F4FE8;
+constexpr uint64_t ActionButtonEvent_Button = 0x8;         // the event's button UIComponent*
+constexpr uint64_t ActionButtonEvent_Clicked = 0x10;       // uint8, 1 for a click
+constexpr uint64_t ActionButtonController_Action = 0x50;   // the button's controller (+ UIComponent_Checkbox): its action
+constexpr uint64_t UniString_Size = 0x10;
 constexpr uint64_t DiplomacyDropdown_OnActionButtonThunk = 0x1035F5290;
 // void (*)(DIPLOMACY_CONTEXT*, DIPLOMATIC_ACTION*): puts an action into the deal with empty terms (the dispatcher's way
 // for simple terms); used for peace and tributary

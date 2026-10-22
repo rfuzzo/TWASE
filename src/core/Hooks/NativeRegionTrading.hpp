@@ -91,6 +91,10 @@ namespace Engine
 {
 // UIComponent's virtual Resize, the way the Lua Resize calls it
 void Resize(void* component, float width, float height);
+#if TWASE_HAS_REGION_FOR_TROOPS
+// appends a copy of `entry` to the "Add Offer/Demand" list's entries (inlined on Windows)
+void PushActionEntry(void* vector, const void* entry);
+#endif
 } // namespace Engine
 #endif
 
