@@ -41,7 +41,7 @@ Each step works and can be tested on its own.
 6. **`twase.localise`**. Done: the loc manager is at DB container + 0x1694, its lookup is virtual + 0x0 (Mac: + 0x30).
 7. **Region trading**, last and largest. Port it in the order of the Mac commits (`git log --follow src/core/Hooks/NativeRegionTrading.cpp`): rules → panel → evaluation → Region for Troops. On x86 the engine's functions are mostly `__thiscall`, and struct returns go through a hidden pointer instead of arm64's `x8`.
    The logic is now shared in `src/core/Hooks/NativeRegionTrading.cpp`; each platform has only its hooks in `Hooks/NativeRegionTradingDetours.cpp` (thiscall functions as fastcall shims on Windows, the hidden pointer for the region list). Ported by area, each one testable:
-   - rules, evaluation and transfer (together, so the AI never gets regions for free): ported, not tested yet. Vanilla's panel then shows only "Your Offers", one region per deal.
+   - rules, evaluation and transfer (together, so the AI never gets regions for free): done, tested 2026-10-22 with region_trading.pack (its loc names the action "Trade Regions"). Vanilla's panel then shows only the offers, one region per deal.
    - the panel (both lists, several regions, OK, the deal list labels) and Region for Troops: `TWASE_HAS_REGION_TRADING_PANEL` is 0 on Windows, their addresses are still Mac only. The panel is `TradeRegionsPanel_Populate` 0x15FDB80 (other faction at + 0x4c, root at + 0x4), its fill 0x1603DF0.
    - the debug log's breakdown of the gift score (`TWASE_HAS_GIFT_SCORE_PARTS`): the gift component's vtable slots differ on Windows.
 
