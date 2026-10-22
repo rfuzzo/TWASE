@@ -53,6 +53,17 @@ Findings from the dump (2026-10-13):
 - The campaign's `scripting.lua`, the library it requires and the script mods run in an environment of their own, not `_G` (the game's `require` loads files into the caller's environment); `_G` only has Lua's standard library and a few engine functions (`CliExecute`, `RequireRegister`, `system`, `vfs`).
 - Lunar methods have no upvalues, so a method can't be mapped to its table entry from Lua.
 
+## Probing event contexts
+
+`probe_contexts.lua` records what each event's context object offers (which accessors exist and what they return), for [docs/scripting/events.md](../../docs/scripting/events.md). The API dump can't: contexts are created per event, not registered classes.
+
+1. Copy it to `data/campaigns/main_attila/mods/zz_ctxprobe/scripting.lua` (like `dump.lua`).
+2. Load a campaign and play: end turns, select characters and settlements, open panels, fight a battle, make diplomacy, build and recruit. The probe listens to every event in `events` and probes the context the first time each fires.
+3. Call `ctxprobe_write()` in the console before quitting (it also writes after each newly seen event). The result is `TWASE/context_probe.tsv` in the game folder: `event, times fired, kind, name, type or class, value`.
+4. Remove the mod folder again and copy the file to `data/context_probe_macos.tsv`.
+
+It lists the keys of the context's metatable when the binding exposes a table; if the context is userdata with a function `__index`, only the candidate accessors in the script's `candidates` list are tried, so add names there when an event seems to carry more.
+
 ## Limits
 
 - Optional or alternative arguments (mostly `UIComponent`): the arguments list every type the handler can read, not the alternatives.
