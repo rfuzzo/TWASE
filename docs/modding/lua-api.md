@@ -2,7 +2,7 @@
 
 TWASE adds a global table `twase` to the campaign's Lua environment, before it loads the [script mods](script-mods.md). It gives scripts what the game's own campaign API doesn't expose: the AI's attitude, a region's wealth breakdown, the loaded database, the localisation, and the engine's region deals.
 
-> **Platforms:** the `twase` table is in **TWASE 1.1.0** on Windows and Mac (only the probe `twase.dev_diplomacy_actions` is Mac only). Older versions don't have it: check with `if twase then ... end`.
+> **Platforms:** the `twase` table is in **TWASE 1.2.0** on Windows and Mac (since 1.1.0 on Mac; only the probe `twase.dev_diplomacy_actions` is Mac only). Older versions don't have it: check with `if twase then ... end`.
 
 Conventions:
 
