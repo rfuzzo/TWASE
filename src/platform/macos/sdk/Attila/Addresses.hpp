@@ -306,6 +306,21 @@ constexpr uint64_t Negotiation_Actions = 0x710;            // DIPLOMATIC_ACTION*
 constexpr int DiplomaticAction_TradeRegions = 6;           // permission 4 "regions" (type -> permission table 0x10466c5a0)
 constexpr uint64_t DiplomaticAction_Type = 0x14;           // int32; + 0x10 side (1 offer), + 0x18 available, + 0x19 blocked
 
+// FERAL MOD MANAGER (CModManager, see docs/macos/addresses.md)
+// uint64_t (*)(CModManager*), links the entries' packs into VFS/Local/mods; only FeralAppendModsToCommandLine
+// (0x100014f1c) calls it, after the DisableAllMods check and its 1 s wait for the Workshop details
+constexpr uint64_t CModManager_LinkPacks = 0x100014B34;
+// void* (*)(CModManager*), sorts the entries (enabled first, then by order) and closes gaps in the order
+constexpr uint64_t CModManager_SortByOrder = 0x1000146D8;
+// const char* (*)(const NString*), UTF-8 (encoding 1, cached in the string)
+constexpr uint64_t NString_CStr = 0x1002D404C;
+constexpr uint64_t CModManager_Refreshing = 0x09;   // bool, until all Workshop details (and their preferences) are in
+constexpr uint64_t CModManager_EntriesBegin = 0x18; // entries of CModManager_EntrySize bytes
+constexpr uint64_t CModManager_EntriesEnd = 0x20;
+constexpr uint64_t CModManager_EntrySize = 0x26A0;  // + 0x00 NString file name, + 0x58 int32 order, + 0x69 bool enabled
+constexpr uint64_t ModEntry_Order = 0x58;
+constexpr uint64_t ModEntry_Enabled = 0x69;
+
 // PATCHES
 constexpr uint64_t BitSetCrashAddr = 0x101A51C58;
 
