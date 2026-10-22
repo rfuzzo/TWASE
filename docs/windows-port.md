@@ -2,7 +2,7 @@
 
 Status 2026-10-13: Windows is at the v1.0.0 features (console, Lua log, mod loader, unit size patch, deal score tweak), plus the shared core from `src/core` (config, console with the command queue). The Mac build has more, all of it needing addresses and struct layouts from the game code, which on Windows is in `empire.retail.dll` (TWASE resolves its addresses relative to that DLL's base, `App::GetEmpireDllAddr()`). This plan is for the PC side (IDA Home, x86).
 
-Progress: steps 1-5 are done (branch `win/port-loose-mods-lua-api`). To port a `twase.*` function: add its addresses to `src/platform/win32/sdk/Attila/Addresses.hpp` under the Mac names, then set its flag in `src/platform/win32/sdk/Attila/Features.hpp` to 1. The engine's member functions are declared `TWASE_THISCALL` in `src/core/Scripting/LuaApi.cpp`; check each one's convention in IDA when porting it.
+Progress: steps 1-6 are done (branch `win/port-loose-mods-lua-api`). To port a `twase.*` function: add its addresses to `src/platform/win32/sdk/Attila/Addresses.hpp` under the Mac names, then set its flag in `src/platform/win32/sdk/Attila/Features.hpp` to 1. The engine's member functions are declared `TWASE_THISCALL` in `src/core/Scripting/LuaApi.cpp`; check each one's convention in IDA when porting it.
 
 ## First: test the shared core on Windows
 
@@ -38,7 +38,7 @@ Each step works and can be tested on its own.
 4. **`twase.faction_attitude`** (done: `FactionScriptInterface_GetArg` 0x80C480, `get_faction_attitude` 0xD38000 returns a float there): `FactionScriptInterface_GetArg` (the faction argument check of methods like `allied_with`) and `CAI_INTERFACE::get_faction_attitude`. On Mac the latter was found through the RTTI of its lambda (`…CAI_INTERFACE20get_faction_attitude…$_0`); MSVC names lambdas `<lambda_…>` without the function, so on Windows go through its callers instead: the diplomacy screen's attitude display, which buckets the value into 5 attitude levels.
 5. **Regions and the database**: offsets change with the pointer size (a `CA::String` is 12 bytes on x86, 16 on arm64), so every record layout has to be found again: turn on `lua_dev_functions` and use `twase.dev_db_fields(table, index)` to dump records, then match them with the TSV export of the table (`twpack db export`).
    Done (2026-10-22): `twase.region_wealth` (Olisipo 373 = farming 33 + fertility_agriculture 164 + sea_trade 176, like on Mac), the DB tables, and the record layouts from `twase.dev_db_fields` dumps checked against the TSV export (all in `src/platform/win32/sdk/Attila/Addresses.hpp`).
-6. **`twase.localise`**.
+6. **`twase.localise`**. Done: the loc manager is at DB container + 0x1694, its lookup is virtual + 0x0 (Mac: + 0x30).
 7. **Region trading**, last and largest. Port it in the order of the Mac commits (`git log --follow src/platform/macos/dylib/Hooks/NativeRegionTrading.cpp`): rules → panel → evaluation → Region for Troops. On x86 the engine's functions are mostly `__thiscall`, and struct returns go through a hidden pointer instead of arm64's `x8`.
 
 ## Finding things in `empire.retail.dll`
