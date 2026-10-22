@@ -698,8 +698,8 @@ int DevTransferRegion(lua_State* L)
     {
         return LuaRuntime::error(L, "twase.dev_transfer_region(region, faction, flag): expects a region and a faction");
     }
-    const auto flag = static_cast<int64_t>(LuaRuntime::tonumber(L, 3));
-    using Transfer_t = void(TWASE_THISCALL*)(void* settlement, const void* faction, int64_t flag, int32_t arg4);
+    const auto flag = static_cast<intptr_t>(LuaRuntime::tonumber(L, 3));
+    using Transfer_t = void(TWASE_THISCALL*)(void* settlement, const void* faction, intptr_t flag, int32_t arg4);
     Resolve<Transfer_t>(Addr::Settlement_DiplomaticTransfer)(ReadPtr<void*>(region, Addr::Region_Settlement), faction, flag, 0);
     return 0;
 }

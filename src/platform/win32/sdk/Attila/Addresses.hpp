@@ -157,4 +157,70 @@ namespace sdk::Attila::Addresses
 	constexpr uint32_t MercenaryGroup_MaxReplenishPerTurn = 0x14; // int32
 	constexpr uint32_t MercenaryGroup_Unit = 0x18;             // main_units record*
 
+
+	// NATIVE REGION TRADING ("Gift Region", src/core/Hooks/NativeRegionTrading.cpp), the Mac names
+	// RegionList* (__thiscall*)(FACTION* from, RegionList* out, FACTION* to), retn 8: from's regions that can be given
+	// (with `to`, only where an army of `to` stands); called by the availability rule and the panel's fill 0x1603DF0
+	constexpr uint32_t Faction_GiftableRegions = 0x736B40;
+	// bool (__cdecl*)(FACTION* a, FACTION* b): one side human, the other a horde that can own land, at peace, giftable
+	// regions; only the trade regions action's ctor 0xBFCC00 calls it, with the negotiation's factions
+	constexpr uint32_t DiplomaticAction_RegionTradePossible = 0xC1ABB0;
+	constexpr uint32_t Faction_IsHuman = 0x84C;                // bool (the Lua is_human 0x84B970)
+	constexpr uint32_t Faction_RegionCount = 0x8D4;            // u32, REGION** at + 0x8d8 (the Lua region_list 0x85CC80)
+	constexpr uint32_t Faction_CanOwnLand = 0x12A1;            // bool (FACTION::can_own_land 0x715BA0)
+	// bool (__thiscall*)(FACTION*), FACTION::is_horde (Mac's returns a pointer)
+	constexpr uint32_t Faction_IsHorde = 0x716320;
+	using FactionIsHordeValue = bool;
+	constexpr uint32_t Faction_Record = 0x800;                 // factions record (key TempString at + 0), null once destroyed (FACTION::record 0x72B890)
+
+	// DIPLOMATIC_ACTION (ctor 0xBFB9F0): negotiation, side (1 offer), type, available, blocked
+	constexpr uint32_t DiplomaticAction_Negotiation = 0x4;
+	constexpr uint32_t DiplomaticAction_Side = 0x8;            // int32
+	constexpr uint32_t DiplomaticAction_Type = 0xC;            // int32
+	constexpr uint32_t DiplomaticAction_Available = 0x10;      // bool, + 0x11 blocked
+	constexpr uint32_t DiplomaticAction_Flags = 0x10;          // uint8 available, uint8 blocked
+	constexpr uint32_t DiplomaticAction_InDealVtableOffset = 0x28; // bool (__thiscall*)(action): part of the deal (0xA64560)
+	// the types (the same as Mac's: the ctors 0xBFCC00 and 0xBFC900 pass 6 and 12)
+	constexpr int DiplomaticAction_TradeRegions = 6;
+	constexpr int DiplomaticAction_Peace = 12;
+	constexpr int DiplomaticAction_MakeTributary = 25;         // Mac's value, not checked here
+
+	// NEGOTIATION (ctor 0x8E2C40): the factions, its 28 actions (embedded, not indexed by type: trade regions is the
+	// 5th) in a list { vtable, capacity, count, DIPLOMATIC_ACTION** } at + 0x508
+	constexpr uint32_t Negotiation_FactionA = 0x10;            // FACTION*
+	constexpr uint32_t Negotiation_FactionB = 0x14;            // FACTION*
+	constexpr uint32_t Negotiation_ActionList = 0x508;
+	constexpr uint32_t ActionList_Count = 0x08;
+	constexpr uint32_t ActionList_Data = 0x0C;
+	constexpr uint32_t Negotiation_ActionCount = 0x510;        // uint32
+	constexpr uint32_t Negotiation_Actions = 0x514;            // DIPLOMATIC_ACTION**
+
+	// the trade regions action (ctor 0xBFCC00, vtable 0x1B97AB0): regions in list 1 go to negotiation faction A, in list
+	// 2 to faction B. void (__thiscall*)(DIPLOMATIC_ACTION_TRADE_REGIONS*) executes the deal (vtable slot 13)
+	constexpr uint32_t TradeRegions_Execute = 0xC173E0;
+	constexpr uint32_t TradeRegions_List1Count = 0x18;         // REGION** at + 0x1c
+	constexpr uint32_t TradeRegions_List2Count = 0x24;         // REGION** at + 0x28
+	// void (__thiscall*)(SETTLEMENT*, FACTION*, int32_t, int32_t): the deal's transfer of one region (reason 5, diplomacy)
+	constexpr uint32_t Settlement_DiplomaticTransfer = 0x855870;
+	constexpr uint32_t Region_Settlement = 0x128;              // SETTLEMENT*
+
+	// Region value in the AI's deal evaluation
+	// float (__cdecl*)(NEGOTIATION* deal, void* aiContext, CAI_FACTION* a, CAI_FACTION* b, int32_t* out, bool* out)
+	constexpr uint32_t Diplo_EvaluateDeal = 0xA6E9B0;
+	// float (__cdecl*)(ComponentList* components, void* aiContext, CAI_FACTION* a, void* context, int32_t*, char*, uint32_t):
+	// scores the deal's CAI_DEAL_COMPONENT_* list (entries {component*, int32 action index}, 8 bytes, built by 0xA6E930)
+	constexpr uint32_t Diplo_ScoreComponents = 0xA557D0;
+	// void (__thiscall*)(CAI_DEAL_COMPONENT_GIFT* self, void* aiContext, CAI_FACTION* a, CAI_FACTION* b, int32_t gold), 0x1c bytes
+	constexpr uint32_t DealComponentGift_ctor = 0xBF0FC0;
+	constexpr uint32_t DealComponentGift_Size = 0x1C;
+	// float (__thiscall*)(CAI_FACTION*, int32_t treasuryOffset): clamp(GDP / economic_power_gdp_factor + (treasury + offset)
+	// / economic_power_treasury_factor, min, max); the CAI faction wrapper's FACTION is at + 0xec
+	constexpr uint32_t CaiFaction_EconomicPower = 0x8FC320;
+	constexpr uint32_t CaiFaction_Faction = 0xEC;
+	constexpr uint32_t Treasury_Get = 0x86EB60;                // int32_t (__thiscall*)(TREASURY* = FACTION + 0x168), the Lua treasury
+	constexpr uint32_t Faction_Treasury = 0x168;
+	// uint32_t (__thiscall*)(FACTION*): the faction's GDP per turn (Mac's returns a float)
+	constexpr uint32_t Faction_Gdp = 0x7107E0;
+	using FactionGdpValue = uint32_t;
+
 } // namespace sdk::Attila::Addresses

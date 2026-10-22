@@ -2,14 +2,15 @@
 
 #include "NativeRegionTrading.hpp"
 
-#include "../Image.hpp"
-#include "../Hooking/Hook.hpp"
-
-#include "../../sdk/Attila/Lua/LuaRuntime.hpp"
-#include "../../sdk/Attila/VFSTypes.hpp"
-
-#include "../../sdk/Attila/Addresses.hpp"
+#include "Platform.hpp"
 #include "Scripting/LuaApi.hpp"
+
+#include "Attila/Addresses.hpp"
+#include "Attila/Lua/LuaRuntime.hpp"
+#include "Attila/VFSTypes.hpp"
+
+#include <cmath>
+#include <span>
 
 // Attila's diplomacy has a "Gift Region" option (diplomatic action type 6, permission "regions"), but only to settle a
 // horde: the action is available when one side is a horde, and only regions where the horde's army stands can be given.
@@ -25,24 +26,25 @@
 // The AI's deal evaluation has no region component (a region scores +0.0). For deals with regions we add the score the
 // region is worth: the mirror image of the AI paying the region's value in gold (the native gift component Payments use),
 // with the value from the Lua handler of the region trading mod.
+//
+// The engine calls go through the platform's addresses (Attila/Addresses.hpp, the same names on each platform), its
+// member functions are TWASE_THISCALL (__thiscall on x86). The hooks are the platform's (Hooks/NativeRegionTradingDetours.cpp).
 
 using namespace sdk::Attila;
+namespace Addr = sdk::Attila::Addresses;
+using namespace Hooks::NativeRegionTradingHook;
 
 namespace
 {
-bool isAttached = false;
 std::atomic<bool> isEnabled = false;
 
-// the engine's region list, returned by value through x8 (the destructor keeps clang on that convention)
-struct RegionList
+template<typename T>
+T Resolve(uint64_t address)
 {
-    uint32_t capacity;
-    uint32_t count;
-    void* data;
-    ~RegionList() {}
-};
+    return reinterpret_cast<T>(Platform::ResolveAddress(address));
+}
 
-using IsHorde_t = void* (*)(const void* faction);
+using IsHorde_t = Addr::FactionIsHordeValue(TWASE_THISCALL*)(const void* faction);
 
 lua_State* luaState = nullptr;
 
@@ -55,54 +57,24 @@ struct EvalContext
 };
 thread_local EvalContext* currentEval = nullptr;
 
-struct ComponentEntry
+using GiftCtor_t = void(TWASE_THISCALL*)(void* self, void* aiContext, void* a, void* b, int32_t gold);
+using FindChild_t = void*(TWASE_THISCALL*)(void* parent, const TempString* name, bool recursive);
+using SetVisible_t = void(TWASE_THISCALL*)(void* component, bool visible);
+using StringCtor_t = TempString*(TWASE_THISCALL*)(TempString* self, const char* utf8);
+using StringDtor_t = void(TWASE_THISCALL*)(TempString* self);
+using InDeal_t = bool(TWASE_THISCALL*)(void* action);
+using SelectRow_t = void*(TWASE_THISCALL*)(void* panel, void* row);
+
+// the action's virtual "is part of the deal"
+bool InDeal(uint8_t* action)
 {
-    void* component;
-    int32_t index;
-    int32_t pad;
-};
-static_assert(sizeof(ComponentEntry) == 16);
+    return (*reinterpret_cast<InDeal_t*>(*reinterpret_cast<uint8_t**>(action) + Addr::DiplomaticAction_InDealVtableOffset))(action);
+}
 
-struct ComponentList
+void Free(void* data)
 {
-    uint32_t capacity;
-    uint32_t count;
-    ComponentEntry* data;
-};
-
-using GiftCtor_t = void (*)(void* self, void* aiContext, void* a, void* b, int32_t gold);
-using FindChild_t = void* (*)(void* parent, const TempString* name, bool recursive);
-using SetVisible_t = void (*)(void* component, bool visible);
-using StringCtor_t = TempString* (*)(TempString* self, const char* utf8);
-using StringDtor_t = void (*)(TempString* self);
-using InDeal_t = bool (*)(void* action);
-
-RegionList GiftableRegions(void* from, void* to);
-float EvaluateDeal(void* negotiation, void* aiContext, void* a, void* b, int32_t* out5, char* out6);
-void* PopulatePanel(void* panel, void* action);
-Hook<decltype(&PopulatePanel)> PopulatePanel_fnc(Addresses::TradeRegionsPanel_Populate, &PopulatePanel);
-float ScoreComponents(ComponentList* list, void* aiContext, void* a, int64_t* a4, int32_t* a5, char* a6, uint64_t a7);
-Hook<decltype(&EvaluateDeal)> EvaluateDeal_fnc(Addresses::Diplo_EvaluateDeal, &EvaluateDeal);
-Hook<decltype(&ScoreComponents)> ScoreComponents_fnc(Addresses::Diplo_ScoreComponents, &ScoreComponents);
-bool RegionTradePossible(void* a, void* b);
-using SelectRow_t = void* (*)(void* panel, void* row);
-uint64_t OnClick(void* panel, void** event);
-Hook<decltype(&OnClick)> OnClick_fnc(Addresses::TradeRegionsPanel_OnClick, &OnClick);
-void SetRegion(void* context, int32_t regionId, void* demandedFrom, void* deal);
-Hook<decltype(&SetRegion)> SetRegion_fnc(Addresses::DiplomacyContext_SetRegion, &SetRegion);
-void Execute(void* action);
-Hook<decltype(&Execute)> Execute_fnc(Addresses::TradeRegions_Execute, &Execute);
-void ListButtonSetup(void* button, void* root, void* entry, void* context);
-Hook<decltype(&ListButtonSetup)> ListButtonSetup_fnc(Addresses::DiplomacyListTradeRegionsButton_Setup, &ListButtonSetup);
-int64_t MakeActionButtons(void* dropdown);
-Hook<decltype(&MakeActionButtons)> MakeActionButtons_fnc(Addresses::DiplomacyDropdown_MakeActionButtons, &MakeActionButtons);
-void OnActionButton(void* dropdown, void* event);
-Hook<decltype(&OnActionButton)> OnActionButton_fnc(Addresses::DiplomacyDropdown_OnActionButton, &OnActionButton);
-void OnActionButtonThunk(void* dropdown, void* event);
-Hook<decltype(&OnActionButtonThunk)> OnActionButtonThunk_fnc(Addresses::DiplomacyDropdown_OnActionButtonThunk, &OnActionButtonThunk);
-
-Hook<decltype(&GiftableRegions)> GiftableRegions_fnc(Addresses::Faction_GiftableRegions, &GiftableRegions);
-Hook<decltype(&RegionTradePossible)> RegionTradePossible_fnc(Addresses::DiplomaticAction_RegionTradePossible, &RegionTradePossible);
+    Resolve<void (*)(void*)>(Addr::tw_free)(data);
+}
 
 bool IsHuman(const void* faction)
 {
@@ -111,8 +83,8 @@ bool IsHuman(const void* faction)
 
 bool IsHorde(const void* faction)
 {
-    static const auto isHorde = reinterpret_cast<IsHorde_t>(Addresses::Faction_IsHorde + Image::Get()->GetSlide());
-    return faction && isHorde(faction) != nullptr;
+    static const auto isHorde = Resolve<IsHorde_t>(Addr::Faction_IsHorde);
+    return faction && static_cast<bool>(isHorde(faction));
 }
 
 // a human and a settled AI faction (no hordes, those keep the engine's rules)
@@ -128,19 +100,20 @@ bool IsHordePair(const void* human, const void* other)
     return IsHuman(human) && other && !IsHuman(other) && !IsHorde(human) && IsHorde(other) &&
            static_cast<const uint8_t*>(other)[Addresses::Faction_CanOwnLand] != 0;
 }
+} // namespace
 
-RegionList GiftableRegions(void* from, void* to)
+RegionList Hooks::NativeRegionTradingHook::Detour::GiftableRegions(void* from, void* to)
 {
     if (isEnabled && to && (IsSettledPair(from, to) || IsSettledPair(to, from)))
     {
-        return GiftableRegions_fnc(from, nullptr);
+        return Original::GiftableRegions(from, nullptr);
     }
-    return GiftableRegions_fnc(from, to);
+    return Original::GiftableRegions(from, to);
 }
 
-bool RegionTradePossible(void* a, void* b)
+bool Hooks::NativeRegionTradingHook::Detour::RegionTradePossible(void* a, void* b)
 {
-    if (RegionTradePossible_fnc(a, b))
+    if (Original::RegionTradePossible(a, b))
     {
         return true;
     }
@@ -156,14 +129,17 @@ bool RegionTradePossible(void* a, void* b)
         return false;
     }
     // a horde: the regions where its army stands (vanilla's list), any region of yours otherwise
-    RegionList regions = GiftableRegions_fnc(human, horde ? other : nullptr);
+    RegionList regions = Original::GiftableRegions(human, horde ? other : nullptr);
     const bool possible = regions.count > 0;
     if (regions.data)
     {
-        reinterpret_cast<void (*)(void*)>(Addresses::tw_free + Image::Get()->GetSlide())(regions.data);
+        Free(regions.data);
     }
     return possible;
 }
+
+namespace
+{
 const char* KeyOf(const void* object, uint64_t aRecordOffset)
 {
     const void* record = object ? *reinterpret_cast<void* const*>(static_cast<const uint8_t*>(object) + aRecordOffset) : nullptr;
@@ -230,7 +206,7 @@ void* EvaluatingFaction(const EvalContext& eval)
     int64_t offset = caiFactionOffset;
     if (offset < 0)
     {
-        for (int64_t o = 0; o < 0x200; o += 8)
+        for (int64_t o = 0; o < 0x200; o += sizeof(void*))
         {
             void* p = *reinterpret_cast<void**>(cai + o);
             if (p && (p == factionA || p == factionB))
@@ -355,13 +331,15 @@ void CallTransferHandler(const char* phase, const char* region, const char* fact
     LuaRuntime::settop(L, top);
 }
 
-void Execute(void* action)
+} // namespace
+
+void Hooks::NativeRegionTradingHook::Detour::Execute(void* action)
 {
     auto* a = static_cast<uint8_t*>(action);
     auto* negotiation = a ? *reinterpret_cast<uint8_t**>(a + Addresses::DiplomaticAction_Negotiation) : nullptr;
     if (!isEnabled || !negotiation)
     {
-        Execute_fnc(action);
+        Original::Execute(action);
         return;
     }
     // region and new owner keys, copied before the transfer
@@ -396,8 +374,7 @@ void Execute(void* action)
     }
     // the native tributary term (the AI becomes yours), if the deal has it
     uint8_t* tributaryTerm = troops ? FindAction(negotiation, Addresses::DiplomaticAction_MakeTributary) : nullptr;
-    const bool tributary = tributaryTerm &&
-        (*reinterpret_cast<InDeal_t*>(*reinterpret_cast<uint8_t**>(tributaryTerm) + Addresses::DiplomaticAction_InDealVtableOffset))(tributaryTerm);
+    const bool tributary = tributaryTerm && InDeal(tributaryTerm);
     if (troops)
     {
         spdlog::debug("[RegionTrading] deal for troops with {}: tributary term {}", ai ? ai : "?", tributary ? "in the deal" : "not in the deal");
@@ -408,7 +385,7 @@ void Execute(void* action)
         spdlog::debug("[RegionTrading] transfer {} to {}{}", region, to, troops ? " for troops" : "");
         CallTransferHandler("before", region.c_str(), to.c_str());
     }
-    Execute_fnc(action);
+    Original::Execute(action);
     for (const auto& [region, to] : transfers)
     {
         CallTransferHandler("after", region.c_str(), to.c_str());
@@ -420,6 +397,8 @@ void Execute(void* action)
     }
 }
 
+namespace
+{
 // Gold value of the deal's regions for the evaluating faction: + for regions it receives, - for regions it gives
 float RegionDealValue(const EvalContext& eval)
 {
@@ -439,8 +418,7 @@ float RegionDealValue(const EvalContext& eval)
     {
         return 0.0f;
     }
-    const auto inDeal = *reinterpret_cast<InDeal_t*>(*reinterpret_cast<uint8_t**>(action) + Addresses::DiplomaticAction_InDealVtableOffset);
-    if (!inDeal(action))
+    if (!InDeal(action))
     {
         return 0.0f;
     }
@@ -475,17 +453,20 @@ float RegionDealValue(const EvalContext& eval)
     return total;
 }
 
-float EvaluateDeal(void* negotiation, void* aiContext, void* a, void* b, int32_t* out5, char* out6)
+} // namespace
+
+float Hooks::NativeRegionTradingHook::Detour::EvaluateDeal(void* negotiation, void* aiContext, void* a, void* b, int32_t* out5, char* out6)
 {
     EvalContext eval{negotiation, aiContext, a, b};
     EvalContext* previous = currentEval;
     currentEval = &eval;
-    const float score = EvaluateDeal_fnc(negotiation, aiContext, a, b, out5, out6);
+    const float score = Original::EvaluateDeal(negotiation, aiContext, a, b, out5, out6);
     currentEval = previous;
     return score;
 }
 
-float ScoreComponents(ComponentList* list, void* aiContext, void* a, int64_t* a4, int32_t* a5, char* a6, uint64_t a7)
+float Hooks::NativeRegionTradingHook::Detour::ScoreComponents(ComponentList* list, void* aiContext, void* a, void* a4, int32_t* a5,
+                                                              char* a6, uintptr_t a7)
 {
     const EvalContext* eval = currentEval;
     bool troops = isEnabled && eval && eval->negotiation && list && eval->negotiation == troopsNegotiation;
@@ -493,12 +474,12 @@ float ScoreComponents(ComponentList* list, void* aiContext, void* a, int64_t* a4
     {
         // only while the region term is still in the deal (it can be removed from the deal list)
         uint8_t* regions = FindAction(eval->negotiation, Addresses::DiplomaticAction_TradeRegions);
-        troops = regions && (*reinterpret_cast<InDeal_t*>(*reinterpret_cast<uint8_t**>(regions) + Addresses::DiplomaticAction_InDealVtableOffset))(regions);
+        troops = regions && InDeal(regions);
     }
     const float gold = isEnabled && eval && eval->negotiation && list ? RegionDealValue(*eval) : 0.0f;
     if (gold == 0.0f && !troops)
     {
-        return ScoreComponents_fnc(list, aiContext, a, a4, a5, a6, a7);
+        return Original::ScoreComponents(list, aiContext, a, a4, a5, a6, a7);
     }
 
     // A deal for troops (a foedus): the native peace and tributary terms that come with it aren't scored by the game;
@@ -535,7 +516,7 @@ float ScoreComponents(ComponentList* list, void* aiContext, void* a, int64_t* a4
                       list->count, willingness);
     }
 
-    const float score = ScoreComponents_fnc(scored, aiContext, a, a4, a5, a6, a7) + willingness;
+    const float score = Original::ScoreComponents(scored, aiContext, a, a4, a5, a6, a7) + willingness;
     if (gold == 0.0f)
     {
         return score;
@@ -545,16 +526,16 @@ float ScoreComponents(ComponentList* list, void* aiContext, void* a, int64_t* a4
     // treasury); gold the AI receives only counts as goodwill. So a region worth V to the AI counts like the AI not having
     // to pay V: the mirror image of the score of "the AI pays V", computed by the same scorer. A burden (V < 0) counts
     // like paying |V|.
-    static const auto giftCtor = reinterpret_cast<GiftCtor_t>(Addresses::DealComponentGift_ctor + Image::Get()->GetSlide());
+    static const auto giftCtor = Resolve<GiftCtor_t>(Addresses::DealComponentGift_ctor);
     const auto payingScore = [&](float amount)
     {
         alignas(16) uint8_t gift[Addresses::DealComponentGift_Size] = {};
         giftCtor(gift, eval->aiContext, eval->factionA, eval->factionB, -static_cast<int32_t>(amount));
-        ComponentEntry entry{gift, Addresses::DiplomaticAction_TradeRegions, 0};
+        ComponentEntry entry{gift, Addresses::DiplomaticAction_TradeRegions};
         ComponentList single{1, 1, &entry};
         int32_t dummy5 = 0;
         char dummy6 = 0;
-        return ScoreComponents_fnc(&single, aiContext, a, a4, &dummy5, &dummy6, a7);
+        return Original::ScoreComponents(&single, aiContext, a, a4, &dummy5, &dummy6, a7);
     };
     // Part of the score sizes the gift (small / medium / large from 500 / 2,000 / 7,500 x an economic power) against the
     // other side of the deal (the gift's second faction, you): clamp(GDP / 8,000 + treasury / 10,000, 0.2, 4) (campaign
@@ -562,10 +543,10 @@ float ScoreComponents(ComponentList* list, void* aiContext, void* a, int64_t* a4
     // the amount by the power with the treasury over the power without it. (The main, linear part divides the amount by
     // the paying AI's GDP, which doesn't move within a turn.)
     float amount = std::fabs(gold);
-    using EconomicPower_t = float (*)(void* caiFaction, int32_t treasuryOffset);
-    using Treasury_t = int32_t (*)(void* treasury);
-    static const auto economicPower = reinterpret_cast<EconomicPower_t>(Addresses::CaiFaction_EconomicPower + Image::Get()->GetSlide());
-    static const auto treasuryOf = reinterpret_cast<Treasury_t>(Addresses::Treasury_Get + Image::Get()->GetSlide());
+    using EconomicPower_t = float(TWASE_THISCALL*)(void* caiFaction, int32_t treasuryOffset);
+    using Treasury_t = int32_t(TWASE_THISCALL*)(void* treasury);
+    static const auto economicPower = Resolve<EconomicPower_t>(Addresses::CaiFaction_EconomicPower);
+    static const auto treasuryOf = Resolve<Treasury_t>(Addresses::Treasury_Get);
     auto* payer = static_cast<uint8_t*>(eval->factionB);
     auto* payerFaction = payer ? *reinterpret_cast<uint8_t**>(payer + Addresses::CaiFaction_Faction) : nullptr;
     if (payerFaction)
@@ -596,6 +577,7 @@ float ScoreComponents(ComponentList* list, void* aiContext, void* a, int64_t* a4
     }
     const float delta = (gold > 0 ? -paying : paying);
 
+#if TWASE_HAS_GIFT_SCORE_PARTS
     if (spdlog::should_log(spdlog::level::debug))
     {
         // The parts the scorer sums for one gift (vtable + 0x10 … + 0x30, see docs/addresses.md); + 0x18 needs the
@@ -606,28 +588,39 @@ float ScoreComponents(ComponentList* list, void* aiContext, void* a, int64_t* a4
         giftCtor(gift, eval->aiContext, eval->factionA, eval->factionB, -static_cast<int32_t>(shown));
         const auto slot = [&](uint64_t offset)
         {
-            return (*reinterpret_cast<float (**)(void*)>(*reinterpret_cast<uint8_t**>(gift) + offset))(gift);
+            return (*reinterpret_cast<float(TWASE_THISCALL**)(void*)>(*reinterpret_cast<uint8_t**>(gift) + offset))(gift);
         };
         const float base = slot(0x10), size = slot(0x20), amountPart = slot(0x28), other = slot(0x30);
         const float total = payingScore(shown);
-        static const auto gdpOf = reinterpret_cast<float (*)(void*)>(Addresses::Faction_Gdp + Image::Get()->GetSlide());
+        static const auto gdpOf = Resolve<Addr::FactionGdpValue(TWASE_THISCALL*)(void*)>(Addresses::Faction_Gdp);
         void* evaluator = EvaluatingFaction(*eval);
         spdlog::debug("[RegionTrading] the game's score of {} paying {:.0f} gold: amount part {:.2f} (its GDP {:.0f}) + gift size "
                       "{:.2f} + table {:.2f} + base {:.2f} + other {:.2f} = {:.2f}{}",
                       KeyOf(evaluator, Addresses::Faction_Record) ? KeyOf(evaluator, Addresses::Faction_Record) : "?", shown,
-                      amountPart, evaluator ? gdpOf(evaluator) : 0.0f, size, total - amountPart - size - base - other, base,
+                      amountPart, evaluator ? static_cast<float>(gdpOf(evaluator)) : 0.0f, size, total - amountPart - size - base - other, base,
                       other, total,
                       interpolatedFrom > 0.0f ? fmt::format(" (below the first step: x {:.0f} / {:.0f} = {:.2f})", amount, shown, paying) : "");
     }
+#endif
     spdlog::debug("[RegionTrading] regions worth {} gold: deal score {} {:+} = {}", gold, score, delta, score + delta);
     return score + delta;
 }
+
+// THE REGION PANEL, THE DEAL LIST AND REGION FOR TROOPS
+
+#if TWASE_HAS_REGION_TRADING_PANEL
+namespace
+{
+void* Slid(uint64_t address)
+{
+    return reinterpret_cast<void*>(Platform::ResolveAddress(address));
+}
+
 void* FindChild(void* parent, const char* name)
 {
-    const auto slide = Image::Get()->GetSlide();
-    static const auto findChild = reinterpret_cast<FindChild_t>(Addresses::UIComponent_FindChild + slide);
-    static const auto stringCtor = reinterpret_cast<StringCtor_t>(Addresses::String_ctor + slide);
-    static const auto stringDtor = reinterpret_cast<StringDtor_t>(Addresses::String_dtor + slide);
+    static const auto findChild = Resolve<FindChild_t>(Addresses::UIComponent_FindChild);
+    static const auto stringCtor = Resolve<StringCtor_t>(Addresses::String_ctor);
+    static const auto stringDtor = Resolve<StringDtor_t>(Addresses::String_dtor);
     TempString key;
     stringCtor(&key, name);
     void* child = parent ? findChild(parent, &key, true) : nullptr;
@@ -652,7 +645,7 @@ float Width(void* component)
 void MoveTo(void* component, float x, float y)
 {
     float position[2] = {x, y};
-    auto moveTo = *reinterpret_cast<void (**)(void*, float*)>(*reinterpret_cast<uint8_t**>(component) + 0xc8);
+    auto moveTo = *reinterpret_cast<void(TWASE_THISCALL**)(void*, float*)>(*reinterpret_cast<uint8_t**>(component) + 0xc8);
     moveTo(component, position);
 }
 
@@ -668,7 +661,7 @@ void Resize(void* component, float width, float height)
 {
     static_cast<uint8_t*>(component)[0x190] = 1;
     static_cast<uint8_t*>(component)[0x191] = 1;
-    auto resize = *reinterpret_cast<void (**)(void*, bool, bool, float, float)>(*reinterpret_cast<uint8_t**>(component) + 0xa8);
+    auto resize = *reinterpret_cast<void(TWASE_THISCALL**)(void*, bool, bool, float, float)>(*reinterpret_cast<uint8_t**>(component) + 0xa8);
     resize(component, true, true, width, height);
 }
 
@@ -676,15 +669,10 @@ void Resize(void* component, float width, float height)
 
 std::vector<void*> selectedRows; // ticked rows of both lists, the last one is the engine's selection
 
-void* Slid(uint64_t address)
-{
-    return reinterpret_cast<void*>(address + Image::Get()->GetSlide());
-}
-
 void* LocalFaction()
 {
     void* campaign = *static_cast<void**>(Slid(Addresses::g_Campaign));
-    return campaign ? reinterpret_cast<void* (*)(void*)>(Slid(Addresses::Campaign_LocalFaction))(campaign) : nullptr;
+    return campaign ? reinterpret_cast<void*(TWASE_THISCALL*)(void*)>(Slid(Addresses::Campaign_LocalFaction))(campaign) : nullptr;
 }
 
 void* OtherFaction(void* panel)
@@ -713,7 +701,7 @@ bool IsWidenedAction(void* action, bool aHorde = false)
     {
         return false;
     }
-    using Faction_t = void* (*)(void*);
+    using Faction_t = void*(TWASE_THISCALL*)(void*);
     void* local = LocalFaction();
     void* other = reinterpret_cast<Faction_t>(Slid(Addresses::DiplomaticAction_FactionA))(action);
     if (other == local)
@@ -742,7 +730,7 @@ std::span<void*> Rows(void* root, const char* list)
 int32_t RowRegionId(void* row)
 {
     int32_t id = 0;
-    reinterpret_cast<bool (*)(void*, int32_t*)>(Slid(Addresses::TempString_ToInt))(static_cast<uint8_t*>(row) + Addresses::UIComponent_Id, &id);
+    reinterpret_cast<bool(TWASE_THISCALL*)(void*, int32_t*)>(Slid(Addresses::TempString_ToInt))(static_cast<uint8_t*>(row) + Addresses::UIComponent_Id, &id);
     return id;
 }
 
@@ -752,7 +740,7 @@ void SetChecked(void* row, bool checked)
     void* state = checkbox ? *reinterpret_cast<void**>(static_cast<uint8_t*>(checkbox) + Addresses::UIComponent_Checkbox) : nullptr;
     if (state)
     {
-        reinterpret_cast<void (*)(void*, bool, bool, bool)>(Slid(Addresses::Checkbox_SetChecked))(state, checked, false, false);
+        reinterpret_cast<void(TWASE_THISCALL*)(void*, bool, bool, bool)>(Slid(Addresses::Checkbox_SetChecked))(state, checked, false, false);
     }
 }
 
@@ -769,16 +757,18 @@ void UpdateTroopsList(void* panel);
 // A click on a list row: the engine selects the row when its checkbox was ticked and nothing when it was unticked (one
 // selection). We keep every ticked row of both lists; the last one stays the engine's selection (for the OK button's
 // state and the camera).
-uint64_t OnClick(void* panel, void** event)
+} // namespace
+
+uintptr_t Hooks::NativeRegionTradingHook::Detour::OnClick(void* panel, void** event)
 {
     void* component = event ? event[0] : nullptr;
     if (!component || !IsWidenedPanel(panel) || HasId(component, "ok_trade_regions") || HasId(component, "cancel_trade_regions"))
     {
-        return OnClick_fnc(panel, event);
+        return Original::OnClick(panel, event);
     }
-    static const auto findChild = reinterpret_cast<FindChild_t>(Slid(Addresses::UIComponent_FindChild));
-    static const auto stringCtor = reinterpret_cast<StringCtor_t>(Slid(Addresses::String_ctor));
-    static const auto stringDtor = reinterpret_cast<StringDtor_t>(Slid(Addresses::String_dtor));
+    static const auto findChild = Resolve<FindChild_t>(Addresses::UIComponent_FindChild);
+    static const auto stringCtor = Resolve<StringCtor_t>(Addresses::String_ctor);
+    static const auto stringDtor = Resolve<StringDtor_t>(Addresses::String_dtor);
     TempString key;
     stringCtor(&key, "list_box");
     void* box = findChild(component, &key, false);
@@ -786,7 +776,7 @@ uint64_t OnClick(void* panel, void** event)
     void* row = box ? *reinterpret_cast<void**>(static_cast<uint8_t*>(component) + Addresses::UIComponent_ClickedRow) : nullptr;
     if (!row)
     {
-        return OnClick_fnc(panel, event);
+        return Original::OnClick(panel, event);
     }
 
     // a bool in the low byte, the rest of the word is undefined
@@ -800,7 +790,7 @@ uint64_t OnClick(void* panel, void** event)
     {
         selectedRows.erase(it);
     }
-    static const auto selectRow = reinterpret_cast<SelectRow_t>(Slid(Addresses::TradeRegionsPanel_SelectRow));
+    static const auto selectRow = Resolve<SelectRow_t>(Addresses::TradeRegionsPanel_SelectRow);
     selectRow(panel, ticked ? row : (selectedRows.empty() ? nullptr : selectedRows.back()));
     for (void* selected : selectedRows)
     {
@@ -813,6 +803,8 @@ uint64_t OnClick(void* panel, void** event)
     return 0;
 }
 
+namespace
+{
 struct PointerList
 {
     uint32_t capacity;
@@ -828,12 +820,12 @@ std::vector<void*> RegionsById(void* faction, const std::vector<int32_t>& ids)
     {
         return regions;
     }
-    RegionList list = GiftableRegions_fnc(faction, nullptr);
+    RegionList list = Original::GiftableRegions(faction, nullptr);
     for (int32_t id : ids)
     {
         for (uint32_t i = 0; i < list.count; i++)
         {
-            auto* region = static_cast<uint8_t**>(list.data)[i];
+            auto* region = static_cast<uint8_t*>(list.data[i]);
             if (*reinterpret_cast<int32_t*>(region + Addresses::Region_Id) == id)
             {
                 regions.push_back(region);
@@ -843,20 +835,21 @@ std::vector<void*> RegionsById(void* faction, const std::vector<int32_t>& ids)
     }
     if (list.data)
     {
-        reinterpret_cast<void (*)(void*)>(Slid(Addresses::tw_free))(list.data);
+        Free(list.data);
     }
     return regions;
 }
 
 void* openPanel = nullptr;
+} // namespace
 
 // OK: all ticked regions go into the deal, offered and demanded
-void SetRegion(void* context, int32_t regionId, void* demandedFrom, void* deal)
+void Hooks::NativeRegionTradingHook::Detour::SetRegion(void* context, int32_t regionId, void* demandedFrom, void* deal)
 {
     void* panel = openPanel;
     if (selectedRows.empty() || !deal || !IsWidenedPanel(panel))
     {
-        SetRegion_fnc(context, regionId, demandedFrom, deal);
+        Original::SetRegion(context, regionId, demandedFrom, deal);
         return;
     }
     const auto demandRows = Rows(Root(panel), "list_demands");
@@ -885,13 +878,13 @@ void SetRegion(void* context, int32_t regionId, void* demandedFrom, void* deal)
     auto* c = static_cast<uint8_t*>(context);
     void* x = *reinterpret_cast<void**>(*reinterpret_cast<uint8_t**>(*reinterpret_cast<uint8_t**>(c + 0xc0) + 0x30) + 0x50);
     alignas(16) uint8_t terms[0x200];
-    reinterpret_cast<void (*)(void*)>(Slid(Addresses::DealTerms_ctor))(terms);
+    reinterpret_cast<void(TWASE_THISCALL*)(void*)>(Slid(Addresses::DealTerms_ctor))(terms);
     PointerList offeredList{static_cast<uint32_t>(offered.size()), static_cast<uint32_t>(offered.size()), offered.data()};
     PointerList demandedList{static_cast<uint32_t>(demanded.size()), static_cast<uint32_t>(demanded.size()), demanded.data()};
-    reinterpret_cast<void (*)(void*, const PointerList*)>(Slid(Addresses::DealTerms_SetOfferedRegions))(terms, &offeredList);
-    reinterpret_cast<void (*)(void*, const PointerList*)>(Slid(Addresses::DealTerms_SetDemandedRegions))(terms, &demandedList);
-    reinterpret_cast<void (*)(void*, void*, void*)>(Slid(Addresses::Deal_ApplyTerms))(deal, x, terms);
-    reinterpret_cast<void (*)(void*)>(Slid(Addresses::DealTerms_dtor))(terms);
+    reinterpret_cast<void(TWASE_THISCALL*)(void*, const PointerList*)>(Slid(Addresses::DealTerms_SetOfferedRegions))(terms, &offeredList);
+    reinterpret_cast<void(TWASE_THISCALL*)(void*, const PointerList*)>(Slid(Addresses::DealTerms_SetDemandedRegions))(terms, &demandedList);
+    reinterpret_cast<void(TWASE_THISCALL*)(void*, void*, void*)>(Slid(Addresses::Deal_ApplyTerms))(deal, x, terms);
+    reinterpret_cast<void(TWASE_THISCALL*)(void*)>(Slid(Addresses::DealTerms_dtor))(terms);
 
     // a foedus comes with peace (at war) and the tributary status: the native terms, where available. At war the
     // engine offers the tributary status once peace is in the deal (the region entries need that) but updates the flag
@@ -914,7 +907,7 @@ void SetRegion(void* context, int32_t regionId, void* demandedFrom, void* deal)
                 // as the action's button adds it (the dispatcher 0x1035f5044)
                 const uint64_t add = type == Addresses::DiplomaticAction_MakeTributary ? Addresses::DiplomacyContext_AddTributaryTerm
                                                                                        : Addresses::DiplomacyContext_AddTerm;
-                reinterpret_cast<void (*)(void*, void*)>(Slid(add))(context, term);
+                reinterpret_cast<void(TWASE_THISCALL*)(void*, void*)>(Slid(add))(context, term);
                 peace = peace || type == Addresses::DiplomaticAction_Peace;
                 spdlog::debug("[RegionTrading] deal for troops: added the native term {}{}", type,
                               term[Addresses::DiplomaticAction_Available] == 1 ? "" : " (not offered by the engine)");
@@ -925,6 +918,8 @@ void SetRegion(void* context, int32_t regionId, void* demandedFrom, void* deal)
 
 // REGION FOR TROOPS
 
+namespace
+{
 std::u16string Utf16(const std::string& aUtf8)
 {
     std::u16string out;
@@ -957,10 +952,10 @@ void SetText(void* component, const std::string& aText, bool aTooltip)
 {
     const std::u16string text = Utf16(aText);
     alignas(16) uint8_t uni[16];
-    reinterpret_cast<void (*)(void*, const char16_t*)>(Slid(Addresses::UniString_ctor))(uni, text.c_str());
-    reinterpret_cast<void (*)(void*, const void*, bool)>(
+    reinterpret_cast<void(TWASE_THISCALL*)(void*, const char16_t*)>(Slid(Addresses::UniString_ctor))(uni, text.c_str());
+    reinterpret_cast<void(TWASE_THISCALL*)(void*, const void*, bool)>(
         Slid(aTooltip ? Addresses::UIComponent_SetTooltipText : Addresses::UIComponent_SetText))(component, uni, aTooltip);
-    reinterpret_cast<void (*)(void*)>(Slid(Addresses::UniString_dtor))(uni);
+    reinterpret_cast<void(TWASE_THISCALL*)(void*)>(Slid(Addresses::UniString_dtor))(uni);
 }
 
 void* troopsButton = nullptr; // the "Region for Troops" button in the open "Add Offer/Demand" list
@@ -973,10 +968,11 @@ struct ActionEntry
     uint8_t* action;
 };
 static_assert(sizeof(ActionEntry) == 0x20);
+} // namespace
 
 // The list gets a second button for the region action, "Region for Troops": we add a copy of the region action's
 // entry before the engine makes the buttons, then take the second button it made for it and remove the copy again.
-int64_t MakeActionButtons(void* dropdown)
+intptr_t Hooks::NativeRegionTradingHook::Detour::MakeActionButtons(void* dropdown)
 {
     troopsButton = nullptr;
     auto* vector = static_cast<uint8_t*>(dropdown) + Addresses::DiplomacyDropdown_ActionEntries;
@@ -995,7 +991,7 @@ int64_t MakeActionButtons(void* dropdown)
     }
     if (regionEntry < 0)
     {
-        return MakeActionButtons_fnc(dropdown);
+        return Original::MakeActionButtons(dropdown);
     }
 
     // At war, land is only traded in a peace: the region entries appear once peace is in the deal (like vanilla's
@@ -1003,7 +999,7 @@ int64_t MakeActionButtons(void* dropdown)
     void* context = *reinterpret_cast<void**>(static_cast<uint8_t*>(dropdown) + Addresses::DiplomacyDropdown_Context);
     void* negotiation = context ? *reinterpret_cast<void**>(static_cast<uint8_t*>(context) + Addresses::DiplomacyContext_Negotiation) : nullptr;
     uint8_t* peace = negotiation ? FindAction(negotiation, Addresses::DiplomaticAction_Peace) : nullptr;
-    const bool peaceInDeal = peace && (*reinterpret_cast<InDeal_t*>(*reinterpret_cast<uint8_t**>(peace) + Addresses::DiplomaticAction_InDealVtableOffset))(peace);
+    const bool peaceInDeal = peace && InDeal(peace);
     if (peace && peace[Addresses::DiplomaticAction_Available] == 1 && !peaceInDeal)
     {
         ActionEntry* list = entries();
@@ -1012,7 +1008,7 @@ int64_t MakeActionButtons(void* dropdown)
         std::memcpy(&region, &list[regionEntry], sizeof(region));
         std::memmove(&list[regionEntry], &list[regionEntry + 1], (n - regionEntry - 1) * sizeof(ActionEntry));
         *count() = n - 1;
-        const int64_t result = MakeActionButtons_fnc(dropdown);
+        const intptr_t result = Original::MakeActionButtons(dropdown);
         list = entries();
         std::memmove(&list[regionEntry + 1], &list[regionEntry], (n - regionEntry - 1) * sizeof(ActionEntry));
         std::memcpy(&list[regionEntry], &region, sizeof(region));
@@ -1022,13 +1018,13 @@ int64_t MakeActionButtons(void* dropdown)
     }
 
     ActionEntry copy{};
-    reinterpret_cast<void (*)(void*, const void*)>(Slid(Addresses::UniString_Copy))(copy.text, entries()[regionEntry].text);
+    reinterpret_cast<void(TWASE_THISCALL*)(void*, const void*)>(Slid(Addresses::UniString_Copy))(copy.text, entries()[regionEntry].text);
     std::memcpy(copy.flags, entries()[regionEntry].flags, sizeof(copy.flags));
     copy.action = entries()[regionEntry].action;
-    reinterpret_cast<void (*)(void*, const ActionEntry*)>(Slid(Addresses::Vector_PushActionEntry))(vector, &copy);
-    reinterpret_cast<void (*)(void*)>(Slid(Addresses::UniString_dtor))(copy.text);
+    reinterpret_cast<void(TWASE_THISCALL*)(void*, const ActionEntry*)>(Slid(Addresses::Vector_PushActionEntry))(vector, &copy);
+    reinterpret_cast<void(TWASE_THISCALL*)(void*)>(Slid(Addresses::UniString_dtor))(copy.text);
 
-    const int64_t result = MakeActionButtons_fnc(dropdown);
+    const intptr_t result = Original::MakeActionButtons(dropdown);
 
     void* parent = *reinterpret_cast<void**>(static_cast<uint8_t*>(dropdown) + Addresses::DiplomacyDropdown_ActionButtonParent);
     int seen = 0;
@@ -1051,11 +1047,13 @@ int64_t MakeActionButtons(void* dropdown)
 
     // remove the copy (the last entry)
     ActionEntry& last = entries()[*count() - 1];
-    reinterpret_cast<void (*)(void*)>(Slid(Addresses::UniString_dtor))(last.text);
+    reinterpret_cast<void(TWASE_THISCALL*)(void*)>(Slid(Addresses::UniString_dtor))(last.text);
     *count() -= 1;
     return result;
 }
 
+namespace
+{
 // Which button opened the region panel. Only clicks (+ 0x10 == 1, as the engine checks) count, and only the region
 // buttons set a mode: any other button (e.g. Payments) clears it, so the region panel reopened from the deal list later
 // follows the deal.
@@ -1073,18 +1071,22 @@ void NoteActionButton(void* event)
     pendingMode = !region ? -1 : (troopsButton && button == troopsButton ? 1 : 0);
 }
 
-void OnActionButton(void* dropdown, void* event)
+} // namespace
+
+void Hooks::NativeRegionTradingHook::Detour::OnActionButton(void* dropdown, void* event)
 {
     NoteActionButton(event);
-    OnActionButton_fnc(dropdown, event);
+    Original::OnActionButton(dropdown, event);
 }
 
-void OnActionButtonThunk(void* dropdown, void* event)
+void Hooks::NativeRegionTradingHook::Detour::OnActionButtonThunk(void* dropdown, void* event)
 {
     NoteActionButton(event);
-    OnActionButtonThunk_fnc(dropdown, event);
+    Original::OnActionButtonThunk(dropdown, event);
 }
 
+namespace
+{
 struct FederatesOffer
 {
     int count = 0;
@@ -1200,7 +1202,7 @@ void UpdateTroopsList(void* panel)
     {
         return;
     }
-    reinterpret_cast<void (*)(void*)>(Slid(Addresses::ListBox_Clear))(box);
+    reinterpret_cast<void(TWASE_THISCALL*)(void*)>(Slid(Addresses::ListBox_Clear))(box);
 
     const FederatesOffer offer = AskFederates(panel);
     std::vector<std::string> lines;
@@ -1214,11 +1216,11 @@ void UpdateTroopsList(void* panel)
         lines = Wrap(offer.reason, 30);
     }
 
-    using CreateRow_t = void* (*)(void*, void*, const TempString*, void*, void*, int32_t, int32_t, void*, bool, void*);
-    static const auto createRow = reinterpret_cast<CreateRow_t>(Slid(Addresses::UIComponent_CreateListRow));
-    static const auto stringCtor = reinterpret_cast<StringCtor_t>(Slid(Addresses::String_ctor));
-    static const auto stringDtor = reinterpret_cast<StringDtor_t>(Slid(Addresses::String_dtor));
-    static const auto setVisible = reinterpret_cast<SetVisible_t>(Slid(Addresses::UIComponent_SetVisible));
+    using CreateRow_t = void*(TWASE_THISCALL*)(void*, void*, const TempString*, void*, void*, int32_t, int32_t, void*, bool, void*);
+    static const auto createRow = Resolve<CreateRow_t>(Addresses::UIComponent_CreateListRow);
+    static const auto stringCtor = Resolve<StringCtor_t>(Addresses::String_ctor);
+    static const auto stringDtor = Resolve<StringDtor_t>(Addresses::String_dtor);
+    static const auto setVisible = Resolve<SetVisible_t>(Addresses::UIComponent_SetVisible);
     const float rowWidth = Width(box);
     for (size_t i = 0; i < lines.size(); i++)
     {
@@ -1237,14 +1239,15 @@ void UpdateTroopsList(void* panel)
             setVisible(checkbox, false);
         }
     }
-    reinterpret_cast<void (*)(void*)>(Slid(Addresses::ListBox_Layout))(box);
+    reinterpret_cast<void(TWASE_THISCALL*)(void*)>(Slid(Addresses::ListBox_Layout))(box);
 }
+} // namespace
 
 // DEAL LIST: a trade regions row shows the demanded regions if there are any, else the offered ones, in both columns.
 // With both (a swap) we show each column its own: in "your_offers" the regions you own, in the other the AI's.
-void ListButtonSetup(void* button, void* root, void* entry, void* context)
+void Hooks::NativeRegionTradingHook::Detour::ListButtonSetup(void* button, void* root, void* entry, void* context)
 {
-    ListButtonSetup_fnc(button, root, entry, context);
+    Original::ListButtonSetup(button, root, entry, context);
     auto* action = entry ? *reinterpret_cast<uint8_t**>(static_cast<uint8_t*>(entry) + 0x18) : nullptr;
     if (!isEnabled || !action || !button || !root)
     {
@@ -1270,11 +1273,11 @@ void ListButtonSetup(void* button, void* root, void* entry, void* context)
     const bool yours = std::find(yourRows.begin(), yourRows.end(), row) != yourRows.end();
     void* local = LocalFaction();
 
-    using UniCtor_t = void (*)(void*, const char16_t*);
-    using UniAppend_t = void (*)(void*, const void*);
-    using UniAppendLiteral_t = void (*)(void*, const char16_t*);
-    using UniNotEmpty_t = bool (*)(const void*);
-    using UniDtor_t = void (*)(void*);
+    using UniCtor_t = void(TWASE_THISCALL*)(void*, const char16_t*);
+    using UniAppend_t = void(TWASE_THISCALL*)(void*, const void*);
+    using UniAppendLiteral_t = void(TWASE_THISCALL*)(void*, const char16_t*);
+    using UniNotEmpty_t = bool(TWASE_THISCALL*)(const void*);
+    using UniDtor_t = void(TWASE_THISCALL*)(void*);
     alignas(16) uint8_t text[16];
     reinterpret_cast<UniCtor_t>(Slid(Addresses::UniString_ctor))(text, u"");
     for (uint64_t countOffset : {Addresses::TradeRegions_List1Count, Addresses::TradeRegions_List2Count})
@@ -1293,17 +1296,17 @@ void ListButtonSetup(void* button, void* root, void* entry, void* context)
             {
                 reinterpret_cast<UniAppendLiteral_t>(Slid(Addresses::UniString_AppendLiteral))(text, u", ");
             }
-            const void* name = reinterpret_cast<const void* (*)(void*)>(Slid(Addresses::Region_LocalisedName))(regions[i]);
+            const void* name = reinterpret_cast<const void*(TWASE_THISCALL*)(void*)>(Slid(Addresses::Region_LocalisedName))(regions[i]);
             reinterpret_cast<UniAppend_t>(Slid(Addresses::UniString_Append))(text, name);
         }
     }
-    reinterpret_cast<void (*)(void*, const void*, bool)>(Slid(Addresses::UIComponent_SetText))(names, text, false);
+    reinterpret_cast<void(TWASE_THISCALL*)(void*, const void*, bool)>(Slid(Addresses::UIComponent_SetText))(names, text, false);
     reinterpret_cast<UniDtor_t>(Slid(Addresses::UniString_dtor))(text);
 }
 
 // The panel only shows the offers ("Gift Region"); show the demands list too, side by side, and tick every region
 // already in the deal
-void* PopulatePanel(void* panel, void* action)
+void* Hooks::NativeRegionTradingHook::Detour::PopulatePanel(void* panel, void* action)
 {
     void* root = Root(panel);
     // the mode: the button that opened the panel, else the deal's region term (reopened from the deal list)
@@ -1315,7 +1318,7 @@ void* PopulatePanel(void* panel, void* action)
     if (widened && root)
     {
         // before populating: the engine only fills visible lists, and the layout hides the demands
-        static const auto setVisible = reinterpret_cast<SetVisible_t>(Slid(Addresses::UIComponent_SetVisible));
+        static const auto setVisible = Resolve<SetVisible_t>(Addresses::UIComponent_SetVisible);
         for (const char* name : {"list_demands", "demands_title"})
         {
             if (void* component = FindChild(root, name))
@@ -1326,7 +1329,7 @@ void* PopulatePanel(void* panel, void* action)
     }
     selectedRows.clear();
     openPanel = panel;
-    void* result = PopulatePanel_fnc(panel, action);
+    void* result = Original::PopulatePanel(panel, action);
     if (!widened || !root)
     {
         return result;
@@ -1364,8 +1367,7 @@ void* PopulatePanel(void* panel, void* action)
 
     // tick every region already in the deal (the engine ticks only the first one)
     auto* a = static_cast<uint8_t*>(action);
-    const auto inDeal = a ? *reinterpret_cast<InDeal_t*>(*reinterpret_cast<uint8_t**>(a) + Addresses::DiplomaticAction_InDealVtableOffset) : nullptr;
-    if (inDeal && inDeal(action))
+    if (a && InDeal(a))
     {
         for (uint64_t countOffset : {Addresses::TradeRegions_List1Count, Addresses::TradeRegions_List2Count})
         {
@@ -1412,7 +1414,7 @@ void* PopulatePanel(void* panel, void* action)
     }
     return result;
 }
-} // namespace
+#endif
 
 void Hooks::NativeRegionTradingHook::SetLuaState(lua_State* L)
 {
@@ -1428,74 +1430,4 @@ void Hooks::NativeRegionTradingHook::SetEnabled(bool aEnabled)
 {
     isEnabled = aEnabled;
     spdlog::info("Native region trading {}", aEnabled ? "enabled" : "disabled");
-}
-
-bool Hooks::NativeRegionTradingHook::Attach()
-{
-    auto result = GiftableRegions_fnc.Attach();
-    if (result == 0)
-        result = RegionTradePossible_fnc.Attach();
-    if (result == 0)
-        result = PopulatePanel_fnc.Attach();
-    if (result == 0)
-        result = OnClick_fnc.Attach();
-    if (result == 0)
-        result = SetRegion_fnc.Attach();
-    if (result == 0)
-        result = Execute_fnc.Attach();
-    if (result == 0)
-        result = ListButtonSetup_fnc.Attach();
-    if (result == 0)
-        result = MakeActionButtons_fnc.Attach();
-    if (result == 0)
-        result = OnActionButton_fnc.Attach();
-    if (result == 0)
-        result = OnActionButtonThunk_fnc.Attach();
-    if (result == 0)
-        result = EvaluateDeal_fnc.Attach();
-    if (result == 0)
-        result = ScoreComponents_fnc.Attach();
-    if (result != 0)
-    {
-        spdlog::error("Could not attach the native region trading hooks. Dobby error code: {}", result);
-    }
-    else
-    {
-        spdlog::info("The native region trading hooks were attached");
-    }
-    isAttached = result == 0;
-    return isAttached;
-}
-
-bool Hooks::NativeRegionTradingHook::Detach()
-{
-    if (!isAttached)
-    {
-        return false;
-    }
-    auto result = ScoreComponents_fnc.Detach();
-    if (result == 0)
-        result = EvaluateDeal_fnc.Detach();
-    if (result == 0)
-        result = OnActionButtonThunk_fnc.Detach();
-    if (result == 0)
-        result = OnActionButton_fnc.Detach();
-    if (result == 0)
-        result = MakeActionButtons_fnc.Detach();
-    if (result == 0)
-        result = ListButtonSetup_fnc.Detach();
-    if (result == 0)
-        result = Execute_fnc.Detach();
-    if (result == 0)
-        result = SetRegion_fnc.Detach();
-    if (result == 0)
-        result = OnClick_fnc.Detach();
-    if (result == 0)
-        result = PopulatePanel_fnc.Detach();
-    if (result == 0)
-        result = RegionTradePossible_fnc.Detach();
-    if (result == 0)
-        result = GiftableRegions_fnc.Detach();
-    isAttached = result != 0;
-    return !isAttached;
 }

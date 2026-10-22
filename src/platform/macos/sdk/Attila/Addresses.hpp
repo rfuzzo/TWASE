@@ -176,6 +176,7 @@ constexpr uint64_t Faction_IsHuman = 0x970;                // bool (the Lua is_h
 constexpr uint64_t Faction_RegionCount = 0xA4C;            // u32, the regions at +0xa50 (the Lua region_list 0x101d2a614)
 constexpr uint64_t Faction_CanOwnLand = 0x1751;            // bool, 0 for hordes that can't settle (0x101bec634; needed by vanilla's Gift Region to a horde and transfer_region_to_faction)
 constexpr uint64_t Faction_IsHorde = 0x101B521EC;          // void* (*)(FACTION*), non-null for hordes (the Lua is_horde)
+using FactionIsHordeValue = void*;
 
 // The native region panel (UIDLL::DiplomacyTradeRegionsPanel, layout diplomacy_hud "trade_regions")
 // void (*)(PANEL* self, DIPLOMATIC_ACTION* action): fills list_offers (player -> AI) and list_demands (AI -> player)
@@ -279,6 +280,7 @@ constexpr uint64_t Treasury_Get = 0x101CB57F4;             // int32_t (*)(TREASU
 // float (*)(FACTION*): the faction's GDP per turn. The gift's linear score part (vtable + 0x28, 0x101d76bb4) is the
 // amount within / beyond the AI's budget, weighted by its personality, over the paying faction's GDP, capped.
 constexpr uint64_t Faction_Gdp = 0x101B70018;
+using FactionGdpValue = float;
 constexpr uint64_t Faction_Treasury = 0x250;
 
 // Region value in the AI's deal evaluation

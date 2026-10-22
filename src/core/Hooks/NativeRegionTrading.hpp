@@ -1,0 +1,81 @@
+#pragma once
+
+#include <cstdint>
+
+#include "Attila/Features.hpp"
+
+struct lua_State;
+
+// The logic is shared (NativeRegionTrading.cpp). Each platform hooks the engine functions in its
+// Hooks/NativeRegionTradingDetours.cpp: its hooks call the Detour functions, and it implements Original (its
+// trampolines) and Attach / Detach. The signatures leave out the platform's calling conventions.
+namespace Hooks::NativeRegionTradingHook
+{
+bool Attach();
+bool Detach();
+
+// Offer the engine's own (disabled) region trading action in the diplomacy "Add Offer/Demand" list. Off by default.
+bool IsEnabled();
+void SetEnabled(bool aEnabled);
+
+// The Lua state whose registry holds the region value handler (twase.enable_region_trading)
+void SetLuaState(lua_State* L);
+
+// the engine's region list
+struct RegionList
+{
+    uint32_t capacity;
+    uint32_t count;
+    void** data; // REGION*
+};
+
+// the deal evaluator's CAI_DEAL_COMPONENT_* list: 16-byte entries on arm64, 8 on x86
+struct ComponentEntry
+{
+    void* component;
+    int32_t index; // the position of its action in the negotiation's action array
+};
+
+struct ComponentList
+{
+    uint32_t capacity;
+    uint32_t count;
+    ComponentEntry* data;
+};
+
+#define TWASE_REGION_TRADING_FUNCTIONS                                                                                 \
+    RegionList GiftableRegions(void* from, void* to);                                                                  \
+    bool RegionTradePossible(void* a, void* b);                                                                        \
+    void Execute(void* action);                                                                                        \
+    float EvaluateDeal(void* negotiation, void* aiContext, void* a, void* b, int32_t* out5, char* out6);               \
+    float ScoreComponents(ComponentList* list, void* aiContext, void* a, void* a4, int32_t* a5, char* a6, uintptr_t a7);
+
+// the region panel, the deal list and Region for Troops
+#define TWASE_REGION_TRADING_PANEL_FUNCTIONS                                                                           \
+    void* PopulatePanel(void* panel, void* action);                                                                    \
+    uintptr_t OnClick(void* panel, void** event);                                                                      \
+    void SetRegion(void* context, int32_t regionId, void* demandedFrom, void* deal);                                   \
+    void ListButtonSetup(void* button, void* root, void* entry, void* context);                                        \
+    intptr_t MakeActionButtons(void* dropdown);                                                                        \
+    void OnActionButton(void* dropdown, void* event);                                                                  \
+    void OnActionButtonThunk(void* dropdown, void* event);
+
+namespace Detour
+{
+TWASE_REGION_TRADING_FUNCTIONS
+#if TWASE_HAS_REGION_TRADING_PANEL
+TWASE_REGION_TRADING_PANEL_FUNCTIONS
+#endif
+} // namespace Detour
+
+namespace Original
+{
+TWASE_REGION_TRADING_FUNCTIONS
+#if TWASE_HAS_REGION_TRADING_PANEL
+TWASE_REGION_TRADING_PANEL_FUNCTIONS
+#endif
+} // namespace Original
+
+#undef TWASE_REGION_TRADING_FUNCTIONS
+#undef TWASE_REGION_TRADING_PANEL_FUNCTIONS
+} // namespace Hooks::NativeRegionTradingHook
