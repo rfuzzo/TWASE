@@ -1,6 +1,7 @@
 #include "stdafx.hpp"
 
 #include "Integrity.hpp"
+#include "Hooks/WindowState.hpp"
 
 #include <Security/Security.h>
 #include <dispatch/dispatch.h>
@@ -35,6 +36,8 @@ std::string FlagNames(uint32_t aFlags)
 uint32_t lastFlags = 0xFFFFFFFF;
 OSStatus lastValidity = 1;
 bool hasValidity = false;
+
+int ticks = 0;
 
 void CheckValidity()
 {
@@ -81,8 +84,17 @@ void Integrity::LogStatus(std::string_view aStep)
 void Integrity::StartPeriodicCheck()
 {
     auto* timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, dispatch_get_main_queue());
-    dispatch_source_set_timer(timer, dispatch_time(DISPATCH_TIME_NOW, 5 * NSEC_PER_SEC), 60 * NSEC_PER_SEC,
-                              NSEC_PER_SEC);
-    dispatch_source_set_event_handler_f(timer, [](void*) { CheckValidity(); });
+    // every 5 s the window state (cheap, logged on change), every minute the signature
+    dispatch_source_set_timer(timer, dispatch_time(DISPATCH_TIME_NOW, 5 * NSEC_PER_SEC), 5 * NSEC_PER_SEC,
+                              NSEC_PER_SEC / 2);
+    dispatch_source_set_event_handler_f(timer,
+                                        [](void*)
+                                        {
+                                            WindowState::LogIfChanged();
+                                            if (ticks++ % 12 == 0)
+                                            {
+                                                CheckValidity();
+                                            }
+                                        });
     dispatch_resume(timer);
 }
