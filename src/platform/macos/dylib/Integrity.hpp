@@ -11,7 +11,7 @@ namespace Integrity
 // the last call. Safe before main().
 void LogStatus(std::string_view aStep);
 
-// From the main run loop: every 5 s the window state (Hooks/WindowState), every minute SecCodeCheckValidity on the
-// running game (what the game checks), each logged when it changes.
+// From the main run loop: every 5 s the window state (Hooks/WindowState) and Feral's hidden tamper counter, every
+// minute SecCodeCheckValidity on the running game (what the game checks), each logged when it changes.
 void StartPeriodicCheck();
 } // namespace Integrity

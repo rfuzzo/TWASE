@@ -1,6 +1,7 @@
 #include "stdafx.hpp"
 
 #include "Integrity.hpp"
+#include "Image.hpp"
 #include "Hooks/WindowState.hpp"
 
 #include <Security/Security.h>
@@ -38,6 +39,32 @@ OSStatus lastValidity = 1;
 bool hasValidity = false;
 
 int ticks = 0;
+int64_t lastTamperCounter = -1;
+
+// Feral's hidden tamper counter (docs/macos/integrity-and-quirks.md): AntiTamper_InitHiddenCounter stores a pointer to
+// a zeroed heap int at 0x105019040; the code guards add their hash mismatches to it. 0 means no guard has fired.
+void LogTamperCounter()
+{
+    constexpr uint64_t CounterHolder = 0x105019040;
+
+    if (!Image::Get()->IsSupported())
+    {
+        return;
+    }
+
+    const auto* counter = *Image::Get()->Resolve<const int32_t*>(CounterHolder);
+    if (!counter)
+    {
+        return;
+    }
+
+    const int64_t value = *counter;
+    if (value != lastTamperCounter)
+    {
+        spdlog::info("[Integrity] Feral tamper counter: {} ({:#x})", value, static_cast<uint32_t>(value));
+        lastTamperCounter = value;
+    }
+}
 
 void CheckValidity()
 {
@@ -84,13 +111,14 @@ void Integrity::LogStatus(std::string_view aStep)
 void Integrity::StartPeriodicCheck()
 {
     auto* timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, dispatch_get_main_queue());
-    // every 5 s the window state (cheap, logged on change), every minute the signature
+    // every 5 s the window state and Feral's tamper counter (cheap, logged on change), every minute the signature
     dispatch_source_set_timer(timer, dispatch_time(DISPATCH_TIME_NOW, 5 * NSEC_PER_SEC), 5 * NSEC_PER_SEC,
                               NSEC_PER_SEC / 2);
     dispatch_source_set_event_handler_f(timer,
                                         [](void*)
                                         {
                                             WindowState::LogIfChanged();
+                                            LogTamperCounter();
                                             if (ticks++ % 12 == 0)
                                             {
                                                 CheckValidity();
