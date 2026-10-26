@@ -1,6 +1,7 @@
 #include "stdafx.hpp"
 
 #include "App.hpp"
+#include "Integrity.hpp"
 #include "Image.hpp"
 #include "Utils.hpp"
 #include "Version.hpp"
@@ -111,8 +112,14 @@ void App::Initialize()
         return;
     }
 
+    Integrity::LogStatus("before patches and hooks");
+
     // We run before main(), the game code is already mapped, so everything can be applied right away
-    Patches::ApplyPatches();
+    if (IsEnabled("unit_size_patch"))
+    {
+        Patches::ApplyPatches();
+        Integrity::LogStatus("after unit_size_patch");
+    }
 
     if (AttachHooks())
     {
@@ -122,6 +129,18 @@ void App::Initialize()
     {
         spdlog::error("TWASE did not initialize properly");
     }
+
+    Integrity::StartPeriodicCheck();
+}
+
+bool App::IsEnabled(const std::string& aName) const
+{
+    if (m_config.GetDev().IsDisabled(aName))
+    {
+        spdlog::warn("Skipping {} ([dev] disable in config.ini)", aName);
+        return false;
+    }
+    return true;
 }
 
 void App::Construct()
@@ -174,24 +193,39 @@ bool App::AttachHooks()
     LuaGameEnvironment::Init(slide);
     VFS::Init(slide);
 
-    auto success = Hooks::LuaLogHook::Attach();
+    // each patch / hook by name, so it can be skipped with [dev] disable (to find what Feral's integrity checks notice)
+    auto success = true;
+    const auto attach = [this, &success](const char* aName, bool (*aAttach)())
+    {
+        if (IsEnabled(aName))
+        {
+            success &= aAttach();
+            Integrity::LogStatus(fmt::format("after {}", aName));
+        }
+    };
+
+    attach("lua_log", &Hooks::LuaLogHook::Attach); // a byte patch plus the game's log sink
 
     // developer option, an extra hook on every Lua chunk load
     if (m_config.GetDev().traceLuaLoads)
     {
-        success &= Hooks::LuaLoadTraceHook::Attach();
+        attach("lua_load_trace", &Hooks::LuaLoadTraceHook::Attach);
     }
-    success &= Hooks::GameTickHook::Attach();
-    success &= Hooks::WinMainHook::Attach();
-    success &= Hooks::RunStartupPathHook::Attach();
-    success &= Hooks::DiplomacyLikelihoodHook::Attach();
-    success &= Hooks::NativeRegionTradingHook::Attach();
-    success &= Hooks::FeralModOrderHook::Attach();
+    attach("game_tick", &Hooks::GameTickHook::Attach);
+    attach("win_main", &Hooks::WinMainHook::Attach);
+    attach("mod_loader", &Hooks::RunStartupPathHook::Attach);
+    attach("diplomacy", &Hooks::DiplomacyLikelihoodHook::Attach);
+    attach("region_trading", &Hooks::NativeRegionTradingHook::Attach);
+    attach("feral_mod_order", &Hooks::FeralModOrderHook::Attach);
 
-    // the console is optional, TWASE still works without it
-    if (!Hooks::MetalHook::Attach())
+    // the console is optional, TWASE still works without it (Objective-C method swizzling, no game code changed)
+    if (IsEnabled("overlay"))
     {
-        spdlog::warn("Metal hook failed – Lua console will not be available");
+        if (!Hooks::MetalHook::Attach())
+        {
+            spdlog::warn("Metal hook failed – Lua console will not be available");
+        }
+        Integrity::LogStatus("after overlay");
     }
 
     return success;

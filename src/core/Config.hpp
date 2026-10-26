@@ -17,6 +17,10 @@ public:
         bool waitForDebugger = false;
         bool traceLuaLoads = false;
         bool luaDevFunctions = false;
+        // patches and hooks to skip, by the name in the log (Mac, for finding what Feral's integrity checks notice)
+        std::unordered_set<std::string> disabled;
+
+        bool IsDisabled(const std::string& aName) const { return disabled.contains(aName); }
     };
 
     struct ScriptConfig

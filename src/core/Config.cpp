@@ -206,6 +206,13 @@ bool Config::Save(const std::filesystem::path& aFile, std::string& aError)
                  "Log every Lua chunk the game loads (needs logging.level = \"trace\")");
         SetValue(dev, "lua_dev_functions", m_dev.luaDevFunctions,
                  "Add the twase.dev_* probes for reverse engineering to the Lua API");
+        if (!dev.contains("disable"))
+        {
+            // never changed at runtime, keep whatever the file has
+            dev["disable"] = toml::ordered_array{};
+            dev["disable"].comments().push_back(
+                " Mac: patches and hooks to skip, e.g. [\"unit_size_patch\", \"region_trading\"] (names in the log)");
+        }
 
         // write to a temporary file first so a failed write doesn't destroy the config
         auto tempFile = aFile;
@@ -243,6 +250,10 @@ void Config::DevConfig::LoadV0(const toml::value& aConfig)
     waitForDebugger = toml::find_or(aConfig, "dev", "wait_for_debugger", waitForDebugger);
     traceLuaLoads = toml::find_or(aConfig, "dev", "trace_lua_loads", traceLuaLoads);
     luaDevFunctions = toml::find_or(aConfig, "dev", "lua_dev_functions", luaDevFunctions);
+
+    std::vector<std::string> disabledNames;
+    disabledNames = toml::find_or(aConfig, "dev", "disable", disabledNames);
+    disabled.insert(disabledNames.begin(), disabledNames.end());
 }
 
 void Config::ScriptConfig::LoadV0(const toml::value& aConfig)
