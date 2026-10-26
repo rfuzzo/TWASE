@@ -3,6 +3,7 @@
 #include "NativeRegionTrading.hpp"
 
 #include "Platform.hpp"
+#include "App.hpp"
 #include "Scripting/LuaApi.hpp"
 
 #include "Attila/Addresses.hpp"
@@ -36,6 +37,13 @@ using namespace Hooks::NativeRegionTradingHook;
 
 namespace
 {
+// [dev] disable in config.ini: parts of Region for Troops to skip while looking for what breaks the UI
+bool DevDisabled(const char* aName)
+{
+    const App* app = App::Get();
+    return app && app->GetConfig()->GetDev().IsDisabled(aName);
+}
+
 std::atomic<bool> isEnabled = false;
 
 template<typename T>
@@ -896,7 +904,7 @@ void Hooks::NativeRegionTradingHook::Detour::SetRegion(void* context, int32_t re
     // later; and it only offers it to a faction with land, which a landless people only gets with this deal. So the
     // tributary term is added unless blocked (e.g. force_diplomacy) once peace is in, and for a landless people anyway
     // (the engine carries it out: tested 2026-10-12, ERE -> Blemmyes).
-    if (troopsMode && negotiation)
+    if (troopsMode && negotiation && !DevDisabled("troops_terms"))
     {
         const auto* ai = static_cast<const uint8_t*>(OtherFaction(panel));
         const bool landless = ai && *reinterpret_cast<const uint32_t*>(ai + Addresses::Faction_RegionCount) == 0;
@@ -1208,6 +1216,10 @@ std::vector<std::string> Wrap(const std::string& aText, size_t width)
 // checkboxes made from the panel's row template
 void UpdateTroopsList(void* panel)
 {
+    if (DevDisabled("troops_list"))
+    {
+        return;
+    }
     void* root = Root(panel);
     void* box = root ? FindChild(FindChild(root, "list_demands"), "list_box") : nullptr;
     void* rowTemplate = panel ? *reinterpret_cast<void**>(static_cast<uint8_t*>(panel) + Addresses::TradeRegionsPanel_RowTemplate) : nullptr;
