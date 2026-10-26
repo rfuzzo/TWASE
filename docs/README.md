@@ -31,6 +31,11 @@ What we found out about the game, independent of the platform. Exact addresses a
 ## Addresses and builds
 
 - Mac (Feral 1.6.1): [addresses](macos/addresses.md), and the [history of the macOS port](macos/PLAN.md)
+- Mac reverse engineering: [toolkit quick start](macos/re-tooling.md) (Binary Ninja over MCP, xref scanner, Unicorn
+  emulation, paths; the open-twa Binary Ninja database is the Mac App Store build, not Steam),
+  [integrity checks and the in-game quirks](macos/integrity-and-quirks.md): the Steam game hashes its whole `__text`
+  at startup and later, and reacts to any code patch silently, the likely cause of the click / shrinking-picture
+  quirks
 - Windows (`empire.retail.dll`): `src/platform/win32/sdk/Attila/Addresses.hpp`, [patches](../patches/patches.md)
 - [Windows port of the Mac features](windows-port.md) (plan)
 
