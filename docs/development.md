@@ -36,6 +36,9 @@ Use `xmake f --disable_copy=y` on either platform to build without copying into 
 
 Every push to `main` builds both platforms and updates the zips on the [nightly release](https://github.com/rfuzzo/TWASE/releases/tag/nightly).
 
+To get build zips from any other branch, run the CI workflow by hand (Actions > CI > Run workflow, pick the branch). The
+zips are attached to the run as artifacts (`TWASE-release`, `TWASE-macOS-release`); no release is created.
+
 To publish a versioned release:
 
 1. Bump the version in `src/platform/win32/dll/Version.hpp` and `src/platform/macos/dylib/Version.hpp` and merge it to `main`
