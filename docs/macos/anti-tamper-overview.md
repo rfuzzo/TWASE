@@ -21,14 +21,19 @@ most clicking happened.
 
 ```mermaid
 flowchart LR
-    S[Startup: hash all of __text] -->|changed bytes| R[tamper record]
-    L[Later: code content checked again] -->|changed bytes| R
-    R --> C{input clock}
+    S[Startup: hash all of __text] -->|changed bytes| W["startup state words + table bytes (located)"]
+    L[Later: code content checked again, not located] -->|changed bytes| U((?))
+    W -.->|link not found| U
+    U --> C{input clock}
     C -->|> ~8 min| S1[1: drop input]
     C -->|later| S2[2: move / resize viewport]
-    R --> T{real time ~15-25 min}
+    U --> T{real time ~15-25 min}
     T --> S3[3: terminate, retried every minute]
 ```
+
+Dashed and `?` mark what isn't known: the startup result is found in memory, but how it (or the later check) reaches
+the responses is not. Hardware watchpoints on four of the five state words saw no reads during play. With the patch
+applied after startup, the state words stay clean and the responses still come.
 
 ## Detection
 
@@ -38,8 +43,8 @@ patch).
 
 | Check | Where | Notes |
 |---|---|---|
-| Startup code hash | Five static initializers, `AntiTamper_StartupTextHash_55/100/199/227/236` (`0x100259b28`, `0x10042e430`, `0x100aa8d80`, `0x100bc2f04`, `0x100c157e8`), likely a sixth (`mod_init_func_532`) | xxHash64 over all of `__text` (`0x100012020`–`0x104144bb4`) against constants built into the binary. The result goes into hidden state words and re-encoded table bytes. Confirmed in the running game: the state words switch to their "patched" values |
-| Post-startup check | not located | Applying the patch after the startup hash (`late_patches`) fools that hash but not the game (sessions M/M2). Something checks the code content again later |
+| Startup code hash | Five static initializers, `AntiTamper_StartupTextHash_55/100/199/227/236` (`0x100259b28`, `0x10042e430`, `0x100aa8d80`, `0x100bc2f04`, `0x100c157e8`), likely a sixth (`mod_init_func_532`) | xxHash64 over all of `__text` (`0x100012020`–`0x104144bb4`) against constants built into the binary. **Record:** each guard sets a bit in its state word (`0x105019000`, `0x10504ef00`, `0x105060d20`, `0x105065460`, `0x105065fb0`) and re-encodes one table byte (`0x104da2ef0`, `0x104f6d53d`, `0x104f762d2`, `0x104d9f52d`, `0x104f6be60`). Confirmed in the running game: patched vs clean values match emulation. Who reads this record is not found |
+| Post-startup check | not located | Applying the patch after the startup hash (`late_patches`) fools that hash but not the game (sessions M/M2). Something checks the code content again later; where it stores its result is unknown |
 | Run-time range guards | Seven, `AntiTamper_TextRangeGuard_*` (`0x100257c8c`, `0x100258848`, `0x10042b434`, `0x100aa56c0`, `0x100bbd54c`, `0x100c0c318`, `0x100f81860`) | Started by an obfuscated scheduler; hash `__text` relative to an "anchor" address read from the data slot GOT `0x104a7f590`. No effect of a changed byte was visible in emulation |
 | Steam library check | `SteamApi_LoadVerifiedLibrary` `0x1000406fc` | xxHash64 of `libsteam_api.dylib` on disk must be `0x0b8f001cf3bc9596` before it is loaded; re-checked on a thread 10–11 s later |
 | Hidden module | `AntiTamper_LoadVerifiedModule` `0x10033d924`, `AntiTamper_PeriodicModuleHashCheck` `0x10033dd00` | A blob is hash-checked, loaded with Feral's own Mach-O loader and re-hashed every 419 s |

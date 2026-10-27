@@ -174,6 +174,7 @@ The guards are spread over the binary's modules, one startup guard and one range
 | P | All features, `reset_input_clock`, memory-exhaustion response disarmed | Disarm fired at 18:38 and 18:39; **crash at ~19½ min**: a second response, unbounded recursion on a detached thread (`sub_100fbcb58`, call slot `0x104b21490`) |
 | Q | Same, both responses disarmed (`disarm_tamper_responses`), detached jobs logged | Both responses blocked every minute from ~18 min; **quit with status 3 at ~23 min**, no crash, no `exit()` |
 | R | Same, plus logging of `_exit`, `_Exit`, `abort`, `kill`, `raise` | **`_exit(3)` at ~23 min** from scheduler command `sub_1007b3178` (call slot `0x104ab7a20`), run from the main loop |
+| S | Same, plus the game's `CFAbsoluteTimeGetCurrent` (interposed) moved 1080 s forward 35 s after launch, to bring stage 3 forward | **No effect**: nothing fired in the 6½ min after the skip, though the game's clock passed both the ~1103 s and ~1390 s marks. The stage-3 timers don't run on that clock (the per-minute launcher `0x100fbc5c4` kept its real ~59 s rhythm). Option removed again |
 
 The `[dev]` options used are documented in [re-tooling.md](re-tooling.md#runtime-probes-in-twase).
 

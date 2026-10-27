@@ -178,9 +178,6 @@ Always on:
 
 - `[Integrity] Feral tamper counter` (the heap int behind `0x105019040`), logged when it changes.
 - `[InputClock] start … elapsed … (now …)` every 5 s: Feral's hidden input clock (see integrity-and-quirks.md).
-- `[Input] left down/up delivered after N ms`: how long after the click AppKit hands it to the app.
-- `[Stall] main thread blocked for N ms` (a watchdog thread pings the main queue every 100 ms) and `[Stall] TWASE's
-  periodic check took N ms`.
 - `[Window] … frameState … grabInput … scheduledDrag …`: `CFeralNSWindow` ivars (`frameState 2` = Feral's title-bar
   live drag).
 

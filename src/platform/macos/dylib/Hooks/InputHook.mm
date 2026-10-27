@@ -179,14 +179,6 @@ NSEvent* HandleEvent(NSEvent* aEvent)
     auto& console = LuaConsole::Get();
     const auto type = aEvent.type;
 
-    // how long after the click AppKit hands it to the app (a stalled main thread shows up as a long delay)
-    if (type == NSEventTypeLeftMouseDown || type == NSEventTypeLeftMouseUp)
-    {
-        const double delay = NSProcessInfo.processInfo.systemUptime - aEvent.timestamp;
-        spdlog::debug("[Input] left {} delivered after {:.0f} ms (window {})", type == NSEventTypeLeftMouseDown ? "down" : "up",
-                      delay * 1000.0, aEvent.window ? aEvent.window.title.UTF8String ?: "" : "none");
-    }
-
     // the key below Esc toggles the console, never pass it to the game or the input box
     if ((type == NSEventTypeKeyDown || type == NSEventTypeKeyUp) && aEvent.keyCode == consoleKeyCode)
     {

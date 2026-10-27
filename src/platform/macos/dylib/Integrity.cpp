@@ -6,6 +6,7 @@
 #include "Hooks/WindowState.hpp"
 #include "Hooking/Memory.hpp"
 #include "TamperWatch.hpp"
+#include "TamperResponse.hpp"
 
 #include <mach/mach_vm.h>
 #include <Security/Security.h>
@@ -290,8 +291,6 @@ void Integrity::StartPeriodicCheck()
     dispatch_source_set_event_handler_f(timer,
                                         [](void*)
                                         {
-                                            const auto start = std::chrono::steady_clock::now();
-                                            const bool checkValidity = ticks % 12 == 0;
                                             if (ticks == 0)
                                             {
                                                 LogStartupGuardState();
@@ -312,39 +311,6 @@ void Integrity::StartPeriodicCheck()
                                             {
                                                 CheckValidity();
                                             }
-                                            const auto took = std::chrono::duration_cast<std::chrono::milliseconds>(
-                                                std::chrono::steady_clock::now() - start);
-                                            if (took.count() >= 20)
-                                            {
-                                                spdlog::debug("[Stall] TWASE's periodic check took {} ms on the main "
-                                                              "thread{}",
-                                                              took.count(), checkValidity ? " (with SecCodeCheckValidity)" : "");
-                                            }
                                         });
     dispatch_resume(timer);
-
-    // watchdog: how long the main thread takes to run a block posted to it every 100 ms; long waits mean events (clicks)
-    // aren't being handled either
-    std::thread(
-        []
-        {
-            pthread_setname_np("TWASE main thread watchdog");
-            while (true)
-            {
-                std::this_thread::sleep_for(std::chrono::milliseconds(100));
-                auto* done = dispatch_semaphore_create(0);
-                const auto posted = std::chrono::steady_clock::now();
-                dispatch_async_f(dispatch_get_main_queue(), done,
-                                 [](void* aDone) { dispatch_semaphore_signal(static_cast<dispatch_semaphore_t>(aDone)); });
-                dispatch_semaphore_wait(done, DISPATCH_TIME_FOREVER);
-                dispatch_release(done);
-                const auto waited = std::chrono::duration_cast<std::chrono::milliseconds>(
-                    std::chrono::steady_clock::now() - posted);
-                if (waited.count() >= 150)
-                {
-                    spdlog::debug("[Stall] main thread blocked for {} ms", waited.count());
-                }
-            }
-        })
-        .detach();
 }
