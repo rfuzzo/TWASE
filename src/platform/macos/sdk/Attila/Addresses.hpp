@@ -345,6 +345,22 @@ constexpr uint64_t CModManager_EntrySize = 0x26A0;  // + 0x00 NString file name,
 constexpr uint64_t ModEntry_Order = 0x58;
 constexpr uint64_t ModEntry_Enabled = 0x69;
 
+// CAMPAIGN UI (Steam arm64; evidence in docs/macos/addresses.md)
+// Real writable const char* slot, loaded by both encyclopedia URL builders.
+constexpr uint64_t g_EncyclopediaBaseUrl = 0x104FF0E48;
+constexpr uint64_t Encyclopedia_NativeUrl = 0x104892DDE;
+// void* (*)(ENCYCLOPEDIA_PAGES*), may replace the slot from Feral's preference.
+constexpr uint64_t Encyclopedia_ctor = 0x10287E7F0;
+constexpr uint64_t Encyclopedia_UrlLoadEntry = 0x10287EB78;
+constexpr uint64_t Encyclopedia_UrlLoadPage = 0x10287ECD4;
+// intptr_t (*)(CampaignSettlementCallback*, REGION*), initializes building slot controllers.
+constexpr uint64_t CampaignSettlement_Initialize = 0x103457800;
+// void* (*)(CampaignBuildingSlot*), clears dynamic contents and its building pointer (also called by native refresh).
+constexpr uint64_t CampaignBuildingSlot_Clear = 0x10345B30C;
+constexpr uint64_t CampaignSettlement_Component = 0x08;
+constexpr uint64_t CampaignSettlement_IsCapital = 0x70; // province-capital card, NOT currently selected region
+constexpr uint64_t CampaignSettlement_MaxSlots = 0x74;  // int32, native 4 or 6
+
 // PATCHES
 constexpr uint64_t BitSetCrashAddr = 0x101A51C58;
 

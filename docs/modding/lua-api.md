@@ -109,6 +109,53 @@ twase.enable_region_trading({
 
 A deal's score is the sum of its parts, and the AI accepts at 0 or more; the "Likelihood of success" tooltip shows the score when the deal score tweak is on.
 
+## Campaign UI
+
+These controls are process-local, not saved in a campaign. Set them from a script mod each time it loads; use `nil`
+to restore native behavior. They require the campaign UI hook to have installed successfully; setters raise a Lua
+error if it is unavailable.
+
+### `twase.set_encyclopedia_url(url) -> string`
+### `twase.get_encyclopedia_url() -> string | nil`
+
+Changes the base prefix used when the game builds encyclopedia links. Include the fragment separator or path your
+encyclopedia expects; the game still appends its own page suffix. `nil`, no argument, or `""` restores the original
+prefix. Non-string arguments and embedded NUL bytes raise a Lua error. The setter returns the active prefix; the
+getter returns `nil` if the native encyclopedia target could not be resolved.
+
+```lua
+twase.set_encyclopedia_url("http://localhost:8080/#");
+print(twase.get_encyclopedia_url());
+twase.set_encyclopedia_url(nil); -- restore the game's original URL
+```
+
+The override affects links opened after the call, not an encyclopedia page that is already open. TWASE does not
+provide an encyclopedia server or translate page identifiers for a different site.
+
+### `twase.set_max_slots_major(slots) -> number | nil`
+### `twase.set_max_slots_minor(slots) -> number | nil`
+### `twase.get_max_slots_major() -> number | nil`
+### `twase.get_max_slots_minor() -> number | nil`
+### `twase.clear_max_slots()`
+
+Overrides the building-slot display limit used when settlement cards are initialized. Values must be integers from
+1 to 20; invalid types, fractional values, and out-of-range values raise a Lua error without changing the setting.
+`nil` or no argument clears one override; `clear_max_slots()` clears both. Getters and setters return `nil` when
+that override is cleared.
+
+“Major” means the province-capital card; “minor” means the other settlements in that province. Both platform
+implementations identify the capital through the province's capital-region reference, not the currently selected card.
+
+```lua
+twase.set_max_slots_major(8);
+twase.set_max_slots_minor(6);
+-- Reopen/refresh the settlement panel to see the new display limits.
+twase.clear_max_slots();
+```
+
+This expands the UI's display limit; it does not create building slots, change settlement database records, unlock
+buildings, or supply a layout for extra cards. The campaign data and UI mod must support the intended number of slots.
+
 ## Development probes
 
 With `lua_dev_functions = true` in the `[dev]` section of `config.ini`, the table also has probes for reverse engineering. They read raw memory and may change or go away in any version; don't use them in mods.
