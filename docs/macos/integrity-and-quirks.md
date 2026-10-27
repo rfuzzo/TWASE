@@ -202,10 +202,13 @@ The `[dev]` options used are documented in [re-tooling.md](re-tooling.md#runtime
    clock readers.
 
    Fix options:
-   - **Hide the patches from the hashes.** All known guards take their base from the data slot GOT `0x104a7f590`
-     (the "anchor"). Pointing it at an unmodified copy of `__TEXT` would make them hash clean bytes. The anchor
-     function is also *executed* once, by `sub_100f66b30` (`0x100f66b54`, called from `sub_100fd9224`), so the copy
-     must be runnable with correct data, or that call handled.
+   - **Hide the patches from the hashes (implemented).** All known guards take their base from GOT `0x104a7f590`.
+     `Integrity::InstallCleanTextAnchor` snapshots `__TEXT` before TWASE changes code and redirects the slot there.
+     The executable call at `0x100f66b54` is changed to call the original function directly; copied code is never
+     executed. The anchor-page write probe is disabled in live code because either its write would corrupt the copy,
+     or denying the write would increment the counter. See [anti-tamper-overview.md](anti-tamper-overview.md#clean-text-anchor-mitigation)
+     for lifetime, failure behavior, and remaining limits. A long gameplay run without response mitigations is still
+     needed to establish whether the unidentified post-startup detector also uses this anchor.
    - **No code changes.** Hooks via hardware breakpoints (4 per thread), Objective-C swizzles or data pointers
      (vtables, function tables), and no byte patches.
    - **Mitigate the responses.** `reset_input_clock` removes stages 1–2. Stage 3 (termination) would need the timer

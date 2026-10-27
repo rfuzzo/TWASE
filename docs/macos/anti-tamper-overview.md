@@ -98,7 +98,8 @@ The main loop itself is `Feral_MainLoopRunProc` (`0x100f66b64`), installed by th
 
 ## Mitigations tested in TWASE (`[dev]` options)
 
-None of these change game code: they write data or use dyld interposing.
+The developer options below write data or use dyld interposing. The always-on clean-text anchor mitigation also
+changes two instructions, after preserving their original bytes in its snapshot.
 
 | Measure | Option | Effect |
 |---|---|---|
@@ -108,6 +109,27 @@ None of these change game code: they write data or use dyld interposing.
 | Log every detached job | always on | Call target and starter of each job |
 | Apply patches after startup | `late_patches` | Fools the startup hash, **not** the game (sessions M/M2) |
 
-Still open: disarming the `_exit(3)` command (its slot `0x104ab7a20` is known) and the fake-kernel-error exit (its
-caller isn't). Alternatively, hide the changed bytes from all hashes at once, by pointing the anchor slot at an
-unmodified copy of the code. That one has a catch: the anchor function is also executed once, from `sub_100f66b30`.
+## Clean-text anchor mitigation
+
+TWASE now installs `Integrity::InstallCleanTextAnchor` (`src/platform/macos/dylib/CleanText.cpp`) before applying any
+patches or hooks on the supported Steam build:
+
+- Copies the mapped `__TEXT` segment (0x4a74000 bytes, about 74.5 MiB) and seals it with read-only maximum protection.
+  The copy is retained until process exit. This snapshots the loaded image, not a pristine installation: existing
+  on-disk code modifications are not repaired.
+- Redirects the one executable call at `0x100f66b54` directly to the original anchor function (`0x10025cc64`), rather
+  than its GOT-backed stub (`0x104147110`). Copied code is never executed; PC-relative references remain valid.
+- Replaces the live `AntiTamper_AnchorPageWriteProbe` (`0x10025cd10`) entry with `ret`: it otherwise writes `0xcc` into
+  the snapshot on success, or increments the tamper counter when the protection change is denied.
+- Points GOT `0x104a7f590` at the anchor's corresponding address in the snapshot. Anchor-relative hash ranges now
+  read the preserved bytes, including the originals of the two instructions changed by this mitigation.
+
+Unexpected slot/call/probe bytes or installation failure stop TWASE before its normal patches and hooks. This covers
+anchor-relative hashes, not checks of other files, signatures, or an unknown check that obtains its base elsewhere.
+The post-startup detector is still unidentified; preventing every delayed response needs a long gameplay run with
+`reset_input_clock` and `disarm_tamper_responses` off. The `_exit(3)` and fake-kernel-error responses remain undisarmed.
+
+Runtime smoke (2026-10-27, supported Steam build): game reached its Metal renderer with the unit-size patch active;
+the entire snapshot `__text` matched the on-disk game before and after explicitly calling the original anchor and
+the disabled write probe. The anchor returned, the tamper counter remained 0, and `mprotect(+WRITE)` on the snapshot
+failed. This was not a long-duration gameplay test; the existing input-clock reset and response disarming remained on.

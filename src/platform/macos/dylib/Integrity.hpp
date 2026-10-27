@@ -7,6 +7,10 @@
 // (2026-10-26): in the Steam build that address is in the middle of mod_init_func_92, so we don't hook there.
 namespace Integrity
 {
+// Snapshot __TEXT before any hooks/patches, redirect the hash anchor, and keep its one executable call in the live
+// image. The snapshot lives until process exit. Failure means callers must not install code modifications.
+bool InstallCleanTextAnchor();
+
 // The kernel's code signing flags of the game process (csops), logged as "<step>: flags ..." when they changed since
 // the last call. Safe before main().
 void LogStatus(std::string_view aStep);

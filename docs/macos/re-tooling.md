@@ -176,6 +176,11 @@ Steam must be running. The game window opens on the user's screen, so tell them 
 
 Always on:
 
+- `[Integrity] Clean __TEXT anchor installed`: before patches/hooks, snapshots the loaded `__TEXT`, redirects GOT
+  `0x104a7f590`, redirects the one executable anchor call to live code, and disables the anchor-page write probe.
+  Installation failure skips normal patches/hooks. Implementation: `dylib/CleanText.cpp`; details and limits:
+  [anti-tamper-overview.md](anti-tamper-overview.md#clean-text-anchor-mitigation).
+
 - `[Integrity] Feral tamper counter` (the heap int behind `0x105019040`), logged when it changes.
 - `[InputClock] start … elapsed … (now …)` every 5 s: Feral's hidden input clock (see integrity-and-quirks.md).
 - `[Window] … frameState … grabInput … scheduledDrag …`: `CFeralNSWindow` ivars (`frameState 2` = Feral's title-bar

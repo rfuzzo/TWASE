@@ -121,6 +121,12 @@ void App::Initialize()
         return;
     }
 
+    if (!Integrity::InstallCleanTextAnchor())
+    {
+        spdlog::error("Clean text anchor could not be installed, TWASE will not apply patches or hooks");
+        return;
+    }
+
     Integrity::LogStatus("before patches and hooks");
 
     // We run before main(), the game code is already mapped, so everything can be applied right away. With [dev]
