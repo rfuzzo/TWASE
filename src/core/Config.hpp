@@ -23,6 +23,8 @@ public:
         bool watchTamperState = false;
         // Mac: keep resetting Feral's hidden "seconds since the first input event" clock (quirk experiment)
         bool resetInputClock = false;
+        // Mac: move Feral's hidden input clock this many seconds forward once, to reach the quirk quickly (0 = off)
+        int32_t inputClockOffset = 0;
         // patches and hooks to skip, by the name in the log (Mac, for finding what Feral's integrity checks notice)
         std::unordered_set<std::string> disabled;
 

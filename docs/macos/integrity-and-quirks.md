@@ -17,13 +17,16 @@ game's code was modified", not anything specific to TWASE.
 
 ## Verdict (2026-10-27)
 
-**The click quirk is driven by a hidden "seconds since the first input event" clock inside Feral's event dispatcher.**
-Every session longer than about 8 minutes lost clicks around the 8-minute mark, and no shorter one did. Keeping that
-clock reset (`[dev] reset_input_clock`) made a 13+ minute session with all TWASE features play normally.
+**The click quirk is Feral's anti-tamper response: in a game whose code was changed, input is dropped once a hidden
+"seconds since the first input event" clock passes a threshold of about 8 minutes.** Both conditions are needed:
 
-Still open: does the clock only block input when the game has detected changed code? The startup code hash does record
-TWASE's patches. The community patch reproducing the quirk without TWASE points that way. The deciding run is a long
-session with no code changes and no reset.
+- clean game, clock forced to 600 → 1250 s, 11 real minutes: clicks never fail (session H);
+- `unit_size_patch` only, clock forced to 600 s at load: clicks fail within a minute (session I);
+- all TWASE features, clock kept near 0: no quirk in 14 minutes (session G);
+- patched sessions with the normal clock: clicks fail at ~8 minutes (sessions 8, E, F).
+
+The exact threshold (between ~420 and 600 s by the timing of sessions E/F) and the code that drops the event are not
+decoded. Whether the shrinking/moving picture is the same response is not confirmed yet.
 
 | Claim | Status | Evidence |
 |---|---|---|
@@ -31,7 +34,7 @@ session with no code changes and no reset.
 | The clicks reach the game | **Confirmed** | Every left click arrives at the app within 1–10 ms while clicks fail; no main-thread stalls |
 | The game keeps a hidden input clock | **Confirmed** | `FeralEventSource_Dispatch` `0x10056c1c4` (below); live values match system uptime |
 | Resetting the clock prevents the quirk | **Confirmed once** | Session G: all features, clock reset every 5 s, 13+ min without the quirk |
-| The clock only blocks input when code was changed | **Open** | Needs a >10 min session with no code changes and no reset (and one vanilla) |
+| The clock only blocks input when code was changed | **Confirmed** | Session H (clean, clock 600–1250 s, 11 min) no quirk; session I (patch, clock 600 s) quirk within a minute |
 | Startup guards hash all of `__text` against built-in constants | **Confirmed** | Emulation: range `0x100012020`–`0x104144bb4`; one flipped byte changes their output |
 | The real game records TWASE's patch at startup | **Confirmed** | All five state words in a live `__DATA` dump equal the emulated "patched" values, not the clean ones (table below) |
 | Run-time range guards react to changed code | **No** | Live-state emulation: their complete output is identical with and without a flipped byte |
@@ -151,22 +154,30 @@ The guards are spread over the binary's modules, one startup guard and one range
 | E | All features but `lua_log` | ~10 min, **quirks at ~8 min**; `frameState` 0 throughout |
 | F | Same, plus click-delivery and main-thread stall logging | ~10 min, **quirks at ~8 min**; every click delivered within 1–10 ms, no stalls |
 | G | Same, plus `reset_input_clock` | **13+ min without the quirk**; `elapsed` stays at 1–5 s |
+| H | No code changes, `input_clock_offset = 600` | 11 min, clock 600 → 1250 s: **no quirk**, 507 clicks all delivered |
+| I | Only `unit_size_patch`, `input_clock_offset = 600`, windowed | **Clicks fail within a minute of loading**; no resizing in 5.5 min (clock 600 → 930 s) |
+| J | Same as I, left running | Clicks failing from the start; **viewport resizing from ~16:58**, 13 real min after launch, clock `elapsed 1379` s. Windowed, `NSWindow`/drawable/layer unchanged, `frameState` 0 |
 
 The `[dev]` options used are documented in [re-tooling.md](re-tooling.md#runtime-probes-in-twase).
 
 ## Open points
 
-1. **Does the clock block input without changed code?** Run TWASE with all patches/hooks disabled and no reset for
-   more than 10 minutes, and run the vanilla game from Steam the same way. If both stay clean, the gate depends on the
-   startup tamper state; if not, it's time-based regardless of mods.
-2. **Which reader of `*elapsed` drops the clicks, and its condition**: `sub_10056c700`, `sub_100cc2268`. Live-state
-   emulation (dump `__DATA`, run them at the runtime slide) or a hardware watchpoint on the `*elapsed` heap slot would
-   show it.
-3. Readers of the startup **table bytes** (`0x104da2ef0`, `0x104f6d53d`, `0x104f762d2`, `0x104d9f52d`,
-   `0x104f6be60`) and of the fifth state word (`0x10504ef00`, not watched: only four watchpoint registers).
-4. Whether the startup state changes anything that isn't a memory access by game code, e.g. what the obfuscated
-   scheduler queues. Next step: snapshot the scheduler queue at `~data_104d9c5a0` in both configurations.
-5. `mod_init_func_532` (`0x100fbeac0`) range and effect.
+1. **The threshold and the dropping code.** Bisect the threshold with `input_clock_offset` (e.g. 420 / 480 / 540 in a
+   patched game). The dropping code is in a reader of `*elapsed`: `sub_10056c700` or `sub_100cc2268`. Both also load
+   a hidden value (`0x1055e2918…2950`, logged as "cc2268 value"; it changes over time). Live-state emulation or a
+   watchpoint on the `*elapsed` heap slot would show which one gates the event.
+2. **The resize stage and the crash.** Viewport resizing is a later stage of the same response (session J: clock
+   between 930 and ~1380 s, windowed). Session J then **crashed at ~15½ real minutes** (17:01): `EXC_BAD_ACCESS` at 0,
+   a hash-table lookup (`sub_1020b9ee4`, null bucket array with a non-zero size) in a job on a game worker thread
+   (`sub_10397180c` → `sub_103971bc8` → … → `0x1020b9f50`). Ordinary code, not the obfuscated style. A crash
+   reported with `reset_input_clock` on also came at ~15 min, so a third, real-time-driven stage is possible. To
+   settle: a patched run with `reset_input_clock` past 17 min, and a clean run (no code changes) past 17 min as the
+   control.
+3. **How the startup tamper state reaches the gate.** The startup guards' state words and table bytes are the
+   detection record. Nothing was seen reading the state words during play (four of five watched), so the link may
+   go through the table bytes (`0x104da2ef0`, `0x104f6d53d`, `0x104f762d2`, `0x104d9f52d`, `0x104f6be60`) or the
+   fifth state word (`0x10504ef00`).
+4. `mod_init_func_532` (`0x100fbeac0`) range and effect.
 
 ## Context for the quirks (not causes)
 

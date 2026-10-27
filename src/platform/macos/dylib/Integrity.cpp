@@ -7,6 +7,7 @@
 #include "Hooking/Memory.hpp"
 #include "TamperWatch.hpp"
 
+#include <mach/mach_vm.h>
 #include <Security/Security.h>
 #include <dispatch/dispatch.h>
 #include <unistd.h>
@@ -78,31 +79,63 @@ void LogTamperCounter()
 // Feral's hidden input clock, kept by the central event dispatcher (FeralEventSource_Dispatch 0x10056c1c4) on every input
 // event: *start (pointer at 0x1055d8158) = the time of the first event, *elapsed (pointer behind the masked holder
 // 0x1055d8198/0x1055d81a0/0x1055d817c) = event time - start, in whole seconds of system uptime (NSEvent.timestamp).
-// [dev] reset_input_clock moves start to now, so elapsed stays near 0 (docs/macos/integrity-and-quirks.md).
-void InputClock(bool aReset)
+// [dev] reset_input_clock moves start to now, so elapsed stays near 0; [dev] input_clock_offset = N moves start N seconds
+// back once, to reach a given elapsed time quickly (docs/macos/integrity-and-quirks.md).
+void InputClock(bool aReset, int32_t aOffset)
 {
     if (!Image::Get()->IsSupported())
     {
         return;
     }
 
+    // value behind a masked holder, read without trusting the decode
+    const auto readHidden = [](uint64_t aHolder) -> std::string
+    {
+        uint64_t slot = 0;
+        int32_t value = 0;
+        mach_vm_size_t size = 0;
+        if (aHolder == 0 ||
+            mach_vm_read_overwrite(mach_task_self(), aHolder, sizeof(slot), reinterpret_cast<mach_vm_address_t>(&slot),
+                                   &size) != KERN_SUCCESS ||
+            slot == 0 ||
+            mach_vm_read_overwrite(mach_task_self(), slot, sizeof(value), reinterpret_cast<mach_vm_address_t>(&value),
+                                   &size) != KERN_SUCCESS)
+        {
+            return "?";
+        }
+        return std::to_string(value);
+    };
+    const auto resolve = [](uint64_t aAddress) { return Image::Get()->Resolve(aAddress); };
+    const auto i32 = [](uint64_t aAddress) { return static_cast<int64_t>(*Image::Get()->Resolve<const int32_t>(aAddress)); };
+    const auto u64 = [](uint64_t aAddress) { return *Image::Get()->Resolve<const uint64_t>(aAddress); };
+
     auto* start = *Image::Get()->Resolve<int32_t*>(0x1055d8158);
-    const auto holderBase = Image::Get()->Resolve(0x1055d8198);
-    const auto holderMask = *Image::Get()->Resolve<const uint64_t>(0x1055d81a0);
-    const auto holderOffset = static_cast<int64_t>(*Image::Get()->Resolve<const int32_t>(0x1055d817c));
-    const auto holder = ((holderBase ^ ~holderMask) - holderOffset) << 3;
+    const auto holder = ((resolve(0x1055d8198) ^ ~u64(0x1055d81a0)) - i32(0x1055d817c)) << 3;
     const auto* elapsed = holder ? *reinterpret_cast<int32_t* const*>(holder) : nullptr;
     if (!start || !elapsed)
     {
         return;
     }
 
+    // other hidden values the two readers of *elapsed load next to it (sub_100cc2268, sub_10056c700)
+    const auto readerA = ((resolve(0x1055e2948) ^ ~u64(0x1055e2950)) + i32(0x1055e2920)) << 4;
+    const auto readerB = ((u64(0x1055e2930) ^ resolve(0x1055e2928)) - i32(0x1055e2918)) << 1;
+
     const auto now = static_cast<uint32_t>(clock_gettime_nsec_np(CLOCK_UPTIME_RAW) / NSEC_PER_SEC);
-    spdlog::debug("[InputClock] start {} elapsed {} (now {}){}", static_cast<uint32_t>(*start),
-                  static_cast<uint32_t>(*elapsed), now, aReset ? ", resetting start" : "");
+    spdlog::debug("[InputClock] start {} elapsed {} (now {}), cc2268 value {}, 56c700 value {}{}",
+                  static_cast<uint32_t>(*start), static_cast<uint32_t>(*elapsed), now, readHidden(readerA),
+                  readHidden(readerB), aReset ? ", resetting start" : "");
     if (aReset)
     {
         *start = static_cast<int32_t>(now);
+    }
+
+    static bool offsetApplied = false;
+    if (aOffset != 0 && !offsetApplied)
+    {
+        offsetApplied = true;
+        *start = static_cast<int32_t>(now) - aOffset;
+        spdlog::info("[InputClock] moved start {} s back (input_clock_offset)", aOffset);
     }
 }
 
@@ -244,7 +277,8 @@ void Integrity::StartPeriodicCheck()
                                             const bool checkValidity = ticks % 12 == 0;
                                             WindowState::LogIfChanged();
                                             LogTamperCounter();
-                                            InputClock(App::Get()->GetConfig()->GetDev().resetInputClock);
+                                            InputClock(App::Get()->GetConfig()->GetDev().resetInputClock,
+                                                       App::Get()->GetConfig()->GetDev().inputClockOffset);
                                             if (App::Get()->GetConfig()->GetDev().watchTamperState)
                                             {
                                                 TamperWatch::Arm();

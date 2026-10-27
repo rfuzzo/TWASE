@@ -66,6 +66,7 @@ App::App()
     spdlog::debug("  dev.run_tamper_guards: {}", dev.runTamperGuards);
     spdlog::debug("  dev.watch_tamper_state: {}", dev.watchTamperState);
     spdlog::debug("  dev.reset_input_clock: {}", dev.resetInputClock);
+    spdlog::debug("  dev.input_clock_offset: {}", dev.inputClockOffset);
 
     const auto& loggingConfig = m_config.GetLogging();
     spdlog::debug("  logging.level: {}", spdlog::level::to_string_view(loggingConfig.level));

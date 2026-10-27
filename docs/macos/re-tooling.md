@@ -169,6 +169,7 @@ Steam must be running. The game window opens on the user's screen, so tell them 
 | `run_tamper_guards = true` | 30 s after start, calls the six `AntiTamper_TextRangeGuard_*` with the code as loaded, then with a never-executed `__text` byte flipped (and restored). Logs the hidden counter and every changed `__DATA` word per call, and dumps `__DATA` |
 | `watch_tamper_state = true` | Hardware watchpoints (`ARM_DEBUG_STATE64`, 4 registers) on the startup guards' state words, plus an instruction breakpoint on the `unit_size_patch` branch (logs the walked list's length), armed on every thread every 5 s. Hits go to a thread-level Mach exception port and are logged as `[TamperWatch] … at pc … (lr …, x20 …)`; a self-test read at startup proves it works. Edit `Watched[]` / `Breakpoints[]` in `src/platform/macos/dylib/TamperWatch.cpp` |
 | `reset_input_clock = true` | Sets Feral's hidden input clock start to the current uptime every 5 s, so the "seconds since the first input" value stays near 0; prevents the click quirk |
+| `input_clock_offset = N` | Moves Feral's input clock start N seconds back once (when the clock first exists), so the game behaves as if N seconds of input time had passed. With a patch, `600` reproduces the click quirk within a minute |
 
 Always on:
 
