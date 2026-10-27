@@ -23,9 +23,6 @@ private:
 
     bool AttachHooks();
 
-    // false (and logged) for a patch or hook listed in [dev] disable
-    bool IsEnabled(const std::string& aName) const;
-
     Paths m_paths;
     Config m_config;
 };

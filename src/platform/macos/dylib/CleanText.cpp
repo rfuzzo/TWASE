@@ -1,12 +1,14 @@
 #include "stdafx.hpp"
 
-#include "Integrity.hpp"
+#include "CleanText.hpp"
 #include "Image.hpp"
 #include "Hooking/Memory.hpp"
 
 #include <mach/mach.h>
 #include <mach/mach_vm.h>
 #include <mach-o/loader.h>
+
+#include <cstdlib>
 
 bool Integrity::InstallCleanTextAnchor()
 {
@@ -89,24 +91,73 @@ bool Integrity::InstallCleanTextAnchor()
         mach_vm_deallocate(mach_task_self(), copy, text->vmsize);
         return false;
     }
+    bool callAttempted = false;
+    bool probeAttempted = false;
+    bool published = false;
+    const auto stopOnRollbackFailure = []
+    {
+        // Continuing with exposed modifications can trigger delayed game failures. Do not disguise this as a
+        // successful rollback or free a snapshot that the game might still reference.
+        spdlog::critical("[Integrity] Clean text anchor rollback failed; stopping before the game runs");
+        spdlog::default_logger()->flush();
+        std::_Exit(EXIT_FAILURE);
+    };
+    const auto rollback = [&]() -> bool
+    {
+        if (published)
+        {
+            const auto writable =
+                mach_vm_protect(mach_task_self(), page, vm_page_size, false, VM_PROT_READ | VM_PROT_WRITE);
+            if (writable != KERN_SUCCESS)
+            {
+                stopOnRollbackFailure();
+            }
+            *slot = image->Resolve(Anchor);
+        }
+
+        // WriteCode can fail after copying bytes (for example, while restoring RX protection). Restore every
+        // attempted write, not just writes that reported success, and try both restorations even if one fails.
+        bool restored = true;
+        if (probeAttempted)
+        {
+            restored &= Memory::WriteCode(probe, &ExpectedProbe, sizeof(ExpectedProbe));
+        }
+        if (callAttempted)
+        {
+            restored &= Memory::WriteCode(call, &ExpectedCall, sizeof(ExpectedCall));
+        }
+        restored &= mach_vm_protect(mach_task_self(), page, vm_page_size, false, VM_PROT_READ) == KERN_SUCCESS;
+        if (!restored)
+        {
+            stopOnRollbackFailure();
+        }
+        mach_vm_deallocate(mach_task_self(), copy, text->vmsize);
+        spdlog::error("[Integrity] Clean text anchor installation failed; original code and anchor restored");
+        return false;
+    };
+
     // The write probe either corrupts the anchor byte or increments the tamper counter on permission denial. Neither
     // is meaningful for the snapshot. Disable it in live code only; the clean copy retains its original instructions.
-    if (!Memory::WriteCode(call, &DirectCall, sizeof(DirectCall)) ||
-        !Memory::WriteCode(probe, &Return, sizeof(Return)))
+    callAttempted = true;
+    if (!Memory::WriteCode(call, &DirectCall, sizeof(DirectCall)))
     {
-        mach_vm_protect(mach_task_self(), page, vm_page_size, false, VM_PROT_READ);
-        mach_vm_deallocate(mach_task_self(), copy, text->vmsize);
-        return false;
+        return rollback();
+    }
+    probeAttempted = true;
+    if (!Memory::WriteCode(probe, &Return, sizeof(Return)))
+    {
+        return rollback();
     }
 
     // Publish only after the original function is reachable without using this slot. Keep the snapshot for process life:
     // game threads and static destructors may still hash it after TWASE's own destructor runs.
     *slot = copy + Anchor - text->vmaddr;
+    published = true;
     kr = mach_vm_protect(mach_task_self(), page, vm_page_size, false, VM_PROT_READ);
     if (kr != KERN_SUCCESS)
     {
         spdlog::error("[Integrity] Cannot restore anchor slot protection: {}", mach_error_string(kr));
-        return false;
+        return rollback();
     }
     installed = true;
     spdlog::info("[Integrity] Clean __TEXT anchor installed: {:#x} bytes at {:#x}, anchor {:#x}; startup call uses live code",

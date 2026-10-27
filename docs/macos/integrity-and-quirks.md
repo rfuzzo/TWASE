@@ -7,6 +7,10 @@ Steam database (`<game root>/Total War ATTILA/Total War ATTILA.bndb`).
 
 For a summary of all the measures, see [anti-tamper-overview.md](anti-tamper-overview.md).
 
+This is an investigation history. All diagnostic options and periodic logs mentioned below have been removed;
+they are not instructions for the current build. Current runtime behavior is limited to the always-on clean-text
+anchor and normal game/TWASE logging; see the overview for its one-time logs, failure behavior, and limitations.
+
 ## The question
 
 Two quirks appear while playing with TWASE:
@@ -69,8 +73,8 @@ reads `*elapsed`: `sub_10056c700` (vector-growing, many callers) and `sub_100cc2
 in the same obfuscated style. Which of them turns the elapsed time into dropped clicks, and on what condition, is not
 decoded yet.
 
-`[dev] reset_input_clock` sets `*start` to the current uptime every 5 s, so `*elapsed` never exceeds ~5 s. The probe
-logs `[InputClock] start … elapsed … (now …)` every 5 s either way.
+The historical `[dev] reset_input_clock` probe set `*start` to the current uptime every 5 s, so `*elapsed` never
+exceeded ~5 s. It logged `[InputClock] start … elapsed … (now …)` every 5 s. Both the option and probe are removed.
 
 ### Correction to the first version of this note
 
@@ -176,14 +180,20 @@ The guards are spread over the binary's modules, one startup guard and one range
 | R | Same, plus logging of `_exit`, `_Exit`, `abort`, `kill`, `raise` | **`_exit(3)` at ~23 min** from scheduler command `sub_1007b3178` (call slot `0x104ab7a20`), run from the main loop |
 | S | Same, plus the game's `CFAbsoluteTimeGetCurrent` (interposed) moved 1080 s forward 35 s after launch, to bring stage 3 forward | **No effect**: nothing fired in the 6½ min after the skip, though the game's clock passed both the ~1103 s and ~1390 s marks. The stage-3 timers don't run on that clock (the per-minute launcher `0x100fbc5c4` kept its real ~59 s rhythm). Option removed again |
 
-The `[dev]` options used are documented in [re-tooling.md](re-tooling.md#runtime-probes-in-twase).
+The removed `[dev]` options are recorded as history in [re-tooling.md](re-tooling.md#runtime-probes-in-twase).
+
+A subsequent clean-anchor run on the supported build lasted 40 minutes with the original unmasked settings
+`reset_input_clock = false`, `disarm_tamper_responses = false`, and `input_clock_offset = 600`. The hidden counter
+stayed 0; the process survived until the scheduled `SIGTERM`. Visual input/viewport quirks were not verified.
+These now-removed settings describe that run only, not a current configuration recipe. The run predates the
+diagnostic cleanup and is not verification of that cleanup.
 
 ## Open points
 
-1. **The threshold and the dropping code.** Bisect the threshold with `input_clock_offset` (e.g. 420 / 480 / 540 in a
-   patched game). The dropping code is in a reader of `*elapsed`: `sub_10056c700` or `sub_100cc2268`. Both also load
-   a hidden value (`0x1055e2918…2950`, logged as "cc2268 value"; it changes over time). Live-state emulation or a
-   watchpoint on the `*elapsed` heap slot would show which one gates the event.
+1. **The threshold and the dropping code.** The exact threshold remains unresolved; the historical offset probe is
+   no longer available. The dropping code is in a reader of `*elapsed`: `sub_10056c700` or `sub_100cc2268`. Both also
+   load a hidden value (`0x1055e2918…2950`, historically logged as "cc2268 value"; it changes over time). Live-state
+   emulation or a separately arranged watchpoint on the `*elapsed` heap slot could distinguish the readers.
 2. **The termination stage.** Session J **crashed at ~15½ real minutes** (17:01). The main thread was in `exit()`,
    called from a timer: `__NSFireDelayedPerform` → `sub_100f66b64` (obfuscated) → `sub_100f83c20` → `sub_100f858f0` →
    `sub_100bbf6f8`/`sub_100bbb9cc` (obfuscated) → `sub_10023ff94` (scheduler) → `sub_100fac820` → `exit()`. A
@@ -207,12 +217,12 @@ The `[dev]` options used are documented in [re-tooling.md](re-tooling.md#runtime
      The executable call at `0x100f66b54` is changed to call the original function directly; copied code is never
      executed. The anchor-page write probe is disabled in live code because either its write would corrupt the copy,
      or denying the write would increment the counter. See [anti-tamper-overview.md](anti-tamper-overview.md#clean-text-anchor-mitigation)
-     for lifetime, failure behavior, and remaining limits. A long gameplay run without response mitigations is still
-     needed to establish whether the unidentified post-startup detector also uses this anchor.
+     for lifetime, transactional failure behavior, and remaining limits. The 40-minute run above establishes
+     process survival in that run, not whether the unidentified post-startup detector uses this anchor.
    - **No code changes.** Hooks via hardware breakpoints (4 per thread), Objective-C swizzles or data pointers
      (vtables, function tables), and no byte patches.
-   - **Mitigate the responses.** `reset_input_clock` removes stages 1–2. Stage 3 (termination) would need the timer
-     or thread that starts it disarmed, which is still unknown.
+   - **Mitigate the responses (historical alternative, removed).** The former `reset_input_clock` removed stages
+     1–2; response disarming was incomplete. Current TWASE does not reset clocks or suppress termination responses.
 4. **How the startup tamper state reaches the responses.** The startup guards' state words and table bytes are the
    detection record. Nothing was seen reading the state words during play (four of five watched), so the link may
    go through the table bytes (`0x104da2ef0`, `0x104f6d53d`, `0x104f762d2`, `0x104d9f52d`, `0x104f6be60`) or the
@@ -221,8 +231,8 @@ The `[dev]` options used are documented in [re-tooling.md](re-tooling.md#runtime
 
 ## Context for the quirks (not causes)
 
-- The `[Window]` log keeps the `NSWindow` and the Metal drawable (2304×1440) constant while the picture shrinks, so the
-  change happens in game-side values (viewport, scale or input mapping).
+- The historical `[Window]` log kept the `NSWindow` and the Metal drawable (2304×1440) constant while the picture
+  shrank, so the change happened in game-side values (viewport, scale or input mapping). This probe is removed.
 - Tabbing out runs `-[CFeralNSApplication applicationDidBecomeActive:]` / `-[CFeralNSWindow onWindowDidBecomeKey:]`,
   which re-send activation events and re-run `updatePresentationOptions`.
 - Feral's display settings in `Preferences Data` (`EnableNotchCompatibilityMode = 1`, `NotchCompatibilityModeActive =

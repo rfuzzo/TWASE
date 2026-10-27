@@ -17,24 +17,6 @@ public:
         bool waitForDebugger = false;
         bool traceLuaLoads = false;
         bool luaDevFunctions = false;
-        // Mac: call Feral's anti-tamper code guards directly and log the tamper counter (reverse engineering)
-        bool runTamperGuards = false;
-        // Mac: hardware watchpoints on the state of Feral's startup code guards, logging who reads it
-        bool watchTamperState = false;
-        // Mac: keep resetting Feral's hidden "seconds since the first input event" clock (quirk experiment)
-        bool resetInputClock = false;
-        // Mac: move Feral's hidden input clock this many seconds forward once, to reach the quirk quickly (0 = off)
-        int32_t inputClockOffset = 0;
-        // Mac: apply byte patches from the game's run loop instead of before main(), after the game's startup code hash
-        bool latePatches = false;
-        // Mac: remap one code page with unchanged bytes (does the game notice the remap or the content?)
-        bool remapIdentical = false;
-        // Mac: point the call slots of Feral's known termination responses at no-ops that log (data change, no code)
-        bool disarmTamperResponses = false;
-        // patches and hooks to skip, by the name in the log (Mac, for finding what Feral's integrity checks notice)
-        std::unordered_set<std::string> disabled;
-
-        bool IsDisabled(const std::string& aName) const { return disabled.contains(aName); }
     };
 
     struct ScriptConfig

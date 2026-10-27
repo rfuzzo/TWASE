@@ -96,23 +96,24 @@ The main loop itself is `Feral_MainLoopRunProc` (`0x100f66b64`), installed by th
   like ordinary bugs or system trouble.
 - **Strings:** names of Steam API functions and requirement strings are XOR-encoded in the code.
 
-## Mitigations tested in TWASE (`[dev]` options)
+## Historical mitigation experiments (removed)
 
-The developer options below write data or use dyld interposing. The always-on clean-text anchor mitigation also
-changes two instructions, after preserving their original bytes in its snapshot.
+The following records describe the investigation build, not current configuration options. The diagnostic switches,
+periodic probes, response disarming, and dyld interposing have been removed. The clean-text anchor below is retained.
 
 | Measure | Option | Effect |
 |---|---|---|
 | Keep the input clock at 0 | `reset_input_clock` | Prevents stages 1 and 2 (session G) |
 | Disarm memory and stack exhaustion | `disarm_tamper_responses` | Both blocked every minute from ~18 min on (sessions Q, R) |
-| Log every way of quitting | always on | `exit`, `_exit`, `_Exit`, `abort`, `kill`, `raise` logged with their caller (found the `_exit(3)` command) |
-| Log every detached job | always on | Call target and starter of each job |
+| Log every way of quitting | historical, always on | `exit`, `_exit`, `_Exit`, `abort`, `kill`, `raise` logged with their caller (found the `_exit(3)` command) |
+| Log every detached job | historical, always on | Call target and starter of each job |
 | Apply patches after startup | `late_patches` | Fools the startup hash, **not** the game (sessions M/M2) |
 
 ## Clean-text anchor mitigation
 
-TWASE now installs `Integrity::InstallCleanTextAnchor` (`src/platform/macos/dylib/CleanText.cpp`) before applying any
-patches or hooks on the supported Steam build:
+TWASE always installs `Integrity::InstallCleanTextAnchor`, declared in `src/platform/macos/dylib/CleanText.hpp` and
+implemented in `CleanText.cpp`, before applying any patches or hooks on the supported Steam build. It installs no
+timer, dyld interposing, or termination-response suppression:
 
 - Copies the mapped `__TEXT` segment (0x4a74000 bytes, about 74.5 MiB) and seals it with read-only maximum protection.
   The copy is retained until process exit. This snapshots the loaded image, not a pristine installation: existing
@@ -124,12 +125,32 @@ patches or hooks on the supported Steam build:
 - Points GOT `0x104a7f590` at the anchor's corresponding address in the snapshot. Anchor-relative hash ranges now
   read the preserved bytes, including the originals of the two instructions changed by this mitigation.
 
-Unexpected slot/call/probe bytes or installation failure stop TWASE before its normal patches and hooks. This covers
-anchor-relative hashes, not checks of other files, signatures, or an unknown check that obtains its base elsewhere.
-The post-startup detector is still unidentified; preventing every delayed response needs a long gameplay run with
-`reset_input_clock` and `disarm_tamper_responses` off. The `_exit(3)` and fake-kernel-error responses remain undisarmed.
+Unexpected slot/call/probe bytes or installation failure stop TWASE before its normal patches and hooks. Failed
+setup restores the original instructions, anchor slot, and protection; rollback failure stops the process rather
+than allowing it to run with partially modified state. This covers anchor-relative hashes, not checks of other
+files, signatures, or an unknown check that obtains its base elsewhere. The post-startup detector is still
+unidentified. The `_exit(3)` and fake-kernel-error responses are not suppressed.
 
 Runtime smoke (2026-10-27, supported Steam build): game reached its Metal renderer with the unit-size patch active;
 the entire snapshot `__text` matched the on-disk game before and after explicitly calling the original anchor and
 the disabled write probe. The anchor returned, the tamper counter remained 0, and `mprotect(+WRITE)` on the snapshot
 failed. This was not a long-duration gameplay test; the existing input-clock reset and response disarming remained on.
+
+A subsequent supported-build run lasted 40 minutes with the original diagnostic settings
+`reset_input_clock = false`, `disarm_tamper_responses = false`, and `input_clock_offset = 600`. The hidden counter
+remained 0, and the process survived until the scheduled `SIGTERM`. Click loss and viewport quirks were not visually
+verified, so this establishes process survival for that run, not absence of all symptoms or identification of the
+post-startup detector. These settings record that historical run; none is a current configuration option. Neither
+run verifies the later diagnostic cleanup.
+
+Current runtime evidence is the one-time `[Integrity] Clean __TEXT anchor installed` message (or an installation
+error) in the normal TWASE log. There are no periodic tamper-counter, input-clock, window-state, or termination
+interposition logs.
+
+Cleanup verification (2026-10-28): the reduced build loaded `auto_save.save`, reached the campaign's
+`FirstTickAfterWorldCreated`, attached the Lua log sink and normal hooks, and exited with status 0 after a quit
+request. The built dylib has no `__interpose` section or Security framework dependency; the removed periodic logs
+were absent. A temporary failure-injection harness compiling the actual installer reproduced the partial-write
+bug before the fix, then verified rollback for failures before/after each code write and during slot-protection
+restoration. It also verified successful installation and process termination when rollback itself fails. These
+checks do not replace a long-duration gameplay run of the reduced build or visual verification of input/viewport.

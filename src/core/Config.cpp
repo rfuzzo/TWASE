@@ -206,27 +206,6 @@ bool Config::Save(const std::filesystem::path& aFile, std::string& aError)
                  "Log every Lua chunk the game loads (needs logging.level = \"trace\")");
         SetValue(dev, "lua_dev_functions", m_dev.luaDevFunctions,
                  "Add the twase.dev_* probes for reverse engineering to the Lua API");
-        SetValue(dev, "run_tamper_guards", m_dev.runTamperGuards,
-                 "Mac: call Feral's anti-tamper code guards 30 s after start and log the tamper counter");
-        SetValue(dev, "watch_tamper_state", m_dev.watchTamperState,
-                 "Mac: hardware watchpoints on Feral's anti-tamper state, logging the code that touches it");
-        SetValue(dev, "reset_input_clock", m_dev.resetInputClock,
-                 "Mac: keep resetting Feral's hidden input clock (experiment for the click quirk)");
-        SetValue(dev, "input_clock_offset", m_dev.inputClockOffset,
-                 "Mac: move Feral's hidden input clock this many seconds forward once (0 = off)");
-        SetValue(dev, "late_patches", m_dev.latePatches,
-                 "Mac: apply byte patches after the game's startup code hash (experiment for the anti-tamper quirks)");
-        SetValue(dev, "remap_identical", m_dev.remapIdentical,
-                 "Mac: remap one code page with unchanged bytes (anti-tamper experiment)");
-        SetValue(dev, "disarm_tamper_responses", m_dev.disarmTamperResponses,
-                 "Mac: disarm Feral's known termination responses (data slots, no code change)");
-        if (!dev.contains("disable"))
-        {
-            // never changed at runtime, keep whatever the file has
-            dev["disable"] = toml::ordered_array{};
-            dev["disable"].comments().push_back(
-                " Mac: patches and hooks to skip, e.g. [\"unit_size_patch\", \"region_trading\"] (names in the log)");
-        }
 
         // write to a temporary file first so a failed write doesn't destroy the config
         auto tempFile = aFile;
@@ -264,17 +243,6 @@ void Config::DevConfig::LoadV0(const toml::value& aConfig)
     waitForDebugger = toml::find_or(aConfig, "dev", "wait_for_debugger", waitForDebugger);
     traceLuaLoads = toml::find_or(aConfig, "dev", "trace_lua_loads", traceLuaLoads);
     luaDevFunctions = toml::find_or(aConfig, "dev", "lua_dev_functions", luaDevFunctions);
-    runTamperGuards = toml::find_or(aConfig, "dev", "run_tamper_guards", runTamperGuards);
-    watchTamperState = toml::find_or(aConfig, "dev", "watch_tamper_state", watchTamperState);
-    resetInputClock = toml::find_or(aConfig, "dev", "reset_input_clock", resetInputClock);
-    inputClockOffset = toml::find_or(aConfig, "dev", "input_clock_offset", inputClockOffset);
-    latePatches = toml::find_or(aConfig, "dev", "late_patches", latePatches);
-    remapIdentical = toml::find_or(aConfig, "dev", "remap_identical", remapIdentical);
-    disarmTamperResponses = toml::find_or(aConfig, "dev", "disarm_tamper_responses", disarmTamperResponses);
-
-    std::vector<std::string> disabledNames;
-    disabledNames = toml::find_or(aConfig, "dev", "disable", disabledNames);
-    disabled.insert(disabledNames.begin(), disabledNames.end());
 }
 
 void Config::ScriptConfig::LoadV0(const toml::value& aConfig)

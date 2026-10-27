@@ -139,13 +139,13 @@ The harness is about 60 lines of Python and isn't checked in; rebuild it from th
 
 ### Emulating with the live game's state
 
-Static data is often not enough: the guards decode their parameters from state set up by other initializers. Dump the
-game's `__DATA`…`__common` from inside the process (`[dev] run_tamper_guards` writes `data-before.bin`,
-`data-clean.bin` and `data-flipped.bin` to `TWASE/logs`, with the slide in the log), then emulate at the **runtime**
-base (`0x100000000 + slide`). The masked pointers XOR in their own runtime addresses, so emulating at the unslid
-base decodes them wrongly. Add the slide to every rebased slot in `__DATA_CONST`, set the GOT anchor to
-`0x10025cc64 + slide`, map unmapped heap pages as zero on demand, and log them. On 2026-10-27 this reproduced the
-writes of guard `0x100bbd54c` in the real game byte for byte.
+Static data was not enough: the guards decode parameters from state set up by other initializers. The historical
+`run_tamper_guards` probe dumped `__DATA`…`__common` as `data-before.bin`, `data-clean.bin`, and `data-flipped.bin`
+in `TWASE/logs`, with the slide in the log. That probe is removed; current TWASE does not generate these dumps.
+When working with such a captured dump, emulate at the **runtime** base (`0x100000000 + slide`). The masked pointers
+XOR in their own runtime addresses, so emulating at the unslid base decodes them wrongly. Add the slide to every
+rebased slot in `__DATA_CONST`, set the GOT anchor to `0x10025cc64 + slide`, map unmapped heap pages as zero on demand,
+and log them. On 2026-10-27 this reproduced writes of guard `0x100bbd54c` in the real game byte for byte.
 
 ## Running the game from an agent
 
@@ -156,35 +156,36 @@ Steam must be running. The game window opens on the user's screen, so tell them 
   Run it as a background job and read `TWASE/logs/twase-*.log` (newest file).
 - Quit with `osascript -e 'tell application id "com.feralinteractive.attilatw" to quit'`. It prints "User cancelled
   (-128)" but the game exits, and the launcher puts Feral's preferences back.
-- `xmake` rebuilds and copies `libTWASE.dylib` into the game in about 2 s. Change `[dev]` options in
-  `TWASE/config.ini`, not in the repo.
+- `xmake` rebuilds and copies `libTWASE.dylib` into the game. The investigation-only `[dev]` switches described below
+  no longer exist; do not add them to `TWASE/config.ini`.
 
 ### Runtime probes in TWASE
 
-`[dev]` options in `TWASE/config.ini` (Mac, reverse engineering only):
+The runtime probes used during the investigation have been removed. The names below explain historical run logs,
+not supported configuration or instructions to reproduce those probes:
 
-| Option | Does |
+| Removed option | Historical purpose |
 |---|---|
-| `disable = [...]` | Skips patches/hooks by the name in the log, e.g. everything but `unit_size_patch` for a one-instruction test |
-| `run_tamper_guards = true` | 30 s after start, calls the six `AntiTamper_TextRangeGuard_*` with the code as loaded, then with a never-executed `__text` byte flipped (and restored). Logs the hidden counter and every changed `__DATA` word per call, and dumps `__DATA` |
-| `watch_tamper_state = true` | Hardware watchpoints (`ARM_DEBUG_STATE64`, 4 registers) on the startup guards' state words, plus an instruction breakpoint on the `unit_size_patch` branch (logs the walked list's length), armed on every thread every 5 s. Hits go to a thread-level Mach exception port and are logged as `[TamperWatch] … at pc … (lr …, x20 …)`; a self-test read at startup proves it works. Edit `Watched[]` / `Breakpoints[]` in `src/platform/macos/dylib/TamperWatch.cpp` |
-| `reset_input_clock = true` | Sets Feral's hidden input clock start to the current uptime every 5 s, so the "seconds since the first input" value stays near 0; prevents the click quirk |
-| `input_clock_offset = N` | Moves Feral's input clock start N seconds back once (when the clock first exists), so the game behaves as if N seconds of input time had passed. With a patch, `600` reproduces the click quirk within a minute |
-| `late_patches = true` | Applies the byte patches (`unit_size_patch`) from the game's run loop instead of the dylib constructor, i.e. after the game's static initializers and their `__text` hash (fools that hash, not the game) |
-| `remap_identical = true` | Remaps the `unit_size_patch` page with its own bytes, to separate "page was remapped" from "bytes changed" (the game only reacts to changed bytes) |
-| `disarm_tamper_responses = true` | Points the call slots of Feral's known termination responses (memory and stack exhaustion, `TamperResponse.cpp`) at functions that only log `[TamperResponse] … fired, disarmed`. Always on, regardless of this option: every detached job (`[TamperResponse] detached job: call …`) and every `exit`/`_exit`/`_Exit`/`abort`/`kill`/`raise` (with backtrace) is logged via dyld interposing |
+| `disable` | Skipped individual patches/hooks for isolation tests |
+| `run_tamper_guards` | Called range guards on loaded and temporarily flipped text, logged data changes and counter, and dumped `__DATA` |
+| `watch_tamper_state` | Installed per-thread hardware watchpoints and instruction breakpoints, with Mach-exception hit logging |
+| `reset_input_clock` | Reset the hidden clock every 5 s to keep elapsed input time near zero |
+| `input_clock_offset` | Moved the input clock start back once; an offset of 600 s accelerated click-loss experiments |
+| `late_patches` | Applied byte patches after static initializers to distinguish startup hashes from later detection |
+| `remap_identical` | Remapped unchanged code to distinguish remapping from changed bytes |
+| `disarm_tamper_responses` | Redirected known memory/stack-exhaustion response slots to logging functions; did not suppress all responses |
 
-Always on:
+The investigation also logged detached jobs and termination APIs through dyld interposing, sampled the hidden
+tamper counter and input clock, and logged window/Metal state. Those logs and their runtime implementations
+(`Integrity.cpp/.hpp`, `TamperResponse.cpp/.hpp`, `TamperWatch.cpp/.hpp`, and `Hooks/WindowState.mm/.hpp`) are removed.
+Do not edit those deleted files or expect `[TamperWatch]`, `[TamperResponse]`, `[InputClock]`, or `[Window]` logs.
 
-- `[Integrity] Clean __TEXT anchor installed`: before patches/hooks, snapshots the loaded `__TEXT`, redirects GOT
-  `0x104a7f590`, redirects the one executable anchor call to live code, and disables the anchor-page write probe.
-  Installation failure skips normal patches/hooks. Implementation: `dylib/CleanText.cpp`; details and limits:
-  [anti-tamper-overview.md](anti-tamper-overview.md#clean-text-anchor-mitigation).
-
-- `[Integrity] Feral tamper counter` (the heap int behind `0x105019040`), logged when it changes.
-- `[InputClock] start … elapsed … (now …)` every 5 s: Feral's hidden input clock (see integrity-and-quirks.md).
-- `[Window] … frameState … grabInput … scheduledDrag …`: `CFeralNSWindow` ivars (`frameState 2` = Feral's title-bar
-  live drag).
+The retained, always-on `Integrity::InstallCleanTextAnchor` is declared in `CleanText.hpp` and implemented in
+`src/platform/macos/dylib/CleanText.cpp`. Before normal patches/hooks it snapshots loaded `__TEXT`, redirects GOT
+`0x104a7f590`, redirects the executable anchor call to live code, and disables the anchor-page write probe. It has
+no timer, interposing, or response suppression. Failed setup rolls back the original instructions, slot, and
+protection; rollback failure stops the process. See
+[anti-tamper-overview.md](anti-tamper-overview.md#clean-text-anchor-mitigation) for lifetime, evidence, and limits.
 
 ## Shell tools
 
@@ -203,7 +204,11 @@ device can drive it if needed.
 
 ## Runtime evidence
 
-- TWASE logs every 5 s when it changes: `[Window] …` (NSWindow frames, fullscreen/key state, CAMetalLayer drawable and
-  bounds) from `src/platform/macos/dylib/Hooks/WindowState.mm`, and `[Integrity] …` (csops flags,
-  `SecCodeCheckValidity`) from `src/platform/macos/dylib/Integrity.cpp`.
-- `[dev] disable = [...]` in `TWASE/config.ini` skips individual patches/hooks (names in the log's `Skipping …` lines).
+- Read the normal `TWASE/logs/twase-*.log` for startup, patch/hook, and game logging. A successful anchor installation
+  emits the one-time `[Integrity] Clean __TEXT anchor installed` message with snapshot size/address and anchor;
+  failures emit an installation error and prevent normal TWASE patches/hooks.
+- No periodic integrity, tamper-counter, input-clock, or window-state sampler remains, and termination APIs and
+  detached jobs are not interposed. Existing historical logs remain evidence of their original runs only.
+- The supported-build 40-minute clean-anchor run used the then-existing settings `reset_input_clock = false`,
+  `disarm_tamper_responses = false`, `input_clock_offset = 600`: counter 0, survival until scheduled `SIGTERM`.
+  Visual quirks were not verified, and this was not a smoke test of the subsequent diagnostic cleanup.

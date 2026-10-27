@@ -46,7 +46,7 @@ target("twase")
     -- links
     add_packages("fmt", "spdlog", "toml11", "dobby", "imgui")
     -- Foundation makes dyld initialize it before our constructor runs
-    add_frameworks("CoreFoundation", "Foundation", "AppKit", "Carbon", "Metal", "QuartzCore", "Security")
+    add_frameworks("CoreFoundation", "Foundation", "AppKit", "Carbon", "Metal", "QuartzCore")
 
     -- Post-build: copy libTWASE.dylib to <gameroot>/TWASE and the launcher to <gameroot>
     after_build(function (target)
