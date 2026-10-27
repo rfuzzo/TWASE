@@ -5,6 +5,8 @@ Addresses are unslid VAs (image base `0x100000000`); runtime = VA + ASLR slide. 
 Unicorn emulation and runs of the real game, see [re-tooling.md](re-tooling.md). The functions below are named in the
 Steam database (`<game root>/Total War ATTILA/Total War ATTILA.bndb`).
 
+For a summary of all the measures, see [anti-tamper-overview.md](anti-tamper-overview.md).
+
 ## The question
 
 Two quirks appear while playing with TWASE:
@@ -169,6 +171,9 @@ The guards are spread over the binary's modules, one startup guard and one range
 | M / M2 | `unit_size_patch` applied late (`late_patches`, ~100 ms after init, from the run loop), clock 600 s | Startup state words all **clean** (M2, compared with emulation at slide `0xcdc000`), but **clicks still fail** |
 | N | Same, plus `run_tamper_guards` (dumps at 30 s) | Live-state emulation of all seven range guards from this clean-start dump: identical output for clean and patched code |
 | O | No byte change: the `unit_size_patch` page remapped with its own bytes (`remap_identical`), clock 600 s | **Clicks keep working**: the game reacts to changed bytes, not to a remapped page |
+| P | All features, `reset_input_clock`, memory-exhaustion response disarmed | Disarm fired at 18:38 and 18:39; **crash at ~19½ min**: a second response, unbounded recursion on a detached thread (`sub_100fbcb58`, call slot `0x104b21490`) |
+| Q | Same, both responses disarmed (`disarm_tamper_responses`), detached jobs logged | Both responses blocked every minute from ~18 min; **quit with status 3 at ~23 min**, no crash, no `exit()` |
+| R | Same, plus logging of `_exit`, `_Exit`, `abort`, `kill`, `raise` | **`_exit(3)` at ~23 min** from scheduler command `sub_1007b3178` (call slot `0x104ab7a20`), run from the main loop |
 
 The `[dev]` options used are documented in [re-tooling.md](re-tooling.md#runtime-probes-in-twase).
 

@@ -172,6 +172,7 @@ Steam must be running. The game window opens on the user's screen, so tell them 
 | `input_clock_offset = N` | Moves Feral's input clock start N seconds back once (when the clock first exists), so the game behaves as if N seconds of input time had passed. With a patch, `600` reproduces the click quirk within a minute |
 | `late_patches = true` | Applies the byte patches (`unit_size_patch`) from the game's run loop instead of the dylib constructor, i.e. after the game's static initializers and their `__text` hash (fools that hash, not the game) |
 | `remap_identical = true` | Remaps the `unit_size_patch` page with its own bytes, to separate "page was remapped" from "bytes changed" (the game only reacts to changed bytes) |
+| `disarm_tamper_responses = true` | Points the call slots of Feral's known termination responses (memory and stack exhaustion, `TamperResponse.cpp`) at functions that only log `[TamperResponse] … fired, disarmed`. Always on, regardless of this option: every detached job (`[TamperResponse] detached job: call …`) and every `exit`/`_exit`/`_Exit`/`abort`/`kill`/`raise` (with backtrace) is logged via dyld interposing |
 
 Always on:
 

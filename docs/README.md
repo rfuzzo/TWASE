@@ -32,10 +32,10 @@ What we found out about the game, independent of the platform. Exact addresses a
 
 - Mac (Feral 1.6.1): [addresses](macos/addresses.md), and the [history of the macOS port](macos/PLAN.md)
 - Mac reverse engineering: [toolkit quick start](macos/re-tooling.md) (Binary Ninja over MCP, xref scanner, Unicorn
-  emulation, paths; the open-twa Binary Ninja database is the Mac App Store build, not Steam),
-  [integrity checks and the in-game quirks](macos/integrity-and-quirks.md): the quirks are Feral's anti-tamper
-  response to code patched before startup (lost clicks after ~8 min of input, viewport resizing, then termination at
-  ~15–20 min); a clean game shows none of them
+  emulation, paths; the open-twa Binary Ninja database is the Mac App Store build, not Steam)
+- [Feral's anti-tamper: an overview](macos/anti-tamper-overview.md): what the game checks and how it degrades a modified
+  game (dropped input after ~8 min, a moving viewport, then a crash or quit at ~15–25 min); the full investigation
+  is in [integrity checks and the in-game quirks](macos/integrity-and-quirks.md)
 - Windows (`empire.retail.dll`): `src/platform/win32/sdk/Attila/Addresses.hpp`, [patches](../patches/patches.md)
 - [Windows port of the Mac features](windows-port.md) (plan)
 
