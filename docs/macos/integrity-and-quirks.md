@@ -17,18 +17,23 @@ game's code was modified", not anything specific to TWASE.
 
 ## Verdict (2026-10-27)
 
-**The click quirk is Feral's anti-tamper response: in a game whose code was changed, input is dropped once a hidden
-"seconds since the first input event" clock passes a threshold of about 8 minutes.** Both conditions are needed:
+**The quirks are Feral's anti-tamper response, in three stages, all only in a game whose code was changed before
+startup:**
 
-- clean game, clock forced to 600 → 1250 s, 11 real minutes: clicks never fail (session H);
-- `unit_size_patch` only, clock forced to 600 s at load: clicks fail within a minute (session I);
-- all TWASE features, clock kept near 0: no quirk in 14 minutes (session G);
-- patched sessions with the normal clock: clicks fail at ~8 minutes (sessions 8, E, F).
+1. **Lost clicks** once a hidden "seconds since the first input event" clock passes ~8 minutes (sessions 8, E, F, I).
+2. **Viewport resizing/moving** later, with the clock between ~930 and ~1380 s (session J).
+3. **Termination** at roughly 15–20 real minutes, **independent of that clock**: `exit()` called from a timer (session
+   J) or a thread that grows `malloc` until it fails and writes through NULL (session L, with the clock held at 0).
 
-The exact threshold (between ~420 and 600 s by the timing of sessions E/F) and the code that drops the event are not
-decoded. Diplomacy is not part of the trigger: the clock counts every input event (mouse moves, keys, clicks), and the
-diplomacy screens were just where most clicking happened when the threshold passed. The shrinking/moving picture is a
-later stage of the same response (session J); a crash at ~15 minutes may be a third (open point 2).
+A clean game shows none of them (H: clock forced to 1250 s, 11 min; K: 21½ min). Resetting the clock
+(`reset_input_clock`) prevents stages 1 and 2 but not 3 (session L), matching a user report. The game detects changed
+code **bytes**, both at startup and later: applying the patch after the startup hash fools that hash but not the game
+(sessions M/M2), while remapping a page with unchanged bytes goes unnoticed (session O). Fix options are listed under
+open point 3.
+
+Diplomacy is not part of the trigger: the clock counts every input event (mouse moves, keys, clicks), and the
+diplomacy screens were just where most clicking happened. The exact click threshold and the dropping code are not
+decoded.
 
 | Claim | Status | Evidence |
 |---|---|---|
@@ -160,6 +165,10 @@ The guards are spread over the binary's modules, one startup guard and one range
 | I | Only `unit_size_patch`, `input_clock_offset = 600`, windowed | **Clicks fail within a minute of loading**; no resizing in 5.5 min (clock 600 → 930 s) |
 | J | Same as I, left running | Clicks failing from the start; **viewport resizing from ~16:58**, 13 real min after launch, clock `elapsed 1379` s. Windowed, `NSWindow`/drawable/layer unchanged, `frameState` 0; **crash at ~15½ min** (17:01, open point 2) |
 | K | No code changes, no offset, no fix (control for J's crash) | 21½ min, clock 834 s: no quirk, **no crash** |
+| L | Only `unit_size_patch`, `reset_input_clock` | No click loss, no resizing; **crash at ~19½ min** (17:50), clock held at 0 |
+| M / M2 | `unit_size_patch` applied late (`late_patches`, ~100 ms after init, from the run loop), clock 600 s | Startup state words all **clean** (M2, compared with emulation at slide `0xcdc000`), but **clicks still fail** |
+| N | Same, plus `run_tamper_guards` (dumps at 30 s) | Live-state emulation of all seven range guards from this clean-start dump: identical output for clean and patched code |
+| O | No byte change: the `unit_size_patch` page remapped with its own bytes (`remap_identical`), clock 600 s | **Clicks keep working**: the game reacts to changed bytes, not to a remapped page |
 
 The `[dev]` options used are documented in [re-tooling.md](re-tooling.md#runtime-probes-in-twase).
 
@@ -169,18 +178,37 @@ The `[dev]` options used are documented in [re-tooling.md](re-tooling.md#runtime
    patched game). The dropping code is in a reader of `*elapsed`: `sub_10056c700` or `sub_100cc2268`. Both also load
    a hidden value (`0x1055e2918…2950`, logged as "cc2268 value"; it changes over time). Live-state emulation or a
    watchpoint on the `*elapsed` heap slot would show which one gates the event.
-2. **The resize stage and the crash.** Viewport resizing is a later stage of the same response (session J: clock
-   between 930 and ~1380 s, windowed). Session J then **crashed at ~15½ real minutes** (17:01): `EXC_BAD_ACCESS` at 0,
+2. **The termination stage.** Session J **crashed at ~15½ real minutes** (17:01). The main thread was in `exit()`,
+   called from a timer: `__NSFireDelayedPerform` → `sub_100f66b64` (obfuscated) → `sub_100f83c20` → `sub_100f858f0` →
+   `sub_100bbf6f8`/`sub_100bbb9cc` (obfuscated) → `sub_10023ff94` (scheduler) → `sub_100fac820` → `exit()`. A
+   worker thread then faulted on data the exit had already destroyed: `EXC_BAD_ACCESS` at 0,
    a hash-table lookup (`sub_1020b9ee4`, null bucket array with a non-zero size) in a job on a game worker thread
-   (`sub_10397180c` → `sub_103971bc8` → … → `0x1020b9f50`). Ordinary code, not the obfuscated style. A crash
-   reported with `reset_input_clock` on also came at ~15 min, so a third, real-time-driven stage is possible. To
-   settle: a patched run with `reset_input_clock` past 17 min, and a clean run (no code changes) past 17 min as the
-   control.
-3. **How the startup tamper state reaches the gate.** The startup guards' state words and table bytes are the
+   (`sub_10397180c` → `sub_103971bc8` → … → `0x1020b9f50`). Session L crashed at ~19½ min with the clock held at 0:
+   `AntiTamper_Response_ExhaustMemory_DelayedThread` (`0x100f67afc`, sleeps, then calls)
+   → `AntiTamper_Response_ExhaustMemory` (`0x100f67ba4`: Mersenne Twister seed, then `malloc(n)` with growing `n`
+   until it returns NULL; the byte store at `0x100f67d1c` faults). What decides the time (launch time, a random delay,
+   another counter) is open.
+3. **The post-startup detection.** Late patching fools the startup hash (M2) but not the game (M, M2), and the
+   game reacts to changed bytes, not to remapping (O). Something checks the code content after startup. It is not
+   visible in emulation of the seven range guards (the six above plus `AntiTamper_TextRangeGuard_258848`
+   `0x100258848`, which hashes all of `__text`): their output doesn't depend on the code bytes with the heap values
+   available offline. It may be state behind heap pointers (e.g. tied to the input clock), or a check run from the
+   clock readers.
+
+   Fix options:
+   - **Hide the patches from the hashes.** All known guards take their base from the data slot GOT `0x104a7f590`
+     (the "anchor"). Pointing it at an unmodified copy of `__TEXT` would make them hash clean bytes. The anchor
+     function is also *executed* once, by `sub_100f66b30` (`0x100f66b54`, called from `sub_100fd9224`), so the copy
+     must be runnable with correct data, or that call handled.
+   - **No code changes.** Hooks via hardware breakpoints (4 per thread), Objective-C swizzles or data pointers
+     (vtables, function tables), and no byte patches.
+   - **Mitigate the responses.** `reset_input_clock` removes stages 1–2. Stage 3 (termination) would need the timer
+     or thread that starts it disarmed, which is still unknown.
+4. **How the startup tamper state reaches the responses.** The startup guards' state words and table bytes are the
    detection record. Nothing was seen reading the state words during play (four of five watched), so the link may
    go through the table bytes (`0x104da2ef0`, `0x104f6d53d`, `0x104f762d2`, `0x104d9f52d`, `0x104f6be60`) or the
    fifth state word (`0x10504ef00`).
-4. `mod_init_func_532` (`0x100fbeac0`) range and effect.
+5. `mod_init_func_532` (`0x100fbeac0`) range and effect.
 
 ## Context for the quirks (not causes)
 

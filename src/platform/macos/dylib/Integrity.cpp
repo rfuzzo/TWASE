@@ -264,6 +264,23 @@ void Integrity::LogStatus(std::string_view aStep)
     }
 }
 
+// the state words the startup code guards write (AntiTamper_StartupTextHash_*): clean and "code changed" values depend
+// on the ASLR slide, compare them with emulation (docs/macos/integrity-and-quirks.md)
+static void LogStartupGuardState()
+{
+    if (!Image::Get()->IsSupported())
+    {
+        return;
+    }
+    constexpr uint64_t StateWords[] = {0x105019000, 0x10504ef00, 0x105060d20, 0x105065460, 0x105065fb0};
+    std::string text;
+    for (auto address : StateWords)
+    {
+        text += fmt::format(" {:#x}={:#x}", address, *Image::Get()->Resolve<const uint32_t>(address));
+    }
+    spdlog::info("[Integrity] startup guard state (slide {:#x}):{}", Image::Get()->GetSlide(), text);
+}
+
 void Integrity::StartPeriodicCheck()
 {
     auto* timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, dispatch_get_main_queue());
@@ -275,6 +292,10 @@ void Integrity::StartPeriodicCheck()
                                         {
                                             const auto start = std::chrono::steady_clock::now();
                                             const bool checkValidity = ticks % 12 == 0;
+                                            if (ticks == 0)
+                                            {
+                                                LogStartupGuardState();
+                                            }
                                             WindowState::LogIfChanged();
                                             LogTamperCounter();
                                             InputClock(App::Get()->GetConfig()->GetDev().resetInputClock,

@@ -6,6 +6,7 @@
 #include "Utils.hpp"
 #include "Version.hpp"
 #include "Patches/Patches.hpp"
+#include "Hooking/Memory.hpp"
 
 #include "Hooks/DiplomacyLikelihood.hpp"
 #include "Hooks/FeralModOrder.hpp"
@@ -22,6 +23,7 @@
 #include "../sdk/Attila/Lua/LuaRuntime.hpp"
 #include "../sdk/Attila/VFS/VFS.hpp"
 
+#include <dispatch/dispatch.h>
 #include <crt_externs.h>
 #include <libproc.h>
 #include <unistd.h>
@@ -66,6 +68,7 @@ App::App()
     spdlog::debug("  dev.run_tamper_guards: {}", dev.runTamperGuards);
     spdlog::debug("  dev.watch_tamper_state: {}", dev.watchTamperState);
     spdlog::debug("  dev.reset_input_clock: {}", dev.resetInputClock);
+    spdlog::debug("  dev.late_patches: {}", dev.latePatches);
     spdlog::debug("  dev.input_clock_offset: {}", dev.inputClockOffset);
 
     const auto& loggingConfig = m_config.GetLogging();
@@ -118,11 +121,37 @@ void App::Initialize()
 
     Integrity::LogStatus("before patches and hooks");
 
-    // We run before main(), the game code is already mapped, so everything can be applied right away
+    // We run before main(), the game code is already mapped, so everything can be applied right away. With [dev]
+    // late_patches the byte patches wait for the game's run loop instead, after its static initializers, which hash the
+    // whole __text and record changes (docs/macos/integrity-and-quirks.md)
     if (IsEnabled("unit_size_patch"))
     {
-        Patches::ApplyPatches();
-        Integrity::LogStatus("after unit_size_patch");
+        if (m_config.GetDev().latePatches)
+        {
+            spdlog::info("Byte patches deferred to the game's run loop ([dev] late_patches)");
+            dispatch_async_f(dispatch_get_main_queue(), nullptr,
+                             [](void*)
+                             {
+                                 Patches::ApplyPatches();
+                                 Integrity::LogStatus("after unit_size_patch (late)");
+                             });
+        }
+        else
+        {
+            Patches::ApplyPatches();
+            Integrity::LogStatus("after unit_size_patch");
+        }
+    }
+
+    // [dev] remap_identical: remap the unit_size_patch page with its own bytes (no content change), to tell whether the
+    // game notices the remapped page or the changed bytes (docs/macos/integrity-and-quirks.md)
+    if (m_config.GetDev().remapIdentical)
+    {
+        const auto address = Image::Get()->Resolve(sdk::Attila::Addresses::BitSetCrashAddr);
+        uint8_t same[4];
+        std::memcpy(same, reinterpret_cast<const void*>(address), sizeof(same));
+        spdlog::info("remap_identical: remapped the page at {:#x} with unchanged bytes: {}",
+                     sdk::Attila::Addresses::BitSetCrashAddr, Memory::WriteCode(address, same, sizeof(same)));
     }
 
     if (AttachHooks())
