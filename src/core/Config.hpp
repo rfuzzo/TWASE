@@ -29,6 +29,8 @@ public:
         bool latePatches = false;
         // Mac: remap one code page with unchanged bytes (does the game notice the remap or the content?)
         bool remapIdentical = false;
+        // Mac: point the call slots of Feral's known termination responses at no-ops that log (data change, no code)
+        bool disarmTamperResponses = false;
         // patches and hooks to skip, by the name in the log (Mac, for finding what Feral's integrity checks notice)
         std::unordered_set<std::string> disabled;
 

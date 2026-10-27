@@ -218,6 +218,8 @@ bool Config::Save(const std::filesystem::path& aFile, std::string& aError)
                  "Mac: apply byte patches after the game's startup code hash (experiment for the anti-tamper quirks)");
         SetValue(dev, "remap_identical", m_dev.remapIdentical,
                  "Mac: remap one code page with unchanged bytes (anti-tamper experiment)");
+        SetValue(dev, "disarm_tamper_responses", m_dev.disarmTamperResponses,
+                 "Mac: disarm Feral's known termination responses (data slots, no code change)");
         if (!dev.contains("disable"))
         {
             // never changed at runtime, keep whatever the file has
@@ -268,6 +270,7 @@ void Config::DevConfig::LoadV0(const toml::value& aConfig)
     inputClockOffset = toml::find_or(aConfig, "dev", "input_clock_offset", inputClockOffset);
     latePatches = toml::find_or(aConfig, "dev", "late_patches", latePatches);
     remapIdentical = toml::find_or(aConfig, "dev", "remap_identical", remapIdentical);
+    disarmTamperResponses = toml::find_or(aConfig, "dev", "disarm_tamper_responses", disarmTamperResponses);
 
     std::vector<std::string> disabledNames;
     disabledNames = toml::find_or(aConfig, "dev", "disable", disabledNames);

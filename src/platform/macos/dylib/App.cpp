@@ -2,6 +2,7 @@
 
 #include "App.hpp"
 #include "Integrity.hpp"
+#include "TamperResponse.hpp"
 #include "Image.hpp"
 #include "Utils.hpp"
 #include "Version.hpp"
@@ -68,6 +69,7 @@ App::App()
     spdlog::debug("  dev.run_tamper_guards: {}", dev.runTamperGuards);
     spdlog::debug("  dev.watch_tamper_state: {}", dev.watchTamperState);
     spdlog::debug("  dev.reset_input_clock: {}", dev.resetInputClock);
+    spdlog::debug("  dev.disarm_tamper_responses: {}", dev.disarmTamperResponses);
     spdlog::debug("  dev.late_patches: {}", dev.latePatches);
     spdlog::debug("  dev.input_clock_offset: {}", dev.inputClockOffset);
 
@@ -152,6 +154,11 @@ void App::Initialize()
         std::memcpy(same, reinterpret_cast<const void*>(address), sizeof(same));
         spdlog::info("remap_identical: remapped the page at {:#x} with unchanged bytes: {}",
                      sdk::Attila::Addresses::BitSetCrashAddr, Memory::WriteCode(address, same, sizeof(same)));
+    }
+
+    if (m_config.GetDev().disarmTamperResponses)
+    {
+        TamperResponse::DisarmResponses();
     }
 
     if (AttachHooks())
