@@ -17,6 +17,12 @@ public:
         bool waitForDebugger = false;
         bool traceLuaLoads = false;
         bool luaDevFunctions = false;
+        // Mac: call Feral's anti-tamper code guards directly and log the tamper counter (reverse engineering)
+        bool runTamperGuards = false;
+        // Mac: hardware watchpoints on the state of Feral's startup code guards, logging who reads it
+        bool watchTamperState = false;
+        // Mac: keep resetting Feral's hidden "seconds since the first input event" clock (quirk experiment)
+        bool resetInputClock = false;
         // patches and hooks to skip, by the name in the log (Mac, for finding what Feral's integrity checks notice)
         std::unordered_set<std::string> disabled;
 

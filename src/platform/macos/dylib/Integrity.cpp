@@ -1,8 +1,11 @@
 #include "stdafx.hpp"
 
 #include "Integrity.hpp"
+#include "App.hpp"
 #include "Image.hpp"
 #include "Hooks/WindowState.hpp"
+#include "Hooking/Memory.hpp"
+#include "TamperWatch.hpp"
 
 #include <Security/Security.h>
 #include <dispatch/dispatch.h>
@@ -42,17 +45,23 @@ int ticks = 0;
 int64_t lastTamperCounter = -1;
 
 // Feral's hidden tamper counter (docs/macos/integrity-and-quirks.md): AntiTamper_InitHiddenCounter stores a pointer to
-// a zeroed heap int at 0x105019040; the code guards add their hash mismatches to it. 0 means no guard has fired.
-void LogTamperCounter()
+// a zeroed heap int at 0x105019040. The libsteam_api re-check, the module watcher and a few probes add to it; the code
+// guards don't. It stayed 0 in every run so far.
+const int32_t* GetTamperCounter()
 {
     constexpr uint64_t CounterHolder = 0x105019040;
 
     if (!Image::Get()->IsSupported())
     {
-        return;
+        return nullptr;
     }
 
-    const auto* counter = *Image::Get()->Resolve<const int32_t*>(CounterHolder);
+    return *Image::Get()->Resolve<const int32_t*>(CounterHolder);
+}
+
+void LogTamperCounter()
+{
+    const auto* counter = GetTamperCounter();
     if (!counter)
     {
         return;
@@ -64,6 +73,120 @@ void LogTamperCounter()
         spdlog::info("[Integrity] Feral tamper counter: {} ({:#x})", value, static_cast<uint32_t>(value));
         lastTamperCounter = value;
     }
+}
+
+// Feral's hidden input clock, kept by the central event dispatcher (FeralEventSource_Dispatch 0x10056c1c4) on every input
+// event: *start (pointer at 0x1055d8158) = the time of the first event, *elapsed (pointer behind the masked holder
+// 0x1055d8198/0x1055d81a0/0x1055d817c) = event time - start, in whole seconds of system uptime (NSEvent.timestamp).
+// [dev] reset_input_clock moves start to now, so elapsed stays near 0 (docs/macos/integrity-and-quirks.md).
+void InputClock(bool aReset)
+{
+    if (!Image::Get()->IsSupported())
+    {
+        return;
+    }
+
+    auto* start = *Image::Get()->Resolve<int32_t*>(0x1055d8158);
+    const auto holderBase = Image::Get()->Resolve(0x1055d8198);
+    const auto holderMask = *Image::Get()->Resolve<const uint64_t>(0x1055d81a0);
+    const auto holderOffset = static_cast<int64_t>(*Image::Get()->Resolve<const int32_t>(0x1055d817c));
+    const auto holder = ((holderBase ^ ~holderMask) - holderOffset) << 3;
+    const auto* elapsed = holder ? *reinterpret_cast<int32_t* const*>(holder) : nullptr;
+    if (!start || !elapsed)
+    {
+        return;
+    }
+
+    const auto now = static_cast<uint32_t>(clock_gettime_nsec_np(CLOCK_UPTIME_RAW) / NSEC_PER_SEC);
+    spdlog::debug("[InputClock] start {} elapsed {} (now {}){}", static_cast<uint32_t>(*start),
+                  static_cast<uint32_t>(*elapsed), now, aReset ? ", resetting start" : "");
+    if (aReset)
+    {
+        *start = static_cast<int32_t>(now);
+    }
+}
+
+// [dev] run_tamper_guards: calls Feral's run-time code guards (AntiTamper_TextRangeGuard_*, normally started by the
+// game's obfuscated scheduler) with the code as loaded and again with one never-executed __text byte flipped, logging
+// the counter and every changed __DATA word after each call and dumping __DATA (data-*.bin in the log folder) for
+// offline emulation.
+void RunTamperGuards()
+{
+    static constexpr uint64_t Guards[] = {0x100257c8c, 0x10042b434, 0x100aa56c0, 0x100bbd54c, 0x100c0c318, 0x100f81860};
+    // a byte of the "Cryptic Apps" string in __text, never executed
+    constexpr uint64_t FlipAddress = 0x10025ccc8;
+
+    const auto* counter = GetTamperCounter();
+    if (!counter)
+    {
+        spdlog::warn("[Integrity] run_tamper_guards: the tamper counter isn't set up");
+        return;
+    }
+
+    // __DATA, __thread_*, __bss and __common of the game; the guards keep their state there (other threads write some
+    // of it too, so compare the same guard with and without the flipped byte)
+    static constexpr uint64_t DataStart = 0x104d90000;
+    static constexpr uint64_t DataEnd = 0x1056d8000;
+    const auto* data = Image::Get()->Resolve<const uint64_t>(DataStart);
+    static constexpr size_t DataWords = (DataEnd - DataStart) / sizeof(uint64_t);
+    std::vector<uint64_t> before(DataWords);
+
+    // raw dumps for offline emulation (docs/macos/re-tooling.md), written to the log folder
+    const auto dump = [data](std::string_view aName)
+    {
+        const auto path = App::Get()->GetPaths()->GetLogsDir() / fmt::format("data-{}.bin", aName);
+        if (auto* file = std::fopen(path.c_str(), "wb"))
+        {
+            std::fwrite(data, sizeof(uint64_t), DataWords, file);
+            std::fclose(file);
+            spdlog::info("[Integrity] run_tamper_guards: dumped __DATA ({:#x}-{:#x}, slide {:#x}) to {}", DataStart,
+                         DataEnd, Image::Get()->GetSlide(), path.string());
+        }
+    };
+
+    const auto runAll = [counter, data, &before](std::string_view aPhase)
+    {
+        spdlog::info("[Integrity] run_tamper_guards ({}): counter before: {:#x}", aPhase,
+                     static_cast<uint32_t>(*counter));
+        for (auto address : Guards)
+        {
+            std::memcpy(before.data(), data, DataWords * sizeof(uint64_t));
+            Image::Get()->Resolve<void()>(address)();
+
+            std::string changes;
+            size_t changeCount = 0;
+            for (size_t i = 0; i < DataWords; i++)
+            {
+                if (data[i] != before[i])
+                {
+                    if (changeCount++ < 48)
+                    {
+                        changes += fmt::format(" {:#x}:{:#x}->{:#x}", DataStart + i * sizeof(uint64_t), before[i],
+                                               data[i]);
+                    }
+                }
+            }
+            spdlog::info("[Integrity] run_tamper_guards ({}): after {:#x}: counter {:#x}, {} changed words:{}", aPhase,
+                         address, static_cast<uint32_t>(*counter), changeCount, changes);
+        }
+    };
+
+    dump("before");
+    runAll("code as loaded");
+    dump("clean");
+
+    // then a change made after the game's startup guards ran, undone afterwards
+    const auto flip = Image::Get()->Resolve(FlipAddress);
+    const uint8_t original = *reinterpret_cast<const uint8_t*>(flip);
+    const uint8_t flipped = original ^ 0x01;
+    if (!Memory::WriteCode(flip, &flipped, 1))
+    {
+        spdlog::warn("[Integrity] run_tamper_guards: could not flip the byte at {:#x}", FlipAddress);
+        return;
+    }
+    runAll("one byte flipped at runtime");
+    dump("flipped");
+    Memory::WriteCode(flip, &original, 1);
 }
 
 void CheckValidity()
@@ -117,12 +240,56 @@ void Integrity::StartPeriodicCheck()
     dispatch_source_set_event_handler_f(timer,
                                         [](void*)
                                         {
+                                            const auto start = std::chrono::steady_clock::now();
+                                            const bool checkValidity = ticks % 12 == 0;
                                             WindowState::LogIfChanged();
                                             LogTamperCounter();
+                                            InputClock(App::Get()->GetConfig()->GetDev().resetInputClock);
+                                            if (App::Get()->GetConfig()->GetDev().watchTamperState)
+                                            {
+                                                TamperWatch::Arm();
+                                            }
+                                            if (ticks == 6 && App::Get()->GetConfig()->GetDev().runTamperGuards)
+                                            {
+                                                RunTamperGuards();
+                                            }
                                             if (ticks++ % 12 == 0)
                                             {
                                                 CheckValidity();
                                             }
+                                            const auto took = std::chrono::duration_cast<std::chrono::milliseconds>(
+                                                std::chrono::steady_clock::now() - start);
+                                            if (took.count() >= 20)
+                                            {
+                                                spdlog::debug("[Stall] TWASE's periodic check took {} ms on the main "
+                                                              "thread{}",
+                                                              took.count(), checkValidity ? " (with SecCodeCheckValidity)" : "");
+                                            }
                                         });
     dispatch_resume(timer);
+
+    // watchdog: how long the main thread takes to run a block posted to it every 100 ms; long waits mean events (clicks)
+    // aren't being handled either
+    std::thread(
+        []
+        {
+            pthread_setname_np("TWASE main thread watchdog");
+            while (true)
+            {
+                std::this_thread::sleep_for(std::chrono::milliseconds(100));
+                auto* done = dispatch_semaphore_create(0);
+                const auto posted = std::chrono::steady_clock::now();
+                dispatch_async_f(dispatch_get_main_queue(), done,
+                                 [](void* aDone) { dispatch_semaphore_signal(static_cast<dispatch_semaphore_t>(aDone)); });
+                dispatch_semaphore_wait(done, DISPATCH_TIME_FOREVER);
+                dispatch_release(done);
+                const auto waited = std::chrono::duration_cast<std::chrono::milliseconds>(
+                    std::chrono::steady_clock::now() - posted);
+                if (waited.count() >= 150)
+                {
+                    spdlog::debug("[Stall] main thread blocked for {} ms", waited.count());
+                }
+            }
+        })
+        .detach();
 }

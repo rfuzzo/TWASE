@@ -137,6 +137,49 @@ whose low 24 bits are the import ordinal (e.g. GOT `0x104a7f590` = import 5808, 
 
 The harness is about 60 lines of Python and isn't checked in; rebuild it from these notes.
 
+### Emulating with the live game's state
+
+Static data is often not enough: the guards decode their parameters from state set up by other initializers. Dump the
+game's `__DATA`…`__common` from inside the process (`[dev] run_tamper_guards` writes `data-before.bin`,
+`data-clean.bin` and `data-flipped.bin` to `TWASE/logs`, with the slide in the log), then emulate at the **runtime**
+base (`0x100000000 + slide`). The masked pointers XOR in their own runtime addresses, so emulating at the unslid
+base decodes them wrongly. Add the slide to every rebased slot in `__DATA_CONST`, set the GOT anchor to
+`0x10025cc64 + slide`, map unmapped heap pages as zero on demand, and log them. On 2026-10-27 this reproduced the
+writes of guard `0x100bbd54c` in the real game byte for byte.
+
+## Running the game from an agent
+
+Steam must be running. The game window opens on the user's screen, so tell them first.
+
+- `"<game root>/twase-launch.command" --skip-launcher` starts the game with TWASE into the main menu;
+  `~/GitHub/attila-mods/tools/play.sh --no-deploy --latest` loads the newest campaign save (with the repo's mod list).
+  Run it as a background job and read `TWASE/logs/twase-*.log` (newest file).
+- Quit with `osascript -e 'tell application id "com.feralinteractive.attilatw" to quit'`. It prints "User cancelled
+  (-128)" but the game exits, and the launcher puts Feral's preferences back.
+- `xmake` rebuilds and copies `libTWASE.dylib` into the game in about 2 s. Change `[dev]` options in
+  `TWASE/config.ini`, not in the repo.
+
+### Runtime probes in TWASE
+
+`[dev]` options in `TWASE/config.ini` (Mac, reverse engineering only):
+
+| Option | Does |
+|---|---|
+| `disable = [...]` | Skips patches/hooks by the name in the log, e.g. everything but `unit_size_patch` for a one-instruction test |
+| `run_tamper_guards = true` | 30 s after start, calls the six `AntiTamper_TextRangeGuard_*` with the code as loaded, then with a never-executed `__text` byte flipped (and restored). Logs the hidden counter and every changed `__DATA` word per call, and dumps `__DATA` |
+| `watch_tamper_state = true` | Hardware watchpoints (`ARM_DEBUG_STATE64`, 4 registers) on the startup guards' state words, plus an instruction breakpoint on the `unit_size_patch` branch (logs the walked list's length), armed on every thread every 5 s. Hits go to a thread-level Mach exception port and are logged as `[TamperWatch] … at pc … (lr …, x20 …)`; a self-test read at startup proves it works. Edit `Watched[]` / `Breakpoints[]` in `src/platform/macos/dylib/TamperWatch.cpp` |
+| `reset_input_clock = true` | Sets Feral's hidden input clock start to the current uptime every 5 s, so the "seconds since the first input" value stays near 0; prevents the click quirk |
+
+Always on:
+
+- `[Integrity] Feral tamper counter` (the heap int behind `0x105019040`), logged when it changes.
+- `[InputClock] start … elapsed … (now …)` every 5 s: Feral's hidden input clock (see integrity-and-quirks.md).
+- `[Input] left down/up delivered after N ms`: how long after the click AppKit hands it to the app.
+- `[Stall] main thread blocked for N ms` (a watchdog thread pings the main queue every 100 ms) and `[Stall] TWASE's
+  periodic check took N ms`.
+- `[Window] … frameState … grabInput … scheduledDrag …`: `CFeralNSWindow` ivars (`frameState 2` = Feral's title-bar
+  live drag).
+
 ## Shell tools
 
 | Tool | Use |

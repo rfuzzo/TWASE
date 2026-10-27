@@ -63,6 +63,9 @@ App::App()
     spdlog::debug("  dev.console: {}", dev.hasConsole);
     spdlog::debug("  dev.trace_lua_loads: {}", dev.traceLuaLoads);
     spdlog::debug("  dev.lua_dev_functions: {}", dev.luaDevFunctions);
+    spdlog::debug("  dev.run_tamper_guards: {}", dev.runTamperGuards);
+    spdlog::debug("  dev.watch_tamper_state: {}", dev.watchTamperState);
+    spdlog::debug("  dev.reset_input_clock: {}", dev.resetInputClock);
 
     const auto& loggingConfig = m_config.GetLogging();
     spdlog::debug("  logging.level: {}", spdlog::level::to_string_view(loggingConfig.level));

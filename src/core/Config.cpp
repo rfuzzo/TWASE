@@ -206,6 +206,12 @@ bool Config::Save(const std::filesystem::path& aFile, std::string& aError)
                  "Log every Lua chunk the game loads (needs logging.level = \"trace\")");
         SetValue(dev, "lua_dev_functions", m_dev.luaDevFunctions,
                  "Add the twase.dev_* probes for reverse engineering to the Lua API");
+        SetValue(dev, "run_tamper_guards", m_dev.runTamperGuards,
+                 "Mac: call Feral's anti-tamper code guards 30 s after start and log the tamper counter");
+        SetValue(dev, "watch_tamper_state", m_dev.watchTamperState,
+                 "Mac: hardware watchpoints on Feral's anti-tamper state, logging the code that touches it");
+        SetValue(dev, "reset_input_clock", m_dev.resetInputClock,
+                 "Mac: keep resetting Feral's hidden input clock (experiment for the click quirk)");
         if (!dev.contains("disable"))
         {
             // never changed at runtime, keep whatever the file has
@@ -250,6 +256,9 @@ void Config::DevConfig::LoadV0(const toml::value& aConfig)
     waitForDebugger = toml::find_or(aConfig, "dev", "wait_for_debugger", waitForDebugger);
     traceLuaLoads = toml::find_or(aConfig, "dev", "trace_lua_loads", traceLuaLoads);
     luaDevFunctions = toml::find_or(aConfig, "dev", "lua_dev_functions", luaDevFunctions);
+    runTamperGuards = toml::find_or(aConfig, "dev", "run_tamper_guards", runTamperGuards);
+    watchTamperState = toml::find_or(aConfig, "dev", "watch_tamper_state", watchTamperState);
+    resetInputClock = toml::find_or(aConfig, "dev", "reset_input_clock", resetInputClock);
 
     std::vector<std::string> disabledNames;
     disabledNames = toml::find_or(aConfig, "dev", "disable", disabledNames);
