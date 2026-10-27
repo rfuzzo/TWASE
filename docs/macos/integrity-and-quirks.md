@@ -26,7 +26,9 @@ game's code was modified", not anything specific to TWASE.
 - patched sessions with the normal clock: clicks fail at ~8 minutes (sessions 8, E, F).
 
 The exact threshold (between ~420 and 600 s by the timing of sessions E/F) and the code that drops the event are not
-decoded. Whether the shrinking/moving picture is the same response is not confirmed yet.
+decoded. Diplomacy is not part of the trigger: the clock counts every input event (mouse moves, keys, clicks), and the
+diplomacy screens were just where most clicking happened when the threshold passed. The shrinking/moving picture is a
+later stage of the same response (session J); a crash at ~15 minutes may be a third (open point 2).
 
 | Claim | Status | Evidence |
 |---|---|---|
@@ -156,7 +158,8 @@ The guards are spread over the binary's modules, one startup guard and one range
 | G | Same, plus `reset_input_clock` | **13+ min without the quirk**; `elapsed` stays at 1–5 s |
 | H | No code changes, `input_clock_offset = 600` | 11 min, clock 600 → 1250 s: **no quirk**, 507 clicks all delivered |
 | I | Only `unit_size_patch`, `input_clock_offset = 600`, windowed | **Clicks fail within a minute of loading**; no resizing in 5.5 min (clock 600 → 930 s) |
-| J | Same as I, left running | Clicks failing from the start; **viewport resizing from ~16:58**, 13 real min after launch, clock `elapsed 1379` s. Windowed, `NSWindow`/drawable/layer unchanged, `frameState` 0 |
+| J | Same as I, left running | Clicks failing from the start; **viewport resizing from ~16:58**, 13 real min after launch, clock `elapsed 1379` s. Windowed, `NSWindow`/drawable/layer unchanged, `frameState` 0; **crash at ~15½ min** (17:01, open point 2) |
+| K | No code changes, no offset, no fix (control for J's crash) | 21½ min, clock 834 s: no quirk, **no crash** |
 
 The `[dev]` options used are documented in [re-tooling.md](re-tooling.md#runtime-probes-in-twase).
 
