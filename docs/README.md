@@ -30,6 +30,7 @@ What we found out about the game, independent of the platform. Exact addresses a
 
 ## Addresses and builds
 
+- [Game versions](game-versions.md): the Steam, GOG, Epic and Mac App Store builds, which ones TWASE supports, and what supporting more would change
 - Mac (Feral 1.6.1): [addresses](macos/addresses.md), and the [history of the macOS port](macos/PLAN.md)
 - Mac reverse engineering: [toolkit quick start](macos/re-tooling.md) (Binary Ninja over MCP, xref scanner, Unicorn
   emulation, paths; the open-twa Binary Ninja database is the Mac App Store build, not Steam)
