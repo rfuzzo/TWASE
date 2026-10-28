@@ -159,3 +159,24 @@ copied. No Windows build or in-game exercise was performed in this macOS worker
 session. The current supported Windows DLL was not available locally, so its
 runtime resolution, card refresh/reset, and encyclopedia navigation remain
 checks for the Windows integration run.
+
+Windows integration run (2026-10-28, Steam build): the loaded DLL resolved the
+encyclopedia pointer at RVA `0x1D33D00` and settlement Initialize at
+`0x1407530`. With a custom URL, building, unit, and technology encyclopedia
+links opened the replacement page with the game's entry suffix in the in-game
+`ui\Common UI\browser` panel (Steam HTML surface); resetting restored the native
+site. The two URL builders (`0xECE730`, `0xECE7E0`) only apply the prefix to
+keys found in the game's encyclopedia table, then call `0x1413AE0`, which uses
+`ShellExecuteW` instead when `CW_COPA_GetNativePlatform()` is non-zero. Pages
+need an explicit background and text colour: an unstyled page rendered black in
+that panel.
+
+Card slot overrides, as logged by `inspect()` on a main-campaign province:
+3/1 showed 3 capital and 1 minor slot; 2/2 then shrank all cards to 2 with no
+stale slots; reset restored the native 6/4. 8/6 stayed at 6/4 because the
+vanilla layout has no further slot widgets. Desolate settlement cards ignore
+the overrides. Buildings in hidden slots, including one built and one destroyed
+that turn, carried over end turn and reappeared on reset. As documented,
+overrides persist across save loads within one game process. Quitting to the
+main menu and exiting caused no crash. Charlemagne and Last Roman campaigns are
+untested.

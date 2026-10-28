@@ -2,6 +2,10 @@
 
 Documentation for modders and for reverse engineering Total War: ATTILA. For installing and using TWASE, see the [README](../README.md).
 
+## Using TWASE
+
+- [Configuration](configuration.md): every setting in `TWASE/config.ini`
+
 ## Modding
 
 - [Script mods](modding/script-mods.md): where TWASE looks for `scripting.lua` mods, when they run, how to structure, log and debug them

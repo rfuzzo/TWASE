@@ -80,7 +80,7 @@ TWASE loads every `scripting.lua` in `<campaign folder>/mods/<mod name>/` when a
 
 ## Configuration and logs
 
-Settings are in `TWASE/config.ini` in the game folder (created on the first start), logs are written to `TWASE/logs`.
+Settings are in `TWASE/config.ini` in the game folder (created on the first start), logs are written to `TWASE/logs`. The main settings are below, and [docs/configuration.md](docs/configuration.md) lists all of them.
 
 ```toml
 [logging]
