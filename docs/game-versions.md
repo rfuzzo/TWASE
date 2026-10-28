@@ -20,7 +20,7 @@ The Epic store page mentions cross-play "only with GOG at the moment", so an Epi
 
 The fixed RVA table in `src/platform/win32/sdk/Attila/Addresses.hpp` is made for the current Steam `empire.retail.dll` (tested in game on 2026-10-22). Its build ID isn't recorded in the repo yet: write its file version, PE timestamp and SHA-256 at the top of `Addresses.hpp`.
 
-The copies on the Mac (the CrossOver bottle and `~/at/Total War Attila`, file version 1.6.0.0, PE timestamp 2023-06-18) are older builds. The current table does not fit them: for example, `g_Campaign = 0x28D52B0` lies outside their `SizeOfImage 0x255F000`. They cannot validate the current Steam RVA table.
+Previously analysed Windows binaries (file version 1.6.0.0, PE timestamp 2023-06-18) are older builds. The current table does not fit them: for example, `g_Campaign = 0x28D52B0` lies outside their `SizeOfImage 0x255F000`. They cannot validate the current Steam RVA table.
 
 ### No build check on Windows
 
@@ -51,7 +51,7 @@ Injection works because of the Steam build's entitlements (`codesign -dv --entit
 
 ### App Store
 
-Same version number, but a later release candidate (RC4) and another UUID; the bytes at the same addresses differ ([integrity-and-quirks.md](macos/integrity-and-quirks.md)). The Binary Ninja database in `~/GitHub/open-twa/bn/` is this build ([re-tooling.md](macos/re-tooling.md)).
+Same version number, but a later release candidate (RC4) and another UUID; the bytes at the same addresses differ ([integrity-and-quirks.md](macos/integrity-and-quirks.md)). Keep App Store and Steam analysis databases separate and identify them by the executable UUID ([re-tooling.md](macos/re-tooling.md)).
 
 Differences that matter for TWASE:
 

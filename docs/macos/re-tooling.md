@@ -1,9 +1,13 @@
 # Reverse-engineering toolkit (Mac) — quick start for agents
 
-What is on this machine and how to drive it without a GUI. Everything here was used for
+Tools and reproducible workflows used for the macOS investigation documented in
 [integrity-and-quirks.md](integrity-and-quirks.md).
 
 ## Paths
+
+The paths below are standard installation defaults or placeholders, not a developer's workspace layout.
+`<game root>` is the Steam installation folder. Analysis databases may be stored anywhere; keep one per build
+and verify the executable UUID before selecting a database.
 
 | What | Path |
 |---|---|
@@ -11,7 +15,7 @@ What is on this machine and how to drive it without a GUI. Everything here was u
 | Mac App Store copy (different build, UUID `196C74A0-…`, **not** the one TWASE targets) | `/Applications/Total War ATTILA.app` |
 | TWASE install, `config.ini`, logs (`twase-*.log`, `twase-launch.log`) | `<game root>/TWASE/`, `<game root>/TWASE/logs/` |
 | Feral preferences (XML; display/notch/mouse settings live here) | `~/Library/Application Support/Feral Interactive/Total War ATTILA/Preferences Data` |
-| Binary Ninja databases | Steam build (use this one; anti-tamper functions are named `AntiTamper_*`, `CodeSign_*`, `SteamApi_*`, `xxh64`): `<game root>/Total War ATTILA/Total War ATTILA.bndb`. **Mac App Store build** (1.6.1 RC4, other addresses): `~/GitHub/open-twa/bn/Total War ATTILA.bndb` |
+| Binary Ninja databases | `<Steam analysis database>.bndb` for the supported build (anti-tamper functions named `AntiTamper_*`, `CodeSign_*`, `SteamApi_*`, `xxh64`); `<App Store analysis database>.bndb` for RC4, which has different addresses |
 
 Image base `0x100000000`; for `__TEXT`, file offset = VA − `0x100000000`. `__text` = `0x100012020`, size
 `0x4132b94` (from `otool -l`).
@@ -151,9 +155,9 @@ and log them. On 2026-10-27 this reproduced writes of guard `0x100bbd54c` in the
 
 Steam must be running. The game window opens on the user's screen, so tell them first.
 
-- `"<game root>/twase-launch.command" --skip-launcher` starts the game with TWASE into the main menu;
-  `~/GitHub/attila-mods/tools/play.sh --no-deploy --latest` loads the newest campaign save (with the repo's mod list).
-  Run it as a background job and read `TWASE/logs/twase-*.log` (newest file).
+- `"<game root>/twase-launch.command" --skip-launcher` starts the game with TWASE into the main menu.
+- `"<game root>/twase-launch.command" --mods "<mod_list.txt>" --load "<campaign.save>"` loads a chosen campaign save
+  with an explicit mod list. Run it as a background job and read the newest `TWASE/logs/twase-*.log`.
 - Quit with `osascript -e 'tell application id "com.feralinteractive.attilatw" to quit'`. It prints "User cancelled
   (-128)" but the game exits, and the launcher puts Feral's preferences back.
 - `xmake` rebuilds and copies `libTWASE.dylib` into the game. The investigation-only `[dev]` switches described below
@@ -199,8 +203,8 @@ protection; rollback failure stops the process. See
 | `grep -iE … "Preferences Data"` | Feral runtime settings (fullscreen, notch compatibility, mouse). |
 | `lldb` | Available for live attach (game is hardened, attach needs SIP/entitlement allowances; not used so far). |
 
-IDA Home 9.4 is installed (`/Applications/IDA Home (PC) 9.4.app`) but has no scripting bridge set up; the `xd://ida`
-device can drive it if needed.
+For Windows x86 analysis, IDA Home (PC) is an option. Verify its installed version, architecture support, and
+scripting integration before using it; no particular local installation is assumed.
 
 ## Runtime evidence
 

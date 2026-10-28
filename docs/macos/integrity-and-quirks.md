@@ -80,9 +80,9 @@ exceeded ~5 s. It logged `[InputClock] start … elapsed … (now …)` every 5 
 
 The first version said there was no anti-tamper. Two things went wrong:
 
-- **Wrong binary.** Its addresses (`sub_10039c358`, `sub_10056cefc`, …) came from `~/GitHub/open-twa/bn/Total War
-  ATTILA.bndb`, which is the **Mac App Store build** (1.6.1 RC4, `480969.104294`, UUID `196C74A0-…`,
-  `/Applications/Total War ATTILA.app`). Bytes at the same VAs differ from the Steam build TWASE targets.
+- **Wrong binary.** Its addresses (`sub_10039c358`, `sub_10056cefc`, …) came from an analysis database for the
+  **Mac App Store build** (1.6.1 RC4, `480969.104294`, UUID `196C74A0-…`), not the Steam build TWASE targets.
+  Bytes at the same VAs differ between those builds.
 - **Wrong method.** It listed the callers of memory/signature imports. A process reads its own code with plain loads,
   so no import is needed. The guards here use none: they get a base address through a GOT slot, then run an inlined
   xxHash64 loop.
