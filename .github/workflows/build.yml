@@ -95,9 +95,10 @@ jobs:
           mkdir -p package/TWASE
           cp build/macosx/arm64/release/libTWASE.dylib package/TWASE/
           cp src/platform/macos/launcher/twase-launch.command package/
-          chmod +x package/twase-launch.command
+          cp src/platform/macos/launcher/twase-appstore.command package/
+          chmod +x package/twase-launch.command package/twase-appstore.command
           codesign --force --sign - package/TWASE/libTWASE.dylib
-          cd package && zip -r -y ../TWASE-macOS-release.zip twase-launch.command TWASE
+          cd package && zip -r -y ../TWASE-macOS-release.zip twase-launch.command twase-appstore.command TWASE
 
       - name: Upload artifact
         uses: actions/upload-artifact@v7

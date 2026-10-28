@@ -24,15 +24,15 @@ bool Integrity::InstallCleanTextAnchor()
     }
 
     constexpr uint64_t ImageBase = 0x100000000;
-    constexpr uint64_t Anchor = 0x10025cc64;
-    constexpr uint64_t AnchorSlot = 0x104a7f590;
-    constexpr uint64_t AnchorCall = 0x100f66b54;
-    constexpr uint64_t WriteProbe = 0x10025cd10;
+    const uint64_t Anchor = image->IsAppStore() ? 0x10025ca1c : 0x10025cc64;
+    const uint64_t AnchorSlot = image->IsAppStore() ? 0x104a7f5a0 : 0x104a7f590;
+    const uint64_t AnchorCall = image->IsAppStore() ? 0x100f6459c : 0x100f66b54;
+    const uint64_t WriteProbe = image->IsAppStore() ? 0x10025cac8 : 0x10025cd10;
     constexpr uint32_t ExpectedProbe = 0xa9be4ff4; // stp x20, x19, [sp, #-0x20]!
     constexpr uint32_t Return = 0xd65f03c0;
-    // BL to the weak-bind stub at 0x104147110. Redirect only this call, not the stub used by the hash guards.
-    constexpr uint32_t ExpectedCall = 0x94c7816f;
-    constexpr uint32_t DirectCall =
+    // Redirect only the startup BL, not the weak-bind stub still used by the hash guards.
+    const uint32_t ExpectedCall = image->IsAppStore() ? 0x94c78524 : 0x94c7816f;
+    const uint32_t DirectCall =
         0x94000000 | (static_cast<uint32_t>((int64_t(Anchor) - int64_t(AnchorCall)) / 4) & 0x03ffffff);
     auto* slot = image->Resolve<uintptr_t>(AnchorSlot);
     const auto call = image->Resolve(AnchorCall);

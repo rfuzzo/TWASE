@@ -1,93 +1,91 @@
 #pragma once
 
-#include <cstdint>
+#include "Build.hpp"
 
-// Unslid addresses as shown in Binary Ninja (image base 0x100000000), resolve with Image::Resolve.
-// See docs/addresses.md for how each one was found.
+// Unslid addresses (image base 0x100000000), stored as {Steam RC2, App Store RC4}.
+// Selected by exact UUID before hooks initialize. Evidence: docs/macos/addresses.md.
 namespace sdk::Attila::Addresses
 {
-// Feral 1.6.1 RC2 (CFBundleVersion 480285.103778)
-constexpr const char* SupportedUUID = "392D6F66-9183-329E-8A98-8C90FC828326";
 
 // STARTUP
 // int64_t (*)(void* instance, void* prevInstance, const char16_t* commandLine), CA's WinMain on the WinMain thread
-constexpr uint64_t WinMain = 0x1032BC10C;
+constexpr BuildAddress WinMain{0x1032bc10c, 0x1032baa54};
 
 // GAME LOOP
 // bool (*)(void* app, int, int, int, int), called once per frame by the run loop on the WinMain (game/Lua) thread
-constexpr uint64_t GameTick = 0x1010ECD24;
+constexpr BuildAddress GameTick{0x1010ecd24, 0x1010eb66c};
 
 // LUA LOG
 // void (*)(const char*), called by print, out and the Lua error handler, falls back to fputs(stdout) if null
-constexpr uint64_t g_LuaLogSink = 0x1056D6588;
+constexpr BuildAddress g_LuaLogSink{0x1056d6588, 0x1056d68f8};
 
 // void (*)(void (*sink)(const char*)), the str instruction that stores the sink
-constexpr uint64_t SetLuaLogSink_Store = 0x103F25DEC;
+constexpr BuildAddress SetLuaLogSink_Store{0x103f25dec, 0x103f24734};
 
 // SCRIPT RUNTIMES
 // Linked list of all active lua states
-constexpr uint64_t g_RuntimeLuaListHead = 0x10560B7C8;
-constexpr uint64_t g_RuntimeLuaListSentinel = 0x10560B7D0;
+constexpr BuildAddress g_RuntimeLuaListHead{0x10560b7c8, 0x10560bb38};
+constexpr BuildAddress g_RuntimeLuaListSentinel{0x10560b7d0, 0x10560bb40};
 
 // lua_State* (*)(void* scriptInterface)
-constexpr uint64_t GetLuaState = 0x1038B377C;
+constexpr BuildAddress GetLuaState{0x1038b377c, 0x1038b20c4};
 
 // MOD LOADER
 // void* (*)(ScriptingEnv* self), EPISODIC_SCRIPTING_ENV virtual slot 3, loads and runs campaigns/<name>/scripting.lua
-constexpr uint64_t RunStartupPath = 0x102170104;
+constexpr BuildAddress RunStartupPath{0x102170104, 0x10216ea4c};
 
 // VFS
 // void* (*)(), returns the static VFS instance
-constexpr uint64_t VFS_GetInstance = 0x10387C0A8;
+constexpr BuildAddress VFS_GetInstance{0x10387c0a8, 0x10387a9f0};
 
 // void (*)(void* vfs, CName* dir, CName* pattern, VFSSearchResults* out, int flags, int mode), a virtual of the VFS
 constexpr uint64_t VFS_SearchFiles_VtableOffset = 0x58;
 
 // CName* (*)(CName* self, const char* str)
-constexpr uint64_t CName_ctor = 0x10109240C;
+constexpr BuildAddress CName_ctor{0x10109240c, 0x101090d54};
 
 // void (*)(void* ptr), the game allocator's free
-constexpr uint64_t tw_free = 0x1010ACB70;
-constexpr uint64_t tw_malloc = 0x1010ACA70;
+constexpr BuildAddress tw_free{0x1010acb70, 0x1010ab4b8};
+constexpr BuildAddress tw_malloc{0x1010aca70, 0x1010ab3b8};
 
 // DIPLOMACY
 // float (*)(void* deal, void* ctx, void* factionA, void* factionB)
 // UI-only wrapper around the deal evaluator (0x101d7b25c), AI accepts deals with score >= 0
-constexpr uint64_t Diplo_GetDisplayedDealScore = 0x101D7E890;
+constexpr BuildAddress Diplo_GetDisplayedDealScore{0x101d7e890, 0x101d7d1d8};
 
 // int (*)(void* caiModule, void* deal)
 // buckets the score: 2 low, 3 moderate, 4 high, thresholds are the tweakers
 // CAI_DIPLOMACY_NEGOTIATION_DISPLAYED_LIKELIHOOD_THRESHOLD_LOW/HIGH (-4 / 4, value at +0x64 of 0x105600378 / 0x1056003e0)
-constexpr uint64_t CAI_GetDealLikelihoodBucket = 0x102296A5C;
+constexpr BuildAddress CAI_GetDealLikelihoodBucket{0x102296a5c, 0x1022953a4};
 
 // void* (*)(DiplomacyDropdown* self, int likelihood (-1/0/1, -2 hidden), bool show)
-constexpr uint64_t DiplomacyDropdown_SetLikelihood = 0x1035F4A1C;
+constexpr BuildAddress DiplomacyDropdown_SetLikelihood{0x1035f4a1c, 0x1035f3364};
 
 // UI
 // void (*)(UIComponent* self, const WString* text, bool allStates)
-constexpr uint64_t UIComponent_SetTooltipText = 0x1032D2418;
+constexpr BuildAddress UIComponent_SetTooltipText{0x1032d2418, 0x1032d0d60};
 
 // STRINGS
 // TempString* (*)(TempString* self, const char* utf8)
-constexpr uint64_t String_ctor = 0x10104CE1C;
+constexpr BuildAddress String_ctor{0x10104ce1c, 0x10104b764};
 
 // void (*)(TempString* self)
-constexpr uint64_t String_dtor = 0x10104BA58;
+constexpr BuildAddress String_dtor{0x10104ba58, 0x10104a3a0};
 
 // WStringResult (*)(const TempString* src), returns through x8
-constexpr uint64_t String_ToUniString = 0x101049BB0;
+constexpr BuildAddress String_ToUniString{0x101049bb0, 0x1010484f8};
 
 // void (*)(WString* self)
-constexpr uint64_t UniString_dtor = 0x101049D20;
+constexpr BuildAddress UniString_dtor{0x101049d20, 0x101048668};
 
 // CAMPAIGN MODEL (for the twase.* Lua API)
 // bool (*)(lua_State* L, int idx, FACTION_SCRIPT_INTERFACE** out), the game's own faction argument check:
 // 0 if the value isn't a userdata, a Lua type error if it's another userdata type
-constexpr uint64_t FactionScriptInterface_GetArg = 0x101D5C640;
+constexpr BuildAddress FactionScriptInterface_GetArg{0x101d5c640, 0x101d5af88};
 
 // int (*)(CAI_INTERFACE* self, const FACTION& a, const FACTION& b), EMPIRECAMPAIGNAI::CAI_INTERFACE::get_faction_attitude:
 // sums the attitude components, rounded. Found via the RTTI of its lambda (vtable 0x104c12268)
-constexpr uint64_t CAI_GetFactionAttitude = 0x10229D814;
+constexpr BuildAddress CAI_GetFactionAttitude{0x10229d814, 0x10229c15c};
 using FactionAttitudeValue = int;
 
 // Offsets
@@ -103,22 +101,22 @@ constexpr int RegionWealthCategoryCount = 15;
 
 // DATABASE (the loaded DB tables, game + mods merged)
 // The campaign global the UI uses to reach the world: *(*(*g_Campaign + 0x30) + 0x48)
-constexpr uint64_t g_Campaign = 0x105608EA0;
+constexpr BuildAddress g_Campaign{0x105608ea0, 0x105609210};
 constexpr uint64_t Campaign_Handle = 0x30;
 constexpr uint64_t World_Database = 0x21E0;                // DB_GetContainer(world + 0x21e0)
 // void* (*)(void** worldDatabaseField) = *(*(*field + 0x58) + 0x20), the DB container
-constexpr uint64_t DB_GetContainer = 0x101E76780;
+constexpr BuildAddress DB_GetContainer{0x101e76780, 0x101e750c8};
 // DB table accessors: DATABASE_TABLE* (*)(void* container), load the table on first use ("Loading database: %s")
-constexpr uint64_t DB_BuildingLevels = 0x102C86DFC;        // container + 0x1fb0
-constexpr uint64_t DB_RegionToProvinceJunctions = 0x102CC5C08; // container + 0x1630
-constexpr uint64_t DB_Provinces = 0x102C8EA88;             // container + 0x1638
-constexpr uint64_t DB_MainUnits = 0x102C90940;             // container + 0x14d8
+constexpr BuildAddress DB_BuildingLevels{0x102c86dfc, 0x102c85744};        // container + 0x1fb0
+constexpr BuildAddress DB_RegionToProvinceJunctions{0x102cc5c08, 0x102cc4550}; // container + 0x1630
+constexpr BuildAddress DB_Provinces{0x102c8ea88, 0x102c8d3d0};             // container + 0x1638
+constexpr BuildAddress DB_MainUnits{0x102c90940, 0x102c8f288};             // container + 0x14d8
 // the levy pools: faction -> mercenary set, set -> unit groups, group -> unit (layouts in docs/addresses.md)
-constexpr uint64_t DB_FactionToMercenarySetJunctions = 0x102CC6B40;
-constexpr uint64_t DB_MercenaryPoolToGroupsJunctions = 0x102CC71B8;
-constexpr uint64_t DB_MercenaryUnitGroups = 0x102CC6E98;
+constexpr BuildAddress DB_FactionToMercenarySetJunctions{0x102cc6b40, 0x102cc5488};
+constexpr BuildAddress DB_MercenaryPoolToGroupsJunctions{0x102cc71b8, 0x102cc5b00};
+constexpr BuildAddress DB_MercenaryUnitGroups{0x102cc6e98, 0x102cc57e0};
 // int* (*)(StringHashMap* map, const TempString* key), the record index or null
-constexpr uint64_t StringHashMap_Find = 0x1010E5040;
+constexpr BuildAddress StringHashMap_Find{0x1010e5040, 0x1010e3988};
 
 // LOCALISATION
 constexpr uint64_t Database_Localisation = 0x2200;         // container + 0x2200 (sub_1030f0534)
@@ -156,7 +154,7 @@ constexpr uint64_t MercenaryGroup_MaxReplenishPerTurn = 0x1C; // int32
 constexpr uint64_t MercenaryGroup_Unit = 0x20;             // main_units record*
 
 // the diplomacy screen's actions (twase.dev_diplomacy_actions)
-constexpr uint64_t DiplomacyDropdown_Vtable = 0x104CC6A38; // UIDLL::DiplomacyDropdown (RTTI typeinfo 0x104cc6d38)
+constexpr BuildAddress DiplomacyDropdown_Vtable{0x104cc6a38, 0x104cc68d8}; // UIDLL::DiplomacyDropdown (RTTI typeinfo 0x104cc6d38)
 // DiplomacyDropdown_Context, DiplomacyContext_Negotiation and DiplomaticAction_Type: see NATIVE REGION TRADING below
 constexpr uint64_t Negotiation_ActionList = 0x700;         // list: count + 0xc, DIPLOMATIC_ACTION** + 0x10 (= Negotiation_ActionCount / _Actions)
 constexpr uint64_t ActionList_Count = 0x0C;
@@ -168,40 +166,40 @@ constexpr uint64_t DiplomaticAction_Flags = 0x18;          // uint8 available, u
 // RegionList (*)(FACTION* from, FACTION* to) through x8: from's regions that can be given, not the capital, no garrisoned
 // army / navy; with `to`, only regions where an army of `to` stands (the horde settling rule). Used by the region panel
 // (0x1035adce8: offers from -> to, demands to -> from) and by the availability rule below
-constexpr uint64_t Faction_GiftableRegions = 0x101BDAD20;
+constexpr BuildAddress Faction_GiftableRegions{0x101bdad20, 0x101bd9668};
 // bool (*)(FACTION* a, FACTION* b), is the trade regions action (type 6) available: one side human, the other a horde,
 // and giftable regions exist (called by the action's availability update 0x1025c79a0)
-constexpr uint64_t DiplomaticAction_RegionTradePossible = 0x1025C7A6C;
+constexpr BuildAddress DiplomaticAction_RegionTradePossible{0x1025c7a6c, 0x1025c63b4};
 constexpr uint64_t Faction_IsHuman = 0x970;                // bool (the Lua is_human)
 constexpr uint64_t Faction_RegionCount = 0xA4C;            // u32, the regions at +0xa50 (the Lua region_list 0x101d2a614)
 constexpr uint64_t Faction_CanOwnLand = 0x1751;            // bool, 0 for hordes that can't settle (0x101bec634; needed by vanilla's Gift Region to a horde and transfer_region_to_faction)
-constexpr uint64_t Faction_IsHorde = 0x101B521EC;          // void* (*)(FACTION*), non-null for hordes (the Lua is_horde)
+constexpr BuildAddress Faction_IsHorde{0x101b521ec, 0x101b50b34};          // void* (*)(FACTION*), non-null for hordes (the Lua is_horde)
 using FactionIsHordeValue = void*;
 
 // The native region panel (UIDLL::DiplomacyTradeRegionsPanel, layout diplomacy_hud "trade_regions")
 // void (*)(PANEL* self, DIPLOMATIC_ACTION* action): fills list_offers (player -> AI) and list_demands (AI -> player)
-constexpr uint64_t TradeRegionsPanel_Populate = 0x1035AD948;
+constexpr BuildAddress TradeRegionsPanel_Populate{0x1035ad948, 0x1035ac290};
 constexpr uint64_t TradeRegionsPanel_Component = 0x8;      // UIComponent*
 // UIComponent* (*)(UIComponent* parent, const TempString* name, bool recursive)
-constexpr uint64_t UIComponent_FindChild = 0x1032D4F88;
+constexpr BuildAddress UIComponent_FindChild{0x1032d4f88, 0x1032d38d0};
 // void (*)(UIComponent*, bool), the engine side of the Lua SetVisible
-constexpr uint64_t UIComponent_SetVisible = 0x1032C6B00;
+constexpr BuildAddress UIComponent_SetVisible{0x1032c6b00, 0x1032c5448};
 // void (*)(PANEL* self, UIComponent* row): unticks every row of both lists, ticks `row` (may be null) and keeps it as
 // the one selection, sets ok_trade_regions active / inactive and pans the camera to the row's region
-constexpr uint64_t TradeRegionsPanel_SelectRow = 0x1035ADFF8;
+constexpr BuildAddress TradeRegionsPanel_SelectRow{0x1035adff8, 0x1035ac940};
 constexpr uint64_t TradeRegionsPanel_Selected = 0x78;      // UIComponent* row
 // uint64_t (*)(PANEL* self, void** event): event[0] the clicked component (a row's checkbox: its row at + 0x108), the
 // byte at event + 8 is 1 if the checkbox is now ticked (the rest of that word is garbage); also the OK and cancel buttons
-constexpr uint64_t TradeRegionsPanel_OnClick = 0x1035AE4C4;
+constexpr BuildAddress TradeRegionsPanel_OnClick{0x1035ae4c4, 0x1035ace0c};
 constexpr uint64_t UIComponent_ClickedRow = 0x108;
 // The panel's list rows: UIComponent* (*)(UIComponent* listBox, void* rowTemplate (= panel + 0x70), const TempString* id,
 // void*, void*, int32_t, int32_t, void*, bool (stack, true), void* (stack)), as the fill function 0x1035adce8 calls it;
 // it then sets the row's text (UIComponent_SetText). 0x1032d25b4(listBox) removes all rows, 0x1032bc860(listBox) lays
 // the list out again.
-constexpr uint64_t UIComponent_CreateListRow = 0x1032EF074;
+constexpr BuildAddress UIComponent_CreateListRow{0x1032ef074, 0x1032ed9bc};
 constexpr uint64_t TradeRegionsPanel_RowTemplate = 0x70;
-constexpr uint64_t ListBox_Clear = 0x1032D25B4;
-constexpr uint64_t ListBox_Layout = 0x1032BC860;
+constexpr BuildAddress ListBox_Clear{0x1032d25b4, 0x1032d0efc};
+constexpr BuildAddress ListBox_Layout{0x1032bc860, 0x1032bb1a8};
 
 // The diplomacy's "Add Offer/Demand" list: entries in a vector at DiplomacyDropdown + 0x1c0 ({ capacity, count,
 // ENTRY* }, 0x20-byte entries: UniString text (the tooltip), two flags at + 0x10 / + 0x11, the action at + 0x18), built by
@@ -211,64 +209,64 @@ constexpr uint64_t ListBox_Layout = 0x1032BC860;
 constexpr uint64_t DiplomacyDropdown_ActionEntries = 0x1C0;
 constexpr uint64_t DiplomacyDropdown_Context = 0x200;       // DIPLOMACY_CONTEXT*, its negotiation at + 0xd0
 constexpr uint64_t DiplomacyDropdown_ActionButtonParent = 0x118;
-constexpr uint64_t DiplomacyDropdown_MakeActionButtons = 0x1035F4538;
-constexpr uint64_t Vector_PushActionEntry = 0x103200F00;   // void (*)(VECTOR*, const ENTRY*), copies the entry
-constexpr uint64_t UniString_Copy = 0x10104A138;           // void (*)(UniString* self, const UniString* other)
+constexpr BuildAddress DiplomacyDropdown_MakeActionButtons{0x1035f4538, 0x1035f2e80};
+constexpr BuildAddress Vector_PushActionEntry{0x103200f00, 0x1031ff848};   // void (*)(VECTOR*, const ENTRY*), copies the entry
+constexpr BuildAddress UniString_Copy{0x10104a138, 0x101048a80};           // void (*)(UniString* self, const UniString* other)
 // A click on an action button: void (*)(DROPDOWN*, EVENT*), event + 8 the button (its controller + 0x50 the action),
 // then 0x1035f5044(dropdown, 0, action) opens the action's panel (type 6: the region panel, 0x1035f6b88). 0x1035f5290 is
 // the same through the dropdown's other base (this = dropdown + 0x68).
-constexpr uint64_t DiplomacyDropdown_OnActionButton = 0x1035F4FE8;
+constexpr BuildAddress DiplomacyDropdown_OnActionButton{0x1035f4fe8, 0x1035f3930};
 constexpr uint64_t ActionButtonEvent_Button = 0x8;         // the event's button UIComponent*
 constexpr uint64_t ActionButtonEvent_Clicked = 0x10;       // uint8, 1 for a click
 constexpr uint64_t ActionButtonController_Action = 0x50;   // the button's controller (+ UIComponent_Checkbox): its action
 constexpr uint64_t UniString_Size = 0x10;
-constexpr uint64_t DiplomacyDropdown_OnActionButtonThunk = 0x1035F5290;
+constexpr BuildAddress DiplomacyDropdown_OnActionButtonThunk{0x1035f5290, 0x1035f3bd8};
 // void (*)(DIPLOMACY_CONTEXT*, DIPLOMATIC_ACTION*): puts an action into the deal with empty terms (the dispatcher's way
 // for simple terms); used for peace and tributary
-constexpr uint64_t DiplomacyContext_AddTerm = 0x1036CBADC;
+constexpr BuildAddress DiplomacyContext_AddTerm{0x1036cbadc, 0x1036ca424};
 // void (*)(DIPLOMACY_CONTEXT*, DIPLOMATIC_ACTION*): the tributary term the way the "Make Tributary State" button adds it
 // (terms with 0x1024d5b54: the other side becomes your tributary; the generic add leaves the direction empty, and the
 // game then makes you the tributary)
-constexpr uint64_t DiplomacyContext_AddTributaryTerm = 0x1036CBA5C;
+constexpr BuildAddress DiplomacyContext_AddTributaryTerm{0x1036cba5c, 0x1036ca3a4};
 constexpr int DiplomaticAction_Peace = 12;               // "Peace Treaty"
 constexpr int DiplomaticAction_MakeTributary = 25;       // "Make Tributary State" (not available at war)
 constexpr uint64_t DiplomaticAction_Available = 0x18;    // bool, + 0x19 blocked
 constexpr uint64_t TradeRegionsPanel_OtherFaction = 0x80;  // FACTION* of the AI, set by Populate
 // FACTION* (*)(DIPLOMATIC_ACTION*): the action's two factions (Populate takes the one that isn't the local faction)
-constexpr uint64_t DiplomaticAction_FactionA = 0x1024C829C;
-constexpr uint64_t DiplomaticAction_FactionB = 0x1025D2180;
+constexpr BuildAddress DiplomaticAction_FactionA{0x1024c829c, 0x1024c6be4};
+constexpr BuildAddress DiplomaticAction_FactionB{0x1025d2180, 0x1025d0ac8};
 // void (*)(DIPLOMACY_CONTEXT*, int32_t regionId, FACTION* demandedFrom (null: offered), DEAL* deal): the OK button;
 // fills deal terms with the one region and applies them to the deal (replacing the region term)
-constexpr uint64_t DiplomacyContext_SetRegion = 0x1036CB868;
-constexpr uint64_t DealTerms_ctor = 0x1024C8130;           // void (*)(TERMS*), about 0x1b0 bytes
-constexpr uint64_t DealTerms_dtor = 0x101A82704;           // void (*)(TERMS*)
-constexpr uint64_t DealTerms_SetDemandedRegions = 0x1025C7DF4; // void (*)(TERMS*, const List*), copied to + 0x10
-constexpr uint64_t DealTerms_SetOfferedRegions = 0x1025C7F00;  // void (*)(TERMS*, const List*), copied to + 0x20
+constexpr BuildAddress DiplomacyContext_SetRegion{0x1036cb868, 0x1036ca1b0};
+constexpr BuildAddress DealTerms_ctor{0x1024c8130, 0x1024c6a78};           // void (*)(TERMS*), about 0x1b0 bytes
+constexpr BuildAddress DealTerms_dtor{0x101a82704, 0x101a8104c};           // void (*)(TERMS*)
+constexpr BuildAddress DealTerms_SetDemandedRegions{0x1025c7df4, 0x1025c673c}; // void (*)(TERMS*, const List*), copied to + 0x10
+constexpr BuildAddress DealTerms_SetOfferedRegions{0x1025c7f00, 0x1025c6848};  // void (*)(TERMS*, const List*), copied to + 0x20
 // void (*)(DEAL*, void* x, TERMS*), a thunk to the deal's virtual + 0x78; x = *(*(*(context + 0xc0) + 0x30) + 0x50)
-constexpr uint64_t Deal_ApplyTerms = 0x1025D2124;
+constexpr BuildAddress Deal_ApplyTerms{0x1025d2124, 0x1025d0a6c};
 // void (*)(DIPLOMATIC_ACTION_TRADE_REGIONS*): executes the deal, list 1 to negotiation faction A, list 2 to faction B
 // (vtable 0x104c1e520 slot 13)
-constexpr uint64_t TradeRegions_Execute = 0x1025C8188;
+constexpr BuildAddress TradeRegions_Execute{0x1025c8188, 0x1025c6ad0};
 constexpr uint64_t DiplomaticAction_Negotiation = 0x8;
 // void (*)(SETTLEMENT*, FACTION*, int64_t, int32_t): the deal's transfer of one region (reason 5, diplomacy)
-constexpr uint64_t Settlement_DiplomaticTransfer = 0x101CEB290;
+constexpr BuildAddress Settlement_DiplomaticTransfer{0x101ceb290, 0x101ce9bd8};
 constexpr uint64_t Region_Settlement = 0x1A8;              // SETTLEMENT*
 // The deal list row of a trade regions action (UIDLL::DiplomacyListTradeRegionsButton, vtable slot + 0x1e0):
 // void (*)(BUTTON* self, UIComponent* dropdownRoot, ENTRY* entry, void* context); entry + 0x18 = the action.
 // It shows the demanded regions if there are any, else the offered ones, in "region_names".
-constexpr uint64_t DiplomacyListTradeRegionsButton_Setup = 0x1035A6EEC;
+constexpr BuildAddress DiplomacyListTradeRegionsButton_Setup{0x1035a6eec, 0x1035a5834};
 constexpr uint64_t ActionEntry_Action = 0x18;              // the entry's DIPLOMATIC_ACTION*
 constexpr uint64_t ListButton_Row = 0x8;                   // the button's row UIComponent*
 constexpr uint64_t Region_Owner = 0x1A0;                   // **(region + 0x1a0) = owning FACTION* (the Lua owning_faction)
-constexpr uint64_t Region_LocalisedName = 0x101C57700;     // const UniString* (*)(REGION*)
+constexpr BuildAddress Region_LocalisedName{0x101c57700, 0x101c56048};     // const UniString* (*)(REGION*)
 // UniString (UTF-16, 0x10 bytes): ctor from a u"" literal, append, append literal, non-empty, set component text
-constexpr uint64_t UniString_ctor = 0x101049D84;
-constexpr uint64_t UniString_Append = 0x1010537FC;
-constexpr uint64_t UniString_AppendLiteral = 0x1010535FC;
-constexpr uint64_t UniString_NotEmpty = 0x1010493B4;
-constexpr uint64_t UIComponent_SetText = 0x1032C918C;      // void (*)(UIComponent*, const UniString*, bool)
-constexpr uint64_t Campaign_LocalFaction = 0x1036C2C94;    // FACTION* (*)(CAMPAIGN* = *g_Campaign)
-constexpr uint64_t TempString_ToInt = 0x10109896C;         // bool (*)(const TempString*, int32_t* out)
+constexpr BuildAddress UniString_ctor{0x101049d84, 0x1010486cc};
+constexpr BuildAddress UniString_Append{0x1010537fc, 0x101052144};
+constexpr BuildAddress UniString_AppendLiteral{0x1010535fc, 0x101051f44};
+constexpr BuildAddress UniString_NotEmpty{0x1010493b4, 0x101047cfc};
+constexpr BuildAddress UIComponent_SetText{0x1032c918c, 0x1032c7ad4};      // void (*)(UIComponent*, const UniString*, bool)
+constexpr BuildAddress Campaign_LocalFaction{0x1036c2c94, 0x1036c15dc};    // FACTION* (*)(CAMPAIGN* = *g_Campaign)
+constexpr BuildAddress TempString_ToInt{0x10109896c, 0x1010972b4};         // bool (*)(const TempString*, int32_t* out)
 constexpr uint64_t Region_Id = 0x8;                        // int32, the panel's row ids ("%d")
 // UIComponent: id TempString at + 0xf8, children count + 0x114 / UIComponent** + 0x118, checkbox state at + 0x258
 constexpr uint64_t UIComponent_Id = 0xF8;
@@ -286,29 +284,29 @@ constexpr uint64_t UIComponent_CanResize = 0x190;
 // SetRegion's deal terms argument: *(*(*(context + 0xc0) + Campaign_Handle) + 0x50)
 constexpr uint64_t DiplomacyContext_Campaign = 0xC0;
 constexpr uint64_t ModelHandle_DealTermsContext = 0x50;
-constexpr uint64_t Checkbox_SetChecked = 0x1033090C0;      // void (*)(CHECKBOX*, bool, bool, bool)
+constexpr BuildAddress Checkbox_SetChecked{0x1033090c0, 0x103307a08};      // void (*)(CHECKBOX*, bool, bool, bool)
 
 // Gift sizes: float (*)(CAI_FACTION*, int32_t treasuryOffset) = clamp(GDP / economic_power_gdp_factor + (treasury +
 // offset) / economic_power_treasury_factor, economic_power_min, economic_power_max); a gift is small / medium / large
 // from gift_base_value_* x this (0x101d7ef3c). The CAI faction wrapper's FACTION is at + 0x150.
-constexpr uint64_t CaiFaction_EconomicPower = 0x1019E1568;
+constexpr BuildAddress CaiFaction_EconomicPower{0x1019e1568, 0x1019dfeb0};
 constexpr uint64_t CaiFaction_Faction = 0x150;
-constexpr uint64_t Treasury_Get = 0x101CB57F4;             // int32_t (*)(TREASURY* = FACTION + 0x250)
+constexpr BuildAddress Treasury_Get{0x101cb57f4, 0x101cb413c};             // int32_t (*)(TREASURY* = FACTION + 0x250)
 // float (*)(FACTION*): the faction's GDP per turn. The gift's linear score part (vtable + 0x28, 0x101d76bb4) is the
 // amount within / beyond the AI's budget, weighted by its personality, over the paying faction's GDP, capped.
-constexpr uint64_t Faction_Gdp = 0x101B70018;
+constexpr BuildAddress Faction_Gdp{0x101b70018, 0x101b6e960};
 using FactionGdpValue = float;
 constexpr uint64_t Faction_Treasury = 0x250;
 
 // Region value in the AI's deal evaluation
 // float (*)(NEGOTIATION* deal, void* aiContext, FACTION* a, FACTION* b, int32_t* out, bool* out)
-constexpr uint64_t Diplo_EvaluateDeal = 0x101D7B25C;
+constexpr BuildAddress Diplo_EvaluateDeal{0x101d7b25c, 0x101d79ba4};
 // float (*)(ComponentList* components, void* aiContext, FACTION* a, ...): scores the deal's CAI_DEAL_COMPONENT_* list
 // (entries {component*, int32 index}, 16 bytes); called once at the end of Diplo_EvaluateDeal
-constexpr uint64_t Diplo_ScoreComponents = 0x101D7E26C;
+constexpr BuildAddress Diplo_ScoreComponents{0x101d7e26c, 0x101d7cbb4};
 // void (*)(CAI_DEAL_COMPONENT_GIFT* self, void* aiContext, FACTION* a, FACTION* b, int32_t gold), 0x30 bytes;
 // the evaluator builds it for Payments with gold = -(payment amount)
-constexpr uint64_t DealComponentGift_ctor = 0x1024F485C;
+constexpr BuildAddress DealComponentGift_ctor{0x1024f485c, 0x1024f31a4};
 constexpr uint64_t DealComponentGift_Size = 0x30;
 // its score parts, float (*)(GIFT*) virtuals (vtable 0x104c1a2c0; + 0x18, the table part, needs the scorer's context)
 constexpr uint64_t DealComponentGift_BaseSlot = 0x10;
@@ -333,11 +331,11 @@ constexpr uint64_t DiplomaticAction_Type = 0x14;           // int32; + 0x10 side
 // FERAL MOD MANAGER (CModManager, see docs/macos/addresses.md)
 // uint64_t (*)(CModManager*), links the entries' packs into VFS/Local/mods; only FeralAppendModsToCommandLine
 // (0x100014f1c) calls it, after the DisableAllMods check and its 1 s wait for the Workshop details
-constexpr uint64_t CModManager_LinkPacks = 0x100014B34;
+constexpr BuildAddress CModManager_LinkPacks{0x100014b34, 0x100014b34};
 // void* (*)(CModManager*), sorts the entries (enabled first, then by order) and closes gaps in the order
-constexpr uint64_t CModManager_SortByOrder = 0x1000146D8;
+constexpr BuildAddress CModManager_SortByOrder{0x1000146d8, 0x1000146d8};
 // const char* (*)(const NString*), UTF-8 (encoding 1, cached in the string)
-constexpr uint64_t NString_CStr = 0x1002D404C;
+constexpr BuildAddress NString_CStr{0x1002d404c, 0x1002d3bd8};
 constexpr uint64_t CModManager_Refreshing = 0x09;   // bool, until all Workshop details (and their preferences) are in
 constexpr uint64_t CModManager_EntriesBegin = 0x18; // entries of CModManager_EntrySize bytes
 constexpr uint64_t CModManager_EntriesEnd = 0x20;
@@ -347,21 +345,21 @@ constexpr uint64_t ModEntry_Enabled = 0x69;
 
 // CAMPAIGN UI (Steam arm64; evidence in docs/macos/addresses.md)
 // Real writable const char* slot, loaded by both encyclopedia URL builders.
-constexpr uint64_t g_EncyclopediaBaseUrl = 0x104FF0E48;
-constexpr uint64_t Encyclopedia_NativeUrl = 0x104892DDE;
+constexpr BuildAddress g_EncyclopediaBaseUrl{0x104ff0e48, 0x104ff1178};
+constexpr BuildAddress Encyclopedia_NativeUrl{0x104892dde, 0x10489162e};
 // void* (*)(ENCYCLOPEDIA_PAGES*), may replace the slot from Feral's preference.
-constexpr uint64_t Encyclopedia_ctor = 0x10287E7F0;
-constexpr uint64_t Encyclopedia_UrlLoadEntry = 0x10287EB78;
-constexpr uint64_t Encyclopedia_UrlLoadPage = 0x10287ECD4;
+constexpr BuildAddress Encyclopedia_ctor{0x10287e7f0, 0x10287d138};
+constexpr BuildAddress Encyclopedia_UrlLoadEntry{0x10287eb78, 0x10287d4c0};
+constexpr BuildAddress Encyclopedia_UrlLoadPage{0x10287ecd4, 0x10287d61c};
 // intptr_t (*)(CampaignSettlementCallback*, REGION*), initializes building slot controllers.
-constexpr uint64_t CampaignSettlement_Initialize = 0x103457800;
+constexpr BuildAddress CampaignSettlement_Initialize{0x103457800, 0x103456148};
 // void* (*)(CampaignBuildingSlot*), clears dynamic contents and its building pointer (also called by native refresh).
-constexpr uint64_t CampaignBuildingSlot_Clear = 0x10345B30C;
+constexpr BuildAddress CampaignBuildingSlot_Clear{0x10345b30c, 0x103459c54};
 constexpr uint64_t CampaignSettlement_Component = 0x08;
 constexpr uint64_t CampaignSettlement_IsCapital = 0x70; // province-capital card, NOT currently selected region
 constexpr uint64_t CampaignSettlement_MaxSlots = 0x74;  // int32, native 4 or 6
 
 // PATCHES
-constexpr uint64_t BitSetCrashAddr = 0x101A51C58;
+constexpr BuildAddress BitSetCrashAddr{0x101a51c58, 0x101a505a0};
 
 } // namespace sdk::Attila::Addresses

@@ -85,7 +85,11 @@ std::vector<std::string> EnumerateModFolders(const std::string& campaignFolder)
     // the loose mods, which the VFS search misses next to a pack with the same mods folder
     if (App::Get())
     {
-        const auto looseDir = App::Get()->GetPaths()->GetRootDir() / "TotalWarAttilaData" / "data" / campaignFolder / "mods";
+        const auto* paths = App::Get()->GetPaths();
+        const auto dataDir = Image::Get()->IsAppStore()
+            ? paths->GetExe().parent_path().parent_path() / "Resources" / "Data" / "data"
+            : paths->GetRootDir() / "TotalWarAttilaData" / "data";
+        const auto looseDir = dataDir / campaignFolder / "mods";
         std::error_code err;
         for (const auto& entry : std::filesystem::directory_iterator(looseDir, err))
         {

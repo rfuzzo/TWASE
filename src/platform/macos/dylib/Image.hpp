@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../sdk/Attila/Build.hpp"
+
 // The game's main executable (the game code is statically linked into it, there is no empire.retail.dll on macOS)
 class Image
 {
@@ -7,8 +9,9 @@ public:
     static Image* Get();
 
     bool IsAttila() const;
-    // true if the executable is the exact build our addresses were made for
+    // True only for a build with a complete, verified native address table.
     bool IsSupported() const;
+    bool IsAppStore() const;
 
     const std::string& GetUUID() const;
     const std::string& GetVersion() const;
@@ -30,6 +33,7 @@ private:
     ~Image() = default;
 
     bool m_isAttila;
+    sdk::Attila::Build m_gameBuild = sdk::Attila::Build::Unknown;
     std::string m_uuid;
     std::string m_version;
     std::string m_build;

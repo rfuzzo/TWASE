@@ -1,4 +1,4 @@
--- macOS: libTWASE.dylib (arm64, Feral port) and twase-launch.command
+-- macOS: libTWASE.dylib (arm64, Feral port), Steam and App Store development-copy launchers
 
 -- Game root for post-build deployment (can be overridden with the TWASE_GAMEROOT env var)
 local gameroot = os.getenv("TWASE_GAMEROOT") or
@@ -73,10 +73,12 @@ target("twase")
         os.mv(temp, dest)
         print(string.format("[twase] Copied %s -> %s", dylib, destdir))
 
-        local launcher = path.join(scriptdir, "launcher", "twase-launch.command")
-        os.cp(launcher, gameroot)
-        os.exec("chmod +x \"%s\"", path.join(gameroot, "twase-launch.command"))
-        print(string.format("[twase] Copied %s -> %s", launcher, gameroot))
+        for _, name in ipairs({"twase-launch.command", "twase-appstore.command"}) do
+            local launcher = path.join(scriptdir, "launcher", name)
+            os.cp(launcher, gameroot)
+            os.exec("chmod +x \"%s\"", path.join(gameroot, name))
+            print(string.format("[twase] Copied %s -> %s", launcher, gameroot))
+        end
     end)
 
     on_run(function (target)

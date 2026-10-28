@@ -10,7 +10,7 @@ Status 2026-10-28. Total War: ATTILA is sold in several builds. TWASE's addresse
 | Windows, GOG | `empire.retail.dll` | x86 [INFERENCE] | unknown, no copy analysed | not supported, not detected |
 | Windows, Epic | `empire.retail.dll` [INFERENCE] | x86 [INFERENCE] | unknown, no copy analysed | not supported, not detected |
 | Mac, Steam | `Total War ATTILA.app/Contents/MacOS/Total War ATTILA` | arm64 | Feral 1.6.1 RC2, `CFBundleVersion 480285.103778`, `LC_UUID 392D6F66-9183-329E-8A98-8C90FC828326` | supported |
-| Mac, App Store | `/Applications/Total War ATTILA.app/Contents/MacOS/Total War ATTILA` | arm64 | Feral 1.6.1 RC4, `CFBundleVersion 480969.104294`, `LC_UUID 196C74A0-71A2-3C28-80DF-BC3DB1C7FEB7` | not supported, TWASE can't be injected |
+| Mac, App Store | `/Applications/Total War ATTILA.app/Contents/MacOS/Total War ATTILA` | arm64 | Feral 1.6.1 RC4, `CFBundleVersion 480969.104294`, `LC_UUID 196C74A0-71A2-3C28-80DF-BC3DB1C7FEB7` | development-copy support; original app is not injected |
 
 The Epic store page mentions cross-play "only with GOG at the moment", so an Epic build exists alongside GOG ([store page](https://store.epicgames.com/p/total-war-attila-1b8242)).
 
@@ -40,7 +40,7 @@ No copy was analysed. What's likely [INFERENCE]: the same CA code with a differe
 
 ### Steam (supported)
 
-`Image::IsSupported()` in `src/platform/macos/dylib/Image.cpp` compares the executable's `LC_UUID` with `sdk::Attila::Addresses::SupportedUUID`; on any other build TWASE logs an error and hooks nothing. All Mac docs ([addresses](macos/addresses.md), [anti-tamper](macos/anti-tamper-overview.md)) are for this build.
+`Image::IsSupported()` in `src/platform/macos/dylib/Image.cpp` accepts only the two executable UUIDs above and the Attila bundle ID. `BuildAddress` stores independently verified Steam/App Store VAs; UUID selection happens before any patch, hook, or game API initializes. Object offsets remain separate integers. Unknown builds get no hooks. Earlier Mac analysis sections are Steam-specific unless headed otherwise.
 
 Injection works because of the Steam build's entitlements (`codesign -dv --entitlements -`):
 
@@ -51,30 +51,40 @@ Injection works because of the Steam build's entitlements (`codesign -dv --entit
 
 ### App Store
 
-Same version number, but a later release candidate (RC4) and another UUID; the bytes at the same addresses differ ([integrity-and-quirks.md](macos/integrity-and-quirks.md)). Keep App Store and Steam analysis databases separate and identify them by the executable UUID ([re-tooling.md](macos/re-tooling.md)).
+The App Store build has independently mapped addresses and requires a prepared development copy. The stock app
+remains vendor-signed and sandboxed, without the DYLD/library-validation entitlements needed by TWASE. It is never
+modified or used as the injected target.
 
-Differences that matter for TWASE:
+`twase-appstore.command --prepare <new.app>` APFS-clones the installed app and receipt to a nonexistent destination,
+then ad-hoc signs only the copy with hardened runtime and the three Steam-style injection entitlements. The
+development copy is **unsandboxed and no longer vendor signed**. Receipt and licence validation are not patched or
+bypassed. The launcher checks the exact App Store UUID, receipt presence, signature, and injection entitlements
+before launch; it refuses the installed original, existing preparation destinations, and writable state inside either
+app. Updates require a freshly prepared copy and an independently supported build.
 
-- **Injection is blocked.** Both builds have the hardened runtime (`flags=0x10000(runtime)`), but the App Store build has the sandbox on and neither `allow-dyld-environment-variables` nor `disable-library-validation`. dyld drops `DYLD_INSERT_LIBRARIES`, and a dylib not signed by Feral's team (`XH73Y9BGP8`) isn't allowed to load. Getting in would mean re-signing the app with changed entitlements; whether the game still starts then (App Store receipt in `Contents/_MASReceipt`, Feral's code signature checks, `CodeSign_CheckSelf_*` in the Steam build) is untested.
-- **No Steam.** No `libsteam_api.dylib` in `Contents/Frameworks`, so no Workshop folder and no `%command%` launch options; `twase-launch.command` assumes Steam (`SteamAppId`, `STEAM_DYLD_INSERT_LIBRARIES`, the Workshop pack lookup).
-- **Sandboxed paths.** Feral's preferences and VFS are in `~/Library/Containers/com.feralinteractive.attilatw/Data/Library/Application Support/Feral Interactive/Total War ATTILA/` instead of `~/Library/Application Support/Feral Interactive/Total War ATTILA/`. The game is in `/Applications`, so there's no Steam game folder for `TWASE/` (config, logs) next to the `.app`, and the sandbox limits where the game may write.
-- **Addresses.** Every address in `src/platform/macos/sdk/Attila/Addresses.hpp` would have to be found again. Struct layouts are probably the same as the Steam build (same version, same arch) [INFERENCE].
+There is no Steam dependency or Workshop lookup. The App Store launcher injects only TWASE and sets both `HOME`
+and `CFFIXED_USER_HOME` to `<launcher directory>/TWASE/appstore-home`. Feral preferences, saves, VFS and local mods
+are created there, separate from both the installed App Store container and Steam user data. TWASE config/logs are
+in `<launcher directory>/TWASE/` (`TWASE_ROOT` can select another existing launcher root).
 
-## What this means for the repo
+The app's read-only game data lives at `Contents/Resources/Data/data`; pack mods belong in the private Feral
+`VFS/Local/local_mods/<mod>/` directory and are enabled through Feral's manager. Do not modify the signed bundle.
+After an initial normal launch creates private preferences, `--skip-launcher` and `--load` use only that private
+registry and restore their overrides after exit. Existing saves must be copied into the private save directory.
+The Steam Workshop timing/order hook is not installed on the App Store build.
 
-Today a platform and a build are the same thing: `src/platform/<os>/sdk/Attila/Addresses.hpp` is one `constexpr` table per OS, `Features.hpp` sets compile-time `TWASE_HAS_*` flags per OS, and `src/core` uses both by name. That holds as long as each OS has exactly one supported build. It doesn't change the core/platform split ([development.md](development.md)): the shared logic, the console and the `twase.*` API stay as they are.
+Static analysis matched all 111 native address declarations and four clean-text anchor locations independently.
+Full routine comparison preserves object-field offsets, normalizing only PC-relative references and proven
+ADRP-derived global addresses; data globals, vtables and the changed write-probe routine have separate evidence.
+Build-specific Lua-sink, encyclopedia-load and integrity-call instructions are checked before patching.
+See [App Store evidence](macos/addresses.md#app-store-arm64-rc4).
 
-Supporting a second build on the same OS changes the address layer:
+## Address-layer contract
 
-| Concern | Now | With several builds per OS |
-|---|---|---|
-| Build detection | Mac: `LC_UUID` gate. Windows: none | Both: an exact build ID (Mac `LC_UUID`; Windows PE timestamp + `SizeOfImage`, or a hash of `empire.retail.dll`), no hooks on an unknown build |
-| Addresses | one `constexpr` namespace per OS | one table per build, picked at startup; `constexpr` names become fields of a table the platform hands to the core (or a namespace per build behind one accessor) |
-| Struct offsets | per OS (pointer size) | still per OS and arch; only split per build where a layout actually differs |
-| Feature flags | `#define TWASE_HAS_*` per OS | per build at run time, since a new build may lack some addresses; unavailable `twase.*` functions must be omitted or report unavailability |
-| Resolution | fixed addresses | one verified table per build, or checked signatures that resolve targets at startup; an unknown or ambiguous layout must not be hooked |
-| Docs | `docs/macos/addresses.md` is per build | addresses docs keyed by build ID, as they are already headed |
-
-The Mac App Store build adds more than a table: an injection method that works under the sandbox and without the DYLD entitlements, and paths outside a Steam game folder. That is a launcher/loader problem in `src/platform/macos/`, not in the core.
+Windows still uses its fixed RVA table. macOS now uses `BuildAddress{steamVA, appStoreVA}` for executable addresses,
+selected once by exact UUID. Constant-initialized hooks retain references to these pairs rather than resolving
+addresses during global initialization; the shared database accessor list likewise keeps the platform address type.
+Object offsets and calling conventions are shared only where supported by the mapped routine evidence and runtime
+smokes. No signature scanner runs in the game, and no constant-delta adjustment is used between builds.
 
 The cheapest first step, independent of new builds: add the build check on Windows (record the ID the table was made for, compare it in `App.cpp` before patching), so TWASE stays inactive on GOG, Epic or a Steam update instead of patching wrong addresses.

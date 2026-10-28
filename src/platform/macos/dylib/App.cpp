@@ -108,8 +108,8 @@ void App::Initialize()
 {
     if (!Image::Get()->IsSupported())
     {
-        spdlog::error("This game build is not supported (expected UUID {}), TWASE will not hook anything",
-                      sdk::Attila::Addresses::SupportedUUID);
+        spdlog::error("This game build is not supported (expected Steam UUID {} or App Store UUID {}), TWASE will not hook anything",
+                      sdk::Attila::SteamUUID, sdk::Attila::AppStoreUUID);
         return;
     }
 
@@ -196,7 +196,11 @@ bool App::AttachHooks()
     success &= Hooks::DiplomacyLikelihoodHook::Attach();
     success &= Hooks::CampaignUIHook::Attach();
     success &= Hooks::NativeRegionTradingHook::Attach();
-    success &= Hooks::FeralModOrderHook::Attach();
+    // This workaround waits for Steam Workshop callbacks; the App Store has no Steam subscriptions.
+    if (!Image::Get()->IsAppStore())
+    {
+        success &= Hooks::FeralModOrderHook::Attach();
+    }
 
     // The console is optional; TWASE still works without it.
     if (!Hooks::MetalHook::Attach())

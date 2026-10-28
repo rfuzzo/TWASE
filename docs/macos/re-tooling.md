@@ -12,13 +12,18 @@ and verify the executable UUID before selecting a database.
 | What | Path |
 |---|---|
 | Game (Steam, arm64, LC_UUID `392D6F66-…`) | `~/Library/Application Support/Steam/steamapps/common/Total War Attila/Total War ATTILA.app/Contents/MacOS/Total War ATTILA` |
-| Mac App Store copy (different build, UUID `196C74A0-…`, **not** the one TWASE targets) | `/Applications/Total War ATTILA.app` |
+| Mac App Store original (RC4, UUID `196C74A0-…`; analyse separately from Steam) | `/Applications/Total War ATTILA.app`; runtime uses an explicitly prepared private copy |
 | TWASE install, `config.ini`, logs (`twase-*.log`, `twase-launch.log`) | `<game root>/TWASE/`, `<game root>/TWASE/logs/` |
 | Feral preferences (XML; display/notch/mouse settings live here) | `~/Library/Application Support/Feral Interactive/Total War ATTILA/Preferences Data` |
 | Binary Ninja databases | `<Steam analysis database>.bndb` for the supported build (anti-tamper functions named `AntiTamper_*`, `CodeSign_*`, `SteamApi_*`, `xxh64`); `<App Store analysis database>.bndb` for RC4, which has different addresses |
 
 Image base `0x100000000`; for `__TEXT`, file offset = VA − `0x100000000`. `__text` = `0x100012020`, size
 `0x4132b94` (from `otool -l`).
+
+The scanner/emulation snippets below describe the original Steam investigation, not interchangeable App Store
+addresses. Both builds now have per-symbol native tables; see [App Store evidence](addresses.md#app-store-arm64-rc4).
+For App Store runtime work, use `twase-appstore.command`; its config/logs live beside that launcher and its private
+Feral preferences/VFS live in `TWASE/appstore-home`, not the installed app's sandbox container.
 
 ## Binary Ninja over MCP (main tool)
 

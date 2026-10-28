@@ -98,6 +98,15 @@ Image::Image()
     {
         m_slide = static_cast<uintptr_t>(_dyld_get_image_vmaddr_slide(*index));
         m_uuid = ReadUUID(reinterpret_cast<const mach_header_64*>(_dyld_get_image_header(*index)));
+        if (m_uuid == sdk::Attila::SteamUUID)
+        {
+            m_gameBuild = sdk::Attila::Build::Steam;
+        }
+        else if (m_uuid == sdk::Attila::AppStoreUUID)
+        {
+            m_gameBuild = sdk::Attila::Build::AppStore;
+        }
+        sdk::Attila::detail::selectedBuild = m_gameBuild;
     }
 }
 
@@ -114,7 +123,12 @@ bool Image::IsAttila() const
 
 bool Image::IsSupported() const
 {
-    return m_uuid == sdk::Attila::Addresses::SupportedUUID;
+    return m_isAttila && m_gameBuild != sdk::Attila::Build::Unknown;
+}
+
+bool Image::IsAppStore() const
+{
+    return m_gameBuild == sdk::Attila::Build::AppStore;
 }
 
 const std::string& Image::GetUUID() const

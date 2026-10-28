@@ -17,7 +17,7 @@ A script extender for **Total War: ATTILA** on Windows and Mac, similar to and h
 ## Requirements
 
 - **Windows:** Total War: ATTILA from Steam
-- **Mac:** a Mac with Apple Silicon and Total War: ATTILA from Steam (Feral version 1.6.1). On other game versions TWASE stays inactive.
+- **Mac:** Apple Silicon and the supported Feral 1.6.1 Steam build, or an explicitly prepared development copy of the supported Mac App Store build (see below). Other executable UUIDs stay inactive.
 
 ## Installation
 
@@ -27,7 +27,7 @@ Download the zip for your system from [Releases](https://github.com/rfuzzo/TWASE
 
 Extract the zip into the game folder, so that `winmm.dll` is next to `Attila.exe` and `TWASE.dll` is in the `TWASE` folder. Then play as usual.
 
-### Mac
+### Mac — Steam
 
 1. Extract the zip into the game folder, so that `twase-launch.command` and the `TWASE` folder are next to `Total War ATTILA.app`.
 2. macOS blocks downloaded files from unknown developers. Allow them once by running this in Terminal:
@@ -55,6 +55,39 @@ The launcher can also start the game directly, without Feral's launcher window. 
 ```bash
 ./twase-launch.command --mods mod_list.txt --load "Saxons 395 AD Spring.save"
 ```
+
+### Mac — App Store development copy
+
+The installed App Store app cannot load TWASE with its original entitlements. Use a **private APFS clone**;
+the original app and receipt are left intact. The copy is **ad-hoc signed and unsandboxed**, no longer vendor
+signed. TWASE does not bypass receipt or licence validation.
+
+Extract the Mac archive into a writable folder outside either app, then use Terminal:
+
+```sh
+mkdir -p "$HOME/Applications"
+./twase-appstore.command --prepare "$HOME/Applications/ATTILA-TWASE.app"
+./twase-appstore.command "$HOME/Applications/ATTILA-TWASE.app"
+```
+
+Preparation defaults to `/Applications/Total War ATTILA.app`, refuses an existing destination, and requires APFS
+clone support and Apple's command-line tools. Only RC4 build `480969.104294`, UUID
+`196C74A0-71A2-3C28-80DF-BC3DB1C7FEB7`, is accepted. Keep the prepared copy outside the installed original.
+
+Config and logs remain in `TWASE/` next to this launcher. Feral preferences, saves, and local mods are isolated in
+`TWASE/appstore-home/Library/Application Support/Feral Interactive/Total War ATTILA/`; existing Steam and App Store
+user data are neither copied nor changed. Put local packs in `VFS/Local/local_mods/<mod-name>/` under that private
+Feral directory, then enable them in Feral's mod manager. Do not modify the signed app bundle to install mods.
+There is no Workshop integration.
+
+After one normal launch creates private preferences, `--skip-launcher` and `--load "<save>"` are available.
+Copy any existing saves into the private `VFS/User/AppData/Roaming/The Creative Assembly/Attila/save_games/`
+directory first. These options restore their private preference overrides when the game exits.
+Run `./twase-appstore.command --help` for paths and preparation details.
+
+App updates need a freshly prepared copy and an independently supported executable UUID; do not reuse another
+build's address table. [Build identities and verification](docs/game-versions.md#app-store).
+
 
 ## Console
 
