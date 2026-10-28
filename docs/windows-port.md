@@ -180,3 +180,13 @@ that turn, carried over end turn and reappeared on reset. As documented,
 overrides persist across save loads within one game process. Quitting to the
 main menu and exiting caused no crash. Charlemagne and Last Roman campaigns are
 untested.
+
+Expansion above vanilla, same day, with The Dawnless Days 1.1.0 (its
+`settlement_panel` has `building_slot_1`–`12`, its startpos 12 slots per
+province capital and 9 elsewhere). TDD normally raises the bound with an
+external patcher (`TDD_12_9_slots_A.exe`, `WriteProcessMemory` on the
+constants in construction and capital presentation: 4 → 9, 6 → 12).
+attila-mods' `tdd_twase_slots` replaces that call with
+`twase.set_max_slots_major(12)` / `set_max_slots_minor(9)` on `UICreated`:
+the cards showed 12/9 with no console input, and `clear_max_slots()` restored
+the native 6/4.

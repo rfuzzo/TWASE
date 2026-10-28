@@ -175,6 +175,10 @@ twase.clear_max_slots();
 This expands the UI's display limit; it does not create building slots, change settlement database records, unlock
 buildings, or supply a layout for extra cards. The campaign data and UI mod must support the intended number of slots.
 
+Both overrides belong to the game process, not to a campaign or save: they stay set when the player loads another
+save or campaign, until the game exits or a mod clears them. A mod that needs them should set them every time its
+campaign script loads (for example on `UICreated`) rather than rely on an earlier call.
+
 ## Development probes
 
 With `lua_dev_functions = true` in the `[dev]` section of `config.ini`, the table also has probes for reverse engineering. They read raw memory and may change or go away in any version; don't use them in mods.
