@@ -73,6 +73,11 @@ After an initial normal launch creates private preferences, `--skip-launcher` an
 registry and restore their overrides after exit. Existing saves must be copied into the private save directory.
 The Steam Workshop timing/order hook is not installed on the App Store build.
 
+TWASE Launcher (`src/platform/macos/app/`) drives the same script with `TWASE_ROOT=~/Library/Application Support/TWASE`,
+so the private home is `~/Library/Application Support/TWASE/TWASE/appstore-home`. Its Mods tab symlinks selected packs
+from Feral's normal `local_mods` (or user-added folders) into the private `local_mods`; Feral's Mod Manager then lists
+them. Double-clicking a prepared copy runs it unsandboxed without TWASE, against the normal shared Feral folder.
+
 Static analysis matched all 111 native address declarations and four clean-text anchor locations independently.
 Full routine comparison preserves object-field offsets, normalizing only PC-relative references and proven
 ADRP-derived global addresses; data globals, vtables and the changed write-probe routine have separate evidence.

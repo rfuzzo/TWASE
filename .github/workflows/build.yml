@@ -88,7 +88,8 @@ jobs:
         run: xmake -y
 
       # package for release:
-      # twase-launch.command
+      # TWASE Launcher.app (bundles the dylib and both backend scripts)
+      # twase-launch.command, twase-appstore.command
       # TWASE/libTWASE.dylib
       - name: package for release
         run: |
@@ -98,7 +99,8 @@ jobs:
           cp src/platform/macos/launcher/twase-appstore.command package/
           chmod +x package/twase-launch.command package/twase-appstore.command
           codesign --force --sign - package/TWASE/libTWASE.dylib
-          cd package && zip -r -y ../TWASE-macOS-release.zip twase-launch.command twase-appstore.command TWASE
+          src/platform/macos/app/build-app.sh --dylib package/TWASE/libTWASE.dylib --output package
+          cd package && zip -r -y ../TWASE-macOS-release.zip "TWASE Launcher.app" twase-launch.command twase-appstore.command TWASE
 
       - name: Upload artifact
         uses: actions/upload-artifact@v7

@@ -32,11 +32,13 @@ The build copies `libTWASE.dylib` to `<game folder>/TWASE` and `twase-launch.com
 
 Use `xmake f --disable_copy=y` on either platform to build without copying into the game.
 
-For the Mac App Store build, use `twase-appstore.command --prepare <new.app>` and launch that private copy
-explicitly, as described in the [installation instructions](../README.md#mac--app-store-development-copy).
-The Steam and App Store launchers are both included in the Mac archive. `xmake run` still uses the Steam
-launcher; it never prepares/re-signs an app automatically. `TWASE_GAMEROOT` selects a deployment directory
-containing `TWASE/`, not the installed `/Applications` bundle.
+For the Mac App Store build, users run **TWASE Launcher** (`src/platform/macos/app/`, see its README;
+[installation instructions](../README.md#mac--app-store-twase-launcher)). Build it with
+`src/platform/macos/app/build-app.sh --dylib build/macosx/arm64/release/libTWASE.dylib --output <dir>`; CI bundles
+it into the Mac zip. It wraps `twase-appstore.command` (prepare/launch) and `twase-launch.command`, which remain the
+single launch backends and still work from Terminal. `xmake run` still uses the Steam launcher; nothing
+prepares/re-signs an app automatically. `TWASE_GAMEROOT` selects a deployment directory containing `TWASE/`, not
+the installed `/Applications` bundle.
 
 ## Releasing
 

@@ -56,37 +56,34 @@ The launcher can also start the game directly, without Feral's launcher window. 
 ./twase-launch.command --mods mod_list.txt --load "Saxons 395 AD Spring.save"
 ```
 
-### Mac — App Store development copy
+### Mac — App Store (TWASE Launcher)
 
-The installed App Store app cannot load TWASE with its original entitlements. Use a **private APFS clone**;
-the original app and receipt are left intact. The copy is **ad-hoc signed and unsandboxed**, no longer vendor
-signed. TWASE does not bypass receipt or licence validation.
+The installed App Store app cannot load TWASE with its original entitlements, so TWASE runs in a **private copy**
+of it. **TWASE Launcher** (in the Mac zip) does this without Terminal:
 
-Extract the Mac archive into a writable folder outside either app, then use Terminal:
+1. Extract the zip anywhere and open `TWASE Launcher.app`. On first launch macOS may block the downloaded app:
+   right-click → *Open*, or allow it under *System Settings → Privacy & Security*.
+2. Select **App Store** under *Game installation* and click **Prepare private copy** (default
+   `~/Applications/Total War ATTILA (TWASE).app`). This is an APFS clone, so it takes little extra disk space.
+   The copy is **ad-hoc signed and unsandboxed**, no longer vendor signed. The installed game, its receipt and
+   licence checks are left untouched.
+3. **Mods** tab: select packs from your existing Feral mod folder (or a folder you add) and click
+   **Link selected**. Packs are symlinked, not copied. Then enable and order them in the Mod Manager tab of
+   Feral's options window.
+4. **Saves** tab (optional): copy selected saves into the private copy's save folder.
+5. **Play**. The Feral options window is shown on the first run; afterwards it can be skipped.
 
-```sh
-mkdir -p "$HOME/Applications"
-./twase-appstore.command --prepare "$HOME/Applications/ATTILA-TWASE.app"
-./twase-appstore.command "$HOME/Applications/ATTILA-TWASE.app"
-```
+Always start the copy from the launcher: double-clicking the copy itself starts it **without** TWASE (and with
+your normal, shared Feral settings and mods).
 
-Preparation defaults to `/Applications/Total War ATTILA.app`, refuses an existing destination, and requires APFS
-clone support and Apple's command-line tools. Only RC4 build `480969.104294`, UUID
-`196C74A0-71A2-3C28-80DF-BC3DB1C7FEB7`, is accepted. Keep the prepared copy outside the installed original.
+The private copy keeps its own Feral preferences, saves and mods under
+`~/Library/Application Support/TWASE/TWASE/appstore-home/`; TWASE's config and logs are in
+`~/Library/Application Support/TWASE/TWASE/`. The **Folders** tab opens them. Only the App Store build
+`480969.104294` (UUID `196C74A0-71A2-3C28-80DF-BC3DB1C7FEB7`) is supported; after a game update, prepare a new
+copy once TWASE supports that build. There is no Workshop integration.
 
-Config and logs remain in `TWASE/` next to this launcher. Feral preferences, saves, and local mods are isolated in
-`TWASE/appstore-home/Library/Application Support/Feral Interactive/Total War ATTILA/`; existing Steam and App Store
-user data are neither copied nor changed. Put local packs in `VFS/Local/local_mods/<mod-name>/` under that private
-Feral directory, then enable them in Feral's mod manager. Do not modify the signed app bundle to install mods.
-There is no Workshop integration.
-
-After one normal launch creates private preferences, `--skip-launcher` and `--load "<save>"` are available.
-Copy any existing saves into the private `VFS/User/AppData/Roaming/The Creative Assembly/Attila/save_games/`
-directory first. These options restore their private preference overrides when the game exits.
-Run `./twase-appstore.command --help` for paths and preparation details.
-
-App updates need a freshly prepared copy and an independently supported executable UUID; do not reuse another
-build's address table. [Build identities and verification](docs/game-versions.md#app-store).
+`twase-appstore.command` is the same backend for Terminal use (`--help` lists its options).
+[Build identities and verification](docs/game-versions.md#app-store).
 
 
 ## Console
