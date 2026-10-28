@@ -7,6 +7,9 @@ set_encodings("utf-8")
 
 add_rules("mode.debug", "mode.release")
 
+-- a VS build regenerates the vsxmake solution when files or settings changed (xmake project -k vsxmake)
+add_rules("plugin.vsxmake.autoupdate")
+
 -- add _DEBUG for debug builds
 if is_mode("debug") then
     add_defines("_DEBUG")

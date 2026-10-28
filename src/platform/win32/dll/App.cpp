@@ -11,6 +11,7 @@
 #include "Hooks/RunStartupPath.hpp"
 #include "Hooks/DiplomacyLikelihood.hpp"
 #include "Hooks/NativeRegionTrading.hpp"
+#include "Hooks/CampaignUI.hpp"
 #include "Hooks/D3D11Hook.hpp"
 #include "Hooks/DInput8Hook.hpp"
 
@@ -182,7 +183,8 @@ void App::Destruct()
     {
         auto success = Hooks::LuaLogHook::Detach() && Hooks::RunStartupPathHook::Detach() &&
                        Hooks::DiplomacyLikelihoodHook::Detach() &&
-                       Hooks::NativeRegionTradingHook::Detach();
+                       Hooks::NativeRegionTradingHook::Detach() &&
+                       Hooks::CampaignUIHook::Detach();
         if (success)
         {
             transaction.Commit();
@@ -267,6 +269,10 @@ bool App::AttachHooks(DWORD empireDllAddr)
         return false;
     }
 
+    // These targets are resolved in the loaded DLL and committed separately.
+    // A failed optional control must not prevent the normal console/UI hooks.
+    const auto campaignUiOk = Hooks::CampaignUIHook::Attach();
+
     // D3D11 hook is separate (creates its own detour transaction internally)
     auto d3dOk = Hooks::D3D11Hook::Attach();
     if (!d3dOk)
@@ -281,7 +287,7 @@ bool App::AttachHooks(DWORD empireDllAddr)
         spdlog::warn("DInput8 hook failed – keyboard input will not be blocked while console is open");
     }
 
-    return true;
+    return campaignUiOk;
 }
 
 void App::LogMods() const

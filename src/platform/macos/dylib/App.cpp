@@ -7,6 +7,7 @@
 #include "Version.hpp"
 #include "Patches/Patches.hpp"
 
+#include "Hooks/CampaignUI.hpp"
 #include "Hooks/DiplomacyLikelihood.hpp"
 #include "Hooks/FeralModOrder.hpp"
 #include "Hooks/NativeRegionTrading.hpp"
@@ -193,6 +194,7 @@ bool App::AttachHooks()
     success &= Hooks::WinMainHook::Attach();
     success &= Hooks::RunStartupPathHook::Attach();
     success &= Hooks::DiplomacyLikelihoodHook::Attach();
+    success &= Hooks::CampaignUIHook::Attach();
     success &= Hooks::NativeRegionTradingHook::Attach();
     success &= Hooks::FeralModOrderHook::Attach();
 

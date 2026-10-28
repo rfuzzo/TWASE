@@ -58,3 +58,139 @@ Each step works and can be tested on its own.
 - every `twase.*` function exists on Windows and gives the same results as on Mac (the tests in `docs/macos/addresses.md` list values to compare, e.g. Olisipo's wealth breakdown, `twase.region_province` for Olisipo → `att_prov_lusitania`)
 - [lua-api.md](modding/lua-api.md) no longer says "Mac only"
 - the region trading mod works on Windows
+
+## Campaign UI controls (2026-10-28)
+
+The encyclopedia URL and settlement-card slot controls use a separate Windows
+backend in `src/platform/win32/dll/Hooks/CampaignUI.cpp`. It installs after the
+normal hook transaction, before the console/input hooks. A failed resolution is
+logged, leaves the normal hooks operational, and makes the shared Lua setters
+report unavailable controls rather than accepting an ineffective setting.
+
+### Binary evidence and resolution
+
+The locally available Windows image is **PE32 / i386**, preferred base
+`0x10000000`, PE timestamp `0x648F6D5D` (2023-06-18 20:47:25 UTC),
+`SizeOfImage = 0x255F000`. The installed Steam copy is:
+
+`~/Library/Application Support/CrossOver/Bottles/Steam/drive_c/Program Files (x86)/Steam/steamapps/common/Total War Attila/empire.retail.dll`
+
+SHA-256: `799297d5b3779bb291e2e348a11821c0d803baac1b6130393de35259768f9a60`.
+An older loose copy at `~/at/Total War Attila/empire.retail.dll` has SHA-256
+`981b162ea0bc2c029d93c5056d5b58e05d54c2c5a525becaf215d7b3b8e05ab7`;
+the settlement initialization bytes are identical in both.
+
+This layout **does not match the existing fixed-RVA table**: for example, that
+table's `g_Campaign = 0x28D52B0` lies beyond this image. Therefore the new hooks
+do not publish guessed current-build function RVAs. They resolve the loaded
+`empire.retail.dll` using an independently implemented PE-section search and
+require unique targets plus the following consumer/layout checks. All addresses
+below are **RVAs of the analyzed 2023 image**, not assumed current-build RVAs:
+
+| Target | RVA | Independent binary evidence |
+|---|---:|---|
+| Native URL string | `0x1B712CC` | NUL-terminated `http://Atenc.totalwar.com/#` in read-only data |
+| URL pointer | `0x1CD0CD8` | Unique aligned writable pointer to that string |
+| URL builders | `0xEC56F0`, `0xEC57A0` | `PUSH [pointer]` at `0xEC571A` / `0xEC57E5`, feeding string concatenation; exactly two such code consumers |
+| Settlement callback initialize | `0x13E1D50` | ECX saved in ESI; one stack REGION pointer stored at callback `+0x40`; `building_slot_%d` formatting; unsigned loop compares callback `+0x48` at `0x13E2513` and `0x13E274C`; epilogue `RET 4` at `0x13E2765` |
+| Callback construction | `0x13C2210` | Writes byte `+0x44 = 0`, bound `+0x48 = 4`; called from factory `0x13C2610` referencing `CampaignSettlementCallback` |
+| Capital-card presentation | `0x13EAB70` | Writes byte `+0x44 = 1`, bound `+0x48 = 6`, returns without stack arguments |
+| Province card population | `0x13E8510` | Separates `capital` and `settlement` UI templates, then calls initialize at `0x13E89C8` / `0x13E8A9A` |
+
+The detour uses the existing TWASE `Hook` / Detours convention: a `__fastcall`
+shim receives ECX as `this`, ignores EDX, and takes the REGION pointer as its
+single stack argument. It forwards the EAX return value. The resolved function
+address is converted to an RVA before constructing `Hook`; the existing helper
+adds the actual DLL base.
+
+The production resolver checks i386/PE32, section protections, the unique URL
+string/pointer and both instruction consumers, and a separately recorded
+initialization entry followed by the slot formatter reference, both bound
+comparisons, and the stack-cleanup epilogue. It deliberately rejects an
+unrecognized layout; it does not hook an arbitrary first pattern match. These
+checks do not establish support for every future compiler/game revision.
+
+### Slot semantics and reset
+
+The `major`/`minor` split follows the game's **province-capital presentation
+card**, not simply whichever settlement the player clicked. In population,
+the selected settlement's virtual `+0x14` method supplies its REGION; the safe
+pointer at REGION `+0x350` supplies the province. The code takes the key
+(`REGION +0x54`) from the province's REGION pointer at `+0x4C`, compares it
+against the province-region list (`+0x44` count, `+0x48` array), and sends the
+matching region to the `capital` template and capital-card presentation setter.
+Other regions use `settlement`. Selecting another region in the same province
+therefore does not itself change which callback receives the major override.
+
+Initialization only reads the max-slot field, and constructs/configures each
+slot synchronously before returning. The detour saves the **actual incoming
+engine bound**, substitutes the configured value during that call, then restores
+the saved value. It does not assume a default of four or six when restoring.
+Native initialization never visits children above its current bound, so simply
+restoring the field is insufficient when a reused card previously displayed
+more slots. Each card class therefore keeps a conservative managed high-water
+mark (no callback-pointer tracking or heap allocations). After initialization,
+existing children above the effective bound through the larger of the incoming
+native bound and that mark are hidden.
+This covers both decreasing and clearing an override, including lowering below
+the native count. Missing custom-template children are harmless null lookups.
+Native bounds above twenty are preserved, not truncated. A class for which no
+override has ever been used forwards directly to the original function.
+
+The cleanup's `FindChild` (cdecl, analyzed RVA `0x137A980`) and `SetVisible`
+(thiscall, analyzed RVA `0x13911E0`) are recovered from calls in the resolved
+initialization body and checked against their own entry instructions. They
+never use the mismatched fixed-RVA table. Callback `+0x4` is the lookup root.
+Slot names use a borrowed, stack-backed 12-byte `TempString`; the lookup's map
+comparator (`0x273B70` → `0xDC360` → `0xDF7A0`) only reads length `+0` and data
+`+8`, without copying, retaining, destroying, or allocating the key. The hook
+does not invoke the engine's allocating string constructor or formatter.
+
+The URL pointer is exchanged only after replacement storage has been allocated
+and filled successfully. Nil/empty reset restores the original pointer. Detach
+also restores the original pointer without freeing custom storage while an
+engine reader might still hold it.
+
+These findings came from static PE parsing and x86 disassembly with Capstone;
+IDA was unavailable because its Python integration could not import
+`ida_domain` / `idapro`. Upstream was consulted for behavioral/signature/field
+facts only; no upstream source, assembly hook, or scanner implementation was
+copied. No Windows build or in-game exercise was performed in this macOS worker
+session. The current supported Windows DLL was not available locally, so its
+runtime resolution, card refresh/reset, and encyclopedia navigation remain
+checks for the Windows integration run.
+
+Windows integration run (2026-10-28, Steam build): the loaded DLL resolved the
+encyclopedia pointer at RVA `0x1D33D00` and settlement Initialize at
+`0x1407530`. With a custom URL, building, unit, and technology encyclopedia
+links opened the replacement page with the game's entry suffix in the in-game
+`ui\Common UI\browser` panel (Steam HTML surface); resetting restored the native
+site. The two URL builders (`0xECE730`, `0xECE7E0`) only apply the prefix to
+keys found in the game's encyclopedia table, then call `0x1413AE0`, which uses
+`ShellExecuteW` instead when `CW_COPA_GetNativePlatform()` is non-zero. Pages
+need an explicit background and text colour: an unstyled page rendered black in
+that panel.
+
+Card slot overrides, as logged by `inspect()` on a main-campaign province:
+3/1 showed 3 capital and 1 minor slot; 2/2 then shrank all cards to 2 with no
+stale slots; reset restored the native 6/4. 8/6 stayed at 6/4 because the
+vanilla layout has no further slot widgets. Desolate settlement cards ignore
+the overrides. Buildings in hidden slots, including one built and one destroyed
+that turn, carried over end turn and reappeared on reset. As documented,
+overrides persist across save loads within one game process. Quitting to the
+main menu and exiting caused no crash. Charlemagne and Last Roman campaigns are
+untested.
+
+Expansion above vanilla, same day, with The Dawnless Days 1.1.0 (its
+`settlement_panel` has `building_slot_1`–`12`, its startpos 12 slots per
+province capital and 9 elsewhere). TDD normally raises the bound and redirects
+its encyclopedia with an external patcher (`TDD_12_9_slots_A.exe`,
+`WriteProcessMemory` on the constants in construction and capital
+presentation, 4 → 9 and 6 → 12, and over the `http://Atenc.totalwar.com/#`
+string). attila-mods' `tdd_twase_slots` replaces that call on `UICreated` with
+`twase.set_max_slots_major(12)` / `set_max_slots_minor(9)` and
+`twase.set_encyclopedia_url("https://www.rai4u.de/tde")`. Loose and as a pack
+enabled in Runcher, the cards showed 12/9 with no console input and
+`clear_max_slots()` restored the native 6/4; with the pack, unit and building
+links opened TDD's encyclopedia entries (the game appends `/unit/%S`,
+`/building/%S`, … as a path, which that site routes).

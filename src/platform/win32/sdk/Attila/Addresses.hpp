@@ -63,6 +63,14 @@ namespace sdk::Attila::Addresses
 	// void (__thiscall*)(UIComponent* this, const WString* text, bool allStates)
 	constexpr uint32_t UIComponent_SetTooltipText = 0x13B9A00;
 
+	// CAMPAIGN UI: verified against the x86 2023-06-18 image, not fixed
+	// function RVAs (that image predates the table above). CampaignUI.cpp
+	// resolves the loaded PE and checks the slot loop/encyclopedia consumers.
+	// The flag identifies the province-capital presentation card.
+	constexpr uint32_t SettlementCallback_Root = 0x4;        // UIComponent*, Initialize's lookup parent
+	constexpr uint32_t SettlementCallback_MainCard = 0x44;   // byte, SetAsCapital writes 1
+	constexpr uint32_t SettlementCallback_MaxSlots = 0x48;   // uint32_t, Construct 4 / SetAsCapital 6
+
 	// WString* (__thiscall*)(WString* this, const wchar_t* str)
 	constexpr uint32_t WString_ctor = 0xDFEF0;
 

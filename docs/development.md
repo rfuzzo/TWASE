@@ -19,7 +19,7 @@ The core is compiled into each platform's library. It includes the platform's he
 
 - Clone the repo to some folder
 - Run `xmake`
-- Run `xmake project -k vsxmake -m "debug,release"` to create a VS solution
+- Run `xmake project -k vsxmake -m "debug,release"` once to create a VS solution. Building in VS runs xmake, and it regenerates the solution when files or `xmake.lua` change (`plugin.vsxmake.autoupdate`), so VS only asks to reload
 
 The build copies `TWASE.dll` (and its PDB) to `<game directory>/TWASE` and `winmm.dll` to the game directory. The game directory is set in `src/platform/win32/xmake.lua` and can be overridden with the `TWASE_GAMEROOT` environment variable. `xmake run` starts `Attila.exe`.
 

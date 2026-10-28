@@ -11,6 +11,7 @@ A script extender for **Total War: ATTILA** on Windows and Mac, similar to and h
 - Region trading for mods (`twase.enable_region_trading`): the engine's "Gift Region" between the player and any settled faction, giving and demanding several regions in one deal, valued by the mod, and "Region for Troops"
 - Fixes the crash when too many units are spawned (e.g. with Fireforged Empire)
 - Optional tweak: shows the AI's deal score in the diplomacy "Likelihood of success" tooltip. The AI accepts deals with a score of 0 or higher.
+- Script-controlled encyclopedia URL and settlement-card building-slot display limits ([Lua API](docs/modding/lua-api.md#campaign-ui))
 - Mac: start the game directly with a mod list or straight into a save
 
 ## Requirements
@@ -79,7 +80,7 @@ TWASE loads every `scripting.lua` in `<campaign folder>/mods/<mod name>/` when a
 
 ## Configuration and logs
 
-Settings are in `TWASE/config.ini` in the game folder (created on the first start), logs are written to `TWASE/logs`.
+Settings are in `TWASE/config.ini` in the game folder (created on the first start), logs are written to `TWASE/logs`. The main settings are below, and [docs/configuration.md](docs/configuration.md) lists all of them.
 
 ```toml
 [logging]
@@ -103,6 +104,15 @@ diplomacy_deal_score = true
 ## Uninstalling
 
 Delete the `TWASE` folder from the game folder, and `winmm.dll` (Windows) or `twase-launch.command` (Mac). On Mac, also clear the Steam launch options.
+
+## Research credits
+
+The encyclopedia URL override and settlement-card slot controls were inspired by
+[bukowa/twdll](https://github.com/bukowa/twdll), particularly
+[`campaign_ui.cpp` at commit `85c4db9`](https://github.com/bukowa/twdll/blob/85c4db9836e3150df8ec5b38315de9940f8d624c/src/attila/campaign_ui.cpp).
+Thanks to bukowa and the twdll contributors for publishing that reverse-engineering research.
+Upstream twdll is GPL-3.0; TWASE implements these controls independently for its own platform hooks and game layouts,
+without vendoring twdll source. TWASE's license remains [MIT](LICENSE).
 
 ---
 

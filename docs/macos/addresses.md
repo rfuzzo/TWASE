@@ -3,7 +3,7 @@
 Build: Feral 1.6.1 RC2, `CFBundleVersion 480285.103778`, `LC_UUID 392D6F66-9183-329E-8A98-8C90FC828326`.
 
 Addresses are **unslid VAs** as shown in Binary Ninja (image base `0x100000000`); runtime address = VA + ASLR slide.
-All of them are also named in the bndb.
+Earlier mappings may also be named in the bndb; the campaign UI mapping below was read-only and did not rename or save the database.
 
 ## Lua
 
@@ -290,3 +290,70 @@ It's the vanilla "Gift Region" for settling hordes: the availability rule `0x102
 
 `Diplo_EvaluateDeal` (`0x101d7b25c`, `(negotiation, aiContext, CAI faction a, CAI faction b, out, out)`) builds one `CAI_DEAL_COMPONENT_*` per deal action (by index in the negotiation's action array: 0 trade agreement, 3 military alliance, 6 Payments → `CAI_DEAL_COMPONENT_GIFT` with `-(amount)`, 7 peace, ...; the region action, index 4, has none) and scores the list with `0x101d7e26c`. The faction arguments are CAI wrappers; the wrapper's FACTION is at `+0x150` (found at runtime). The gift component (`0x30` bytes, ctor `0x1024f485c(self, aiContext, a, b, gold)`, vtable `0x104c1a2c0`) only has a deal value when the AI pays (`gold <= 0`, table lookup in vtable `+0x18`); received gold only gives a goodwill event (`+0x20`). So TWASE adds, for deals with regions, the negated score of "the AI pays V" (V = the region value from the Lua handler, + received / − given). Tested 2026-10-05 (WRE → ERE): demand 2,000 gold −3.1; Ajax (2,103) alone +3.4; demand 2,000 + Ajax −1.5; demand 2,000 + Aquae Sextiae (6,069) +13.1.
 
+## Campaign UI controls (Steam arm64, 2026-10-28)
+
+These mappings were independently derived from the supported Steam binary and its Binary Ninja view, without copying upstream source, scanners, or assembly implementations. The open Mac App Store database is a different build and was not used.
+
+| Name | Mac VA / offset | Evidence |
+|---|---|---|
+| Encyclopedia base URL slot | `0x104ff0e48` | Real writable `const char*` in `__DATA`, initially pointing to `0x104892dde`, `"http://Atenc.totalwar.com/#"` |
+| `ENCYCLOPEDIA_PAGES` constructor | `0x10287e7f0` | Reads Feral's `EncyclopaediaBaseURL` preference; may overwrite the slot with `NString_CStr(0x1054a82e0)` |
+| Entry URL builder | `0x10287eaf8` | `(helper, const CA::String&) -> CA::String` through `x8`; slot load at `0x10287eb78`, then concatenates the configured language/base entry and requested path |
+| Page URL builder | `0x10287ec24` | `(helper, int32 page) -> CA::String` through `x8`; slot load at `0x10287ecd4`, then concatenates the language/base and page paths |
+| Settlement card initialize | `0x103457800` | `(CampaignSettlementCallback*, REGION*)`; stores region at `+0x68`, obtains actual building count at `+0x78`, visits `building_slot_1` through the bound at `+0x74`, initializing each existing child controller |
+| Building-slot controller clear | `0x10345b30c` | `(slotController*)`; clears dynamic rows/helper and linked UI state. Native building refresh `0x10345d1c0` calls it before repopulating existing slots |
+| Callback constructor/factory | `0x1034aac8c` | Allocates `0xa0` bytes, callback name `"CampaignSettlementCallback"`, vtable `0x104c99c08`; default flag false, bound 4 |
+| Callback native reset | `0x10345a618` | Clears flag `+0x70`, restores bound 4 at `+0x74` |
+| Callback capital presentation setup | `0x1034577ec` | Sets flag `+0x70` true and bound `+0x74` to 6 |
+| Callback component / capital flag / bound | `+0x08` / `+0x70` / `+0x74` | `UIComponent*` / byte / `int32` |
+
+The capital flag is **province-capital identity**, not simply the currently selected region. Panel population `0x103456db8` obtains the selected settlement's region with virtual `+0x38`, follows region `+0x4b0` to its province, and takes the capital region through the province's handle at `+0x80`. It compares that capital's region key (`+0x80`) against each province member's key. Only the match receives the `"capital"` template, flag true and bound 6 (inlined stores immediately before call `0x103457250`); the other members receive `"settlement"` and the default bound 4 (`0x103457320`). Thus TWASE's major/minor settings apply to province-capital/other cards respectively.
+
+The URL hook preserves the latest native preference pointer across helper construction and restores it for a null/empty override. Custom storage is allocated/copied before publishing the real slot; its owner has process lifetime because hooks remain installed during macOS teardown. Lua setters and these native URL consumers run on the WinMain game thread. This is a prefix: native language and entry/page suffixes remain unchanged.
+
+The slot hook temporarily changes the verified bound only during initialization, then restores the original field. With no override ever applied to that card class it directly forwards, without additional child lookups or mutation. Once used, an allocation-free per-class high-watermark tracks the managed range (at most 20 override slots). Reducing/clearing a setting clears and hides excess named children through the larger of this range and the original native bound; a native bound greater than 20 is not truncated. Cleanup uses the verified live per-slot clear function, not a hook on an unreferenced bulk-clear method. Additional lookups borrow stack `CA::String` descriptors: `UIComponent_FindChild` (`0x1032d4f88`) and its string comparator `0x101092e60` read only length/data and do not retain or destroy the descriptor. No hook-side heap allocation occurs per card call.
+
+Before attaching, TWASE checks the 16-byte function prefixes:
+
+- Constructor: `ff 43 02 d1 f4 4f 07 a9 fd 7b 08 a9 fd 03 02 91`.
+- Initialize: `ff 83 03 d1 e9 23 07 6d fc 6f 08 a9 fa 67 09 a9`.
+- Per-slot clear helper: `ff 03 01 d1 f6 57 01 a9 f4 4f 02 a9 fd 7b 03 a9`.
+- Both URL loads: `88 3b 01 d0 00 25 47 f9` (`adrp x8, 0x104ff0000; ldr x0, [x8, #0xe48]`); also checks the native literal including its terminator.
+
+For a non-browser native smoke check, the settlement info button (`0x1034585a4`, call at `0x10345862c`) uses page 13 with helper `*(*g_Campaign + 0x228)`. Call the page builder with a non-trivial result wrapper containing `TempString` to use the arm64 `x8` result ABI, inspect the result, then call `String_dtor`. Existing UI rows can be inspected below `settlement_panel/main_settlement_panel`: child count/data at `UIComponent +0x114/+0x118`, controller at `+0x258`, visibility byte at `+0x199`. Select another region and back to rebuild the panel. Address/layout evidence is static; this mapping does not claim a build or live smoke test.
+
+For an existing-card smoke check on the game thread, obtain the UI root from `0x105604ea0`, find the panel above, and verify each row's callback vtable equals `0x104c99c08` before reading its saved region at `+0x68`. To reinitialize a row in place, first clear each existing slot controller with `0x10345b30c`, following the native refresh's clear-before-repopulate sequence, then call hooked `0x103457800(callback, savedRegion)`. Compare visibility with override 2 and after resetting to the native bound, which is restored in the callback field after every call. If no real panel/card exists, report that prerequisite rather than fabricating one.
+
+### Runtime verification checkpoint (2026-10-28)
+
+Built and installed TWASE `1d01724` (including the feature code from `f14d33b`) against the supported Steam arm64
+game. The native constructor and settlement hooks attached successfully. The updated `campaign_ui_dev` harness
+passed all 35 in-game API checks and restored the prior values: native URL `http://Atenc.totalwar.com/#`, no major
+or minor override. Its standalone Lua regressions also passed after the Windows test-kit fixes.
+
+The test campaign loaded successfully and exited with status 0 after a quit request. This run stopped before
+navigation/rendering acceptance checks because screen-capture permission was unavailable to the running session;
+the user enabled the permission and needs to restart the session before further visual testing.
+
+No building/unit/technology link navigation, Feral-preference restoration, rendered slot transitions, hidden-building
+persistence, horde/desolate behavior, save-load persistence, or DLC campaign result is claimed by this checkpoint.
+Those remain the next acceptance checks. The debug harness was removed and the loopback probe stopped.
+Runtime evidence: local TWASE log `twase-2026-10-28-11-43-50.log`.
+
+### Manual acceptance and feature closure (2026-10-28)
+
+After restarting, the user reported successful URL override/reset and the slot-limit cases they exercised.
+The user then confirmed expanded settlement slots work in The Dawnless Days (TDD), testing the requested
+`campaign_ui_dev.slots(12, 9)` override. These are user-observed results, not an automated exhaustive acceptance run.
+
+The updated `campaign_ui_dev` now includes TDD's `campaigns/main_attila_map` entrypoint. The deployed
+`tdd_twase_slots.pack` replaces TDD's Windows-only patcher with TWASE's slot and encyclopedia APIs. The user
+confirmed that slots automatically expand to 12/9 and TDD's encyclopedia URL works, without console setup.
+
+The user also reported verifying the remaining edge cases and considers acceptance complete. These are manual
+user-reported results; no additional automated trace or exhaustive per-slot record was collected. Charlemagne
+and The Last Roman panels are explicitly deferred by the user, not marked passed. No blocking production
+defect remains known from this acceptance work.
+
+The disposable harness was redeployed for manual testing; remove it afterward with
+`tools/deploy.sh --remove campaign_ui_dev` from the attila-mods checkout.

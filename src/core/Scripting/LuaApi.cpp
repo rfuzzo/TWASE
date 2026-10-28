@@ -4,9 +4,11 @@
 
 #include "App.hpp"
 #include "Config.hpp"
+#include "CampaignUI.hpp"
 #include "Platform.hpp"
 #include "Version.hpp"
 #include "Hooks/DiplomacyLikelihood.hpp"
+#include "Hooks/CampaignUI.hpp"
 
 #include "Attila/Addresses.hpp"
 #include "Attila/Features.hpp"
@@ -17,6 +19,8 @@
 #if TWASE_HAS_REGION_TRADING
 #include "Hooks/NativeRegionTrading.hpp"
 #endif
+
+#include <cmath>
 
 // The C functions below can raise Lua errors, which longjmp out of them: keep them free of objects with destructors.
 // Addresses and offsets come from the platform's Addresses.hpp under the same names, the engine's member functions
@@ -750,6 +754,94 @@ int DevDiplomacyActions(lua_State* L)
 }
 #endif
 
+// CAMPAIGN UI
+
+int GetEncyclopediaUrl(lua_State* L)
+{
+    const char* url = Hooks::CampaignUIHook::GetEncyclopediaUrl();
+    if (url)
+    {
+        LuaRuntime::pushstring(L, url);
+    }
+    else
+    {
+        LuaRuntime::pushnil(L);
+    }
+    return 1;
+}
+
+int SetEncyclopediaUrl(lua_State* L)
+{
+    const char* url = nullptr;
+    const int type = LuaRuntime::type(L, 1);
+    if (type != LUA_TNIL && type != LUA_TNONE)
+    {
+        if (type != LUA_TSTRING)
+        {
+            return LuaRuntime::error(L, "twase.set_encyclopedia_url(url): expects a string or nil");
+        }
+        size_t length = 0;
+        url = LuaRuntime::tolstring(L, 1, &length);
+        if (std::memchr(url, '\0', length))
+        {
+            return LuaRuntime::error(L, "twase.set_encyclopedia_url(url): URL cannot contain a NUL byte");
+        }
+    }
+    if (!Hooks::CampaignUIHook::IsReady() || !Hooks::CampaignUIHook::SetEncyclopediaUrl(url))
+    {
+        return LuaRuntime::error(L, "twase.set_encyclopedia_url: campaign UI hook is unavailable");
+    }
+    return GetEncyclopediaUrl(L);
+}
+
+template<bool MainCard>
+int GetMaxSlots(lua_State* L)
+{
+    const int32_t slots = CampaignUI::GetMaxSlots(MainCard);
+    if (slots == 0)
+    {
+        LuaRuntime::pushnil(L);
+    }
+    else
+    {
+        LuaRuntime::pushnumber(L, static_cast<lua_Number>(slots));
+    }
+    return 1;
+}
+
+template<bool MainCard>
+int SetMaxSlots(lua_State* L)
+{
+    int32_t slots = 0;
+    const int type = LuaRuntime::type(L, 1);
+    if (type != LUA_TNIL && type != LUA_TNONE)
+    {
+        const lua_Number value = LuaRuntime::tonumber(L, 1);
+        if (type != LUA_TNUMBER || !(value >= 1 && value <= CampaignUI::MaxSlotOverride) || std::floor(value) != value)
+        {
+            return LuaRuntime::error(L, "twase.set_max_slots_%s(slots): expects an integer from 1 to 20 or nil",
+                                     MainCard ? "major" : "minor");
+        }
+        slots = static_cast<int32_t>(value);
+    }
+    if (!Hooks::CampaignUIHook::IsReady())
+    {
+        return LuaRuntime::error(L, "twase.set_max_slots: campaign UI hook is unavailable");
+    }
+    CampaignUI::SetMaxSlots(MainCard, slots);
+    return GetMaxSlots<MainCard>(L);
+}
+
+int ClearMaxSlots(lua_State* L)
+{
+    if (!Hooks::CampaignUIHook::IsReady())
+    {
+        return LuaRuntime::error(L, "twase.clear_max_slots: campaign UI hook is unavailable");
+    }
+    CampaignUI::ClearMaxSlots();
+    return 0;
+}
+
 // twase.dev_last_deal_score() -> number, the last deal score the likelihood tooltip showed
 int DevLastDealScore(lua_State* L)
 {
@@ -799,6 +891,14 @@ void Scripting::LuaApi::Register(lua_State* L)
 #if TWASE_HAS_REGION_TRADING
     SetFunction(L, "enable_region_trading", &EnableRegionTrading);
 #endif
+
+    SetFunction(L, "get_encyclopedia_url", &GetEncyclopediaUrl);
+    SetFunction(L, "set_encyclopedia_url", &SetEncyclopediaUrl);
+    SetFunction(L, "get_max_slots_major", &GetMaxSlots<true>);
+    SetFunction(L, "set_max_slots_major", &SetMaxSlots<true>);
+    SetFunction(L, "get_max_slots_minor", &GetMaxSlots<false>);
+    SetFunction(L, "set_max_slots_minor", &SetMaxSlots<false>);
+    SetFunction(L, "clear_max_slots", &ClearMaxSlots);
 
     // probes for reverse engineering, only with [dev] lua_dev_functions = true
     if (App::Get()->GetConfig()->GetDev().luaDevFunctions)
