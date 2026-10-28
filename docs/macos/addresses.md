@@ -324,3 +324,36 @@ For a non-browser native smoke check, the settlement info button (`0x1034585a4`,
 
 For an existing-card smoke check on the game thread, obtain the UI root from `0x105604ea0`, find the panel above, and verify each row's callback vtable equals `0x104c99c08` before reading its saved region at `+0x68`. To reinitialize a row in place, first clear each existing slot controller with `0x10345b30c`, following the native refresh's clear-before-repopulate sequence, then call hooked `0x103457800(callback, savedRegion)`. Compare visibility with override 2 and after resetting to the native bound, which is restored in the callback field after every call. If no real panel/card exists, report that prerequisite rather than fabricating one.
 
+### Runtime verification checkpoint (2026-10-28)
+
+Built and installed TWASE `1d01724` (including the feature code from `f14d33b`) against the supported Steam arm64
+game. The native constructor and settlement hooks attached successfully. The updated `campaign_ui_dev` harness
+passed all 35 in-game API checks and restored the prior values: native URL `http://Atenc.totalwar.com/#`, no major
+or minor override. Its standalone Lua regressions also passed after the Windows test-kit fixes.
+
+The test campaign loaded successfully and exited with status 0 after a quit request. This run stopped before
+navigation/rendering acceptance checks because screen-capture permission was unavailable to the running session;
+the user enabled the permission and needs to restart the session before further visual testing.
+
+No building/unit/technology link navigation, Feral-preference restoration, rendered slot transitions, hidden-building
+persistence, horde/desolate behavior, save-load persistence, or DLC campaign result is claimed by this checkpoint.
+Those remain the next acceptance checks. The debug harness was removed and the loopback probe stopped.
+Runtime evidence: local TWASE log `twase-2026-10-28-11-43-50.log`.
+
+### Manual acceptance and feature closure (2026-10-28)
+
+After restarting, the user reported successful URL override/reset and the slot-limit cases they exercised.
+The user then confirmed expanded settlement slots work in The Dawnless Days (TDD), testing the requested
+`campaign_ui_dev.slots(12, 9)` override. These are user-observed results, not an automated exhaustive acceptance run.
+
+The updated `campaign_ui_dev` now includes TDD's `campaigns/main_attila_map` entrypoint. The deployed
+`tdd_twase_slots.pack` replaces TDD's Windows-only patcher with TWASE's slot and encyclopedia APIs. The user
+confirmed that slots automatically expand to 12/9 and TDD's encyclopedia URL works, without console setup.
+
+The user also reported verifying the remaining edge cases and considers acceptance complete. These are manual
+user-reported results; no additional automated trace or exhaustive per-slot record was collected. Charlemagne
+and The Last Roman panels are explicitly deferred by the user, not marked passed. No blocking production
+defect remains known from this acceptance work.
+
+The disposable harness was redeployed for manual testing; remove it afterward with
+`tools/deploy.sh --remove campaign_ui_dev` from the attila-mods checkout.
