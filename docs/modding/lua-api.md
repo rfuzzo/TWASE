@@ -132,6 +132,25 @@ twase.set_encyclopedia_url(nil); -- restore the game's original URL
 The override affects links opened after the call, not an encyclopedia page that is already open. TWASE does not
 provide an encyclopedia server or translate page identifiers for a different site.
 
+In practice:
+
+- Set it from a [script mod](script-mods.md) at load time, in each campaign folder the mod supports. Guard the call
+  so a TWASE build without the hook only logs a message:
+
+  ```lua
+  local ok, err = pcall(twase.set_encyclopedia_url, "https://example.org/encyclopedia/#");
+  if not ok then print("[my_mod] encyclopedia URL unavailable: " .. tostring(err)) end
+  ```
+
+- The game appends the entry path from its own format strings, such as `/unit/<key>`, `/building/<key>`,
+  `/tech/<key>`, `/skill/<key>`, and `/manual/...` pages, and only for entries it knows. With a `#` prefix that path
+  is a URL fragment: browsers never send it to the server, so the site must route in JavaScript from
+  `location.hash`, as the original site does.
+- On Steam for Windows the page opens in the game's own browser panel; elsewhere the game can open the system
+  browser. Give pages an explicit background and text colour: unstyled pages render black in the in-game panel.
+- There is one URL for the whole game process. The last mod to set it wins, and it stays set across loading other
+  saves or campaigns until something resets it.
+
 ### `twase.set_max_slots_major(slots) -> number | nil`
 ### `twase.set_max_slots_minor(slots) -> number | nil`
 ### `twase.get_max_slots_major() -> number | nil`
