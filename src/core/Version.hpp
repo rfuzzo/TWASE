@@ -1,7 +1,7 @@
 #pragma once
 
 #define TWASE_VERSION_MAJOR 1
-#define TWASE_VERSION_MINOR 2
+#define TWASE_VERSION_MINOR 3
 #define TWASE_VERSION_PATCH 0
 
-#define TWASE_VERSION_STR "1.2.0"
+#define TWASE_VERSION_STR "1.3.0"

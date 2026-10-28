@@ -41,7 +41,7 @@ zips are attached to the run as artifacts (`TWASE-release`, `TWASE-macOS-release
 
 To publish a versioned release:
 
-1. Bump the version in `src/platform/win32/dll/Version.hpp` and `src/platform/macos/dylib/Version.hpp` and merge it to `main`
-2. Tag the commit and push the tag, e.g. `git tag v1.1.0 && git push origin v1.1.0`
+1. Bump the numeric macros and `TWASE_VERSION_STR` in the shared `src/core/Version.hpp` and commit the change to `main`
+2. Tag that commit and push the tag, e.g. `git tag v1.3.0 && git push origin v1.3.0`
 
-The CI builds the tag and creates the release `TWASE v1.1.0` with `TWASE-v1.1.0.zip` (Windows) and `TWASE-macOS-v1.1.0.zip`, and notes generated from the merged PRs. The build fails if the tag doesn't match `TWASE_VERSION_STR` of both platforms.
+The CI builds the tag and creates the release `TWASE v1.3.0` with `TWASE-v1.3.0.zip` (Windows) and `TWASE-macOS-v1.3.0.zip`, and notes generated from the merged PRs. Both platform builds check that the tag matches the shared `TWASE_VERSION_STR`; publication requires both builds to succeed.
