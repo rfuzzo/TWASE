@@ -1,6 +1,7 @@
 #include "stdafx.hpp"
 
 #include "App.hpp"
+#include "CleanText.hpp"
 #include "Image.hpp"
 #include "Utils.hpp"
 #include "Version.hpp"
@@ -111,7 +112,13 @@ void App::Initialize()
         return;
     }
 
-    // We run before main(), the game code is already mapped, so everything can be applied right away
+    if (!Integrity::InstallCleanTextAnchor())
+    {
+        spdlog::error("Clean text anchor could not be installed, TWASE will not apply patches or hooks");
+        return;
+    }
+
+    // We run before main(), with the game code already mapped.
     Patches::ApplyPatches();
 
     if (AttachHooks())
@@ -123,6 +130,7 @@ void App::Initialize()
         spdlog::error("TWASE did not initialize properly");
     }
 }
+
 
 void App::Construct()
 {
@@ -188,7 +196,7 @@ bool App::AttachHooks()
     success &= Hooks::NativeRegionTradingHook::Attach();
     success &= Hooks::FeralModOrderHook::Attach();
 
-    // the console is optional, TWASE still works without it
+    // The console is optional; TWASE still works without it.
     if (!Hooks::MetalHook::Attach())
     {
         spdlog::warn("Metal hook failed – Lua console will not be available");

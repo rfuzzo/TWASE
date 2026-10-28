@@ -176,7 +176,6 @@ std::string TypedText(NSEvent* aEvent)
 // returns nil to swallow the event
 NSEvent* HandleEvent(NSEvent* aEvent)
 {
-
     auto& console = LuaConsole::Get();
     const auto type = aEvent.type;
 
@@ -222,12 +221,15 @@ NSEvent* HandleEvent(NSEvent* aEvent)
             {
                 Push({.type = QueuedEvent::Type::Text, .text = std::move(text)});
             }
+            return nil;
         }
-        return nil;
+        // releases also go to the game: a key pressed before the console opened would stay down for it otherwise
+        return aEvent;
     }
     case NSEventTypeFlagsChanged:
         Push({.type = QueuedEvent::Type::Modifiers, .modifiers = aEvent.modifierFlags});
-        return nil;
+        // the game keeps its own modifier state (a swallowed release would leave e.g. Cmd held for it)
+        return aEvent;
     case NSEventTypeMouseMoved:
     case NSEventTypeLeftMouseDragged:
     case NSEventTypeRightMouseDragged:
@@ -258,7 +260,9 @@ NSEvent* HandleEvent(NSEvent* aEvent)
                 Push({.type = QueuedEvent::Type::MouseButton, .down = isDown, .button = button});
             }
         }
-        return nil;
+        // a button pressed before the console opened would stay down for the game otherwise (clicks then don't
+        // register in the game's UI until it resets its input, e.g. when switching apps)
+        return isUp ? aEvent : nil;
     }
     case NSEventTypeScrollWheel:
     {

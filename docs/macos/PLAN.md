@@ -31,10 +31,10 @@ Code signing (it decides how we inject and hook):
 
 Tooling notes:
 
-- ⚠️ `TotalWarAttilaData/attila.dll` (the file your `.bndb` was made from) is a **resource-only Windows DLL**: icons, version info, and the Games Explorer XML pointing at `Rome2.exe`. It contains no game code. Open the Mach-O `Total War ATTILA.app/Contents/MacOS/Total War ATTILA` in Binary Ninja instead.
-- Binary Ninja installed: **6.0 Free**. The GUI MCP server is included in every GUI edition (enable `ui.mcp.enabled`, then *Plugins ▸ MCP ▸ Start Server*, which serves `http://127.0.0.1:24642/mcp`). Despite the docs saying "read-only", the 6.0 server also has **mutation tools**: `bn_symbol_rename`, `bn_comment_set`, `bn_type_struct_create`, `bn_function_prototype_set`, and `bn_open_item_save`. So the bndb can carry names, types, and comments. `docs/macos/addresses.md` stays the reviewed source for the C++ offset tables.
+- ⚠️ `TotalWarAttilaData/attila.dll` is a **resource-only Windows DLL**: icons, version info, and the Games Explorer XML pointing at `Rome2.exe`. It contains no game code. Create analysis databases from the Mach-O `Total War ATTILA.app/Contents/MacOS/Total War ATTILA` instead.
+- Binary Ninja **6.0 Free** was used for the investigation. The GUI MCP server is included in every GUI edition (enable `ui.mcp.enabled`, then *Plugins ▸ MCP ▸ Start Server*, which serves `http://127.0.0.1:24642/mcp`). Despite the docs saying "read-only", the 6.0 server also has **mutation tools**: `bn_symbol_rename`, `bn_comment_set`, `bn_type_struct_create`, `bn_function_prototype_set`, and `bn_open_item_save`. So the bndb can carry names, types, and comments. `docs/macos/addresses.md` stays the reviewed source for the C++ offset tables.
 - `IDA Home (PC)` is the x86/x64 edition, so it cannot do arm64. Keep using it for the *PC* side of the cross-reference.
-- Xcode license accepted (Apple clang 21); `nm`/`otool`/`python3` work.
+- Install Xcode command-line tools and Python 3; the workflows use `nm`, `otool`, and `python3`.
 
 ## 2. Language: C++ or Rust?
 
@@ -115,7 +115,7 @@ Feral updates are rare. **Hardcoded offset tables keyed by `LC_UUID` are enough 
   `Memory.cpp` uses method 2 by default (the remap swaps the page atomically, so other threads never see it non-executable) and falls back to method 1. ✅ A Dobby inline hook on `luaL_loadbuffer` works in the real game (22 loads traced in the frontend).
 
   The two runs that ended before the 30 s mark were quit manually. All runs started cleanly.
-- [x] 0.5 **Metal overlay.** ✅ Feral presents with `-[MTLCommandBuffer presentDrawable:]` (concrete class `AGXG16XFamilyCommandBuffer` on M4 Pro) on a render thread. TWASE swizzles it, found via `-[CAMetalLayer nextDrawable]`, and encodes ImGui into the drawable on the game's command buffer. No code patching involved.
+- [x] 0.5 **Metal overlay.** ✅ Feral presents with `-[MTLCommandBuffer presentDrawable:]` on a render thread; the concrete command-buffer class depends on the GPU. TWASE swizzles it, found via `-[CAMetalLayer nextDrawable]`, and encodes ImGui into the drawable on the game's command buffer. No code patching involved.
 - [x] 0.6 **Input.** ✅ An `NSEvent` local monitor sees keys and mouse (only app/system events go through `sendEvent:`). Console key `kVK_ISO_Section` (0x0A) on ISO keyboards, `kVK_ANSI_Grave` on ANSI. Events are queued on the main thread and fed to ImGui on the render thread.
 
 ### Phase 1: skeleton

@@ -30,7 +30,13 @@ What we found out about the game, independent of the platform. Exact addresses a
 
 ## Addresses and builds
 
+- [Game versions](game-versions.md): the Steam, GOG, Epic and Mac App Store builds, which ones TWASE supports, and what supporting more would change
 - Mac (Feral 1.6.1): [addresses](macos/addresses.md), and the [history of the macOS port](macos/PLAN.md)
+- Mac reverse engineering: [toolkit quick start](macos/re-tooling.md) (Binary Ninja over MCP, xref scanner, Unicorn
+  emulation, paths; the open-twa Binary Ninja database is the Mac App Store build, not Steam)
+- [Feral's anti-tamper: an overview](macos/anti-tamper-overview.md): what the game checks and how it degrades a modified
+  game (dropped input after ~8 min, a moving viewport, then a crash or quit at ~15–25 min); the full investigation
+  is in [integrity checks and the in-game quirks](macos/integrity-and-quirks.md)
 - Windows (`empire.retail.dll`): `src/platform/win32/sdk/Attila/Addresses.hpp`, [patches](../patches/patches.md)
 - [Windows port of the Mac features](windows-port.md) (plan)
 
