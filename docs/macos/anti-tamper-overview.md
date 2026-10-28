@@ -153,4 +153,12 @@ request. The built dylib has no `__interpose` section or Security framework depe
 were absent. A temporary failure-injection harness compiling the actual installer reproduced the partial-write
 bug before the fix, then verified rollback for failures before/after each code write and during slot-protection
 restoration. It also verified successful installation and process termination when rollback itself fails. These
-checks do not replace a long-duration gameplay run of the reduced build or visual verification of input/viewport.
+failure-path checks do not establish input or viewport behavior.
+
+The final reduced build (`02e7dfc`, with the diagnostic machinery removed) then ran from 00:12:51 to 00:52:51 on
+2026-10-28. It remained alive for all 40 minutes, with no warnings or errors recorded by the log monitor, and stopped
+only at the scheduled `SIGTERM`. During the run the user reported no UI glitches; that observation was made before
+the run ended, not a continuous visual measurement of all 40 minutes. No input-clock reset, offset, response
+disarming, or periodic counter probe was present. The encyclopedia/settlement-slot feature branch was not deployed.
+Evidence files: `twase-2026-10-28-00-12-51.log` and `reduced-gameplay-monitor-2026-10-28-00-12-51.txt` in the local
+`TWASE/logs` directory.
