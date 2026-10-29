@@ -35,12 +35,12 @@ File version and `SizeOfImage` don't tell the builds apart:
 
 ### The gate
 
-- `sdk::Attila::Addresses::SupportedBuildId` in `src/platform/win32/sdk/Attila/Addresses.hpp` records the build ID (with file version, PE timestamp, `SizeOfImage` and SHA-256) of the Steam `empire.retail.dll` that table and `Lua/Addresses.hpp` are made for (tested in game on 2026-10-22).
-- `Image::ReadBuildId()` in `src/platform/win32/dll/Image.cpp` reads the build ID from a loaded module.
-- The watcher thread in `App.cpp` waits for `empire.retail.dll`, logs its build ID and compares it with `SupportedBuildId`. On a mismatch it logs `This game build is not supported (expected empire.retail.dll build ID …)` and applies no patch and no hook, D3D11 and DirectInput hooks included.
+- `src/platform/win32/sdk/Attila/Build.hpp` has the known builds (`Build { Unknown, Steam }`), their build IDs (`SteamBuildId`, with file version, PE timestamp, `SizeOfImage` and SHA-256) and `BuildAddress`, the same shape as the Mac `Build.hpp` (see [Address layer](#address-layer)).
+- `Image::SelectBuild()` in `src/platform/win32/dll/Image.cpp` reads the build ID of the loaded `empire.retail.dll` and selects the build; `Image::IsSupported()` is true only for a known build.
+- The watcher thread in `App.cpp` waits for `empire.retail.dll`, selects the build and logs its build ID. On an unknown build it logs `This game build is not supported (expected Steam empire.retail.dll build ID …)` and applies no patch and no hook, D3D11 and DirectInput hooks included.
 - The `App` constructor still logs the `Attila.exe` file and product version, for information only.
 
-When the Steam build changes, the gate turns TWASE off until the tables are checked against the new DLL and `SupportedBuildId` is updated.
+When the Steam build changes, the gate turns TWASE off until the tables are checked against the new DLL and the Steam build ID and addresses are updated.
 
 Previously analysed Windows binaries (file version 1.6.0.0, PE timestamp 2023-06-18) are older builds. The current table does not fit them: for example, `g_Campaign = 0x28D52B0` lies outside their `SizeOfImage 0x255F000`.
 
@@ -88,19 +88,16 @@ Differences that matter for TWASE:
 - **Sandboxed paths.** Feral's preferences and VFS are in `~/Library/Containers/com.feralinteractive.attilatw/Data/Library/Application Support/Feral Interactive/Total War ATTILA/` instead of `~/Library/Application Support/Feral Interactive/Total War ATTILA/`. The game is in `/Applications`, so there's no Steam game folder for `TWASE/` (config, logs) next to the `.app`, and the sandbox limits where the game may write.
 - **Addresses.** Every address in `src/platform/macos/sdk/Attila/Addresses.hpp` would have to be found again. Struct layouts are probably the same as the Steam build (same version, same arch) [INFERENCE].
 
-## What this means for the repo
+## Address layer
 
-Today a platform and a build are the same thing: `src/platform/<os>/sdk/Attila/Addresses.hpp` is one `constexpr` table per OS, `Features.hpp` sets compile-time `TWASE_HAS_*` flags per OS, and `src/core` uses both by name. That holds as long as each OS has exactly one supported build. It doesn't change the core/platform split ([development.md](development.md)): the shared logic, the console and the `twase.*` API stay as they are.
+Both platforms use the same shape, one `sdk/Attila/Build.hpp` per OS:
 
-Supporting a second build on the same OS changes the address layer:
+- `enum class Build` lists the supported builds of that OS plus `Unknown`; each build has an exact build ID (Mac `LC_UUID`, Windows `empire.retail.dll` PDB GUID + age).
+- `Image` selects the build by exact ID before any patch, hook or game API initializes. Unknown builds get no patches and no hooks.
+- Every executable address in `Addresses.hpp` and `Lua/Addresses.hpp` is a `BuildAddress` with one field per build (Mac `{steam, appStore}` VAs, Windows `{steam}` RVAs). It converts to the selected build's address, `0` while the build is `Unknown`. Object offsets, vtable slots and sizes stay plain integers.
+- Global hooks are initialized before the build is selected, so `Hook` keeps a reference to its `BuildAddress` and converts it on `Attach`. Windows `Hook` also takes a plain RVA for targets found at run time (`CampaignUI`).
+- Shared core code keeps the platform's address type (`decltype(Addr::DB_BuildingLevels)` in `LuaApi.cpp`), so it converts at use, not at static initialization.
 
-| Concern | Now | With several builds per OS |
-|---|---|---|
-| Build detection | one supported build ID per OS: Mac `LC_UUID`, Windows `empire.retail.dll` PDB GUID + age; no patches or hooks on any other build | a list of build IDs, each picking its table |
-| Addresses | one `constexpr` namespace per OS | one table per build, picked at startup; `constexpr` names become fields of a table the platform hands to the core (or a namespace per build behind one accessor) |
-| Struct offsets | per OS (pointer size) | still per OS and arch; only split per build where a layout actually differs |
-| Feature flags | `#define TWASE_HAS_*` per OS | per build at run time, since a new build may lack some addresses; unavailable `twase.*` functions must be omitted or report unavailability |
-| Resolution | fixed addresses | one verified table per build, or checked signatures that resolve targets at startup; an unknown or ambiguous layout must not be hooked |
-| Docs | `docs/macos/addresses.md` is per build | addresses docs keyed by build ID, as they are already headed |
+A new build adds a field to `BuildAddress` and a value to every address. A build is only supported with a complete, verified table: there are no runtime feature flags for builds that lack some addresses (`Features.hpp` stays compile-time per OS). No signature scanner runs in the game, and no constant offset is applied between builds. Struct offsets stay per OS (pointer size, arch) and would only be split per build where a layout actually differs. Addresses docs are keyed by build ID.
 
 The Mac App Store build adds more than a table: an injection method that works under the sandbox and without the DYLD entitlements, and paths outside a Steam game folder. That is a launcher/loader problem in `src/platform/macos/`, not in the core.

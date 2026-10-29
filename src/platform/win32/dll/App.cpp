@@ -18,7 +18,6 @@
 #include "../sdk/Attila/Lua/LuaRuntime.hpp"
 #include "../sdk/Attila/Lua/LuaGameEnvironment.hpp"
 #include "../sdk/Attila/VFS/VFS.hpp"
-#include "../sdk/Attila/Addresses.hpp"
 
 #include <shellapi.h>
 
@@ -46,14 +45,15 @@ namespace {
         const DWORD empireDllAddr = reinterpret_cast<DWORD>(mi.lpBaseOfDll);
         spdlog::debug("empire.retail.dll lpBaseOfDll address: {}", reinterpret_cast<void*>(mi.lpBaseOfDll));
 
-        // The address tables are made for one exact empire.retail.dll, never patch or hook another build
-        const auto buildId = Image::ReadBuildId(hMod);
-        spdlog::info("empire.retail.dll build ID: {}", buildId.empty() ? "not found" : buildId);
-        if (buildId != sdk::Attila::Addresses::SupportedBuildId)
+        // The address tables are made for exact empire.retail.dll builds, never patch or hook another one
+        const auto image = Image::Get();
+        image->SelectBuild(hMod);
+        spdlog::info("empire.retail.dll build ID: {}", image->GetBuildId().empty() ? "not found" : image->GetBuildId());
+        if (!image->IsSupported())
         {
-            spdlog::error("This game build is not supported (expected empire.retail.dll build ID {}), TWASE will not "
-                          "patch or hook anything",
-                          sdk::Attila::Addresses::SupportedBuildId);
+            spdlog::error("This game build is not supported (expected Steam empire.retail.dll build ID {}), TWASE will "
+                          "not patch or hook anything",
+                          sdk::Attila::SteamBuildId);
             return 1;
         }
 
