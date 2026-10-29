@@ -136,7 +136,9 @@ bool Hooks::CampaignUIHook::Attach()
     constexpr uint32_t constructor[] = {0xd10243ff, 0xa9074ff4, 0xa9087bfd, 0x910203fd};
     constexpr uint32_t initialize[] = {0xd10383ff, 0x6d0723e9, 0xa9086ffc, 0xa90967fa};
     constexpr uint32_t clearSlot[] = {0xd10103ff, 0xa90157f6, 0xa9024ff4, 0xa9037bfd};
-    constexpr uint32_t urlLoad[] = {0xd0013b88, 0xf9472500};
+    constexpr uint32_t urlLoadSteam[] = {0xd0013b88, 0xf9472500};
+    constexpr uint32_t urlLoadAppStore[] = {0x90013ba8, 0xf940bd00};
+    const auto& urlLoad = Image::Get()->IsAppStore() ? urlLoadAppStore : urlLoadSteam;
     constexpr char nativeUrl[] = "http://Atenc.totalwar.com/#";
     if (!Matches(Addresses::Encyclopedia_ctor, constructor) ||
         !Matches(Addresses::CampaignSettlement_Initialize, initialize) ||

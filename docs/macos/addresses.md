@@ -1,6 +1,6 @@
 # Address table
 
-Build: Feral 1.6.1 RC2, `CFBundleVersion 480285.103778`, `LC_UUID 392D6F66-9183-329E-8A98-8C90FC828326`.
+Steam sections: Feral 1.6.1 RC2, `CFBundleVersion 480285.103778`, `LC_UUID 392D6F66-9183-329E-8A98-8C90FC828326`. App Store RC4 has its own section at the end.
 
 Addresses are **unslid VAs** as shown in Binary Ninja (image base `0x100000000`); runtime address = VA + ASLR slide.
 Earlier mappings may also be named in the bndb; the campaign UI mapping below was read-only and did not rename or save the database.
@@ -357,3 +357,70 @@ defect remains known from this acceptance work.
 
 The disposable harness was redeployed for manual testing; remove it afterward with
 `tools/deploy.sh --remove campaign_ui_dev` from the attila-mods checkout.
+
+## App Store arm64 RC4
+
+Build: Feral 1.6.1 RC4, `CFBundleVersion 480969.104294`, executable UUID
+`196C74A0-71A2-3C28-80DF-BC3DB1C7FEB7`. Original executable SHA-256:
+`184aa3ce055f50e3a51318bbc242d19106aaa07853daa27632417da81111b363`.
+The original Steam executable used for comparison has SHA-256
+`13f5d523019f291f489353fa5d3661bc9a668bb2b0375d6c3201e01d74525c5e`.
+
+The 111 executable/global address pairs are recorded directly as `{Steam, App Store}` in
+`src/platform/macos/sdk/Attila/Addresses.hpp` and `Lua/Addresses.hpp`; offsets within objects remain integers.
+Each target was matched independently, not by a global delta. Full containing routines were compared after
+normalizing PC-relative references and proven ADRP-derived global page offsets, preserving ordinary field offsets
+and register clobbers. Duplicate routines were disambiguated with callers, surrounding context or named tables.
+The diplomacy dropdown vtable was checked through constructor references and 48 function-pointer slots.
+The changed obfuscated write-probe routine was checked separately through both disassemblies, its anchor import,
+permission helpers and failure tail. Analysis databases were not modified.
+
+| Integration-sensitive target | App Store VA | Expected instruction(s) |
+| --- | --- | --- |
+| Clean-text anchor | `0x10025ca1c` | weak import `COpenGLProgramAspectManager::InitialiseThreadLocals` |
+| Anchor slot | `0x104a7f5a0` | runtime pointer to the anchor, not its raw chained-fixup encoding |
+| Startup anchor call | `0x100f6459c` | `0x94c78524`, BL to weak stub `0x104145a2c`; replace with direct BL `0x97cbe120` |
+| Write probe | `0x10025cac8` | `0xa9be4ff4`; live copy gets `ret`, immutable snapshot retains the original |
+| Lua sink store | `0x103f24734` | `0xf9047d00`, `str x0, [x8, #0x8f8]` |
+| Encyclopedia entry/page loads | `0x10287d4c0` / `0x10287d61c` | `{0x90013ba8, 0xf940bd00}`, loading slot `0x104ff1178` |
+| Native encyclopedia string | `0x10489162e` | `http://Atenc.totalwar.com/#`, including terminator |
+| Unit-size patch | `0x101a505a0` | `0x54002640` to `0x54000080`, same verified branch shapes as Steam |
+
+### App Store runtime verification (2026-10-28)
+
+An APFS-cloned, ad-hoc-signed, unsandboxed copy loaded a probe and reached the native frontend without patching
+receipt/licence validation. The actual `twase-appstore.command --prepare` flow then prepared another copy,
+preserved its receipt, and passed deep/strict signature verification. The installed `/Applications` app was not
+modified. Both `HOME` and `CFFIXED_USER_HOME` routed actual Feral writes to the private development home.
+
+The release-mode TWASE build initialized the RC4 clean-text anchor, unit-size patch, Lua log, game tick, startup,
+diplomacy, campaign UI, native-region-trading and Metal hooks. The Steam Workshop ordering hook is intentionally
+not installed on this storefront. The frontend and in-game console rendered; clean frontend exit returned 0.
+
+`--load "Saxons 395 AD Spring.save"` loaded a copied vanilla save in the private home. Two local packs loaded
+through Feral's VFS; all 35 campaign UI API checks passed and restored prior settings. A throwaway real-campaign
+smoke reported Tulifurdum / `att_prov_frisia`, wealth 514, ERE-to-WRE attitude 27, and three building DB records,
+also exercising region localisation. The campaign rendered windowed (`gfx_fullscreen false`), preserving the
+user's display preference.
+
+On the real Tulifurdum card, `slots(2, 2)` rendered two building widgets; `inspect()` reported `2/6 [1,2]`.
+After resetting and reopening, the original building icons returned and `inspect()` reported
+`6/6 [1,2,3,4,5,6]`. The other two province members were not player-owned and exposed no building widgets; this
+does not establish minor-card coverage. API-level URL override/reset passed, but a building right-click only
+opened the native building browser; no external navigation pass is claimed. Expanded/TDD/DLC layouts,
+end-turn construction, battles and native diplomatic transfers were not exercised by this smoke.
+
+Runtime evidence: local logs `twase-2026-10-28-22-33-26.log` and `twase-2026-10-28-22-40-54.log`.
+
+The App Store campaign exited with status 0. The launcher restored `GameOptionsDialogShouldShow=1`,
+`ExtraCommandLineEnabled=0`, and an empty `ExtraCommandLine`, while retaining the user's `FullScreen=0`.
+Negative smoke checks refused injection into the installed original and preparation over an existing destination.
+The original executable SHA-256 and Feral signing team/sandbox entitlements remained unchanged.
+Disposable smoke packs/probes were removed after verification.
+
+Steam compatibility was exercised with the same new dylib and a separate temporary Feral home, without replacing
+the installed Steam dylib: the Steam UUID selected its original targets, clean-text anchor and all hooks attached,
+the vanilla campaign loaded, all 35 campaign UI API checks passed, and the process exited with status 0.
+Evidence: Steam local log `twase-2026-10-28-22-46-45.log`. This was a build-selection/API regression smoke, not a
+repeat of the earlier full Steam acceptance run.
+

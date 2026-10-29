@@ -6,7 +6,7 @@ public:
     Paths();
     ~Paths() = default;
 
-    // the game folder (on Mac the folder containing "Total War ATTILA.app")
+    // Game root, or the external TWASE_ROOT for an App Store development-copy launch.
     std::filesystem::path GetRootDir() const;
 
     std::filesystem::path GetExe() const;

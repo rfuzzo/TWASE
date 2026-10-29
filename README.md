@@ -17,7 +17,7 @@ A script extender for **Total War: ATTILA** on Windows and Mac, similar to and h
 ## Requirements
 
 - **Windows:** Total War: ATTILA from Steam
-- **Mac:** a Mac with Apple Silicon and Total War: ATTILA from Steam (Feral version 1.6.1). On other game versions TWASE stays inactive.
+- **Mac:** Apple Silicon and the supported Feral 1.6.1 Steam build, or an explicitly prepared development copy of the supported Mac App Store build (see below). Other executable UUIDs stay inactive.
 
 ## Installation
 
@@ -27,7 +27,7 @@ Download the zip for your system from [Releases](https://github.com/rfuzzo/TWASE
 
 Extract the zip into the game folder, so that `winmm.dll` is next to `Attila.exe` and `TWASE.dll` is in the `TWASE` folder. Then play as usual.
 
-### Mac
+### Mac — Steam
 
 1. Extract the zip into the game folder, so that `twase-launch.command` and the `TWASE` folder are next to `Total War ATTILA.app`.
 2. macOS blocks downloaded files from unknown developers. Allow them once by running this in Terminal:
@@ -55,6 +55,36 @@ The launcher can also start the game directly, without Feral's launcher window. 
 ```bash
 ./twase-launch.command --mods mod_list.txt --load "Saxons 395 AD Spring.save"
 ```
+
+### Mac — App Store (TWASE Launcher)
+
+The installed App Store app cannot load TWASE with its original entitlements, so TWASE runs in a **private copy**
+of it. **TWASE Launcher** (in the Mac zip) does this without Terminal:
+
+1. Extract the zip anywhere and open `TWASE Launcher.app`. On first launch macOS may block the downloaded app:
+   right-click → *Open*, or allow it under *System Settings → Privacy & Security*.
+2. Select **App Store** under *Game installation* and click **Prepare private copy** (default
+   `~/Applications/Total War ATTILA (TWASE).app`). This is an APFS clone, so it takes little extra disk space.
+   The copy is **ad-hoc signed and unsandboxed**, no longer vendor signed. The installed game, its receipt and
+   licence checks are left untouched.
+3. **Mods** tab: select packs from your existing Feral mod folder (or a folder you add) and click
+   **Link selected**. Packs are symlinked, not copied. Then enable and order them in the Mod Manager tab of
+   Feral's options window.
+4. **Saves** tab (optional): copy selected saves into the private copy's save folder.
+5. **Play**. The Feral options window is shown on the first run; afterwards it can be skipped.
+
+Always start the copy from the launcher: double-clicking the copy itself starts it **without** TWASE (and with
+your normal, shared Feral settings and mods).
+
+The private copy keeps its own Feral preferences, saves and mods under
+`~/Library/Application Support/TWASE/TWASE/appstore-home/`; TWASE's config and logs are in
+`~/Library/Application Support/TWASE/TWASE/`. The **Folders** tab opens them. Only the App Store build
+`480969.104294` (UUID `196C74A0-71A2-3C28-80DF-BC3DB1C7FEB7`) is supported; after a game update, prepare a new
+copy once TWASE supports that build. There is no Workshop integration.
+
+`twase-appstore.command` is the same backend for Terminal use (`--help` lists its options).
+[Build identities and verification](docs/game-versions.md#app-store).
+
 
 ## Console
 
