@@ -46,7 +46,9 @@ Previously analysed Windows binaries (file version 1.6.0.0, PE timestamp 2023-06
 
 ### GOG
 
-GOG release 1.6.7 (GOG build ID `59847060534356892`), analysed 2026-10-28. The install has `steam_api.dll` and `GalaxySteamWrapper.dll` next to `Galaxy.dll`, `EOSSDK-Win32-Shipping.dll` and `clockwork_gog.Release.x86.dll`, so the storefront layer is swapped around a Steam-style API rather than removed. The `winmm.dll` proxy loader doesn't depend on Steam and should load [INFERENCE, not run].
+GOG release 1.6.7 (GOG build ID `59847060534356892`), analysed 2026-10-28. The install has `steam_api.dll` and `GalaxySteamWrapper.dll` next to `Galaxy.dll`, `EOSSDK-Win32-Shipping.dll` and `clockwork_gog.Release.x86.dll`, so the storefront layer is swapped around a Steam-style API rather than removed.
+
+Tested in game on 2026-10-29: the `winmm.dll` proxy loader loads TWASE, which logs the GOG build ID, reports the build as not supported and stays inactive; the game runs as vanilla. There is no Steam Workshop, so subscribed Workshop mods don't appear. Pack mods started through a mod manager (Runcher, `mod_list.txt`) load.
 
 `empire.retail.dll` has the same section layout and `SizeOfImage` as Steam's, but it is a different link and the code is shifted by varying amounts. Bytes at Steam table RVAs, compared with the GOG file:
 
