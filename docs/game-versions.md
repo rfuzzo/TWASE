@@ -7,7 +7,7 @@ Status 2026-10-29. Total War: ATTILA is sold in several builds. TWASE's addresse
 | Build | Game code | Arch | Build ID | TWASE |
 |---|---|---|---|---|
 | Windows, Steam | `empire.retail.dll` (+ `Attila.exe`, `steam_api.dll`) | x86 (PE32) | `empire.retail.dll` PDB build ID `D49769ED8EE04D6F8D1ADE5F582D19BB1`, PE timestamp 2026-04-02 | supported |
-| Windows, GOG | `empire.retail.dll` | x86 (PE32) | `empire.retail.dll` PDB build ID `38260D892D1D47DEBF34EA9A6420E4C71`, PE timestamp 2026-07-09 | supported (address table verified statically; in-game test pending) |
+| Windows, GOG | `empire.retail.dll` | x86 (PE32) | `empire.retail.dll` PDB build ID `38260D892D1D47DEBF34EA9A6420E4C71`, PE timestamp 2026-07-09 | supported |
 | Windows, Epic | `empire.retail.dll` [INFERENCE] | x86 [INFERENCE] | unknown, no copy analysed | not supported, detected by the build gate [INFERENCE] |
 | Mac, Steam | `Total War ATTILA.app/Contents/MacOS/Total War ATTILA` | arm64 | Feral 1.6.1 RC2, `CFBundleVersion 480285.103778`, `LC_UUID 392D6F66-9183-329E-8A98-8C90FC828326` | supported |
 | Mac, App Store | `/Applications/Total War ATTILA.app/Contents/MacOS/Total War ATTILA` | arm64 | Feral 1.6.1 RC4, `CFBundleVersion 480969.104294`, `LC_UUID 196C74A0-71A2-3C28-80DF-BC3DB1C7FEB7` | development-copy support; original app is not injected |
@@ -46,7 +46,9 @@ Previously analysed Windows binaries (file version 1.6.0.0, PE timestamp 2023-06
 
 ### GOG
 
-GOG release 1.6.7 (GOG build ID `59847060534356892`). The install has `steam_api.dll` and `GalaxySteamWrapper.dll` next to `Galaxy.dll`, `EOSSDK-Win32-Shipping.dll` and `clockwork_gog.Release.x86.dll`, so the storefront layer is swapped around a Steam-style API rather than removed. There is no Steam Workshop, so subscribed Workshop mods don't appear; pack mods started through a mod manager (Runcher, `mod_list.txt`) load. The `winmm.dll` proxy loader loads TWASE (tested in game on 2026-10-29, when the build gate still kept TWASE inactive on GOG).
+GOG release 1.6.7 (GOG build ID `59847060534356892`). The install has `steam_api.dll` and `GalaxySteamWrapper.dll` next to `Galaxy.dll`, `EOSSDK-Win32-Shipping.dll` and `clockwork_gog.Release.x86.dll`, so the storefront layer is swapped around a Steam-style API rather than removed. There is no Steam Workshop, so subscribed Workshop mods don't appear; pack mods started through a mod manager (Runcher, `mod_list.txt`) load. The `winmm.dll` proxy loader loads TWASE.
+
+Tested in game on 2026-10-29 with the TDD and FE mods: TWASE selects the GOG build and initializes; the Lua console, diplomacy (likelihood, region trading) and the tweaks work.
 
 `empire.retail.dll` has the same section layout and `SizeOfImage` as Steam's, but it is a different link. The GOG column of the address tables was mapped on 2026-10-29 from the Steam table:
 
