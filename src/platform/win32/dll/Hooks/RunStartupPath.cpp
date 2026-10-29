@@ -43,7 +43,7 @@ static std::vector<std::string> EnumerateModFolders(const std::string& campaignF
 
     spdlog::info("[ModLoader] VFS search in '{}' returned {} result(s)", searchDir, results.count);
 
-    for (int i = 0; i < results.count; i++)
+    for (unsigned int i = 0; i < results.count; i++)
     {
         uint32_t entry = results.entries ? (uint32_t)results.entries[i] : 0;
         const char* path = entry ? *(const char**)(entry + 8) : nullptr;
