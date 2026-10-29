@@ -1,13 +1,13 @@
 # Game versions
 
-Status 2026-10-28. Total War: ATTILA is sold in several builds. TWASE's addresses, struct offsets and patches are made for one exact game binary each, so every build is a separate target, even with the same version number.
+Status 2026-10-29. Total War: ATTILA is sold in several builds. TWASE's addresses, struct offsets and patches are made for one exact game binary each, so every build is a separate target, even with the same version number.
 
 ## The builds
 
 | Build | Game code | Arch | Build ID | TWASE |
 |---|---|---|---|---|
 | Windows, Steam | `empire.retail.dll` (+ `Attila.exe`, `steam_api.dll`) | x86 (PE32) | `empire.retail.dll` PDB build ID `D49769ED8EE04D6F8D1ADE5F582D19BB1`, PE timestamp 2026-04-02 | supported |
-| Windows, GOG | `empire.retail.dll` | x86 (PE32) | `empire.retail.dll` PDB build ID `38260D892D1D47DEBF34EA9A6420E4C71`, PE timestamp 2026-07-09 | not supported, detected (TWASE stays inactive) |
+| Windows, GOG | `empire.retail.dll` | x86 (PE32) | `empire.retail.dll` PDB build ID `38260D892D1D47DEBF34EA9A6420E4C71`, PE timestamp 2026-07-09 | supported (address table verified statically; in-game test pending) |
 | Windows, Epic | `empire.retail.dll` [INFERENCE] | x86 [INFERENCE] | unknown, no copy analysed | not supported, detected by the build gate [INFERENCE] |
 | Mac, Steam | `Total War ATTILA.app/Contents/MacOS/Total War ATTILA` | arm64 | Feral 1.6.1 RC2, `CFBundleVersion 480285.103778`, `LC_UUID 392D6F66-9183-329E-8A98-8C90FC828326` | supported |
 | Mac, App Store | `/Applications/Total War ATTILA.app/Contents/MacOS/Total War ATTILA` | arm64 | Feral 1.6.1 RC4, `CFBundleVersion 480969.104294`, `LC_UUID 196C74A0-71A2-3C28-80DF-BC3DB1C7FEB7` | development-copy support; original app is not injected |
@@ -35,32 +35,40 @@ File version and `SizeOfImage` don't tell the builds apart:
 
 ### The gate
 
-- `src/platform/win32/sdk/Attila/Build.hpp` has the known builds (`Build { Unknown, Steam }`), their build IDs (`SteamBuildId`, with file version, PE timestamp, `SizeOfImage` and SHA-256) and `BuildAddress`, the same shape as the Mac `Build.hpp` (see [Address layer](#address-layer)).
+- `src/platform/win32/sdk/Attila/Build.hpp` has the known builds (`Build { Unknown, Steam, GOG }`), their build IDs (`SteamBuildId`, `GogBuildId`, each with file version, PE timestamp, `SizeOfImage` and SHA-256) and `BuildAddress { steam, gog }`, the same shape as the Mac `Build.hpp` (see [Address layer](#address-layer)).
 - `Image::SelectBuild()` in `src/platform/win32/dll/Image.cpp` reads the build ID of the loaded `empire.retail.dll` and selects the build; `Image::IsSupported()` is true only for a known build.
-- The watcher thread in `App.cpp` waits for `empire.retail.dll`, selects the build and logs its build ID. On an unknown build it logs `This game build is not supported (expected Steam empire.retail.dll build ID …)` and applies no patch and no hook, D3D11 and DirectInput hooks included.
+- The watcher thread in `App.cpp` waits for `empire.retail.dll`, selects the build and logs its build ID. On an unknown build it logs `This game build is not supported (expected empire.retail.dll build ID … (Steam) or … (GOG))` and applies no patch and no hook, D3D11 and DirectInput hooks included.
 - The `App` constructor still logs the `Attila.exe` file and product version, for information only.
 
-When the Steam build changes, the gate turns TWASE off until the tables are checked against the new DLL and the Steam build ID and addresses are updated.
+When the Steam or GOG build changes, the gate turns TWASE off on it until the tables are checked against the new DLL and its build ID and addresses are updated.
 
 Previously analysed Windows binaries (file version 1.6.0.0, PE timestamp 2023-06-18) are older builds. The current table does not fit them: for example, `g_Campaign = 0x28D52B0` lies outside their `SizeOfImage 0x255F000`.
 
 ### GOG
 
-GOG release 1.6.7 (GOG build ID `59847060534356892`), analysed 2026-10-28. The install has `steam_api.dll` and `GalaxySteamWrapper.dll` next to `Galaxy.dll`, `EOSSDK-Win32-Shipping.dll` and `clockwork_gog.Release.x86.dll`, so the storefront layer is swapped around a Steam-style API rather than removed.
+GOG release 1.6.7 (GOG build ID `59847060534356892`). The install has `steam_api.dll` and `GalaxySteamWrapper.dll` next to `Galaxy.dll`, `EOSSDK-Win32-Shipping.dll` and `clockwork_gog.Release.x86.dll`, so the storefront layer is swapped around a Steam-style API rather than removed. There is no Steam Workshop, so subscribed Workshop mods don't appear; pack mods started through a mod manager (Runcher, `mod_list.txt`) load. The `winmm.dll` proxy loader loads TWASE (tested in game on 2026-10-29, when the build gate still kept TWASE inactive on GOG).
 
-Tested in game on 2026-10-29: the `winmm.dll` proxy loader loads TWASE, which logs the GOG build ID, reports the build as not supported and stays inactive; the game runs as vanilla. There is no Steam Workshop, so subscribed Workshop mods don't appear. Pack mods started through a mod manager (Runcher, `mod_list.txt`) load.
+`empire.retail.dll` has the same section layout and `SizeOfImage` as Steam's, but it is a different link. The GOG column of the address tables was mapped on 2026-10-29 from the Steam table:
 
-`empire.retail.dll` has the same section layout and `SizeOfImage` as Steam's, but it is a different link and the code is shifted by varying amounts. Bytes at Steam table RVAs, compared with the GOG file:
+- **Functions (93 entries):** each Steam function body (up to its first `ret`) was searched in the GOG `.text` with call/jump targets and relocated addresses masked, the rest compared byte for byte, so field offsets used inside the bodies are identical. 78 match exactly once. The other 15 are short or duplicated bodies (`String_dtor`/`WString_dtor`, one-call thunks such as `DiplomaticAction_FactionA`); each was picked as the candidate at the shift of its neighbouring entries, and the picks agree with what the matched functions call. All 243 call targets and globals referenced from the matched bodies map consistently between the builds. The GOG IDA database has a function start at every mapped address.
+- **Patch site:** `BitSetCrashAddr` is unchanged and holds the bytes `Patches.cpp` expects.
+- **Data (`g_RuntimeLuaListHead`, `g_RuntimeLuaListSentinel`, `g_Campaign`):** unchanged; every uniquely matched referencing instruction (2, 6 and 1,761) points at the same RVA.
+- **Run-time targets:** the `CampaignUI` search, run offline on the GOG file, resolves the same encyclopedia pointer (`0x1D33D00`), settlement `Initialize` (`0x1407530`) and UI helpers as on Steam.
 
-| Steam address | Steam RVA | Same bytes in GOG at |
+Only 8 entries differ; the code is shifted in blocks, not by one offset:
+
+| Entry | Steam RVA | GOG RVA |
 |---|---|---|
-| `RunStartupPath` | `0x79B980` | `0x79B980` (+0), but the calls inside it point elsewhere |
-| `TradeRegionsPanel_Populate` | `0x15FDB80` | `0x15FDBD0` (+0x50) |
-| `GetLuaState` | `0x1626AA0` | `0x1626B00` (+0x60) |
-| `VFS_SearchFiles` | `0x1635B50` | `0x1635BB0` (+0x60) |
-| `LuaLog` | `0x1A76CF0` | `0x1A76D20` (+0x30) |
+| `DiplomacyListTradeRegionsButton_Setup` | `0x15E2340` | `0x15E2380` |
+| `TradeRegionsPanel_OnClick` | `0x15E6590` | `0x15E65D0` |
+| `TradeRegionsPanel_Populate` | `0x15FDB80` | `0x15FDBD0` |
+| `TradeRegionsPanel_SelectRow` | `0x1606DC0` | `0x1606E10` |
+| `GetLuaState` | `0x1626AA0` | `0x1626B00` |
+| `VFS_SearchFiles` | `0x1635B50` | `0x1635BB0` |
+| `VFS_GetInstance` | `0x1658C80` | `0x1658CD0` |
+| `LuaLog` | `0x1A76CF0` | `0x1A76D20` |
 
-No single offset maps the Steam table onto GOG; with the Steam table, TWASE would hook `LuaLog` and others in the middle of other code. GOG needs its own table (struct layouts are probably the same, same compiler and arch [INFERENCE]).
+Object offsets, vtable slots and sizes are shared with Steam.
 
 ### Epic
 
@@ -120,7 +128,7 @@ Both platforms use the same shape, one `sdk/Attila/Build.hpp` per OS:
 
 - `enum class Build` lists the supported builds of that OS plus `Unknown`; each build has an exact build ID (Mac `LC_UUID`, Windows `empire.retail.dll` PDB GUID + age).
 - `Image` selects the build by exact ID before any patch, hook or game API initializes. Unknown builds get no patches and no hooks.
-- Every executable address in `Addresses.hpp` and `Lua/Addresses.hpp` is a `BuildAddress` with one field per build (Mac `{steam, appStore}` VAs, Windows `{steam}` RVAs). It converts to the selected build's address, `0` while the build is `Unknown`. Object offsets, vtable slots and sizes stay plain integers.
+- Every executable address in `Addresses.hpp` and `Lua/Addresses.hpp` is a `BuildAddress` with one field per build (Mac `{steam, appStore}` VAs, Windows `{steam, gog}` RVAs). It converts to the selected build's address, `0` while the build is `Unknown`. Object offsets, vtable slots and sizes stay plain integers.
 - Global hooks are initialized before the build is selected, so `Hook` keeps a reference to its `BuildAddress` and converts it on `Attach`. Windows `Hook` also takes a plain RVA for targets found at run time (`CampaignUI`).
 - Shared core code keeps the platform's address type (`decltype(Addr::DB_BuildingLevels)` in `LuaApi.cpp`), so it converts at use, not at static initialization.
 

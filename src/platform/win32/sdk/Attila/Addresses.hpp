@@ -2,56 +2,56 @@
 
 #include "Build.hpp"
 
-// empire.retail.dll RVAs, stored per build ({Steam}). Selected by exact build ID before hooks initialize.
+// empire.retail.dll RVAs, stored per build ({Steam, GOG}). Selected by exact build ID before hooks initialize.
 namespace sdk::Attila::Addresses
 {
 	// hooks
-	constexpr BuildAddress LuaLog{0x01A76CF0};
-	constexpr BuildAddress RunStartupPath{0x79B980};
+	constexpr BuildAddress LuaLog{0x01A76CF0, 0x01A76D20};
+	constexpr BuildAddress RunStartupPath{0x79B980, 0x79B980};
 
 	// patches
-	constexpr BuildAddress BitSetCrashAddr{0x0091CB57};
+	constexpr BuildAddress BitSetCrashAddr{0x0091CB57, 0x0091CB57};
 
 
 	// VFS
-	constexpr BuildAddress VFS_GetInstance{0x1658C80};
-	constexpr BuildAddress VFS_SearchFiles{0x1635B50};
+	constexpr BuildAddress VFS_GetInstance{0x1658C80, 0x1658CD0};
+	constexpr BuildAddress VFS_SearchFiles{0x1635B50, 0x1635BB0};
 
 	// Names
-	constexpr BuildAddress CName_ctor{0xDF290};
+	constexpr BuildAddress CName_ctor{0xDF290, 0xDF290};
 
 	// base
-	constexpr BuildAddress tw_free{0xE98C0};
+	constexpr BuildAddress tw_free{0xE98C0, 0xE98C0};
 
 
 	// LUA
 	// Linked list of all active lua states
-	constexpr BuildAddress g_RuntimeLuaListHead{0x01DA4230};
-	constexpr BuildAddress g_RuntimeLuaListSentinel{0x01DA4234};
+	constexpr BuildAddress g_RuntimeLuaListHead{0x01DA4230, 0x01DA4230};
+	constexpr BuildAddress g_RuntimeLuaListSentinel{0x01DA4234, 0x01DA4234};
 
 	// lua_State* (__thiscall*)(void* thisPtr)
-	constexpr BuildAddress GetLuaState{0x1626AA0};
+	constexpr BuildAddress GetLuaState{0x1626AA0, 0x1626B00};
 
 
 	// DIPLOMACY
 	// float (__cdecl*)(void* deal, int ctx, void* factionA, void* factionB)
 	// UI-only wrapper around the deal evaluator, AI accepts deals with score >= 0
-	constexpr BuildAddress Diplo_GetDisplayedDealScore{0xA6E980};
+	constexpr BuildAddress Diplo_GetDisplayedDealScore{0xA6E980, 0xA6E980};
 
 	// int (__thiscall*)(void* caiModule, void* deal, int)
 	// buckets the score: <= LOW tweaker (-4) low, >= HIGH tweaker (4) high, else moderate
-	constexpr BuildAddress CAI_GetDealLikelihoodBucket{0xD2A7A0};
+	constexpr BuildAddress CAI_GetDealLikelihoodBucket{0xD2A7A0, 0xD2A7A0};
 
 	// int (__thiscall*)(DiplomacyDropdown* this, int likelihood (-1/0/1, -2 hidden), bool show)
-	constexpr BuildAddress DiplomacyDropdown_SetLikelihood{0x14F95A0};
+	constexpr BuildAddress DiplomacyDropdown_SetLikelihood{0x14F95A0, 0x14F95A0};
 
 
 	// UI
 	// void (__thiscall*)(UIComponent* this, const WString* text, bool allStates)
-	constexpr BuildAddress UIComponent_SetText{0x13B8B40};
+	constexpr BuildAddress UIComponent_SetText{0x13B8B40, 0x13B8B40};
 
 	// void (__thiscall*)(UIComponent* this, const WString* text, bool allStates)
-	constexpr BuildAddress UIComponent_SetTooltipText{0x13B9A00};
+	constexpr BuildAddress UIComponent_SetTooltipText{0x13B9A00, 0x13B9A00};
 
 	// CAMPAIGN UI: verified against the x86 2023-06-18 image, not fixed
 	// function RVAs (that image predates the table above). CampaignUI.cpp
@@ -62,20 +62,20 @@ namespace sdk::Attila::Addresses
 	constexpr uint32_t SettlementCallback_MaxSlots = 0x48;   // uint32_t, Construct 4 / SetAsCapital 6
 
 	// WString* (__thiscall*)(WString* this, const wchar_t* str)
-	constexpr BuildAddress WString_ctor{0xDFEF0};
+	constexpr BuildAddress WString_ctor{0xDFEF0, 0xDFEF0};
 
 	// void (__thiscall*)(WString* this)
-	constexpr BuildAddress WString_dtor{0xE0720};
+	constexpr BuildAddress WString_dtor{0xE0720, 0xE0720};
 
 
 	// FACTIONS (twase.faction_attitude)
 	// bool (__cdecl*)(lua_State* L, int idx, FACTION_SCRIPT_INTERFACE** out): the type check of the faction methods'
 	// arguments, luaL_typerror for other userdata; called by the single argument check used by allied_with etc.
-	constexpr BuildAddress FactionScriptInterface_GetArg{0x80C480};
+	constexpr BuildAddress FactionScriptInterface_GetArg{0x80C480, 0x80C480};
 
 	// float (__thiscall*)(CAI_INTERFACE* self, FACTION* a, FACTION* b), a's attitude towards b. Found through the attitude
 	// icon of the diplomacy screens (UI_SetAttitudeIcon 0x1608AE0), which truncates it to int like Mac's rounded int
-	constexpr BuildAddress CAI_GetFactionAttitude{0xD38000};
+	constexpr BuildAddress CAI_GetFactionAttitude{0xD38000, 0xD38000};
 	using FactionAttitudeValue = float;
 
 	// Offsets
@@ -96,28 +96,28 @@ namespace sdk::Attila::Addresses
 
 
 	// DATABASE (the loaded DB tables), world = *(*(*g_Campaign + 0xA54) + 0x28) like the UI (UI_SetAttitudeIcon)
-	constexpr BuildAddress g_Campaign{0x28D52B0};
+	constexpr BuildAddress g_Campaign{0x28D52B0, 0x28D52B0};
 	constexpr uint32_t Campaign_Handle = 0xA54;
 	constexpr uint32_t World_Database = 0x10F0;                // DB_GetContainer(world + 0x10f0)
 
 	// void* (__thiscall*)(void* worldDatabaseField): *(*(*field + 0x30) + 0x10)
-	constexpr BuildAddress DB_GetContainer{0x9D09F0};
+	constexpr BuildAddress DB_GetContainer{0x9D09F0, 0x9D09F0};
 
 	// DATABASE_TABLE* (__thiscall*)(void* container), lazy, the only code referencing "<table>_table"
-	constexpr BuildAddress DB_BuildingLevels{0xE1B690};
-	constexpr BuildAddress DB_RegionToProvinceJunctions{0xE39470};
-	constexpr BuildAddress DB_Provinces{0xE389E0};
-	constexpr BuildAddress DB_MainUnits{0xE33D00};
-	constexpr BuildAddress DB_FactionToMercenarySetJunctions{0xE30210};
-	constexpr BuildAddress DB_MercenaryPoolToGroupsJunctions{0xE34170};
-	constexpr BuildAddress DB_MercenaryUnitGroups{0xE34520};
+	constexpr BuildAddress DB_BuildingLevels{0xE1B690, 0xE1B690};
+	constexpr BuildAddress DB_RegionToProvinceJunctions{0xE39470, 0xE39470};
+	constexpr BuildAddress DB_Provinces{0xE389E0, 0xE389E0};
+	constexpr BuildAddress DB_MainUnits{0xE33D00, 0xE33D00};
+	constexpr BuildAddress DB_FactionToMercenarySetJunctions{0xE30210, 0xE30210};
+	constexpr BuildAddress DB_MercenaryPoolToGroupsJunctions{0xE34170, 0xE34170};
+	constexpr BuildAddress DB_MercenaryUnitGroups{0xE34520, 0xE34520};
 
 	// int* (__thiscall*)(StringHashMap* map, const TempString* key), the record index or null (DBTable_GetRecordByKey 0x19AA20)
-	constexpr BuildAddress StringHashMap_Find{0xCF7C0};
+	constexpr BuildAddress StringHashMap_Find{0xCF7C0, 0xCF7C0};
 
 	// TempString* (__thiscall*)(TempString* self, const char* utf8) / void (__thiscall*)(TempString* self)
-	constexpr BuildAddress String_ctor{0xDFCD0};
-	constexpr BuildAddress String_dtor{0xE06F0};
+	constexpr BuildAddress String_ctor{0xDFCD0, 0xDFCD0};
+	constexpr BuildAddress String_dtor{0xE06F0, 0xE06F0};
 
 	// LOCALISATION (twase.localise): the loc manager at container + 0x1694 (DB_GetLocalisation 0xE0D270); its virtual
 	// + 0x0 is the lookup const WString* (loc, const TempString* key, int), callers pass 1 (ProvinceRecord_SetOnscreenName
@@ -159,15 +159,15 @@ namespace sdk::Attila::Addresses
 	// NATIVE REGION TRADING ("Gift Region", src/core/Hooks/NativeRegionTrading.cpp), the Mac names
 	// RegionList* (__thiscall*)(FACTION* from, RegionList* out, FACTION* to), retn 8: from's regions that can be given
 	// (with `to`, only where an army of `to` stands); called by the availability rule and the panel's fill 0x1603DF0
-	constexpr BuildAddress Faction_GiftableRegions{0x736B40};
+	constexpr BuildAddress Faction_GiftableRegions{0x736B40, 0x736B40};
 	// bool (__cdecl*)(FACTION* a, FACTION* b): one side human, the other a horde that can own land, at peace, giftable
 	// regions; only the trade regions action's ctor 0xBFCC00 calls it, with the negotiation's factions
-	constexpr BuildAddress DiplomaticAction_RegionTradePossible{0xC1ABB0};
+	constexpr BuildAddress DiplomaticAction_RegionTradePossible{0xC1ABB0, 0xC1ABB0};
 	constexpr uint32_t Faction_IsHuman = 0x84C;                // bool (the Lua is_human 0x84B970)
 	constexpr uint32_t Faction_RegionCount = 0x8D4;            // u32, REGION** at + 0x8d8 (the Lua region_list 0x85CC80)
 	constexpr uint32_t Faction_CanOwnLand = 0x12A1;            // bool (FACTION::can_own_land 0x715BA0)
 	// bool (__thiscall*)(FACTION*), FACTION::is_horde (Mac's returns a pointer)
-	constexpr BuildAddress Faction_IsHorde{0x716320};
+	constexpr BuildAddress Faction_IsHorde{0x716320, 0x716320};
 	using FactionIsHordeValue = bool;
 	constexpr uint32_t Faction_Record = 0x800;                 // factions record (key TempString at + 0), null once destroyed (FACTION::record 0x72B890)
 
@@ -195,21 +195,21 @@ namespace sdk::Attila::Addresses
 
 	// the trade regions action (ctor 0xBFCC00, vtable 0x1B97AB0): regions in list 1 go to negotiation faction A, in list
 	// 2 to faction B. void (__thiscall*)(DIPLOMATIC_ACTION_TRADE_REGIONS*) executes the deal (vtable slot 13)
-	constexpr BuildAddress TradeRegions_Execute{0xC173E0};
+	constexpr BuildAddress TradeRegions_Execute{0xC173E0, 0xC173E0};
 	constexpr uint32_t TradeRegions_List1Count = 0x18;         // REGION** at + 0x1c
 	constexpr uint32_t TradeRegions_List2Count = 0x24;         // REGION** at + 0x28
 	// void (__thiscall*)(SETTLEMENT*, FACTION*, int32_t, int32_t): the deal's transfer of one region (reason 5, diplomacy)
-	constexpr BuildAddress Settlement_DiplomaticTransfer{0x855870};
+	constexpr BuildAddress Settlement_DiplomaticTransfer{0x855870, 0x855870};
 	constexpr uint32_t Region_Settlement = 0x128;              // SETTLEMENT*
 
 	// Region value in the AI's deal evaluation
 	// float (__cdecl*)(NEGOTIATION* deal, void* aiContext, CAI_FACTION* a, CAI_FACTION* b, int32_t* out, bool* out)
-	constexpr BuildAddress Diplo_EvaluateDeal{0xA6E9B0};
+	constexpr BuildAddress Diplo_EvaluateDeal{0xA6E9B0, 0xA6E9B0};
 	// float (__cdecl*)(ComponentList* components, void* aiContext, CAI_FACTION* a, void* context, int32_t*, char*, uint32_t):
 	// scores the deal's CAI_DEAL_COMPONENT_* list (entries {component*, int32 action index}, 8 bytes, built by 0xA6E930)
-	constexpr BuildAddress Diplo_ScoreComponents{0xA557D0};
+	constexpr BuildAddress Diplo_ScoreComponents{0xA557D0, 0xA557D0};
 	// void (__thiscall*)(CAI_DEAL_COMPONENT_GIFT* self, void* aiContext, CAI_FACTION* a, CAI_FACTION* b, int32_t gold), 0x1c bytes
-	constexpr BuildAddress DealComponentGift_ctor{0xBF0FC0};
+	constexpr BuildAddress DealComponentGift_ctor{0xBF0FC0, 0xBF0FC0};
 	constexpr uint32_t DealComponentGift_Size = 0x1C;
 	// its score parts, float (__thiscall*)(GIFT*) virtuals (vtable 0x1B9929C, one dtor slot: Mac's slots - 0xc; + 0x8, the
 	// table part 0xC804A0, needs the scorer's context)
@@ -219,40 +219,40 @@ namespace sdk::Attila::Addresses
 	constexpr uint32_t DealComponentGift_OtherSlot = 0x14;    // 0xA81F60
 	// float (__thiscall*)(CAI_FACTION*, int32_t treasuryOffset): clamp(GDP / economic_power_gdp_factor + (treasury + offset)
 	// / economic_power_treasury_factor, min, max); the CAI faction wrapper's FACTION is at + 0xec
-	constexpr BuildAddress CaiFaction_EconomicPower{0x8FC320};
+	constexpr BuildAddress CaiFaction_EconomicPower{0x8FC320, 0x8FC320};
 	constexpr uint32_t CaiFaction_Faction = 0xEC;
-	constexpr BuildAddress Treasury_Get{0x86EB60};                // int32_t (__thiscall*)(TREASURY* = FACTION + 0x168), the Lua treasury
+	constexpr BuildAddress Treasury_Get{0x86EB60, 0x86EB60};                // int32_t (__thiscall*)(TREASURY* = FACTION + 0x168), the Lua treasury
 	constexpr uint32_t Faction_Treasury = 0x168;
 	// uint32_t (__thiscall*)(FACTION*): the faction's GDP per turn (Mac's returns a float)
-	constexpr BuildAddress Faction_Gdp{0x7107E0};
+	constexpr BuildAddress Faction_Gdp{0x7107E0, 0x7107E0};
 	using FactionGdpValue = uint32_t;
 
 	// The region panel (DiplomacyTradeRegionsPanel, layout diplomacy_hud "trade_regions", set up by 0x15E6490)
 	// void (__thiscall*)(PANEL* self, DIPLOMATIC_ACTION* action): fills list_offers (player -> AI) and list_demands (AI ->
 	// player), the fill 0x1603DF0 skips invisible lists
-	constexpr BuildAddress TradeRegionsPanel_Populate{0x15FDB80};
+	constexpr BuildAddress TradeRegionsPanel_Populate{0x15FDB80, 0x15FDBD0};
 	constexpr uint32_t TradeRegionsPanel_Component = 0x4;      // UIComponent*
 	constexpr uint32_t TradeRegionsPanel_RowTemplate = 0x44;   // "template_region_list_item" (+ 0x40 the DiplomacyDropdown)
 	constexpr uint32_t TradeRegionsPanel_Selected = 0x48;      // UIComponent* row
 	constexpr uint32_t TradeRegionsPanel_OtherFaction = 0x4C;  // FACTION* of the AI, set by Populate
 	// void (__thiscall*)(PANEL* self, UIComponent* row): unticks every row, ticks `row` (may be null) as the one
 	// selection, sets ok_trade_regions active / inactive and pans the camera to the row's region
-	constexpr BuildAddress TradeRegionsPanel_SelectRow{0x1606DC0};
+	constexpr BuildAddress TradeRegionsPanel_SelectRow{0x1606DC0, 0x1606E10};
 	// void (__thiscall*)(LISTENER* self = panel + 0x30, void** event): event[0] the clicked component (a row's checkbox:
 	// its row at + 0x88), the byte at event + 4 is 1 if it's now ticked; also the OK and cancel buttons
-	constexpr BuildAddress TradeRegionsPanel_OnClick{0x15E6590};
+	constexpr BuildAddress TradeRegionsPanel_OnClick{0x15E6590, 0x15E65D0};
 	constexpr uint32_t TradeRegionsPanel_ClickListener = 0x30;
 	// UIComponent* (__cdecl*)(UIComponent* parent, const TempString* name, bool recursive)
-	constexpr BuildAddress UIComponent_FindChild{0x139FEB0};
+	constexpr BuildAddress UIComponent_FindChild{0x139FEB0, 0x139FEB0};
 	// void (__thiscall*)(UIComponent*, bool), the Lua SetVisible
-	constexpr BuildAddress UIComponent_SetVisible{0x13B6840};
+	constexpr BuildAddress UIComponent_SetVisible{0x13B6840, 0x13B6840};
 	constexpr uint32_t UIComponent_ClickedRow = 0x88;
 	// UIComponent: id TempString at + 0x7c, children count + 0x90 / UIComponent** + 0x94, checkbox state at + 0x184
 	constexpr uint32_t UIComponent_Id = 0x7C;
 	constexpr uint32_t UIComponent_ChildCount = 0x90;
 	constexpr uint32_t UIComponent_Children = 0x94;
 	constexpr uint32_t UIComponent_Checkbox = 0x184;
-	constexpr BuildAddress Checkbox_SetChecked{0x13B6140};        // void (__thiscall*)(CHECKBOX*, bool, bool, bool)
+	constexpr BuildAddress Checkbox_SetChecked{0x13B6140, 0x13B6140};        // void (__thiscall*)(CHECKBOX*, bool, bool, bool)
 	// geometry (the Lua bindings Position 0x1385210, Dimensions 0x1385BF0, MoveTo 0x1385260, Resize 0x1385790): position
 	// x, y floats; the current state, its width and height floats; MoveTo virtual (float[2]); the flags that let Resize
 	// change the width / height. Resize is the virtual + 0x4c (width, height, bool, bool), 0x13B13F0
@@ -263,43 +263,43 @@ namespace sdk::Attila::Addresses
 	constexpr uint32_t UIComponent_ResizeVtableOffset = 0x4C;
 	constexpr uint32_t UIComponent_CanResize = 0xE8;
 	// FACTION* (__thiscall*)(DIPLOMATIC_ACTION*): the action's two factions (the negotiation's A and B)
-	constexpr BuildAddress DiplomaticAction_FactionA{0x523EA0};
-	constexpr BuildAddress DiplomaticAction_FactionB{0xC70910};
+	constexpr BuildAddress DiplomaticAction_FactionA{0x523EA0, 0x523EA0};
+	constexpr BuildAddress DiplomaticAction_FactionB{0xC70910, 0xC70910};
 	// FACTION* (__thiscall*)(CAMPAIGN* = *g_Campaign), CampaignUI_GetLocalPlayerFaction
-	constexpr BuildAddress Campaign_LocalFaction{0x1521C30};
-	constexpr BuildAddress TempString_ToInt{0xF2D10};             // bool (__thiscall*)(const TempString*, int32_t* out)
+	constexpr BuildAddress Campaign_LocalFaction{0x1521C30, 0x1521C30};
+	constexpr BuildAddress TempString_ToInt{0xF2D10, 0xF2D10};             // bool (__thiscall*)(const TempString*, int32_t* out)
 	constexpr uint32_t Region_Id = 0x4;                        // int32, the panel's row ids ("%d")
 
 	// void (__thiscall*)(DIPLOMACY_CONTEXT*, int32_t regionId, FACTION* demandedFrom (null: offered), DIPLOMATIC_ACTION* deal):
 	// the OK button (through 0x14F5C30, the context = DiplomacyDropdown + 0x184); fills deal terms with the one region
 	// and applies them to the action
-	constexpr BuildAddress DiplomacyContext_SetRegion{0x1522850};
+	constexpr BuildAddress DiplomacyContext_SetRegion{0x1522850, 0x1522850};
 	constexpr uint32_t DiplomacyContext_Negotiation = 0x80;
 	// the deal terms argument: *(*(*(context + 0x78) + Campaign_Handle) + 0x2c)
 	constexpr uint32_t DiplomacyContext_Campaign = 0x78;
 	constexpr uint32_t ModelHandle_DealTermsContext = 0x2C;
-	constexpr BuildAddress DealTerms_ctor{0xBFC030};              // void (__thiscall*)(TERMS*), 0x14c bytes
-	constexpr BuildAddress DealTerms_dtor{0x6DB220};
-	constexpr BuildAddress DealTerms_SetDemandedRegions{0xC27E40}; // void (__thiscall*)(TERMS*, const List*), copied to + 0x10
-	constexpr BuildAddress DealTerms_SetOfferedRegions{0xC58B90};  // void (__thiscall*)(TERMS*, const List*), copied to + 0x1c
+	constexpr BuildAddress DealTerms_ctor{0xBFC030, 0xBFC030};              // void (__thiscall*)(TERMS*), 0x14c bytes
+	constexpr BuildAddress DealTerms_dtor{0x6DB220, 0x6DB220};
+	constexpr BuildAddress DealTerms_SetDemandedRegions{0xC27E40, 0xC27E40}; // void (__thiscall*)(TERMS*, const List*), copied to + 0x10
+	constexpr BuildAddress DealTerms_SetOfferedRegions{0xC58B90, 0xC58B90};  // void (__thiscall*)(TERMS*, const List*), copied to + 0x1c
 	// void (__thiscall*)(DIPLOMATIC_ACTION*, void* x, TERMS*), a thunk to the action's virtual + 0x38
-	constexpr BuildAddress Deal_ApplyTerms{0xC685F0};
+	constexpr BuildAddress Deal_ApplyTerms{0xC685F0, 0xC685F0};
 
 	// The deal list row of a trade regions action (DiplomacyListTradeRegionsButton, made by 0x15E2470):
 	// void (__thiscall*)(BUTTON* self, UIComponent* dropdownRoot, ENTRY* entry, void* context), retn 0xc; it shows the
 	// demanded regions if there are any, else the offered ones, in "region_names"
-	constexpr BuildAddress DiplomacyListTradeRegionsButton_Setup{0x15E2340};
+	constexpr BuildAddress DiplomacyListTradeRegionsButton_Setup{0x15E2340, 0x15E2380};
 	constexpr uint32_t ActionEntry_Action = 0x10;              // the entry's DIPLOMATIC_ACTION* (after a 12-byte WString and flags)
 	constexpr uint32_t ListButton_Row = 0x4;                   // the button's row UIComponent*
 	constexpr uint32_t Region_Owner = 0x124;                   // **(region + 0x124) = owning FACTION* (the Lua owning_faction 0x8560A0)
-	constexpr BuildAddress Region_LocalisedName{0x94AE50};        // const WString* (__thiscall*)(REGION*)
+	constexpr BuildAddress Region_LocalisedName{0x94AE50, 0x94AE50};        // const WString* (__thiscall*)(REGION*)
 	// WString (UTF-16, 12 bytes): ctor from a literal, append, append literal, non-empty, dtor
-	constexpr BuildAddress UniString_ctor{0xDFEF0};
-	constexpr BuildAddress UniString_Append{0xE1210};
-	constexpr BuildAddress UniString_AppendLiteral{0xE12D0};
-	constexpr BuildAddress UniString_NotEmpty{0xEF750};
-	constexpr BuildAddress UniString_dtor{0xE0720};
-	constexpr BuildAddress UniString_Copy{0xDFDF0};               // void (__thiscall*)(WString* self, const WString* other)
+	constexpr BuildAddress UniString_ctor{0xDFEF0, 0xDFEF0};
+	constexpr BuildAddress UniString_Append{0xE1210, 0xE1210};
+	constexpr BuildAddress UniString_AppendLiteral{0xE12D0, 0xE12D0};
+	constexpr BuildAddress UniString_NotEmpty{0xEF750, 0xEF750};
+	constexpr BuildAddress UniString_dtor{0xE0720, 0xE0720};
+	constexpr BuildAddress UniString_Copy{0xDFDF0, 0xDFDF0};               // void (__thiscall*)(WString* self, const WString* other)
 	constexpr uint32_t UniString_Size = 0xC;
 
 	// REGION FOR TROOPS
@@ -309,28 +309,28 @@ namespace sdk::Attila::Addresses
 	// void (__thiscall*)(DROPDOWN*) 0x14F6E90 makes a button "diplomac_action_possible_<type>" in the list box at + 0x98
 	// (template + 0x9c) for each entry whose action isn't in the deal, and hands it the entry (0x15FE4C0: the action at
 	// controller + 0x34, label "row_tx" from the action's name, tooltip from the entry)
-	constexpr BuildAddress DiplomacyDropdown_MakeActionButtons{0x14F6E90};
+	constexpr BuildAddress DiplomacyDropdown_MakeActionButtons{0x14F6E90, 0x14F6E90};
 	constexpr uint32_t DiplomacyDropdown_ActionEntries = 0xF8;
 	constexpr uint32_t DiplomacyDropdown_ActionButtonParent = 0x98;
 	constexpr uint32_t DiplomacyDropdown_Context = 0x128;      // DIPLOMACY_CONTEXT*, its negotiation at + 0x80; + 0x138 the open action
-	constexpr BuildAddress ActionEntry_Alloc{0xBE440};            // ENTRY* (__cdecl*)(int32_t count), tw_malloc
+	constexpr BuildAddress ActionEntry_Alloc{0xBE440, 0xBE440};            // ENTRY* (__cdecl*)(int32_t count), tw_malloc
 	// A click on an action button: void (__thiscall*)(LISTENER* = dropdown + 0x40, EVENT*), the event's button at + 4
 	// (its controller + 0x34 the action), a click when + 8 is 1; then 0x14E9370(dropdown, 0, action) opens the action's
 	// panel (type 6: the region panel, 0x14DE560). There's no second entry like Mac's thunk.
-	constexpr BuildAddress DiplomacyDropdown_OnActionButton{0x14A54E0};
+	constexpr BuildAddress DiplomacyDropdown_OnActionButton{0x14A54E0, 0x14A54E0};
 	constexpr uint32_t DiplomacyDropdown_ActionButtonListener = 0x40;
 	constexpr uint32_t ActionButtonEvent_Button = 0x4;
 	constexpr uint32_t ActionButtonEvent_Clicked = 0x8;
 	constexpr uint32_t ActionButtonController_Action = 0x34;
 	// void (__thiscall*)(DIPLOMACY_CONTEXT*, DIPLOMATIC_ACTION*): puts an action into the deal with empty terms (the
 	// dispatcher 0x14E9370's way for simple terms); the tributary term the way the "Make Tributary State" button adds it
-	constexpr BuildAddress DiplomacyContext_AddTerm{0x15221C0};
-	constexpr BuildAddress DiplomacyContext_AddTributaryTerm{0x1522260};
+	constexpr BuildAddress DiplomacyContext_AddTerm{0x15221C0, 0x15221C0};
+	constexpr BuildAddress DiplomacyContext_AddTributaryTerm{0x1522260, 0x1522260};
 	// The troops list's rows: UIComponent* (__cdecl*)(UIComponent* listBox, void* rowTemplate, const TempString* id, void*,
 	// void*, int32_t, int32_t, void*, bool, void*), as the panel's fill calls it; void (__thiscall*)(listBox) removes all
 	// rows / lays the list out again
-	constexpr BuildAddress UIComponent_CreateListRow{0x13A05C0};
-	constexpr BuildAddress ListBox_Clear{0x13A0FB0};
-	constexpr BuildAddress ListBox_Layout{0x139F120};
+	constexpr BuildAddress UIComponent_CreateListRow{0x13A05C0, 0x13A05C0};
+	constexpr BuildAddress ListBox_Clear{0x13A0FB0, 0x13A0FB0};
+	constexpr BuildAddress ListBox_Layout{0x139F120, 0x139F120};
 
 } // namespace sdk::Attila::Addresses
