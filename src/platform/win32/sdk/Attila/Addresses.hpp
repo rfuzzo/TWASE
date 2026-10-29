@@ -2,6 +2,12 @@
 
 namespace sdk::Attila::Addresses
 {
+	// This table and Lua/Addresses.hpp are made for one empire.retail.dll: Steam, file version 1.6.0.0,
+	// PE timestamp 0x69CE1786 (2026-04-02), SizeOfImage 0x2B9C000,
+	// SHA-256 8A40CBCFF108E1CBA14CC7EB6C7F4DFB054C7745B236D1BFC0FDE5C85E2A353D.
+	// Build ID = CodeView PDB GUID {D49769ED-8EE0-4D6F-8D1A-DE5F582D19BB} + age 1 (Image::ReadBuildId)
+	constexpr const char* SupportedBuildId = "D49769ED8EE04D6F8D1ADE5F582D19BB1";
+
 	// hooks
 	constexpr uint32_t LuaLog = 0x01A76CF0;
 	constexpr uint32_t RunStartupPath = 0x79B980;
