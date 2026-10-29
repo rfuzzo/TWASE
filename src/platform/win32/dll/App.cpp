@@ -44,8 +44,20 @@ namespace {
 
         const DWORD empireDllAddr = reinterpret_cast<DWORD>(mi.lpBaseOfDll);
         spdlog::debug("empire.retail.dll lpBaseOfDll address: {}", reinterpret_cast<void*>(mi.lpBaseOfDll));
-    
-		// Apply Patches and Hooks
+
+        // The address tables are made for exact empire.retail.dll builds, never patch or hook another one
+        const auto image = Image::Get();
+        image->SelectBuild(hMod);
+        spdlog::info("empire.retail.dll build ID: {}", image->GetBuildId().empty() ? "not found" : image->GetBuildId());
+        if (!image->IsSupported())
+        {
+            spdlog::error("This game build is not supported (expected Steam empire.retail.dll build ID {}), TWASE will "
+                          "not patch or hook anything",
+                          sdk::Attila::SteamBuildId);
+            return 1;
+        }
+
+        // Apply Patches and Hooks
         Patches::ApplyEmpirePatches(empireDllAddr);
         if (App::Get()->AttachHooks(empireDllAddr))
         {
@@ -125,16 +137,8 @@ App::App()
     const auto& fileVer = image->GetFileVersion();
 
     const auto& productVer = image->GetProductVersion();
-    spdlog::info("Product version: {}.{}.{}", productVer.major, productVer.minor, productVer.patch);
-    spdlog::info("File version: {}.{}.{}.{}", fileVer.major, fileVer.minor, fileVer.build, fileVer.revision);
-
-	// TODO: Check for minimum supported version.
-    /* auto minimumVersion = TWASE_RUNTIME_2_31;
-    if (fileVer < TWASE_RUNTIME_2_31)
-    {
-        spdlog::error(L"To use this version of TWASE, ensure your game is updated to patch 2.31 or newer");
-        return;
-    }*/
+    spdlog::info("Attila.exe product version: {}.{}.{}", productVer.major, productVer.minor, productVer.patch);
+    spdlog::info("Attila.exe file version: {}.{}.{}.{}", fileVer.major, fileVer.minor, fileVer.build, fileVer.revision);
 
 	// Display commandline arguments
     bool hasModsEnabled = false;

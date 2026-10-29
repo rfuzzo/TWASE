@@ -186,7 +186,7 @@ using String_dtor_t = void(TWASE_THISCALL*)(sdk::Attila::TempString* self);
 struct DBTableInfo
 {
     const char* name;
-    // Mac stores per-build address pairs; defer selecting the build until runtime.
+    // Per-build addresses on both platforms; defer selecting the build until runtime.
     decltype(Addr::DB_BuildingLevels) accessor;
 };
 constexpr DBTableInfo kTables[] = {

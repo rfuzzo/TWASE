@@ -1,18 +1,29 @@
 #pragma once
 
+#include "../../sdk/Attila/Build.hpp"
+
+// Detours hook on an empire.retail.dll RVA. Calling the hook object calls the original function.
 template<typename T>
 class Hook
 {
 public:
-    Hook(T aAddress, T aDetour)
+    // A build-selected RVA. Keeps a reference: global hooks are initialized before the build is selected.
+    Hook(const sdk::Attila::BuildAddress& aAddress, T aDetour)
         : m_isAttached(false)
-        , m_address(aAddress)
+        , m_buildAddress(&aAddress)
+        , m_rva(0)
+        , m_address(nullptr)
         , m_detour(aDetour)
     {
     }
 
-    Hook(std::uint32_t aAddress, T aDetour)
-        : Hook(reinterpret_cast<T>(aAddress), aDetour)
+    // An RVA found at run time.
+    Hook(uint32_t aRva, T aDetour)
+        : m_isAttached(false)
+        , m_buildAddress(nullptr)
+        , m_rva(aRva)
+        , m_address(nullptr)
+        , m_detour(aDetour)
     {
     }
 
@@ -34,8 +45,8 @@ public:
         }
 
         // resolve from RVA to absolute address
-        DWORD moduleBase = App::Get()->GetEmpireDllAddr();
-		DWORD rva = reinterpret_cast<DWORD>(m_address);
+        const DWORD moduleBase = App::Get()->GetEmpireDllAddr();
+        const uint32_t rva = m_buildAddress ? static_cast<uint32_t>(*m_buildAddress) : m_rva;
 
         m_address = reinterpret_cast<T>(moduleBase + rva);
 
@@ -60,6 +71,8 @@ public:
 
 private:
     bool m_isAttached;
+    const sdk::Attila::BuildAddress* m_buildAddress;
+    uint32_t m_rva;
     mutable T m_address;
     T m_detour;
 };

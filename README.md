@@ -16,8 +16,10 @@ A script extender for **Total War: ATTILA** on Windows and Mac, similar to and h
 
 ## Requirements
 
-- **Windows:** Total War: ATTILA from Steam
+- **Windows:** Total War: ATTILA from Steam (the current `empire.retail.dll`, PE timestamp 2026-04-02)
 - **Mac:** Apple Silicon and the supported Feral 1.6.1 Steam build, or an explicitly prepared development copy of the supported Mac App Store build (see below). Other executable UUIDs stay inactive.
+
+On other game versions (GOG, Epic, or after a game update) TWASE stays inactive and writes "This game build is not supported" to its log.
 
 ## Installation
 
