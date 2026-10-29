@@ -201,6 +201,10 @@ void Image::SelectBuild(HMODULE aEmpireDll)
     {
         m_gameBuild = sdk::Attila::Build::Steam;
     }
+    else if (m_buildId == sdk::Attila::GogBuildId)
+    {
+        m_gameBuild = sdk::Attila::Build::GOG;
+    }
     sdk::Attila::detail::selectedBuild = m_gameBuild;
 }
 

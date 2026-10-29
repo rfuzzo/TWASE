@@ -51,9 +51,9 @@ namespace {
         spdlog::info("empire.retail.dll build ID: {}", image->GetBuildId().empty() ? "not found" : image->GetBuildId());
         if (!image->IsSupported())
         {
-            spdlog::error("This game build is not supported (expected Steam empire.retail.dll build ID {}), TWASE will "
-                          "not patch or hook anything",
-                          sdk::Attila::SteamBuildId);
+            spdlog::error("This game build is not supported (expected empire.retail.dll build ID {} (Steam) or {} (GOG)), "
+                          "TWASE will not patch or hook anything",
+                          sdk::Attila::SteamBuildId, sdk::Attila::GogBuildId);
             return 1;
         }
 
