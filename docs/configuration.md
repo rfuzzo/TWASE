@@ -2,6 +2,10 @@
 
 TWASE reads `TWASE/config.ini` in the game folder at startup. It's a [TOML](https://toml.io) file, so text values need quotes and `true` / `false` are written without them. If the file doesn't exist, TWASE creates it with the defaults. Missing keys and values of the wrong type use their default. A syntax error in the file stops the game with an error message that names the file and the line.
 
+The macOS App Store development-copy launcher keeps `TWASE/config.ini` and `TWASE/logs` next to
+`twase-appstore.command`, outside the app bundle. It sets `TWASE_ROOT` to that directory and isolates Feral's
+preferences and saves under `TWASE/appstore-home`; it does not reuse the Steam or installed App Store user data.
+
 Changes take effect at the next start. The exception is the *Tweaks* tab in the console, which changes its settings immediately and saves them to the file. Saving keeps your comments and layout.
 
 ## All settings

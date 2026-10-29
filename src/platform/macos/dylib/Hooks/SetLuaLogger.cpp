@@ -66,8 +66,10 @@ bool Hooks::LuaLogHook::Attach()
 
     spdlog::trace("Trying to attach the Lua log sink...");
 
-    // SetLuaLogSink: str x0, [x8, #0x588] -> nop
-    constexpr uint8_t expected[] = {0x00, 0xC5, 0x02, 0xF9};
+    // SetLuaLogSink's store uses a different global-page offset in each build.
+    const uint8_t expectedSteam[] = {0x00, 0xC5, 0x02, 0xF9};
+    const uint8_t expectedAppStore[] = {0x00, 0x7D, 0x04, 0xF9};
+    const auto& expected = Image::Get()->IsAppStore() ? expectedAppStore : expectedSteam;
     constexpr uint8_t patch[] = {0x1F, 0x20, 0x03, 0xD5};
 
     if (!Memory::PatchBytes("Lua log sink setter patch", Addresses::SetLuaLogSink_Store, expected, patch))

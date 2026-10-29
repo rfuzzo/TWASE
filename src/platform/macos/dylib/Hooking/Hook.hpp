@@ -4,7 +4,7 @@
 
 #include <dobby.h>
 
-// Inline hook on a game function, aAddress is unslid (as shown in Binary Ninja).
+// Inline hook on a build-selected unslid game address.
 // Calling the hook object calls the original function.
 // The constructor is constexpr so global hooks are constant-initialized: the hooks are attached from a dylib constructor,
 // which can run before a file's dynamic initializers.
@@ -12,7 +12,7 @@ template<typename T>
 class Hook
 {
 public:
-    constexpr Hook(uint64_t aAddress, T aDetour)
+    constexpr Hook(const sdk::Attila::BuildAddress& aAddress, T aDetour)
         : m_isAttached(false)
         , m_address(aAddress)
         , m_detour(aDetour)
@@ -61,7 +61,7 @@ public:
 
 private:
     bool m_isAttached;
-    uint64_t m_address;
+    const sdk::Attila::BuildAddress& m_address;
     T m_detour;
     T m_original;
 };

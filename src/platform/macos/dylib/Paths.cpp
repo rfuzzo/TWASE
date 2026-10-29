@@ -2,6 +2,9 @@
 
 #include "Paths.hpp"
 #include "Utils.hpp"
+#include "Image.hpp"
+
+#include <cstdlib>
 
 #include <mach-o/dyld.h>
 
@@ -24,6 +27,23 @@ Paths::Paths()
 
     // <root>/Total War ATTILA.app/Contents/MacOS/Total War ATTILA
     m_root = m_exe.parent_path().parent_path().parent_path().parent_path();
+
+    if (Image::Get()->IsAppStore())
+    {
+        // The App Store development launcher isolates writable state from the installed app and Steam.
+        if (const auto* root = std::getenv("TWASE_ROOT"); root && *root)
+        {
+            m_root = std::filesystem::absolute(root);
+        }
+        else if (const auto* home = std::getenv("HOME"); home && *home)
+        {
+            m_root = std::filesystem::path(home) / "Library" / "Application Support" / "TWASE App Store";
+        }
+        else
+        {
+            SHOW_MESSAGE_BOX_AND_EXIT_FILE_LINE("App Store TWASE requires a writable home or TWASE_ROOT.");
+        }
+    }
 }
 
 std::filesystem::path Paths::GetRootDir() const
