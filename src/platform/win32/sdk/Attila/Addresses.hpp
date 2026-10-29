@@ -25,22 +25,9 @@ namespace sdk::Attila::Addresses
 
 
 	// LUA
-	// Direct ScriptInterface* pointers
-	constexpr BuildAddress g_BattleScriptInterface{0x1F49E0C};
-	constexpr BuildAddress g_FrontendScriptInterface{0x287CFB8};
-
-	// Points to this+0x18, use getter convention like the game does
-	constexpr BuildAddress g_CampaignScriptInterface{0x287CFD4};
-
-	// Shared — holds last created LoggedScriptInterface
-	constexpr BuildAddress g_ConditionsEffects{0x1CCE44C}; // TODO: stale, not yet re-located for the current game version
-
 	// Linked list of all active lua states
 	constexpr BuildAddress g_RuntimeLuaListHead{0x01DA4230};
 	constexpr BuildAddress g_RuntimeLuaListSentinel{0x01DA4234};
-
-	// Master lua state
-	constexpr BuildAddress g_RuntimeLuaState{0x0291DE00};
 
 	// lua_State* (__thiscall*)(void* thisPtr)
 	constexpr BuildAddress GetLuaState{0x1626AA0};
